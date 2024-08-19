@@ -19,5 +19,3 @@ C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\Ga
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.CounterDisplay.resources
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.UserGameScreen.resources
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Properties.Resources.resources
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.UserControl1.resources
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.UserControl2.resources
