@@ -7,6 +7,12 @@
     <Compile Update="CounterDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="UserGameScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
