@@ -15,8 +15,7 @@ public class Setting: BusinessLogic
     static int bonusProbability = 50; //最大100%での表記
     static int[] symbolsWeight = {8,5,4,4,1};
     //ベル,リプレイ,スイカ,チェリー,7の順で入れること
-    static int[] leftLaneOrder = [BELL,]
-    
+  
 
 
     public static void setUserID(String userID) { Setting.userID = userID; }
