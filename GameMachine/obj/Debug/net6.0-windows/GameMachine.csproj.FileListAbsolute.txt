@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Form1.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.GenerateResource.cache
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.AssemblyInfo.cs
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.exe
+C:\Users\user\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.deps.json
+C:\Users\user\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.runtimeconfig.json
+C:\Users\user\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.dll
+C:\Users\user\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.pdb
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.dll
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refint\GameMachine.dll
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll

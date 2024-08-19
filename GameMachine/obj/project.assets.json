@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\GameMachine\\GameMachine\\GameMachine.csproj",
+      "projectUniqueName": "C:\\Users\\user\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "projectName": "GameMachine",
-      "projectPath": "C:\\Users\\user\\source\\repos\\GameMachine\\GameMachine\\GameMachine.csproj",
+      "projectPath": "C:\\Users\\user\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\GameMachine\\GameMachine\\obj\\",
+      "outputPath": "C:\\Users\\user\\Source\\Repos\\Slot_Front\\GameMachine\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
