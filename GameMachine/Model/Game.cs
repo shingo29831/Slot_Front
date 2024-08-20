@@ -20,6 +20,8 @@ public class Game : BusinessLogic
     const int MIDDLE = 1;
     const int BOTTOM = 2;
 
+
+
     public static bool BonusLottery()
     {
         Random rnd = new Random();
@@ -31,9 +33,9 @@ public class Game : BusinessLogic
         return false;
     }
 
-
+    //nullが許容されていないため修正の必要あり
     //リーチを探す処理で行が場所を示し、列に複数のシンボルのリーチが書かれている
-    public static int[,] ReachSearch(int[] leftLane, int[] centerLane, int[] rightLane) 
+    public static int[,] GetReachRows(int[] leftLane, int[] centerLane, int[] rightLane) 
     {
         int[,] reachRows = new int[3,2];
 

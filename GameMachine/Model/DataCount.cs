@@ -3,7 +3,7 @@
 
 namespace Model;
 
-public class Counter
+public class DataCount
 {
 	private static int bigBonusCount = 0;
 	private static int regularBonusCount = 0;

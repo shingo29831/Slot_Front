@@ -3,11 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\GameModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Model\\GameModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|C:\\Users\\Shingo\\source\\repos\\Slot_Front\\gamemachine\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -17,6 +13,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\Setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Model\\Setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,8 +44,21 @@
         },
         {
           "DockedWidth": 19,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 12,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeToolTip": "GameMachine\\Model\\Game.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T05:04:09.908Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
@@ -68,32 +89,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GameModel.cs",
-              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\GameModel.cs",
-              "RelativeDocumentMoniker": "Model\\GameModel.cs",
-              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\GameModel.cs",
-              "RelativeToolTip": "Model\\GameModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAApAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Setting.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Setting.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Model\\Setting.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Setting.cs",
+              "RelativeToolTip": "GameMachine\\Model\\Setting.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAUwAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T14:33:11.133Z",
+              "WhenOpened": "2024-08-20T05:01:29.988Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Form1.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Form1.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Form1.cs",
+              "RelativeToolTip": "GameMachine\\Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:54:56.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Setting.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\Setting.cs",
               "RelativeDocumentMoniker": "Model\\Setting.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\Model\\Setting.cs",
               "RelativeToolTip": "Model\\Setting.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAIsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T14:32:43.452Z"
+              "WhenOpened": "2024-08-19T14:32:43.452Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "GameMachine\\Form1.Designer.cs",
@@ -106,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Form1.cs [\u30C7\u30B6\u30A4\u30F3]",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Form1.cs",
               "RelativeDocumentMoniker": "GameMachine\\Form1.cs",

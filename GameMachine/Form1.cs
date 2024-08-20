@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Diagnostics;
-using Model.BusinessLogic;
+using Model;
 
 namespace GameMachine
 {
@@ -17,15 +17,22 @@ namespace GameMachine
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Model.BusinessLogic.Setting.maketableID();
-            txtbox1.Text = Model.BusinessLogic.Setting.getTableID();
+            Model.Setting.maketableID();
+            txtbox1.Text = Model.Setting.getTableID();
 
         }
 
+        //test
+        static int[] left = new int[3];
+        static int[] center = { 1, 1, 2 };
+        static int[] right = { 1, 1, 2 };
+
+        static int[,] tes = new int[3,3];
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            tes = Model.Game.GetReachRows(left, center, right);
+            txtbox1.Text = Model.Game.GetReachRows(left,center,right).ToString();
         }
     }
 }

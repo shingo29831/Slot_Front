@@ -14,3 +14,13 @@ C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refin
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Form1.resources
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.GenerateResource.cache
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.AssemblyInfoInputs.cache
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.AssemblyInfo.cs
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.CoreCompileInputs.cache
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.sourcelink.json
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.dll
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refint\GameMachine.dll
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
