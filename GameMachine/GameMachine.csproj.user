@@ -7,10 +7,10 @@
     <Compile Update="CounterDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="UserGameScreen.cs">
+    <Compile Update="InitialSettingView\UserSelectionScren.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="UserSelectionScren.cs">
+    <Compile Update="SlotView\UserGameScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>

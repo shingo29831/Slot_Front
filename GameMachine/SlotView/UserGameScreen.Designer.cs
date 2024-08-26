@@ -165,11 +165,11 @@
             // 
             // btnStart
             // 
-            btnStart.Location = new Point(1250, 225);
+            btnStart.Location = new Point(200, 475);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(75, 275);
+            btnStart.Size = new Size(100, 175);
             btnStart.TabIndex = 12;
-            btnStart.Text = "スタート";
+            btnStart.Text = "start";
             btnStart.UseVisualStyleBackColor = true;
             btnStart.Click += btnStart_Click;
             // 
@@ -219,5 +219,6 @@
         private PictureBox picBox7;
         private PictureBox picBox8;
         private PictureBox picBox9;
+        private Button btnStart;
     }
 }
