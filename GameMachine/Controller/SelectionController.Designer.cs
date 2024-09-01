@@ -1,6 +1,6 @@
 ﻿namespace GameMachine
 {
-    partial class UserSelectionScren
+    partial class SelectionController
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -48,7 +48,7 @@
             panel1.BackColor = Color.FromArgb(192, 255, 192);
             panel1.Controls.Add(selectAccountPlay);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(225, 150);
+            panel1.Location = new Point(125, 125);
             panel1.Name = "panel1";
             panel1.Size = new Size(325, 450);
             panel1.TabIndex = 0;
@@ -79,7 +79,7 @@
             panel2.BackColor = Color.FromArgb(192, 255, 192);
             panel2.Controls.Add(selectGustPlay);
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(875, 150);
+            panel2.Location = new Point(825, 125);
             panel2.Name = "panel2";
             panel2.Size = new Size(325, 450);
             panel2.TabIndex = 1;
@@ -109,7 +109,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Yu Gothic UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(500, 50);
+            label3.Location = new Point(425, 50);
             label3.Name = "label3";
             label3.Size = new Size(413, 47);
             label3.TabIndex = 2;
@@ -120,7 +120,7 @@
             panel3.BackColor = Color.FromArgb(224, 224, 224);
             panel3.Controls.Add(textBox1);
             panel3.Controls.Add(label4);
-            panel3.Location = new Point(1150, 650);
+            panel3.Location = new Point(975, 600);
             panel3.Name = "panel3";
             panel3.Size = new Size(250, 75);
             panel3.TabIndex = 3;
@@ -152,7 +152,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "UserSelectionScren";
-            Size = new Size(1425, 750);
+            Size = new Size(1275, 700);
             Load += UserSelectionScren_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

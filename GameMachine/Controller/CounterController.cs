@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace GameMachine
 {
-    public partial class CounterDisplay : UserControl
+    public partial class CounterController : UserControl
     {
         //変数宣言
         private int BigBounusCount;
@@ -18,7 +18,7 @@ namespace GameMachine
         private int BetweenBounusCount;
 
 
-        public CounterDisplay()
+        public CounterController()
         {
             InitializeComponent();
             // フォームのロード時にテキストボックスを無効に設定

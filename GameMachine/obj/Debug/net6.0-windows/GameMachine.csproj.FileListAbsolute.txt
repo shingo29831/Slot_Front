@@ -15,7 +15,9 @@ C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\re
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.UserSelectionScren.resources
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.CounterDisplay.resources
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.UserGameScreen.resources
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Properties.Resources.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.InitialSettingView.AccountLinkingController.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.CounterController.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.CreditController.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.SelectionController.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.SlotController.resources

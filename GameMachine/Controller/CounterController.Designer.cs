@@ -1,6 +1,6 @@
 ﻿namespace GameMachine
 {
-    partial class CounterDisplay
+    partial class CounterController
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -46,18 +46,21 @@
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.FromArgb(255, 128, 128);
+            pictureBox1.Image = Properties.Resources.image1;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(250, 950);
+            pictureBox1.Size = new Size(325, 1100);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
             pictureBox2.BackColor = Color.FromArgb(255, 128, 128);
-            pictureBox2.Location = new Point(1675, 0);
+            pictureBox2.Image = Properties.Resources.image2;
+            pictureBox2.Location = new Point(1600, 0);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(250, 950);
+            pictureBox2.Size = new Size(325, 1100);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 1;
             pictureBox2.TabStop = false;
             // 
@@ -70,15 +73,15 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(250, 0);
+            panel1.Location = new Point(325, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1425, 200);
+            panel1.Size = new Size(1275, 200);
             panel1.TabIndex = 2;
             // 
             // BetweenBonusTbx
             // 
             BetweenBonusTbx.Font = new Font("Yu Gothic UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            BetweenBonusTbx.Location = new Point(1100, 50);
+            BetweenBonusTbx.Location = new Point(1000, 50);
             BetweenBonusTbx.Multiline = true;
             BetweenBonusTbx.Name = "BetweenBonusTbx";
             BetweenBonusTbx.Size = new Size(200, 100);
@@ -112,7 +115,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("ＭＳ 明朝", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(1100, 25);
+            label3.Location = new Point(1000, 25);
             label3.Name = "label3";
             label3.Size = new Size(98, 21);
             label3.TabIndex = 9;
@@ -141,9 +144,9 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveBorder;
-            panel2.Location = new Point(0, 950);
+            panel2.Location = new Point(325, 900);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1920, 130);
+            panel2.Size = new Size(1275, 180);
             panel2.TabIndex = 3;
             // 
             // CounterDisplay

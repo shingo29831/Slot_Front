@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace GameMachine
 {
-    public partial class UserSelectionScren : UserControl
+    public partial class SelectionController : UserControl
     {
-        public UserSelectionScren()
+        public SelectionController()
         {
             InitializeComponent();
         }
@@ -20,7 +20,11 @@ namespace GameMachine
         //アカウント
         private void selectAccountPlay_Click(object sender, EventArgs e)
         {
-
+            var mainForm = this.Parent as Form1;
+            if (mainForm != null)
+            {
+                mainForm.ShowAccountLinkingScreen();
+            }
         }
 
         //ゲストプレイ
