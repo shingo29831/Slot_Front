@@ -119,7 +119,7 @@ public class Game : BusinessLogic
         return role;
     }
 
-    //test
+    //testtest
     
     //リールで表示されるシンボルの選択をする関数
     //第一引数にはストップを押下した時点のシンボルの位置を0～20中央の値を代入
