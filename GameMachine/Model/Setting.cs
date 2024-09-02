@@ -13,8 +13,9 @@ public class Setting: BusinessLogic
     static String userID = "";
     static int expected = 0;
     static int bonusProbability = 50; //最大100%での表記
-    static int[] symbolsWeight = {8,5,4,4,1};
-    //ベル,リプレイ,スイカ,チェリー,7の順で入れること
+    static int[] bonusesProbabilityWeight = {0,10,20};//ボーナス当選後のREG/BIGに入る確率
+    static int[] rolesWeight = {20,8,5,4,4,3,1,1};
+    //NONE,ベル,リプレイ,スイカ,チェリー,リーチ,REG,BIGの順で入れること
   
 
 
@@ -84,56 +85,67 @@ public class Setting: BusinessLogic
         return sb.ToString();
     }
 
+
     public static void setBonusProbability(int bonusProbability) { Setting.bonusProbability = bonusProbability; }
     public static int getBonusProbability() {  return Setting.bonusProbability; }
+
+
+    public static void setBonusesProbabilityWeight(int bonus, int weight) { Setting.bonusesProbabilityWeight[bonus] = weight; }
+    public static int getBonusesProbabilityWeight(int bonus) { return bonusesProbabilityWeight[bonus]; }
+
 
     public static void weightingSymbol(int expected) //重み付け
     {
         switch (expected)
         {
             case 0:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
             case 1:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
             case 2:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
             case 3:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
             case 4:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
             case 5:
-                symbolsWeight[BELL] = 1;
-                symbolsWeight[REPLAY] = 2;
-                symbolsWeight[WATERMELON] = 1;
-                symbolsWeight[CHERRY] = 1;
+                rolesWeight[BELL] = 1;
+                rolesWeight[REPLAY] = 2;
+                rolesWeight[WATERMELON] = 1;
+                rolesWeight[CHERRY] = 1;
                 break;
 
 
         }
     } 
+
+    public static int getRoleWeight(int symbol) 
+    {
+        return rolesWeight[symbol];
+    }
 }
