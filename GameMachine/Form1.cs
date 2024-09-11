@@ -74,14 +74,9 @@ namespace GameMachine
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //role = Game.HitRoleLottery(bonusState);
-            lblArray.Text = "";
+            role = Game.HitRoleLottery();
 
-            //String value = changeToName(role);
-            int hitRole = Game.HitRoleLottery(Constants.State.NONE);
-            role = Game.HitRoleLottery(Constants.State.NONE);
-
-            lblArray.Text += role.ToString();
+            lblArray.Text = changeToName(role);
         }
 
         private String changeToName(int symbolNum)

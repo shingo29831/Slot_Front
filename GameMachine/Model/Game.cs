@@ -146,66 +146,34 @@ public class Game
     }
 
 
-    //役の抽選の関数　引数としてボーナスの状態を入れる（-1:NONE,1:リーチ,2:ボーナス）
-    public static int HitRoleLottery(int bonusState)
+    //役の抽選の関数　ボーナス以外の役が当選する
+    public static int HitRoleLottery()
     {
 
         int role = 0;
         int sumWeight = 0;
         int lotteryRange = 4;
-        if (bonusState == Constants.State.NONE)
-        {
-            lotteryRange = 4;
-        }
-        else if (bonusState != Constants.State.NONE)
-        {
-            lotteryRange = 6;
-        }
 
 
         for (int i = 0; i <= lotteryRange; i++)
         {
-            if (i <= 5)
-            {
-                sumWeight += Setting.getRoleWeight(i);
-            }
-            else if (i == 6 && bonusState == Constants.State.REGULAR)
-            {
-                sumWeight += Setting.getRoleWeight(Constants.Role.REGULAR);
-            }
-            else if (i == 6 && bonusState == Constants.State.BIG)
-            {
-                sumWeight += Setting.getRoleWeight(Constants.Role.BIG);
-
-            }
-
+            sumWeight += Setting.getRoleWeight(i);
         }
 
         Random rnd = new Random();
         int rndnum = rnd.Next(1, sumWeight + 1);
         sumWeight = 0;
         int tmp = 0;
-        for (int i = 0; i <= 5; i++)
+        for (int i = 0; i <= 4; i++)
         {
             tmp = sumWeight;
             sumWeight += Setting.getRoleWeight(i);
-
-
 
 
             if (tmp < rndnum && rndnum <= sumWeight)
             {
                 role = i;
             }
-        }
-        if (rndnum > sumWeight && bonusState == Constants.State.REGULAR)
-        {
-            role = Constants.Role.REGULAR;
-        }
-        else if (rndnum > sumWeight && bonusState == Constants.State.BIG)
-        {
-            role = Constants.Role.BIG;
-
         }
 
 
