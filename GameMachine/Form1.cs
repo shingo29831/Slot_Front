@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Diagnostics;
 using Model;
+using static Constants;
 
 namespace GameMachine
 {
@@ -75,8 +76,10 @@ namespace GameMachine
         private void button2_Click(object sender, EventArgs e)
         {
             role = Game.HitRoleLottery();
+            int position = Game.GetFarstReelPosition(Constants.SelectReel.LEFT, role);
+            
 
-            lblArray.Text = changeToName(role);
+            lblArray.Text = changeToName(role) + " , " + position.ToString();
         }
 
         private String changeToName(int symbolNum)

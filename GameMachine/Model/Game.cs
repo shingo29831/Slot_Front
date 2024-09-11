@@ -207,13 +207,14 @@ public class Game
 
     
     //リールで表示されるシンボルの選択をする関数
-    //第一引数にはストップを押下した時点のシンボルの位置を0～20中央の値を代入
-    //第二引数には処理するリールの位置をREFT・CENTER・RIGHT_REELで選択
-    //第三引数には決まった役（ロール）
+    //第1引数には処理するリールの位置を定数クラスのLEFT・CENTER・RIGHTで選択
+    //第2引数には決まった役（ロール）
     //処理内容にはリーチの行の把握とレギュラーボーナス時にはBARと7がどこにあるか把握する必要もあり
     //一つ目のレーンの処理
-    public static int GetFarstReelPosition(int nowReelPosition,int selectReel,int role)
+    public static int GetFarstReelPosition(int selectReel,int role)
     {
+
+        int nowReelPosition = GetNowReelPosition(selectReel);
         int reelPosition = NONE;
         int[] reelOrder = { NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE };
         int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE };//ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
