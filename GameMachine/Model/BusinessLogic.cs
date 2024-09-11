@@ -37,11 +37,12 @@ public class BusinessLogic
     public const int RIGHT_REEL = 3;
 
     //リールのシンボルの並び0～20まで
-    public static int[] leftReelOrder = { BELL, REPLAY, BELL, BAR, CHERRY, BELL, REPLAY, BELL, WATERMELON, SEVEN, BELL, REPLAY, BELL, CHERRY, BAR, BELL, REPLAY, BELL, REPLAY, SEVEN, BELL };
-    public static int[] centerReelOrder = { WATERMELON, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, SEVEN, BELL };
-    public static int[] rightReelOrder = { WATERMELON, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, SEVEN, BELL };
+    public static readonly int[] leftReelOrder = { BELL, REPLAY, BELL, BAR, CHERRY, BELL, REPLAY, BELL, WATERMELON, SEVEN, BELL, REPLAY, BELL, CHERRY, BAR, BELL, REPLAY, BELL, REPLAY, SEVEN, BELL };
+    public static readonly int[] centerReelOrder = { WATERMELON, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, SEVEN, BELL };
+    public static readonly int[] rightReelOrder = { WATERMELON, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, BAR, REPLAY, CHERRY, BELL, BELL, REPLAY, CHERRY, BELL, SEVEN, BELL };
     public BusinessLogic()
 	{
 
 	}
 }
+ 

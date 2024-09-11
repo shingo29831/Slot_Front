@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using System.Security.Permissions;
 
+
 namespace Model;
-public class Game : BusinessLogic
+public class Game 
+    //: BusinessLogic
 {
     static bool leftReelbtn = false;
     static bool centerReelbtn = false;
@@ -20,8 +22,96 @@ public class Game : BusinessLogic
     const int MIDDLE = 1;
     const int BOTTOM = 2;
 
+    private static int nowLeftReel = 0;
+    private static int nowCenterReel = 0;
+    private static int nowRightReel = 0;
+
+    const int NONE = -1;
+
+    const int LEFT = 1;
+    const int CENTER = 2;
+    const int RIGHT = 3;
 
 
+    public static void UpReelPosition(int selectReel)
+    {
+        switch (selectReel)
+        {
+            case LEFT:
+                nowLeftReel++;
+                if (nowLeftReel > 20)
+                {
+                    nowLeftReel = 0;
+                }
+                break;
+
+            case CENTER:
+                nowCenterReel++;
+                if (nowCenterReel > 20)
+                {
+                    nowCenterReel = 0;
+                }
+                break;
+
+            case RIGHT:
+                nowRightReel++;
+                if (nowRightReel > 20)
+                {
+                    nowRightReel = 0;
+                }
+                break;
+        }
+    }
+
+    //リールの今のポジションを取得する　引数に定数クラスのLEFT,CENTER,RIGHT
+    public static int GetNowReelPosition(int selectReel)
+    {
+        int nowPosition = NONE;
+        switch(selectReel)
+        {
+            case LEFT:
+                nowPosition = nowLeftReel;
+                break;
+
+            case CENTER:
+                nowPosition = nowCenterReel;
+                break;
+
+            case RIGHT:
+                nowPosition = nowRightReel;
+                break;
+        }
+        return nowPosition;
+    }
+
+
+    //表示するリールの位置を取得する　引数に定数クラスのLEFT,CENTER,RIGHTとTOP,MIDDLE,BOTTOM
+    public static int GetDispSymbol(int selectReel,int dispPosition)
+    {
+        int reelPosition = NONE;
+        switch (selectReel)
+        {
+            case LEFT:
+                reelPosition = nowLeftReel + dispPosition;
+                break;
+
+            case CENTER:
+                reelPosition = nowCenterReel + dispPosition;
+                break;
+
+            case RIGHT:
+                reelPosition = nowRightReel + dispPosition;
+                break;
+        }
+
+        if(reelPosition > 20)
+        {
+            reelPosition -= 21;
+        }
+        return reelPosition;
+    }
+
+    //ボーナス抽選開始後実行する"ボーナス抽選関数" bonusProbabilityに設定された確率に合わせて抽選する
     public static bool BonusLottery()
     {
         Random rnd = new Random();
@@ -34,96 +124,123 @@ public class Game : BusinessLogic
     }
 
 
+    //ボーナス抽選当選後実行するレギュラーボーナスまたはビックボーナスを決定する
     public static int SelectBonusLottery()
     {
         int bonus = 0;
         Random rnd = new Random();
-        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(REGULAR_BONUS);
-        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(BIG_BONUS);
+        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(Constants.Bonus.REGULAR);
+        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(Constants.Bonus.BIG);
         int sumWeight = regularProbabilityWeight + bigProbabilityWeight;
         int rndnum = rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
 
         if(regularProbabilityWeight <= rndnum)
         {
-            bonus = REGULAR_HIT_STATE;
+            bonus = Constants.State.REGULAR;
         }else if(regularProbabilityWeight > rndnum && sumWeight <= rndnum) 
         {
-            bonus = BIG_HIT_STATE;
+            bonus = Constants.State.BIG;
         }
 
         return bonus;
     }
 
 
-    //役の抽選の関数 5はリーチ6はボーナス
+    //役の抽選の関数　引数としてボーナスの状態を入れる（-1:NONE,1:リーチ,2:ボーナス）
     public static int HitRoleLottery(int bonusState)
     {
 
         int role = 0;
         int sumWeight = 0;
         int lotteryRange = 4;
-        if (bonusState == NONE)
+        if (bonusState == Constants.State.NONE)
         {
             lotteryRange = 4;
         }
-        else if(bonusState != NONE)
+        else if (bonusState != Constants.State.NONE)
         {
             lotteryRange = 6;
         }
 
 
-        for(int i = 0; i <= lotteryRange; i++)
+        for (int i = 0; i <= lotteryRange; i++)
         {
             if (i <= 5)
             {
                 sumWeight += Setting.getRoleWeight(i);
             }
-            else if (i == 6 && bonusState == REGULAR_HIT_STATE)
+            else if (i == 6 && bonusState == Constants.State.REGULAR)
             {
-                sumWeight += Setting.getRoleWeight(REGULAR_ROLE);
+                sumWeight += Setting.getRoleWeight(Constants.Role.REGULAR);
             }
-            else if(i == 6 && bonusState == BIG_HIT_STATE)
+            else if (i == 6 && bonusState == Constants.State.BIG)
             {
-                sumWeight += Setting.getRoleWeight(BIG_ROLE);
+                sumWeight += Setting.getRoleWeight(Constants.Role.BIG);
+
             }
 
         }
 
         Random rnd = new Random();
         int rndnum = rnd.Next(1, sumWeight + 1);
-
-
         sumWeight = 0;
-        for(int i = 0;i < lotteryRange; i++)
+        int tmp = 0;
+        for (int i = 0; i <= 5; i++)
         {
-            if (i <= 5)
-            {
-                sumWeight += Setting.getRoleWeight(i);
-            }
-            else if (i == 6 && bonusState == REGULAR_HIT_STATE)
-            {
-                sumWeight += Setting.getRoleWeight(REGULAR_ROLE);
-            }
-            else if (i == 6 && bonusState == BIG_HIT_STATE)
-            {
-                sumWeight += Setting.getRoleWeight(BIG_ROLE);
-            }
+            tmp = sumWeight;
+            sumWeight += Setting.getRoleWeight(i);
 
-            if (sumWeight >= rndnum)
+
+
+
+            if (tmp < rndnum && rndnum <= sumWeight)
             {
                 role = i;
             }
+        }
+        if (rndnum > sumWeight && bonusState == Constants.State.REGULAR)
+        {
+            role = Constants.Role.REGULAR;
+        }
+        else if (rndnum > sumWeight && bonusState == Constants.State.BIG)
+        {
+            role = Constants.Role.BIG;
+
         }
 
 
         return role;
     }
 
-    //testtest
+
+    //リールのシンボルの並びをLEFT,CENTER,RIGHTで選択し取得する
+    public static int[] GetReelOrder(int selectReel) 
+    {
+        int[] reelOrder = {NONE };
+        switch (selectReel)
+        {
+            case LEFT:
+                reelOrder = Constants.ReelOrder.leftReelOrder;
+                break;
+
+
+            case CENTER:
+                reelOrder = Constants.ReelOrder.centerReelOrder;
+                break;
+
+
+            case RIGHT:
+                reelOrder = Constants.ReelOrder.rightReelOrder;
+                break;
+            
+        }
+        return reelOrder;
+    }
+
     
     //リールで表示されるシンボルの選択をする関数
     //第一引数にはストップを押下した時点のシンボルの位置を0～20中央の値を代入
-    //第二引数には処理するリールの位置をREFT,CENTER,RIGHT_REELで選択
+    //第二引数には処理するリールの位置をREFT・CENTER・RIGHT_REELで選択
     //第三引数には決まった役（ロール）
     //処理内容にはリーチの行の把握とレギュラーボーナス時にはBARと7がどこにあるか把握する必要もあり
     //一つ目のレーンの処理
@@ -139,6 +256,8 @@ public class Game : BusinessLogic
 
 
         Random rnd = new Random();
+
+        reelOrder = GetReelOrder(selectReel);
 
         //現在のリールのポジションから下から上に7つを候補として代入
         for(int i = 0; i < symbolCandidate.Length; i++)
@@ -163,8 +282,8 @@ public class Game : BusinessLogic
         }
         else if(role == 6 || role == 7)
         {
-            symbolsAccordingRole[0] = SEVEN;
-            symbolsAccordingRole[1] = BAR;
+            symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
+            symbolsAccordingRole[1] = Constants.Symbol.BAR;
         }
 
 
@@ -248,8 +367,8 @@ public class Game : BusinessLogic
         }
         else if (role == 6 || role == 7)
         {
-            symbolsAccordingRole[0] = SEVEN;
-            symbolsAccordingRole[1] = BAR;
+            symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
+            symbolsAccordingRole[1] = Constants.Symbol.BAR;
         }
 
 

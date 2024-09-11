@@ -32,35 +32,163 @@
             txtbox1 = new TextBox();
             button1 = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            leftReelTop = new Label();
+            centerReelTop = new Label();
+            rightReelTop = new Label();
+            leftReelMid = new Label();
+            centerReelMid = new Label();
+            rightReelMid = new Label();
+            leftReelBot = new Label();
+            centerReelBot = new Label();
+            rightReelBot = new Label();
+            lblArray = new Label();
+            button2 = new Button();
             SuspendLayout();
             // 
             // txtbox1
             // 
-            txtbox1.Location = new Point(258, 116);
-            txtbox1.Margin = new Padding(3, 2, 3, 2);
+            txtbox1.Location = new Point(44, 12);
             txtbox1.Name = "txtbox1";
-            txtbox1.Size = new Size(110, 23);
+            txtbox1.Size = new Size(291, 27);
             txtbox1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(343, 182);
-            button1.Margin = new Padding(3, 2, 3, 2);
+            button1.Location = new Point(615, 325);
             button1.Name = "button1";
-            button1.Size = new Size(82, 22);
+            button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // leftReelTop
+            // 
+            leftReelTop.BackColor = Color.White;
+            leftReelTop.Location = new Point(121, 87);
+            leftReelTop.Name = "leftReelTop";
+            leftReelTop.Size = new Size(50, 50);
+            leftReelTop.TabIndex = 2;
+            leftReelTop.Text = "NONE";
+            leftReelTop.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // centerReelTop
+            // 
+            centerReelTop.BackColor = Color.White;
+            centerReelTop.Location = new Point(306, 87);
+            centerReelTop.Name = "centerReelTop";
+            centerReelTop.Size = new Size(50, 50);
+            centerReelTop.TabIndex = 3;
+            centerReelTop.Text = "NONE";
+            centerReelTop.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // rightReelTop
+            // 
+            rightReelTop.BackColor = Color.White;
+            rightReelTop.Location = new Point(474, 87);
+            rightReelTop.Name = "rightReelTop";
+            rightReelTop.Size = new Size(50, 50);
+            rightReelTop.TabIndex = 4;
+            rightReelTop.Text = "NONE";
+            rightReelTop.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // leftReelMid
+            // 
+            leftReelMid.BackColor = Color.White;
+            leftReelMid.Location = new Point(121, 178);
+            leftReelMid.Name = "leftReelMid";
+            leftReelMid.Size = new Size(50, 50);
+            leftReelMid.TabIndex = 5;
+            leftReelMid.Text = "NONE";
+            leftReelMid.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // centerReelMid
+            // 
+            centerReelMid.BackColor = Color.White;
+            centerReelMid.Location = new Point(306, 178);
+            centerReelMid.Name = "centerReelMid";
+            centerReelMid.Size = new Size(50, 50);
+            centerReelMid.TabIndex = 6;
+            centerReelMid.Text = "NONE";
+            centerReelMid.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // rightReelMid
+            // 
+            rightReelMid.BackColor = Color.White;
+            rightReelMid.Location = new Point(474, 178);
+            rightReelMid.Name = "rightReelMid";
+            rightReelMid.Size = new Size(50, 50);
+            rightReelMid.TabIndex = 7;
+            rightReelMid.Text = "NONE";
+            rightReelMid.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // leftReelBot
+            // 
+            leftReelBot.BackColor = Color.White;
+            leftReelBot.Location = new Point(121, 259);
+            leftReelBot.Name = "leftReelBot";
+            leftReelBot.Size = new Size(50, 50);
+            leftReelBot.TabIndex = 8;
+            leftReelBot.Text = "NONE";
+            leftReelBot.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // centerReelBot
+            // 
+            centerReelBot.BackColor = Color.White;
+            centerReelBot.Location = new Point(306, 259);
+            centerReelBot.Name = "centerReelBot";
+            centerReelBot.Size = new Size(50, 50);
+            centerReelBot.TabIndex = 9;
+            centerReelBot.Text = "NONE";
+            centerReelBot.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // rightReelBot
+            // 
+            rightReelBot.BackColor = Color.White;
+            rightReelBot.Location = new Point(474, 259);
+            rightReelBot.Name = "rightReelBot";
+            rightReelBot.Size = new Size(50, 50);
+            rightReelBot.TabIndex = 10;
+            rightReelBot.Text = "NONE";
+            rightReelBot.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblArray
+            // 
+            lblArray.BackColor = Color.White;
+            lblArray.Location = new Point(353, 32);
+            lblArray.Name = "lblArray";
+            lblArray.Size = new Size(414, 25);
+            lblArray.TabIndex = 11;
+            lblArray.Text = "NONE";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(615, 248);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 12;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 338);
+            ClientSize = new Size(800, 451);
+            Controls.Add(button2);
+            Controls.Add(lblArray);
+            Controls.Add(rightReelBot);
+            Controls.Add(centerReelBot);
+            Controls.Add(leftReelBot);
+            Controls.Add(rightReelMid);
+            Controls.Add(centerReelMid);
+            Controls.Add(leftReelMid);
+            Controls.Add(rightReelTop);
+            Controls.Add(centerReelTop);
+            Controls.Add(leftReelTop);
             Controls.Add(button1);
             Controls.Add(txtbox1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -73,5 +201,16 @@
         private TextBox txtbox1;
         private Button button1;
         public System.Windows.Forms.Timer timer1;
+        private Label leftReelTop;
+        private Label centerReelTop;
+        private Label rightReelTop;
+        private Label leftReelMid;
+        private Label centerReelMid;
+        private Label rightReelMid;
+        private Label leftReelBot;
+        private Label centerReelBot;
+        private Label rightReelBot;
+        private Label lblArray;
+        private Button button2;
     }
 }
