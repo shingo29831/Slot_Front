@@ -76,10 +76,82 @@ namespace GameMachine
         private void button2_Click(object sender, EventArgs e)
         {
             role = Game.HitRoleLottery();
+            role = Constants.Role.BIG;
             int position = Game.GetFarstReelPosition(Constants.SelectReel.LEFT, role);
+
+            int nowReelPosition = Game.GetNowReelPosition(Constants.SelectReel.LEFT);
+            int reelPosition = NONE;
+            int[] reelOrder = Game.GetReelOrder(Constants.SelectReel.LEFT); //選択されたリールのシンボル配列を参照渡しする
+            int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE };//ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
+            int[] symbolsAccordingRole = { NONE, NONE };//roleを達成できるシンボルを格納する
+            int[] stopCandidate = { NONE, NONE };
+            int searchReelPosition = nowReelPosition;
+
+
+            Random rnd = new Random();
+
+            lblArray.Text = "";
+
+            //現在のリールのポジションで下から上に7つを候補として代入
+            for (int i = 0; i < symbolCandidate.Length; i++)
+            {
+                symbolCandidate[i] = searchReelPosition;
+                searchReelPosition = Game.CalcReelPosition(searchReelPosition, 1);
+            }
+
+
+
+            //役を成立させるシンボルを代入、4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
+            if (role <= 4)
+            {
+                symbolsAccordingRole[0] = role;
+            }
+            else if (role == 6 || role == 7)
+            {
+                symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
+                symbolsAccordingRole[1] = Constants.Symbol.BAR;
+            }
+
             
 
-            lblArray.Text = changeToName(role) + " , " + position.ToString();
+            //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
+            for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
+            {
+                if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0]) //止まり先候補のシンボルとロールを成立させるシンボルを比較
+                {
+                    stopCandidate[0] = reelOrder[symbolCandidate[j]]; //停止候補に代入
+                    reelPosition = symbolCandidate[j];
+                    lblArray.Text += "Candi[" + j + "]:" + reelPosition + " ";
+                }
+                else if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1])
+                {
+                    stopCandidate[1] = symbolCandidate[j];
+                }
+            }
+
+
+
+            if (reelPosition == NONE && stopCandidate[1] != NONE) //リールの第一停止候補がなかった場合に第二候補を代入する
+            {
+                reelPosition = stopCandidate[1];
+            }
+            else if (reelPosition == NONE) //第一,第二停止候補がなかった場合、現在の位置を代入
+            {
+                reelPosition = nowReelPosition;
+            }
+            if (reelPosition == Game.CalcReelPosition(nowReelPosition, 6)) //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
+            {
+                reelPosition = Game.CalcReelPosition(reelPosition, -2);
+            }
+            else if (reelPosition != nowReelPosition) //基本的に選ばれたシンボルが選択時下に来るため真ん中にくるように一つ戻す
+            {
+                reelPosition = Game.CalcReelPosition(reelPosition, -1);
+            }
+
+            position = reelPosition;
+
+
+            lblArray.Text += "   " + changeToName(role) + " , " + position.ToString() + " , " + Game.GetNowReelPosition(Constants.SelectReel.LEFT);
         }
 
         private String changeToName(int symbolNum)
@@ -102,11 +174,11 @@ namespace GameMachine
                 case 4:
                     value = "CHERRY";
                     break;
-                case 5:
-                    value = "SEVEN";
-                    break;
                 case 6:
-                    value = "BAR";
+                    value = "REGULAR";
+                    break;
+                case 7:
+                    value = "BIG";
                     break;
             }
             return value;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Security.Permissions;
+using static Constants;
 
 
 namespace Model;
@@ -33,6 +34,22 @@ public class Game
     const int RIGHT = 3;
 
 
+    //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
+    //後でprivate にする
+    public static int CalcReelPosition(int reelPosition,int move)
+    {
+        reelPosition += move;
+        if (reelPosition < 0)
+        {
+            reelPosition += 21;
+        }else if (reelPosition > 20) 
+        {
+            reelPosition -= 21;
+        }
+
+        return reelPosition;
+    }
+
     public static void UpReelPosition(int selectReel)
     {
         switch (selectReel)
@@ -62,6 +79,7 @@ public class Game
                 break;
         }
     }
+
 
     //リールの今のポジションを取得する　引数に定数クラスのLEFT,CENTER,RIGHT
     public static int GetNowReelPosition(int selectReel)
@@ -210,87 +228,75 @@ public class Game
     //第1引数には処理するリールの位置を定数クラスのLEFT・CENTER・RIGHTで選択
     //第2引数には決まった役（ロール）
     //処理内容にはリーチの行の把握とレギュラーボーナス時にはBARと7がどこにあるか把握する必要もあり
-    //一つ目のレーンの処理
+    //一つ目のリールの処理
     public static int GetFarstReelPosition(int selectReel,int role)
     {
 
-        int nowReelPosition = GetNowReelPosition(selectReel);
+        int nowReelPosition = GetNowReelPosition(Constants.SelectReel.LEFT);
         int reelPosition = NONE;
-        int[] reelOrder = { NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE };
+        int[] reelOrder = GetReelOrder(Constants.SelectReel.LEFT); //選択されたリールのシンボル配列を参照渡しする
         int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE };//ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
         int[] symbolsAccordingRole = { NONE, NONE };//roleを達成できるシンボルを格納する
         int[] stopCandidate = { NONE, NONE };
-        int findSymbol = 0;
         int searchReelPosition = nowReelPosition;
 
 
         Random rnd = new Random();
 
-        reelOrder = GetReelOrder(selectReel);
 
-        //現在のリールのポジションから下から上に7つを候補として代入
-        for(int i = 0; i < symbolCandidate.Length; i++)
+        //現在のリールのポジションで下から上に7つを候補として代入
+        for (int i = 0; i < symbolCandidate.Length; i++)
         {
             symbolCandidate[i] = searchReelPosition;
-            if (searchReelPosition == 20)
-            {
-                searchReelPosition = 0;
-            }
-            else if (searchReelPosition < 20)
-            {
-                searchReelPosition++;
-            }
+            searchReelPosition = CalcReelPosition(searchReelPosition, 1);
         }
 
 
 
-        //4以下のロールはそのままシンボルとして代入、REGとBIGは7とBARを代入
-        if(role <= 4)
+        //役を成立させるシンボルを代入、4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
+        if (role <= 4)
         {
             symbolsAccordingRole[0] = role;
         }
-        else if(role == 6 || role == 7)
+        else if (role == 6 || role == 7)
         {
             symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
             symbolsAccordingRole[1] = Constants.Symbol.BAR;
         }
 
 
+
         //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
-        for(int i = 0; i <= 20; i++)
+        for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
         {
-            for(int j = symbolCandidate.Length-1; j >= 0 ; j--)
+            if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0]) //止まり先候補のシンボルとロールを成立させるシンボルを比較
             {
-                if(reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0])
-                {
-                    stopCandidate[0] = reelOrder[symbolCandidate[j]];
-                    findSymbol += 1;
-                    reelPosition = stopCandidate[0];
-                }
-                else if(reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1])
-                {
-                    stopCandidate[1] = reelOrder[symbolCandidate[j]];
-                    findSymbol += 2;
-                }
+                stopCandidate[0] = reelOrder[symbolCandidate[j]]; //停止候補に代入
+                reelPosition = symbolCandidate[j];
+            }
+            else if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1])
+            {
+                stopCandidate[1] = symbolCandidate[j];
             }
         }
 
-        
-        if(reelPosition == NONE && stopCandidate[1] != NONE)
+
+
+        if (reelPosition == NONE && stopCandidate[1] != NONE) //リールの第一停止候補がなかった場合に第二候補を代入する
         {
             reelPosition = stopCandidate[1];
         }
-        else if(reelPosition == NONE)
+        else if (reelPosition == NONE) //第一,第二停止候補がなかった場合、現在の位置を代入
         {
             reelPosition = nowReelPosition;
         }
-        else if (reelPosition == symbolCandidate[6])
+        if (reelPosition == CalcReelPosition(nowReelPosition, 6)) //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
         {
-            reelPosition -= 2;
+            reelPosition = CalcReelPosition(reelPosition, -2);
         }
-        else if(reelPosition != nowReelPosition)
+        else if (reelPosition != nowReelPosition) //基本的に選ばれたシンボルが選択時下に来るため真ん中にくるように一つ戻す
         {
-            reelPosition --;
+            reelPosition = CalcReelPosition(reelPosition, -1);
         }
 
         return reelPosition;
@@ -300,18 +306,21 @@ public class Game
     //あとで編集
     //どこのリールであるか、一つ目のリールのシンボルの並びと場所の引数が必要
     //一つ目のリールの情報を元に
-    public static int GetSecondReelPosition(int nowReelPosition, int selectReel, int role)
+    public static int GetSecondReelPosition(int selectFirstReel, int selectSecondReel, int role)
     {
+        int nowFirstReelPosition = GetNowReelPosition(selectFirstReel);
+        int nowSecondReelPosition = GetNowReelPosition(selectSecondReel);
         int reelPosition = NONE;
-        int[] reelOrder = { NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE };
+        int[] reelOrder = GetReelOrder(selectSecondReel); //選択されたリールのシンボル配列を参照渡しする
         int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE };//ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
         int[] symbolsAccordingRole = { NONE, NONE };//roleを達成できるシンボルを格納する
         int[] stopCandidate = { NONE, NONE };
         int findSymbol = 0;
-        int searchReelPosition = nowReelPosition;
+        int searchReelPosition = nowSecondReelPosition;
 
 
         Random rnd = new Random();
+
 
         //現在のリールのポジションから下から上に7つを候補として代入
         for (int i = 0; i < symbolCandidate.Length; i++)
@@ -329,7 +338,7 @@ public class Game
 
 
 
-        //4以下のロールはそのままシンボルとして代入、REGとBIGは7とBARを代入
+        //4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
         if (role <= 4)
         {
             symbolsAccordingRole[0] = role;
@@ -344,9 +353,9 @@ public class Game
         //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
         for (int i = 0; i <= 20; i++)
         {
-            for (int j = 6; j < symbolCandidate.Length; j--)
+            for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行
             {
-                if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0])
+                if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0]) //止まり先候補のシンボルとロールを成立させるシンボルを比較 もっとも関数実行時に近いシンボルが停止する
                 {
                     stopCandidate[0] = reelOrder[symbolCandidate[j]];
                     findSymbol += 1;
@@ -361,19 +370,19 @@ public class Game
         }
 
 
-        if (reelPosition == NONE && stopCandidate[1] != NONE)
+        if (reelPosition == NONE && stopCandidate[1] != NONE) //リールの第一停止候補がなかった場合に第二候補を代入する
         {
             reelPosition = stopCandidate[1];
         }
-        else if (reelPosition == NONE)
+        else if (reelPosition == NONE) //第一,第二停止候補がなかった場合、現在の位置を代入
         {
-            reelPosition = nowReelPosition;
+            reelPosition = nowSecondReelPosition;
         }
-        else if (reelPosition == symbolCandidate[6])
+        else if (reelPosition == symbolCandidate[6]) //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
         {
             reelPosition -= 2;
         }
-        else if (reelPosition != nowReelPosition)
+        else if (reelPosition != nowSecondReelPosition) //基本的に選ばれたシンボルが選択時下に来るため真ん中にくるように一つ戻す
         {
             reelPosition--;
         }
