@@ -54,18 +54,18 @@ namespace GameMachine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Game.UpReelPosition(Constants.SelectReel.LEFT);
+            Game.UpReelPosition(Constants.SelectReel.LEFT,NONE);
             leftReelBot.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.BOTTOM)].ToString();
             leftReelMid.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.MIDDLE)].ToString();
             leftReelTop.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.TOP)].ToString();
 
 
-            Game.UpReelPosition(Constants.SelectReel.CENTER);
+            Game.UpReelPosition(Constants.SelectReel.CENTER, NONE);
             centerReelBot.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.BOTTOM)].ToString();
             centerReelMid.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.MIDDLE)].ToString();
             centerReelTop.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.TOP)].ToString();
 
-            Game.UpReelPosition(Constants.SelectReel.RIGHT);
+            Game.UpReelPosition(Constants.SelectReel.RIGHT, NONE);
             rightReelBot.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.BOTTOM)].ToString();
             rightReelMid.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.MIDDLE)].ToString();
             rightReelTop.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.TOP)].ToString();

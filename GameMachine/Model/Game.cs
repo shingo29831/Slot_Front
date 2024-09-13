@@ -51,12 +51,22 @@ public class Game
         return reelPosition;
     }
 
-    public static void UpReelPosition(int selectReel)
+
+    //リールを一つずつ移動させる　移動先が決定されている場合はリールのポジションを代入なければ NONE:-1 を代入
+    public static void UpReelPosition(int selectReel,int destinationPosition)
     {
         switch (selectReel)
         {
             case LEFT:
-                nowLeftReel++;
+                if(nowLeftReel == NONE)
+                {
+                    //NONE:-1が来たときは＋しない
+                }
+                else if(nowLeftReel != destinationPosition)
+                {
+                    nowLeftReel++;
+                }
+ 
                 if (nowLeftReel > 20)
                 {
                     nowLeftReel = 0;
@@ -64,7 +74,15 @@ public class Game
                 break;
 
             case CENTER:
-                nowCenterReel++;
+                if (nowCenterReel == NONE)
+                {
+                    //NONE:-1が来たときは＋しない
+                }
+                else if (nowCenterReel != destinationPosition)
+                {
+                    nowCenterReel++;
+                }
+                
                 if (nowCenterReel > 20)
                 {
                     nowCenterReel = 0;
@@ -72,7 +90,15 @@ public class Game
                 break;
 
             case RIGHT:
-                nowRightReel++;
+                if (nowRightReel == NONE)
+                {
+                    //NONE:-1が来たときは＋しない
+                }
+                else if (nowRightReel != destinationPosition)
+                {
+                    nowRightReel++;
+                }
+                
                 if (nowRightReel > 20)
                 {
                     nowRightReel = 0;
