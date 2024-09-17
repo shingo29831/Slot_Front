@@ -43,6 +43,10 @@
             rightReelBot = new Label();
             lblArray = new Label();
             button2 = new Button();
+            leftStop = new Button();
+            button4 = new Button();
+            centerStop = new Button();
+            rightStop = new Button();
             SuspendLayout();
             // 
             // txtbox1
@@ -61,6 +65,11 @@
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // timer1
+            // 
+            timer1.Interval = 750;
+            timer1.Tick += timer1_Tick;
             // 
             // leftReelTop
             // 
@@ -155,9 +164,9 @@
             // lblArray
             // 
             lblArray.BackColor = Color.White;
-            lblArray.Location = new Point(353, 32);
+            lblArray.Location = new Point(78, 46);
             lblArray.Name = "lblArray";
-            lblArray.Size = new Size(414, 25);
+            lblArray.Size = new Size(689, 25);
             lblArray.TabIndex = 11;
             lblArray.Text = "NONE";
             // 
@@ -171,11 +180,57 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // leftStop
+            // 
+            leftStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
+            leftStop.Location = new Point(121, 339);
+            leftStop.Name = "leftStop";
+            leftStop.Size = new Size(52, 50);
+            leftStop.TabIndex = 13;
+            leftStop.Text = "STOP";
+            leftStop.UseVisualStyleBackColor = true;
+            leftStop.Click += leftStop_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(283, 339);
+            button4.Name = "button4";
+            button4.Size = new Size(0, 0);
+            button4.TabIndex = 14;
+            button4.Text = "button4";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // centerStop
+            // 
+            centerStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
+            centerStop.Location = new Point(304, 339);
+            centerStop.Name = "centerStop";
+            centerStop.Size = new Size(52, 50);
+            centerStop.TabIndex = 15;
+            centerStop.Text = "STOP";
+            centerStop.UseVisualStyleBackColor = true;
+            centerStop.Click += centerStop_Click;
+            // 
+            // rightStop
+            // 
+            rightStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
+            rightStop.Location = new Point(472, 339);
+            rightStop.Name = "rightStop";
+            rightStop.Size = new Size(52, 50);
+            rightStop.TabIndex = 16;
+            rightStop.Text = "STOP";
+            rightStop.UseVisualStyleBackColor = true;
+            rightStop.Click += rightStop_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 451);
+            Controls.Add(rightStop);
+            Controls.Add(centerStop);
+            Controls.Add(button4);
+            Controls.Add(leftStop);
             Controls.Add(button2);
             Controls.Add(lblArray);
             Controls.Add(rightReelBot);
@@ -212,5 +267,9 @@
         private Label rightReelBot;
         private Label lblArray;
         private Button button2;
+        private Button leftStop;
+        private Button button4;
+        private Button centerStop;
+        private Button rightStop;
     }
 }

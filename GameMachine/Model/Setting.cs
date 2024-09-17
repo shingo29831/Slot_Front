@@ -14,8 +14,8 @@ public class Setting: BusinessLogic
     static int expected = 0;
     static int bonusProbability = 50; //最大100%での表記
     static int[] bonusesProbabilityWeight = {0,10,20};//ボーナス当選後のREG/BIGに入る確率
-    static int[] rolesWeight = {20,8,5,4,4,3,1,1};
-    //NONE,ベル,リプレイ,スイカ,チェリー,リーチ,REG,BIGの順で入れること
+    static int[] rolesWeight = {20,8,5,4,4,2,1,0,1,1};
+    //NONE,ベル,リプレイ,スイカ,弱チェリー,強チェリー,最強チェリー,リーチ,REG,BIGの順で入れること
   
 
 
@@ -99,45 +99,57 @@ public class Setting: BusinessLogic
         switch (expected)
         {
             case 0:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 1:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 2:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 3:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 4:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 5:
-                rolesWeight[BELL] = 1;
-                rolesWeight[REPLAY] = 2;
-                rolesWeight[WATERMELON] = 1;
-                rolesWeight[CHERRY] = 1;
+                rolesWeight[Constants.Role.BELL] = 1;
+                rolesWeight[Constants.Role.REPLAY] = 2;
+                rolesWeight[Constants.Role.WATERMELON] = 1;
+                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
+                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
+                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
 

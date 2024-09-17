@@ -27,10 +27,16 @@ public static class Constants
         public static readonly int BELL = 1;
         public static readonly int REPLAY = 2;
         public static readonly int WATERMELON = 3;
-        public static readonly int CHERRY = 4;
-        public static readonly int REACH = 5;
-        public static readonly int REGULAR = 6;
-        public static readonly int BIG = 7;
+        //チェリー変更のため全体的な変更
+        public static readonly int WEAK_CHERRY = 4;
+        public static readonly int STRONG_CHERRY = 5;
+        public static readonly int VERY_STRONG_CHERRY = 6;
+
+        public static readonly int REACH = 7;
+        public static readonly int REGULAR = 8;
+        public static readonly int BIG = 9;
+
+        public static readonly int OTHER_BONUS = 6;　//6以下はボーナス以外の役という意味
 
     }
 

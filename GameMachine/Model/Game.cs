@@ -26,7 +26,7 @@ public class Game
 
     private static int nowLeftReel = 0;
     private static int nowCenterReel = 0;
-    private static int nowRightReel = 0;
+    private static int nowRightReel = 1;
 
     const int NONE = -1;
 
@@ -197,7 +197,7 @@ public class Game
 
         int role = 0;
         int sumWeight = 0;
-        int lotteryRange = 4;
+        int lotteryRange = 6;
 
 
         for (int i = 0; i <= lotteryRange; i++)
@@ -209,7 +209,7 @@ public class Game
         int rndnum = rnd.Next(1, sumWeight + 1);
         sumWeight = 0;
         int tmp = 0;
-        for (int i = 0; i <= 4; i++)
+        for (int i = 0; i <= lotteryRange; i++)
         {
             tmp = sumWeight;
             sumWeight += Setting.getRoleWeight(i);
@@ -280,12 +280,16 @@ public class Game
 
 
 
-        //役を成立させるシンボルを代入、4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
+        //役を成立させるシンボルを代入、4以下(ボーナス以外)のロールはそのままシンボルとして代入、強・最強チェリーはCHERRYを代入REGとBIGは7と第二候補としてBARを代入
         if (role <= 4)
         {
             symbolsAccordingRole[0] = role;
         }
-        else if (role == 6 || role == 7)
+        else if (role <= Constants.Role.OTHER_BONUS)
+        {
+            symbolsAccordingRole[0] = Constants.Symbol.CHERRY;
+        }
+        else if (role == Constants.Role.REGULAR || role == Constants.Role.BIG)
         {
             symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
             symbolsAccordingRole[1] = Constants.Symbol.BAR;
@@ -361,11 +365,11 @@ public class Game
 
 
         //役を成立させるシンボルを代入、4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
-        if (role <= 4)
+        if (role <= Constants.Role.OTHER_BONUS)
         {
             symbolsAccordingRole[0] = role;
         }
-        else if (role == 6 || role == 7)
+        else if (role == Constants.Role.REGULAR || role == Constants.Role.BIG)
         {
             symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
             symbolsAccordingRole[1] = Constants.Symbol.BAR;
