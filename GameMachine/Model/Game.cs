@@ -20,15 +20,21 @@ public class Game
     static int[] dispSymbol = new int[3];
     static int stopReelCount = 0;
 
+    public static int[,] reachRows = { { 1,4}, { 2,5} ,{0,0 } };
+    //new int[3, 2];
+
+    static int[] leftReel = { NONE, NONE, NONE };
+    static int[] centerReel = { NONE, NONE, NONE };
+    static int[] rightReel = { NONE, NONE, NONE };
+
     const int TOP = 0;
     const int MIDDLE = 1;
     const int BOTTOM = 2;
 
     private static int nowLeftReel = 0;
     private static int nowCenterReel = 0;
-    private static int nowRightReel = 1;
+    private static int nowRightReel = 0;
 
-    const int NONE = -1;
 
     const int LEFT = 1;
     const int CENTER = 2;
@@ -36,7 +42,6 @@ public class Game
 
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
-    //後でprivate にする
     public static int CalcReelPosition(int reelPosition,int move)
     {
         reelPosition += move;
@@ -174,17 +179,17 @@ public class Game
     {
         int bonus = 0;
         Random rnd = new Random();
-        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(Constants.Bonus.REGULAR);
-        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(Constants.Bonus.BIG);
+        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(Bonus.REGULAR);
+        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(Bonus.BIG);
         int sumWeight = regularProbabilityWeight + bigProbabilityWeight;
         int rndnum = rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
 
         if(regularProbabilityWeight <= rndnum)
         {
-            bonus = Constants.State.REGULAR;
+            bonus = State.REGULAR;
         }else if(regularProbabilityWeight > rndnum && sumWeight <= rndnum) 
         {
-            bonus = Constants.State.BIG;
+            bonus = State.BIG;
         }
 
         return bonus;
@@ -233,17 +238,17 @@ public class Game
         switch (selectReel)
         {
             case LEFT:
-                reelOrder = Constants.ReelOrder.leftReelOrder;
+                reelOrder = ReelOrder.leftReelOrder;
                 break;
 
 
             case CENTER:
-                reelOrder = Constants.ReelOrder.centerReelOrder;
+                reelOrder = ReelOrder.centerReelOrder;
                 break;
 
 
             case RIGHT:
-                reelOrder = Constants.ReelOrder.rightReelOrder;
+                reelOrder = ReelOrder.rightReelOrder;
                 break;
             
         }
@@ -285,14 +290,14 @@ public class Game
         {
             symbolsAccordingRole[0] = role;
         }
-        else if (role <= Constants.Role.OTHER_BONUS)
+        else if (role <= Role.OTHER_BONUS)
         {
-            symbolsAccordingRole[0] = Constants.Symbol.CHERRY;
+            symbolsAccordingRole[0] = Symbol.CHERRY;
         }
-        else if (role == Constants.Role.REGULAR || role == Constants.Role.BIG)
+        else if (role == Role.REGULAR || role == Role.BIG)
         {
-            symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
-            symbolsAccordingRole[1] = Constants.Symbol.BAR;
+            symbolsAccordingRole[0] = Symbol.SEVEN;
+            symbolsAccordingRole[1] = Symbol.BAR;
         }
 
 
@@ -365,14 +370,18 @@ public class Game
 
 
         //役を成立させるシンボルを代入、4以下のロールはそのままシンボルとして代入、REGとBIGは7と第二候補としてBARを代入
-        if (role <= Constants.Role.OTHER_BONUS)
+        if (role <= Role.OTHER_BONUS)
         {
             symbolsAccordingRole[0] = role;
         }
-        else if (role == Constants.Role.REGULAR || role == Constants.Role.BIG)
+        else if (role <= Role.OTHER_BONUS)
         {
-            symbolsAccordingRole[0] = Constants.Symbol.SEVEN;
-            symbolsAccordingRole[1] = Constants.Symbol.BAR;
+            symbolsAccordingRole[0] = Symbol.CHERRY;
+        }
+        else if (role == Role.REGULAR || role == Role.BIG)
+        {
+            symbolsAccordingRole[0] = Symbol.SEVEN;
+            symbolsAccordingRole[1] = Symbol.BAR;
         }
 
 
@@ -415,29 +424,50 @@ public class Game
 
 
 
-    //シンボルが決まっていないところはNONEを代入すること
+
+
+
+    //上手く動かん変更する
+    //止まったリールからリーチの場所を探し二次元配列で出力する、止まっていないリールはNONE:-1が入る
     //リーチを探す処理で行が場所を示し、列に複数のシンボルのリーチが書かれている
-    public static int[,] GetReachRows(int[] leftReel, int[] centerReel, int[] rightReel) 
+    public static void GetReachRows(int leftPosition, int centerPosition, int rightPosition) 
     {
-        int[,] reachRows = new int[3,2];
+        
+
+        
+
+
+        for (int i = 0; i < 3; i++) //BOTTOM:0～TOP:2までのシンボルを取得
+        {
+            leftReel[i] = Game.GetDispSymbol(SelectReel.LEFT, leftPosition + 1);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            centerReel[i] = Game.GetDispSymbol(SelectReel.CENTER, centerPosition + 1);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            rightReel[i] = Game.GetDispSymbol(SelectReel.RIGHT, rightPosition + 1);
+        }
+
 
         // 左リールの処理
-        for (int row = 0; row < 3; row++)
+        for (int row = Position.BOTTOM; row <= Position.TOP; row++) //BOTTOM:0～TOP:2までの処理
         {
-            if (leftReel == null && centerReel[row] == rightReel[row])
+            if (leftPosition == NONE && centerReel[row] == rightReel[row])
             {
                 reachRows[row, 0] = centerReel[row];
             }
         }
 
-        if (leftReel == null && centerReel[MIDDLE] == rightReel[BOTTOM])
+        if (leftPosition == NONE && centerReel[Position.MIDDLE] == rightReel[Position.BOTTOM])
         {
-            reachRows[TOP, 1] = centerReel[MIDDLE];
+            reachRows[Position.TOP, 1] = centerReel[Position.MIDDLE];
         }
 
-        if(leftReel == null && centerReel[MIDDLE] == rightReel[TOP])
+        if (leftPosition == NONE && centerReel[Position.MIDDLE] == rightReel[Position.TOP])
         {
-            reachRows[BOTTOM,1] = centerReel[MIDDLE];
+            reachRows[Position.BOTTOM, 1] = centerReel[Position.MIDDLE];
         }
 
 
@@ -446,43 +476,78 @@ public class Game
         //真ん中リールの処理
         for (int row = 0; row < 3; row++)
         {
-            if (centerReel == null && leftReel[row] == rightReel[row])
+            if (centerPosition == NONE && leftReel[row] == rightReel[row])
             {
                 reachRows[row, 0] = leftReel[row];
             }
         }
 
-        for(int row  = 0; row < 3;row++)
-        {
-            if(centerReel ==null && leftReel[row] == rightReel[2 - row])
-            {
-                reachRows[BOTTOM, row] = leftReel[row];
-            }
-        }
-
-        //右レーンの処理
         for (int row = 0; row < 3; row++)
+        {
+            if (centerPosition == NONE && leftReel[row] == rightReel[2 - row])
             {
-                if (rightReel == null && centerReel[row] == leftReel[row])
-                {
-                    reachRows[row, 0] = centerReel[row];
-                }
+                reachRows[row, 1] = leftReel[row];
             }
-
-        if (rightReel == null && centerReel[MIDDLE] == leftReel[BOTTOM])
-        {
-            reachRows[TOP, 1] = centerReel[MIDDLE];
-        }
-        else if (rightReel == null && centerReel[MIDDLE] == leftReel[TOP])
-        {
-            reachRows[BOTTOM, 1] = centerReel[MIDDLE];
         }
 
+        //右リールの処理
+        for (int row = 0; row < 3; row++)
+        {
+            if (rightPosition == NONE && centerReel[row] == leftReel[row])
+            {
+                reachRows[row, 0] = centerReel[row];
+            }
+        }
 
-        return reachRows;
+        if (rightPosition == NONE && centerReel[Position.MIDDLE] == leftReel[Position.BOTTOM])
+        {
+            reachRows[Position.TOP, 1] = centerReel[Position.MIDDLE];
+        }
+        else if (rightPosition == NONE && centerReel[Position.MIDDLE] == leftReel[Position.TOP])
+        {
+            reachRows[Position.BOTTOM, 1] = centerReel[Position.MIDDLE];
+        }
+
     }
 
 
+
+
+
+
+
+    public static int GetReachRow(int selectReel, int selectPosition)
+    {
+        int[,] nowDispSymbols = { { NONE, NONE, NONE }, { NONE, NONE, NONE }, { NONE, NONE, NONE } };
+
+        for (int reel = 1; reel <= 3; reel++)
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                if(reel != selectReel)
+                {
+                    nowDispSymbols[reel, row] = Game.GetDispSymbol(reel, row);
+                }
+            }
+        }
+
+        if (selectReel == SelectReel.LEFT)
+        {
+
+        }
+
+
+
+        return 0;
+    }
+
+
+
+
+
+
+
+    //あとで変更使うかわからない
     public static int[] DispSymbolLottery()
     {
 

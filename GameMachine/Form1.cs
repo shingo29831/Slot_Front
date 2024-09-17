@@ -5,12 +5,12 @@ using System.Text;
 using System.Diagnostics;
 using Model;
 using static Constants;
+using System.Reflection;
 
 namespace GameMachine
 {
     public partial class Form1 : Form
     {
-        public static readonly int NONE = -1;
         public static readonly int BELL = 1;
         public static readonly int REPLAY = 2;
         public static readonly int WATERMELON = 3;
@@ -24,14 +24,16 @@ namespace GameMachine
         public static readonly int RIGHT = 3;
 
 
-        int leftNowReelPosition = Game.GetNowReelPosition(Constants.SelectReel.LEFT);
-        int[] leftReelOrder = Game.GetReelOrder(Constants.SelectReel.LEFT);
-        int[] centerReelOrder = Game.GetReelOrder(Constants.SelectReel.CENTER);
-        int[] rightReelOrder = Game.GetReelOrder(Constants.SelectReel.RIGHT);
+        int leftNowReelPosition = Game.GetNowReelPosition(SelectReel.LEFT);
+        int[] leftReelOrder = Game.GetReelOrder(SelectReel.LEFT);
+        int[] centerReelOrder = Game.GetReelOrder(SelectReel.CENTER);
+        int[] rightReelOrder = Game.GetReelOrder(SelectReel.RIGHT);
 
-        int bonusState = Constants.Bonus.NONE;
+        //int[,] reachRows = new int[3, 2];
 
-        int role = Constants.Role.NONE;
+        int bonusState = NONE;
+
+        int role = NONE;
         int leftPosition = NONE;
         int centerPosition = NONE;
         int rightPosition = NONE;
@@ -50,9 +52,9 @@ namespace GameMachine
             txtbox1.Text = Setting.getTableID();
 
 
-            dispReelsSymbols(Constants.SelectReel.LEFT);
-            dispReelsSymbols(Constants.SelectReel.CENTER);
-            dispReelsSymbols(Constants.SelectReel.RIGHT);
+            dispReelsSymbols(SelectReel.LEFT);
+            dispReelsSymbols(SelectReel.CENTER);
+            dispReelsSymbols(SelectReel.RIGHT);
 
 
         }
@@ -76,17 +78,31 @@ namespace GameMachine
 
         private void button2_Click(object sender, EventArgs e)
         {
-            role = Game.HitRoleLottery();
+            lblArray.Text = "";
+            Game.GetReachRows(leftPosition,centerPosition,rightPosition);
+
+
+            
 
 
 
-            lblArray.Text = "ROLE:" + changeToName(role);
+            for (int i = 0; i < 3; i++)
+            {
+                lblArray.Text += "{";
+                for(int j = 0; j < 2; j++)
+                {
+                    lblArray.Text += "{" + Game.reachRows[i,j].ToString() + "}";
+                }
+                lblArray.Text += "}";
+            }
+
+
         }
 
-        private String changeToName(int symbolNum)
+        private String changeToName(int roleNum)
         {
             String value = "";
-            switch (symbolNum)
+            switch (roleNum)
             {
                 case 0:
                     value = "NONE";
@@ -122,31 +138,31 @@ namespace GameMachine
             switch (selectReel)
             {
                 case 1:
-                    leftReelBot.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.BOTTOM)].ToString();
-                    leftReelMid.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.MIDDLE)].ToString();
-                    leftReelTop.Text = leftReelOrder[Game.GetDispSymbol(Constants.SelectReel.LEFT, Constants.Position.TOP)].ToString();
+                    leftReelBot.Text = leftReelOrder[Game.GetDispSymbol(SelectReel.LEFT, Position.BOTTOM)].ToString();
+                    leftReelMid.Text = leftReelOrder[Game.GetDispSymbol(SelectReel.LEFT, Position.MIDDLE)].ToString();
+                    leftReelTop.Text = leftReelOrder[Game.GetDispSymbol(SelectReel.LEFT, Position.TOP)].ToString();
                     break;
 
                 case 2:
-                    centerReelBot.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.BOTTOM)].ToString();
-                    centerReelMid.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.MIDDLE)].ToString();
-                    centerReelTop.Text = centerReelOrder[Game.GetDispSymbol(Constants.SelectReel.CENTER, Constants.Position.TOP)].ToString();
+                    centerReelBot.Text = centerReelOrder[Game.GetDispSymbol(SelectReel.CENTER, Position.BOTTOM)].ToString();
+                    centerReelMid.Text = centerReelOrder[Game.GetDispSymbol(SelectReel.CENTER, Position.MIDDLE)].ToString();
+                    centerReelTop.Text = centerReelOrder[Game.GetDispSymbol(SelectReel.CENTER, Position.TOP)].ToString();
                     break;
 
                 case 3:
-                    rightReelBot.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.BOTTOM)].ToString();
-                    rightReelMid.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.MIDDLE)].ToString();
-                    rightReelTop.Text = rightReelOrder[Game.GetDispSymbol(Constants.SelectReel.RIGHT, Constants.Position.TOP)].ToString();
+                    rightReelBot.Text = rightReelOrder[Game.GetDispSymbol(SelectReel.RIGHT, Position.BOTTOM)].ToString();
+                    rightReelMid.Text = rightReelOrder[Game.GetDispSymbol(SelectReel.RIGHT, Position.MIDDLE)].ToString();
+                    rightReelTop.Text = rightReelOrder[Game.GetDispSymbol(SelectReel.RIGHT, Position.TOP)].ToString();
                     break;
             }
         }
 
         private void leftStop_Click(object sender, EventArgs e)
         {
-            leftPosition = Game.GetFarstReelPosition(Constants.SelectReel.LEFT, role);
+            leftPosition = Game.GetFarstReelPosition(SelectReel.LEFT, role);
 
 
-            lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + Game.GetNowReelPosition(Constants.SelectReel.LEFT);
+            lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + Game.GetNowReelPosition(SelectReel.LEFT);
             stopBtnCount++;
             if (stopBtnCount == 3)
             {
@@ -156,10 +172,10 @@ namespace GameMachine
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            centerPosition = Game.GetFarstReelPosition(Constants.SelectReel.CENTER, role);
+            centerPosition = Game.GetFarstReelPosition(SelectReel.CENTER, role);
 
 
-            lblArray.Text += "   CENTER:" + centerPosition.ToString() + " , " + Game.GetNowReelPosition(Constants.SelectReel.CENTER);
+            lblArray.Text += "   CENTER:" + centerPosition.ToString() + " , " + Game.GetNowReelPosition(SelectReel.CENTER);
             stopBtnCount++;
             if (stopBtnCount == 3)
             {
@@ -169,10 +185,10 @@ namespace GameMachine
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            rightPosition = Game.GetFarstReelPosition(Constants.SelectReel.RIGHT, role);
+            rightPosition = Game.GetFarstReelPosition(SelectReel.RIGHT, role);
 
 
-            lblArray.Text += "   RIGHT:" + rightPosition.ToString() + " , " + Game.GetNowReelPosition(Constants.SelectReel.RIGHT);
+            lblArray.Text += "   RIGHT:" + rightPosition.ToString() + " , " + Game.GetNowReelPosition(SelectReel.RIGHT);
             stopBtnCount++;
 
             if (stopBtnCount == 3)
@@ -185,15 +201,15 @@ namespace GameMachine
         {
             if (stopBtnCount < 3)
             {
-                Game.UpReelPosition(Constants.SelectReel.LEFT, leftPosition);
-                dispReelsSymbols(Constants.SelectReel.LEFT);
+                Game.UpReelPosition(SelectReel.LEFT, leftPosition);
+                dispReelsSymbols(SelectReel.LEFT);
 
 
-                Game.UpReelPosition(Constants.SelectReel.CENTER, centerPosition);
-                dispReelsSymbols(Constants.SelectReel.CENTER);
+                Game.UpReelPosition(SelectReel.CENTER, centerPosition);
+                dispReelsSymbols(SelectReel.CENTER);
 
-                Game.UpReelPosition(Constants.SelectReel.RIGHT, rightPosition);
-                dispReelsSymbols(Constants.SelectReel.RIGHT);
+                Game.UpReelPosition(SelectReel.RIGHT, rightPosition);
+                dispReelsSymbols(SelectReel.RIGHT);
             }
 
         }
