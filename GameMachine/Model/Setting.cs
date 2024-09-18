@@ -1,13 +1,12 @@
-﻿using GameMachine;
-using System;
-using System.Data;
+﻿using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
+using static Constants;
 
 namespace Model;
-public class Setting: BusinessLogic
+public class Setting
 {
 	static String tableID = "info";
     static String userID = "";

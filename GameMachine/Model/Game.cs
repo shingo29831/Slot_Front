@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Security.Permissions;
 using static Constants;
 
 
 //このクラスはゲームの内部処理を担当する
 namespace Model;
 public class Game 
-    //: BusinessLogic
 {
     static bool leftReelbtn = false;
     static bool centerReelbtn = false;
@@ -20,8 +17,6 @@ public class Game
     static int[] dispSymbol = new int[3];
     static int stopReelCount = 0;
 
-    public static int[,] reachRows = { { 1,4}, { 2,5} ,{0,0 } };
-    //new int[3, 2];
 
     static int[] leftReel = { NONE, NONE, NONE };
     static int[] centerReel = { NONE, NONE, NONE };
@@ -394,90 +389,6 @@ public class Game
 
         return reelPosition;
     }
-
-
-
-
-
-
-    //上手く動かん変更する
-    //止まったリールからリーチの場所を探し二次元配列で出力する、止まっていないリールはNONE:-1が入る
-    //リーチを探す処理で行が場所を示し、列に複数のシンボルのリーチが書かれている
-    public static void GetReachRows(int leftPosition, int centerPosition, int rightPosition) 
-    {
-        
-
-        
-
-
-        for (int i = 0; i < 3; i++) //BOTTOM:0～TOP:2までのシンボルを取得
-        {
-            leftReel[i] = Game.GetDispSymbol(SelectReel.LEFT, leftPosition + i);
-            centerReel[i] = Game.GetDispSymbol(SelectReel.CENTER, centerPosition + i);
-            rightReel[i] = Game.GetDispSymbol(SelectReel.RIGHT, rightPosition + i);
-        }
-
-
-        // 左リールの処理
-        for (int row = Position.BOTTOM; row <= Position.TOP; row++) //BOTTOM:0～TOP:2までの処理
-        {
-            if (leftPosition == NONE && centerReel[row] == rightReel[row])
-            {
-                reachRows[row, 0] = centerReel[row];
-            }
-        }
-
-        if (leftPosition == NONE && centerReel[Position.MIDDLE] == rightReel[Position.BOTTOM])
-        {
-            reachRows[Position.TOP, 1] = centerReel[Position.MIDDLE];
-        }
-
-        if (leftPosition == NONE && centerReel[Position.MIDDLE] == rightReel[Position.TOP])
-        {
-            reachRows[Position.BOTTOM, 1] = centerReel[Position.MIDDLE];
-        }
-
-
-
-
-        //真ん中リールの処理
-        for (int row = 0; row < 3; row++)
-        {
-            if (centerPosition == NONE && leftReel[row] == rightReel[row])
-            {
-                reachRows[row, 0] = leftReel[row];
-            }
-        }
-
-        for (int row = 0; row < 3; row++)
-        {
-            if (centerPosition == NONE && leftReel[row] == rightReel[2 - row])
-            {
-                reachRows[row, 1] = leftReel[row];
-            }
-        }
-
-        //右リールの処理
-        for (int row = 0; row < 3; row++)
-        {
-            if (rightPosition == NONE && centerReel[row] == leftReel[row])
-            {
-                reachRows[row, 0] = centerReel[row];
-            }
-        }
-
-        if (rightPosition == NONE && centerReel[Position.MIDDLE] == leftReel[Position.BOTTOM])
-        {
-            reachRows[Position.TOP, 1] = centerReel[Position.MIDDLE];
-        }
-        else if (rightPosition == NONE && centerReel[Position.MIDDLE] == leftReel[Position.TOP])
-        {
-            reachRows[Position.BOTTOM, 1] = centerReel[Position.MIDDLE];
-        }
-
-    }
-
-
 
 
 
