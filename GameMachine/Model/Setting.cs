@@ -21,7 +21,7 @@ public class Setting
     public static void setUserID(String userID) { Setting.userID = userID; }
     public static String getUserID() { return Setting.userID; }
 
-    public static void maketableID()
+    public static void makeTableID()
     {
         byte[] hashValue = generateHash(getMacAddress() + getProductID());
 
@@ -98,57 +98,57 @@ public class Setting
         switch (expected)
         {
             case 0:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 1:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 2:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 3:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 4:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
             case 5:
-                rolesWeight[Constants.Role.BELL] = 1;
-                rolesWeight[Constants.Role.REPLAY] = 2;
-                rolesWeight[Constants.Role.WATERMELON] = 1;
-                rolesWeight[Constants.Role.WEAK_CHERRY] = 1;
-                rolesWeight[Constants.Role.STRONG_CHERRY] = 1;
-                rolesWeight[Constants.Role.VERY_STRONG_CHERRY] = 1;
+                rolesWeight[Role.BELL] = 1;
+                rolesWeight[Role.REPLAY] = 2;
+                rolesWeight[Role.WATERMELON] = 1;
+                rolesWeight[Role.WEAK_CHERRY] = 1;
+                rolesWeight[Role.STRONG_CHERRY] = 1;
+                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
                 break;
 
 

@@ -44,7 +44,7 @@ namespace GameMachine
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Setting.maketableID();
+            Setting.makeTableID();
             txtbox1.Text = Setting.getTableID();
 
 
