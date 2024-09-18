@@ -64,13 +64,9 @@ public class Game
                 }
                 else if(nowLeftReel != destinationPosition)
                 {
-                    nowLeftReel++;
+                    nowLeftReel = CalcReelPosition (nowLeftReel, 1);
                 }
- 
-                if (nowLeftReel > 20)
-                {
-                    nowLeftReel = 0;
-                }
+
                 break;
 
             case CENTER:
@@ -80,13 +76,9 @@ public class Game
                 }
                 else if (nowCenterReel != destinationPosition)
                 {
-                    nowCenterReel++;
+                    nowCenterReel = CalcReelPosition (nowCenterReel, 1);
                 }
                 
-                if (nowCenterReel > 20)
-                {
-                    nowCenterReel = 0;
-                }
                 break;
 
             case RIGHT:
@@ -96,13 +88,9 @@ public class Game
                 }
                 else if (nowRightReel != destinationPosition)
                 {
-                    nowRightReel++;
+                    nowRightReel = CalcReelPosition (nowRightReel, 1);
                 }
                 
-                if (nowRightReel > 20)
-                {
-                    nowRightReel = 0;
-                }
                 break;
         }
     }
