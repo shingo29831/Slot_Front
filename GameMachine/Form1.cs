@@ -79,137 +79,8 @@ namespace GameMachine
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int selectReel = LEFT;
-            int nowReelPosition = GetNowReelPosition(selectReel);
-            int reelPosition = NONE;
-            int[] reelOrder = GetReelOrder(selectReel); //選択されたリールのシンボル配列を参照渡しする
-            int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
-            int[] symbolsAccordingRole = { NONE, NONE }; //roleを達成できるシンボルを格納する
-            int[] stopCandidate = { NONE, NONE }; //roleを達成できるシンボルの位置を格納する 要素番号１はREGとBIGで7とBARで使用
-            int searchReelPosition = nowReelPosition;
-
-            int maxExclusion = NONE; //除外範囲の最大値を-1(リールより小さい値)に設定
-            int minExclusion = 21; //除外範囲の最小値をリールより大きい値に設定
-
-            int oneBeforePosition = NONE;
-            int twoBeforePosition = NONE;
-
-            bool cherryFounded = false;
-            bool isLeft = false;
-            bool isPositionFounded = false;
-
-            Random rnd = new Random();
-
-            if (selectReel == LEFT)
-            {
-                isLeft = true; //レフトリールフラグをtrue
-            }
-
-            //現在のリールのポジションで下から上に7つを候補として代入
-            for (int i = 0; i < symbolCandidate.Length; i++)
-            {
-                if (reelOrder[CalcReelPosition(searchReelPosition, i)] == Symbol.CHERRY && isLeft && cherryFounded == false && (role < Role.WEAK_CHERRY || role > Role.VERY_STRONG_CHERRY))
-                {
-                    cherryFounded = true; //チェリー発見フラグをtrue
-                    maxExclusion = searchReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
-                    minExclusion = CalcReelPosition(searchReelPosition, -2); //チェリーシンボルから2つ下を候補除外範囲の最小値として代入
-                }
-                symbolCandidate[i] = searchReelPosition;
-                searchReelPosition = CalcReelPosition(searchReelPosition, 1);
-            }
-
-
-
-            if (isLeft && cherryFounded && maxExclusion < minExclusion)//役がチェリー以外の時、最大値と最小値が反対なら交換する
-            {
-                int tmp = maxExclusion;
-                maxExclusion = minExclusion;
-                minExclusion = tmp;
-            }
-
-
-
-            //役を成立させるシンボルを代入、4以下(ボーナス以外)のロールはそのままシンボルとして代入、強・最強チェリーはCHERRYを代入REGとBIGは7と第二候補としてBARを代入
-            if (role <= 4)
-            {
-                symbolsAccordingRole[0] = role;
-            }
-            else if (role <= Role.OTHER_BONUS)
-            {
-                symbolsAccordingRole[0] = Symbol.CHERRY;
-            }
-            else if (role == Role.REGULAR || role == Role.BIG)
-            {
-                symbolsAccordingRole[0] = Symbol.SEVEN;
-                symbolsAccordingRole[1] = Symbol.BAR;
-            }
-
-
-
-
-            //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
-            for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
-            {
-                if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
-                    (symbolCandidate[j] > maxExclusion || symbolCandidate[j] < minExclusion)) //また除外範囲外であるか比較 
-                {
-                    stopCandidate[0] = symbolCandidate[j]; //停止候補に代入
-                }
-                else if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1] &&
-                    (symbolCandidate[j] > maxExclusion || symbolCandidate[j] < minExclusion)) //また除外範囲外であるか比較
-                {
-                    stopCandidate[1] = symbolCandidate[j];
-                }
-            }
-            oneBeforePosition = CalcReelPosition(stopCandidate[0], -1); //ひとつ前のポジションを代入
-            twoBeforePosition = CalcReelPosition(stopCandidate[0], -2); //ふたつ前のポジションを代入
-            cherryFounded = false;
-            for (int i = 0; i <= 3 && isPositionFounded == false; i++)
-            {
-                
-                if ((CalcReelPosition(nowReelPosition, i) > maxExclusion || CalcReelPosition(nowReelPosition, i) < minExclusion)) //押下した時点から+3～0の地点が除外範囲外の時
-                {
-                    reelPosition = CalcReelPosition(nowReelPosition, i);
-                    isPositionFounded = true;
-                }
-            }
-
-            if (stopCandidate[0] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[0] != NONE && //移動先がもっとも遠く第1候補がある時
-                (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
-                (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
-            {
-                reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
-            }
-            else if (stopCandidate[0] != nowReelPosition && stopCandidate[0] != NONE && //移動前と移動先のリール位置が不一致で、第1候補がある時
-                (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
-            {
-                reelPosition = oneBeforePosition;
-            }
-            else if (stopCandidate[0] != NONE &&
-                (stopCandidate[0] > maxExclusion || stopCandidate[0] < minExclusion)) //候補が除外範囲外の時
-            {
-                reelPosition = stopCandidate[0];
-            }
-            else if (stopCandidate[1] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[1] != NONE && //移動先がもっとも遠く第2候補がある時
-                (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
-                (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
-            {
-                reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
-            }
-            else if (stopCandidate[1] != nowReelPosition && stopCandidate[1] != NONE && //移動前と移動先のリール位置が不一致で、第2候補がある時
-                (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
-            {
-                reelPosition = oneBeforePosition;
-            }
-            else if (stopCandidate[1] != NONE &&
-                (stopCandidate[1] > maxExclusion || stopCandidate[1] < minExclusion))
-            {
-                reelPosition = stopCandidate[1];
-            }
-
-            leftPosition = reelPosition;
-
-            lblArray.Text += "   CherryMax:" + maxExclusion.ToString() + " , CherryMin" + minExclusion.ToString() + " , next:" + reelPosition + " , now:" +  GetNowReelPosition(SelectReel.LEFT);
+            
+            
 
         }
 
@@ -273,7 +144,7 @@ namespace GameMachine
 
         private void leftStop_Click(object sender, EventArgs e)
         {
-            leftPosition = Test(SelectReel.LEFT, role);
+            leftPosition = GetFarstReelPosition(SelectReel.LEFT, role);
 
 
             lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(SelectReel.LEFT);
