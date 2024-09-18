@@ -38,11 +38,14 @@ namespace GameMachine
         private void UserGameScreen_Load(object sender, EventArgs e)
         {
             //最初に表示される画像
-            slotView.initialPictureSet();
+            slotView.initialPictureSet(1,3,20);
         }
 
         //ストップの動作
-        private void stopBtns_Click(object sender, EventArgs e){ }
+        private void stopBtns_Click(object sender, EventArgs e)
+        {
+
+        }
 
         //スタートの動作
         private void btnStart_Click(object sender, EventArgs e)
@@ -56,6 +59,17 @@ namespace GameMachine
         {
             // SlotViewのタイマーイベントを呼び出す
             slotView.reelTimerTick(sender, e);
+        }
+
+        //ステータスをモデルに送信
+        private void reelStatusSet()
+        {
+
+        }
+
+        private void reelStatusGet()
+        {
+
         }
     }
 }

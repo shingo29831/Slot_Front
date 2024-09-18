@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace GameMachine
 {
@@ -36,91 +37,65 @@ namespace GameMachine
             reelTimer.Enabled = true;
         }
 
-        //配列ReelOrderに沿って表示 初期設定
-        public void initialPictureSet()
+        // ここでシンボルに対応する画像を管理してます
+        Dictionary<int, Image> symbolImages = new Dictionary<int, Image>
         {
-            for (int i=0; i<4; i++)
+            { 1, Properties.Resources.bell },
+            { 2, Properties.Resources.REPLAY },
+            { 3, Properties.Resources.watermelon },
+            { 4, Properties.Resources.cherry },
+            { 5, Properties.Resources.seven },
+            { 6, Properties.Resources.bar }
+        };
+
+        // リールのシンボルに対応する画像を設定する
+        private void SetReelImages(PictureBox[] reel, int[] order, int standardorder)
+        {
+            //修正しないとダメ！！
+            standardorder--;
+
+            for (int i = 0; i < reel.Length; i++)
             {
-                switch (leftOrder[i])
+                if (symbolImages.ContainsKey(order[standardorder]))
                 {
-                    case 1:
-                        leftReel[i].Image = Properties.Resources.bell;
-                        break;
-                    case 2:
-                        leftReel[i].Image = Properties.Resources.REPLAY;
-                        break;
-                    case 3:
-                        leftReel[i].Image = Properties.Resources.watermelon;
-                        break;
-                    case 4:
-                        leftReel[i].Image = Properties.Resources.cherry;
-                        break;
-                    case 5:
-                        leftReel[i].Image = Properties.Resources.seven;
-                        break;
-                    case 6:
-                        leftReel[i].Image = Properties.Resources.bar;
-                        break;
+                    reel[i].Image = symbolImages[order[standardorder]];
+                    //配列の最後尾の場合先頭に戻る　それ以外は加算
+                    if (standardorder==20)
+                    {
+                        standardorder = 0;
+                    }
+                    else
+                    {
+                        standardorder++;
+                    }
                 }
             }
-            for (int i = 0; i < 4; i++)
-            {
-                switch (centerOrder[i])
-                {
-                    case 1:
-                        centerReel[i].Image = Properties.Resources.bell;
-                        break;
-                    case 2:
-                        centerReel[i].Image = Properties.Resources.REPLAY;
-                        break;
-                    case 3:
-                        centerReel[i].Image = Properties.Resources.watermelon;
-                        break;
-                    case 4:
-                        centerReel[i].Image = Properties.Resources.cherry;
-                        break;
-                    case 5:
-                        centerReel[i].Image = Properties.Resources.seven;
-                        break;
-                    case 6:
-                        centerReel[i].Image = Properties.Resources.bar;
-                        break;
-                }
-            }
-            for (int i = 0; i < 4; i++)
-            {
-                switch (rightOrder[i])
-                {
-                    case 1:
-                        rightReel[i].Image = Properties.Resources.bell;
-                        break;
-                    case 2:
-                        rightReel[i].Image = Properties.Resources.REPLAY;
-                        break;
-                    case 3:
-                        rightReel[i].Image = Properties.Resources.watermelon;
-                        break;
-                    case 4:
-                        rightReel[i].Image = Properties.Resources.cherry;
-                        break;
-                    case 5:
-                        rightReel[i].Image = Properties.Resources.seven;
-                        break;
-                    case 6:
-                        rightReel[i].Image = Properties.Resources.bar;
-                        break;
-                }
-                leftcount = i;
-            }
-            leftcount++;
-            centercount = leftcount;
-            rightcount = centercount;
+        }
+
+        // 初期設定関数
+        public void initialPictureSet(int standardOrderLeft, int standardOrderCenter, int standardOrderRight)
+        {
+
+            leftcount = standardOrderLeft;
+            centercount = standardOrderCenter;
+            rightcount = standardOrderRight;
+
+            // 左リールの画像設定　Reel情報,Order情報,基準情報
+            SetReelImages(leftReel, leftOrder, leftcount);
+
+            // 中央リールの画像設定
+            SetReelImages(centerReel, centerOrder, centercount);
+
+            // 右リールの画像設定
+            SetReelImages(rightReel, rightOrder, rightcount);
         }
 
         //タイマーメソッド
         public void reelTimerTick(object sender, EventArgs e)
         {
+            //ここで速度調節できます
             int speed = 20;
+            //リール情報と速度
             MoveReel(leftReel, speed);
             MoveReel(centerReel, speed);
             MoveReel(rightReel, speed);
@@ -136,6 +111,7 @@ namespace GameMachine
             }
         }
 
+        //コード最適化　未　重複してるswitch文をなくす
         private void Position(PictureBox pb)
         {
             if (pb.Top > 580)
