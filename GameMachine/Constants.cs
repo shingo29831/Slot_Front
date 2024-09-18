@@ -1,6 +1,5 @@
-﻿
-
-using System;
+﻿using System;
+using static Constants.Symbol;
 
 public static class Constants
 {
@@ -17,9 +16,9 @@ public static class Constants
 
     public static class ReelOrder
     {
-        public static readonly int[] leftReelOrder = { Symbol.BELL, Symbol.REPLAY, Symbol.SEVEN, Symbol.BELL, Symbol.REPLAY, Symbol.WATERMELON, Symbol.BELL, Symbol.REPLAY, Symbol.BAR, Symbol.CHERRY, Symbol.WATERMELON, Symbol.BELL, Symbol.REPLAY, Symbol.WATERMELON, Symbol.SEVEN, Symbol.WATERMELON, Symbol.BELL, Symbol.REPLAY, Symbol.BAR, Symbol.CHERRY, Symbol.WATERMELON };
-        public static readonly int[] centerReelOrder = { Symbol.WATERMELON, Symbol.BELL, Symbol.SEVEN, Symbol.REPLAY, Symbol.WATERMELON, Symbol.CHERRY, Symbol.BELL, Symbol.BAR, Symbol.REPLAY, Symbol.BELL, Symbol.CHERRY, Symbol.REPLAY, Symbol.WATERMELON, Symbol.REPLAY, Symbol.BELL, Symbol.SEVEN, Symbol.REPLAY, Symbol.WATERMELON, Symbol.BELL, Symbol.CHERRY, Symbol.REPLAY };
-        public static readonly int[] rightReelOrder = { Symbol.REPLAY, Symbol.CHERRY, Symbol.BELL, Symbol.REPLAY, Symbol.BELL, Symbol.WATERMELON, Symbol.CHERRY, Symbol.REPLAY, Symbol.BELL, Symbol.BAR, Symbol.SEVEN, Symbol.REPLAY, Symbol.BELL, Symbol.WATERMELON, Symbol.CHERRY, Symbol.REPLAY, Symbol.BELL, Symbol.WATERMELON, Symbol.CHERRY, Symbol.REPLAY, Symbol.BELL };
+        public static readonly int[] leftReelOrder = { BELL, REPLAY, SEVEN, BELL, REPLAY, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON, BELL, REPLAY, WATERMELON, SEVEN, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON };
+        public static readonly int[] centerReelOrder = { WATERMELON, BELL, SEVEN, REPLAY, WATERMELON, CHERRY, BELL, BAR, REPLAY, BELL, CHERRY, REPLAY, WATERMELON, REPLAY, BELL, SEVEN, REPLAY, WATERMELON, BELL, CHERRY, REPLAY };
+        public static readonly int[] rightReelOrder = { REPLAY, CHERRY, BELL, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, BAR, SEVEN, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL };
     }
 
     public static class Role

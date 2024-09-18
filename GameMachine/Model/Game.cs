@@ -1,5 +1,8 @@
 ﻿using System;
 using static Constants;
+using static Constants.Symbol;
+using static Constants.Role;
+using static Model.Setting;
 
 
 //このクラスはゲームの内部処理を担当する
@@ -22,9 +25,6 @@ public class Game
     static int[] centerReel = { NONE, NONE, NONE };
     static int[] rightReel = { NONE, NONE, NONE };
 
-    const int TOP = 0;
-    const int MIDDLE = 1;
-    const int BOTTOM = 2;
 
     private static int nowLeftReel = 0;
     private static int nowCenterReel = 0;
@@ -162,8 +162,8 @@ public class Game
     {
         int bonus = 0;
         Random rnd = new Random();
-        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(Bonus.REGULAR);
-        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(Bonus.BIG);
+        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(REGULAR);
+        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(BIG);
         int sumWeight = regularProbabilityWeight + bigProbabilityWeight;
         int rndnum = rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
 
@@ -275,7 +275,7 @@ public class Game
         //現在のリールのポジションで下から上に7つを候補として代入
         for (int i = 0; i < symbolCandidate.Length; i++)
         {
-            if (reelOrder[searchReelPosition] == Symbol.CHERRY && isLeft && cherryFounded == false && (role < Role.WEAK_CHERRY || role > Role.VERY_STRONG_CHERRY))
+            if (reelOrder[searchReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
             {
                 cherryFounded = true; //チェリー発見フラグをtrue
                 maxExclusion = searchReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
@@ -301,14 +301,14 @@ public class Game
         {
             symbolsAccordingRole[0] = role;
         }
-        else if (role <= Role.OTHER_BONUS)
+        else if (role <= OTHER_BONUS)
         {
-            symbolsAccordingRole[0] = Symbol.CHERRY;
+            symbolsAccordingRole[0] = CHERRY;
         }
-        else if (role == Role.REGULAR || role == Role.BIG)
+        else if (role == REGULAR || role == BIG)
         {
-            symbolsAccordingRole[0] = Symbol.SEVEN;
-            symbolsAccordingRole[1] = Symbol.BAR;
+            symbolsAccordingRole[0] = SEVEN;
+            symbolsAccordingRole[1] = BAR;
             isBonus = true;
         }
 

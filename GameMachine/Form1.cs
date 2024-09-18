@@ -1,31 +1,20 @@
 using System;
-using Model;
+using static Model.Setting;
 using static Constants;
+using static Constants.Symbol;
+using static Constants.SelectReel;
 using static Model.Game;
+
 
 namespace GameMachine
 {
     public partial class Form1 : Form
     {
-        public static readonly int BELL = 1;
-        public static readonly int REPLAY = 2;
-        public static readonly int WATERMELON = 3;
-        public static readonly int CHERRY = 4;
-        public static readonly int REACH = 5;
-        public static readonly int REGULAR = 6;
-        public static readonly int BIG = 7;
+        int leftNowReelPosition = GetNowReelPosition(LEFT);
+        int[] leftReelOrder = GetReelOrder(LEFT);
+        int[] centerReelOrder = GetReelOrder(CENTER);
+        int[] rightReelOrder = GetReelOrder(RIGHT);
 
-        public static readonly int LEFT = 1;
-        public static readonly int CENTER = 2;
-        public static readonly int RIGHT = 3;
-
-
-        int leftNowReelPosition = GetNowReelPosition(SelectReel.LEFT);
-        int[] leftReelOrder = GetReelOrder(SelectReel.LEFT);
-        int[] centerReelOrder = GetReelOrder(SelectReel.CENTER);
-        int[] rightReelOrder = GetReelOrder(SelectReel.RIGHT);
-
-        //int[,] reachRows = new int[3, 2];
 
         int bonusState = NONE;
 
@@ -44,13 +33,13 @@ namespace GameMachine
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Setting.makeTableID();
-            txtbox1.Text = Setting.getTableID();
+            makeTableID();
+            txtbox1.Text = getTableID();
 
 
-            dispReelsSymbols(SelectReel.LEFT);
-            dispReelsSymbols(SelectReel.CENTER);
-            dispReelsSymbols(SelectReel.RIGHT);
+            dispReelsSymbols(LEFT);
+            dispReelsSymbols(CENTER);
+            dispReelsSymbols(RIGHT);
 
 
         }
@@ -61,7 +50,6 @@ namespace GameMachine
             if (stopBtnCount == 0)
             {
                 role = HitRoleLottery();
-                role = Role.BIG;
                 lblArray.Text = "ROLE:" + changeToName(role);
                 leftPosition = NONE;
                 centerPosition = NONE;
@@ -123,30 +111,30 @@ namespace GameMachine
             switch (selectReel)
             {
                 case 1:
-                    leftReelBot.Text = leftReelOrder[GetDispSymbol(SelectReel.LEFT, Position.BOTTOM)].ToString();
-                    leftReelMid.Text = leftReelOrder[GetDispSymbol(SelectReel.LEFT, Position.MIDDLE)].ToString();
-                    leftReelTop.Text = leftReelOrder[GetDispSymbol(SelectReel.LEFT, Position.TOP)].ToString();
+                    leftReelBot.Text = leftReelOrder[GetDispSymbol(LEFT, Position.BOTTOM)].ToString();
+                    leftReelMid.Text = leftReelOrder[GetDispSymbol(LEFT, Position.MIDDLE)].ToString();
+                    leftReelTop.Text = leftReelOrder[GetDispSymbol(LEFT, Position.TOP)].ToString();
                     break;
 
                 case 2:
-                    centerReelBot.Text = centerReelOrder[GetDispSymbol(SelectReel.CENTER, Position.BOTTOM)].ToString();
-                    centerReelMid.Text = centerReelOrder[GetDispSymbol(SelectReel.CENTER, Position.MIDDLE)].ToString();
-                    centerReelTop.Text = centerReelOrder[GetDispSymbol(SelectReel.CENTER, Position.TOP)].ToString();
+                    centerReelBot.Text = centerReelOrder[GetDispSymbol(CENTER, Position.BOTTOM)].ToString();
+                    centerReelMid.Text = centerReelOrder[GetDispSymbol(CENTER, Position.MIDDLE)].ToString();
+                    centerReelTop.Text = centerReelOrder[GetDispSymbol(CENTER, Position.TOP)].ToString();
                     break;
 
                 case 3:
-                    rightReelBot.Text = rightReelOrder[GetDispSymbol(SelectReel.RIGHT, Position.BOTTOM)].ToString();
-                    rightReelMid.Text = rightReelOrder[GetDispSymbol(SelectReel.RIGHT, Position.MIDDLE)].ToString();
-                    rightReelTop.Text = rightReelOrder[GetDispSymbol(SelectReel.RIGHT, Position.TOP)].ToString();
+                    rightReelBot.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.BOTTOM)].ToString();
+                    rightReelMid.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.MIDDLE)].ToString();
+                    rightReelTop.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.TOP)].ToString();
                     break;
             }
         }
 
         private void leftStop_Click(object sender, EventArgs e)
         {
-            leftPosition = GetFarstReelPosition(SelectReel.LEFT, role);
+            leftPosition = GetFarstReelPosition(LEFT, role);
 
-            lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(SelectReel.LEFT);
+            lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(LEFT);
             stopBtnCount++;
             if (stopBtnCount == 3)
             {
@@ -156,10 +144,10 @@ namespace GameMachine
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            centerPosition = GetFarstReelPosition(SelectReel.CENTER, role);
+            centerPosition = GetFarstReelPosition(CENTER, role);
 
 
-            lblArray.Text += "   CENTER:" + centerPosition.ToString() + " , " + GetNowReelPosition(SelectReel.CENTER);
+            lblArray.Text += "   CENTER:" + centerPosition.ToString() + " , " + GetNowReelPosition(CENTER);
             stopBtnCount++;
             if (stopBtnCount == 3)
             {
@@ -169,10 +157,10 @@ namespace GameMachine
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            rightPosition = GetFarstReelPosition(SelectReel.RIGHT, role);
+            rightPosition = GetFarstReelPosition(RIGHT, role);
 
 
-            lblArray.Text += "   RIGHT:" + rightPosition.ToString() + " , " + GetNowReelPosition(SelectReel.RIGHT);
+            lblArray.Text += "   RIGHT:" + rightPosition.ToString() + " , " + GetNowReelPosition(RIGHT);
             stopBtnCount++;
 
             if (stopBtnCount == 3)
@@ -185,15 +173,15 @@ namespace GameMachine
         {
             if (stopBtnCount < 3)
             {
-                UpReelPosition(SelectReel.LEFT, leftPosition);
-                dispReelsSymbols(SelectReel.LEFT);
+                UpReelPosition(LEFT, leftPosition);
+                dispReelsSymbols(LEFT);
 
 
-                UpReelPosition(SelectReel.CENTER, centerPosition);
-                dispReelsSymbols(SelectReel.CENTER);
+                UpReelPosition(CENTER, centerPosition);
+                dispReelsSymbols(CENTER);
 
-                UpReelPosition(SelectReel.RIGHT, rightPosition);
-                dispReelsSymbols(SelectReel.RIGHT);
+                UpReelPosition(RIGHT, rightPosition);
+                dispReelsSymbols(RIGHT);
             }
 
         }

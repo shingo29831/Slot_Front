@@ -89,7 +89,7 @@ public class Setting
     public static int getBonusProbability() {  return Setting.bonusProbability; }
 
 
-    public static void setBonusesProbabilityWeight(int bonus, int weight) { Setting.bonusesProbabilityWeight[bonus] = weight; }
+    public static void setBonusesProbabilityWeight(int bonus, int weight) { bonusesProbabilityWeight[bonus] = weight; }
     public static int getBonusesProbabilityWeight(int bonus) { return bonusesProbabilityWeight[bonus]; }
 
 
