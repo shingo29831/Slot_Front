@@ -61,21 +61,20 @@ namespace GameMachine
             if (stopBtnCount == 0)
             {
                 role = HitRoleLottery();
+                role = Role.BIG;
                 lblArray.Text = "ROLE:" + changeToName(role);
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
             }
-
+            
 
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            
 
         }
 
@@ -106,6 +105,12 @@ namespace GameMachine
                     value = "VERY_STRONG_CHERRY";
                     break;
                 case 7:
+                    value = "REACH";
+                    break;
+                case 8:
+                    value = "REG";
+                    break;
+                case 9:
                     value = "BIG";
                     break;
             }
@@ -140,7 +145,6 @@ namespace GameMachine
         private void leftStop_Click(object sender, EventArgs e)
         {
             leftPosition = GetFarstReelPosition(SelectReel.LEFT, role);
-
 
             lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(SelectReel.LEFT);
             stopBtnCount++;
