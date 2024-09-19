@@ -1,8 +1,6 @@
 ﻿using System;
 using static Constants.Symbol;
 
-
-//定数クラス
 public static class Constants
 {
     public static readonly int NONE = -1;

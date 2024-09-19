@@ -4,7 +4,7 @@ using static Constants.Symbol;
 using static Constants.Role;
 using static Model.Setting;
 
-//rebaseテスト
+
 //このクラスはゲームの内部処理を担当する
 namespace Model;
 public class Game 
@@ -391,19 +391,24 @@ public class Game
 
 
 
-    //途中書き
+
+
     public static int GetSecondReelPosition(int firstReel,int selectReel, int role)
     {
-        int nowReelPosition = GetNowReelPosition(selectReel);
+        int nowFirstReelPosition = GetNowReelPosition(firstReel);
+        int nowSecondReelPosition = GetNowReelPosition (selectReel);
+
         int reelPosition = NONE;
         int[] reelOrder = GetReelOrder(selectReel); //選択されたリールのシンボル配列を参照渡しする
-        int[] symbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
+        int[] firstSymbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
+        int[] secondSymbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
         int[] symbolsAccordingRole = { NONE, NONE }; //roleを達成できるシンボルを格納する
         int[] stopCandidate = { NONE, NONE }; //roleを達成できるシンボルの位置を格納する 要素番号１はREGとBIGで7とBARで使用
-        int searchReelPosition = nowReelPosition;
+        int searchReelPosition = nowFirstReelPosition;
+        int searchSecondReelPosition = nowSecondReelPosition;
 
         int maxExclusion = NONE; //除外範囲の最大値を-1(リールより小さい値)に設定
-        int minExclusion = 21; //除外範囲の最小値をリールより大きい値に設定
+        int minExclusion = 21; //除外範囲の最小値をリールより大きい値に設定 
 
         int oneBeforePosition = NONE;
         int twoBeforePosition = NONE;
@@ -413,6 +418,8 @@ public class Game
         bool isPositionFounded = false;
         bool isBonus = false;
 
+
+
         Random rnd = new Random();
 
         if (selectReel == LEFT)
@@ -421,7 +428,7 @@ public class Game
         }
 
         //現在のリールのポジションで下から上に7つを候補として代入
-        for (int i = 0; i < symbolCandidate.Length; i++)
+        for (int i = 0; i < secondSymbolCandidate.Length; i++)
         {
             if (reelOrder[searchReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
             {
@@ -429,9 +436,25 @@ public class Game
                 maxExclusion = searchReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
                 minExclusion = CalcReelPosition(searchReelPosition, -2); //チェリーシンボルから2つ下を候補除外範囲の最小値として代入
             }
-            symbolCandidate[i] = searchReelPosition;
+            secondSymbolCandidate[i] = searchReelPosition;
             searchReelPosition = CalcReelPosition(searchReelPosition, 1);
         }
+
+
+        for (int i = 0; i < firstSymbolCandidate.Length; i++)
+        {
+            if (reelOrder[searchSecondReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
+            {
+                cherryFounded = true; //チェリー発見フラグをtrue
+                maxExclusion = searchSecondReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
+                minExclusion = CalcReelPosition(searchSecondReelPosition, -2); //チェリーシンボルから2つ下を候補除外範囲の最小値として代入
+            }
+            firstSymbolCandidate[i] = searchSecondReelPosition;
+            searchSecondReelPosition = CalcReelPosition(searchSecondReelPosition, 1);
+        }
+
+
+
 
 
 
@@ -464,16 +487,16 @@ public class Game
 
 
         //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
-        for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
+        for (int j = secondSymbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
         {
-            if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
-            (isBonus || (symbolCandidate[j] > maxExclusion || symbolCandidate[j] < minExclusion))) //役がBIGまたはREGの時、または除外範囲外であるか比較
+            if (reelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
+            (isBonus || (secondSymbolCandidate[j] > maxExclusion || secondSymbolCandidate[j] < minExclusion))) //役がBIGまたはREGの時、または除外範囲外であるか比較
             {
-                stopCandidate[0] = symbolCandidate[j]; //停止候補に代入
+                stopCandidate[0] = secondSymbolCandidate[j]; //停止候補に代入
             }
-            else if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
+            else if (reelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
             {
-                stopCandidate[1] = symbolCandidate[j];
+                stopCandidate[1] = secondSymbolCandidate[j];
             }
         }
 
@@ -486,20 +509,20 @@ public class Game
 
         for (int i = 0; i <= 3 && isPositionFounded == false; i++)
         {
-            if ((CalcReelPosition(nowReelPosition, i) > maxExclusion || CalcReelPosition(nowReelPosition, i) < minExclusion)) //押下した時点から+0～3の地点が除外範囲外の時
+            if ((CalcReelPosition(nowFirstReelPosition, i) > maxExclusion || CalcReelPosition(nowFirstReelPosition, i) < minExclusion)) //押下した時点から+0～3の地点が除外範囲外の時
             {
-                reelPosition = CalcReelPosition(nowReelPosition, i);
+                reelPosition = CalcReelPosition(nowFirstReelPosition, i);
                 isPositionFounded = true;
             }
         }
 
-        if (stopCandidate[0] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[0] != NONE && //移動先がもっとも遠く第1候補がある時
+        if (stopCandidate[0] == CalcReelPosition(nowFirstReelPosition, 6) && stopCandidate[0] != NONE && //移動先がもっとも遠く第1候補がある時
             (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
             (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
         {
             reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す    
         }
-        else if (stopCandidate[0] != nowReelPosition && stopCandidate[0] != NONE && //移動前と移動先のリール位置が不一致で、第1候補がある時
+        else if (stopCandidate[0] != nowFirstReelPosition && stopCandidate[0] != NONE && //移動前と移動先のリール位置が不一致で、第1候補がある時
             (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
         {
             reelPosition = oneBeforePosition;
@@ -511,7 +534,7 @@ public class Game
 
             reelPosition = stopCandidate[0];
         }
-        else if (stopCandidate[1] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[1] != NONE && //移動先がもっとも遠く第2候補がある時
+        else if (stopCandidate[1] == CalcReelPosition(nowFirstReelPosition, 6) && stopCandidate[1] != NONE && //移動先がもっとも遠く第2候補がある時
             (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
             (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
         {
@@ -519,7 +542,7 @@ public class Game
             reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
 
         }
-        else if (stopCandidate[1] != nowReelPosition && stopCandidate[0] != NONE && stopCandidate[1] != NONE && //移動前と移動先のリール位置が不一致で、第2候補がある時
+        else if (stopCandidate[1] != nowFirstReelPosition && stopCandidate[0] != NONE && stopCandidate[1] != NONE && //移動前と移動先のリール位置が不一致で、第2候補がある時
             (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
         {
             reelPosition = oneBeforePosition;
@@ -536,8 +559,6 @@ public class Game
 
         return reelPosition;
     }
-
-
 
 
 

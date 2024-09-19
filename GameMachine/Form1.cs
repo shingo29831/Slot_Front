@@ -1,114 +1,191 @@
-using GameMachine.InitialSettingView;
 using System;
-using System.Windows.Forms;
+using static Model.Setting;
+using static Constants;
+using static Constants.Symbol;
+using static Constants.SelectReel;
+using static Model.Game;
+
 
 namespace GameMachine
 {
     public partial class Form1 : Form
     {
-        private SelectionController userSelectionScren; // フィールドとして定義
-        private SlotController userGameScreen;         // フィールドとして定義
-        private AccountLinkingController accountLinkingScreen; //定義
-        private CounterController counterDisplay;         // フィールドとして定義
-        private CreditController creditDisplay;
+        int leftNowReelPosition = GetNowReelPosition(LEFT);
+        int[] leftReelOrder = GetReelOrder(LEFT);
+        int[] centerReelOrder = GetReelOrder(CENTER);
+        int[] rightReelOrder = GetReelOrder(RIGHT);
 
+
+        int bonusState = NONE;
+
+        int role = NONE;
+        int leftPosition = NONE;
+        int centerPosition = NONE;
+        int rightPosition = NONE;
+
+        int stopBtnCount = 0;
+
+        String uniqueID = "";
         public Form1()
         {
             InitializeComponent();
-            // 起動時フルスクリーン
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
-
-            // キーイベントをすべてのフォームで受け取る処理
-            this.KeyPreview = true;
-
-#nullable disable
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // ユーザーコントロールをインスタンス化
-            counterDisplay = new CounterController();
-            userSelectionScren = new SelectionController();
-            userGameScreen = new SlotController();
-            accountLinkingScreen = new AccountLinkingController();
-            creditDisplay = new CreditController();
+            makeTableID();
+            txtbox1.Text = getTableID();
 
-            // counterDisplay のサイズや位置を設定
-            counterDisplay.Size = new Size(1920, 1080);
-            counterDisplay.Location = new Point(0, 0);
 
-            // userSelectionScren のサイズや位置を設定
-            userSelectionScren.Size = new Size(1275, 700);
-            userSelectionScren.Location = new Point(325, 200);
+            dispReelsSymbols(LEFT);
+            dispReelsSymbols(CENTER);
+            dispReelsSymbols(RIGHT);
 
-            // userGameScreen のサイズや位置を設定
-            userGameScreen.Size = new Size(1275, 875);
-            userGameScreen.Location = new Point(325, 200);
 
-            // accountLinkingScreen のサイズや位置を設定
-            accountLinkingScreen.Size = new Size(1275, 875);
-            accountLinkingScreen.Location = new Point(325, 200);
-
-            // creditDisplayn のサイズや位置を設定
-            creditDisplay.Size = new Size(1275, 175);
-            creditDisplay.Location = new Point(325, 900);
-
-            // フォームに追加
-            this.Controls.Add(counterDisplay);
-            this.Controls.Add(userSelectionScren);
-
-            userSelectionScren.BringToFront(); // 初期表示は userSelectionScren
         }
 
-        public void ShowUserGameScreen()
-        {
-            // UserSelectionScren を非表示にして UserGameScreen と　creditDisplayを表示する
-            this.Controls.Remove(userSelectionScren);
-            this.Controls.Add(userGameScreen);
-            this.Controls.Add(creditDisplay);
-            userGameScreen.BringToFront();
-            creditDisplay.BringToFront();
-        }
 
-        public void ShowUserSelectionScren()
+        private void button1_Click(object sender, EventArgs e)
         {
-            // UserGameScreen を非表示にして UserSelectionScren を表示する
-            if (accountLinkingScreen.Visible)
+            if (stopBtnCount == 0)
             {
-                // userScreen1 が表示されている場合の処理
-                this.Controls.Remove(accountLinkingScreen);
-                this.Controls.Add(userSelectionScren);
-                userSelectionScren.BringToFront();
+                role = HitRoleLottery();
+                lblArray.Text = "ROLE:" + changeToName(role);
+                leftPosition = NONE;
+                centerPosition = NONE;
+                rightPosition = NONE;
+                timer1.Enabled = true;
             }
-            else if (userGameScreen.Visible)
+            
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private String changeToName(int roleNum)
+        {
+            String value = "";
+            switch (roleNum)
             {
-                // userScreen2 が表示されている場合の処理
-                this.Controls.Remove(userGameScreen);
-                this.Controls.Add(userSelectionScren);
-                userSelectionScren.BringToFront();
+                case 0:
+                    value = "NONE";
+                    break;
+                case 1:
+                    value = "BELL";
+                    break;
+                case 2:
+                    value = "REPLAY";
+                    break;
+                case 3:
+                    value = "WATERMELON";
+                    break;
+                case 4:
+                    value = "WEAK_CHERRY";
+                    break;
+                case 5:
+                    value = "STRONG_CHERRY";
+                    break;
+                case 6:
+                    value = "VERY_STRONG_CHERRY";
+                    break;
+                case 7:
+                    value = "REACH";
+                    break;
+                case 8:
+                    value = "REG";
+                    break;
+                case 9:
+                    value = "BIG";
+                    break;
+            }
+            return value;
+        }
+
+        //定数で選択
+        private void dispReelsSymbols(int selectReel)
+        {
+            switch (selectReel)
+            {
+                case 1:
+                    leftReelBot.Text = leftReelOrder[GetDispSymbol(LEFT, Position.BOTTOM)].ToString();
+                    leftReelMid.Text = leftReelOrder[GetDispSymbol(LEFT, Position.MIDDLE)].ToString();
+                    leftReelTop.Text = leftReelOrder[GetDispSymbol(LEFT, Position.TOP)].ToString();
+                    break;
+
+                case 2:
+                    centerReelBot.Text = centerReelOrder[GetDispSymbol(CENTER, Position.BOTTOM)].ToString();
+                    centerReelMid.Text = centerReelOrder[GetDispSymbol(CENTER, Position.MIDDLE)].ToString();
+                    centerReelTop.Text = centerReelOrder[GetDispSymbol(CENTER, Position.TOP)].ToString();
+                    break;
+
+                case 3:
+                    rightReelBot.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.BOTTOM)].ToString();
+                    rightReelMid.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.MIDDLE)].ToString();
+                    rightReelTop.Text = rightReelOrder[GetDispSymbol(RIGHT, Position.TOP)].ToString();
+                    break;
             }
         }
 
-        public void ShowAccountLinkingScreen()
+        private void leftStop_Click(object sender, EventArgs e)
         {
-            //UserSelectionScren を非表示にして AccountLinkingScreen を表示する
-            this.Controls.Remove(userSelectionScren);
-            this.Controls.Add(accountLinkingScreen);
-            accountLinkingScreen.BringToFront();
-        }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            // アプリケーション終了処理
-            if (e.KeyCode == Keys.Escape)
+            leftPosition = GetFirstReelPosition(LEFT, role);
+
+            lblArray.Text += "   LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(LEFT);
+            stopBtnCount++;
+            if (stopBtnCount == 3)
             {
-                DialogResult result = MessageBox.Show("アプリケーションを終了しますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close();
-                }
+                stopBtnCount = 0;
             }
         }
+
+        private void centerStop_Click(object sender, EventArgs e)
+        {
+            centerPosition = GetFirstReelPosition(CENTER, role);
+
+
+            lblArray.Text += "   CENTER:" + centerPosition.ToString() + " , " + GetNowReelPosition(CENTER);
+            stopBtnCount++;
+            if (stopBtnCount == 3)
+            {
+                stopBtnCount = 0;
+            }
+        }
+
+        private void rightStop_Click(object sender, EventArgs e)
+        {
+            rightPosition = GetFirstReelPosition(RIGHT, role);
+
+
+            lblArray.Text += "   RIGHT:" + rightPosition.ToString() + " , " + GetNowReelPosition(RIGHT);
+            stopBtnCount++;
+
+            if (stopBtnCount == 3)
+            {
+                stopBtnCount = 0;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (stopBtnCount < 3)
+            {
+                UpReelPosition(LEFT, leftPosition);
+                dispReelsSymbols(LEFT);
+
+
+                UpReelPosition(CENTER, centerPosition);
+                dispReelsSymbols(CENTER);
+
+                UpReelPosition(RIGHT, rightPosition);
+                dispReelsSymbols(RIGHT);
+            }
+
+        }
+
+        
     }
 }
