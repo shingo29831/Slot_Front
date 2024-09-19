@@ -244,7 +244,7 @@ public class Game
     //第2引数には決まった役（ロール）
     //処理内容にはリーチの行の把握とレギュラーボーナス時にはBARと7がどこにあるか把握する必要もあり
     //一つ目のリールの処理
-    public static int GetFarstReelPosition(int selectReel, int role)
+    public static int GetFirstReelPosition(int selectReel, int role)
     {
         int nowReelPosition = GetNowReelPosition(selectReel);
         int reelPosition = NONE;
