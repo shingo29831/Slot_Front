@@ -4,7 +4,7 @@ using static Constants.Symbol;
 using static Constants.Role;
 using static Model.Setting;
 
-
+//rebaseテスト
 //このクラスはゲームの内部処理を担当する
 namespace Model;
 public class Game 
