@@ -50,6 +50,7 @@ namespace GameMachine
             if (stopBtnCount == 0)
             {
                 role = HitRoleLottery();
+                role = Role.STRONG_CHERRY;
                 lblArray.Text = "ROLE:" + changeToName(role);
                 leftPosition = NONE;
                 centerPosition = NONE;

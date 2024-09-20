@@ -262,14 +262,27 @@ public class Game
 
         bool cherryFounded = false;
         bool isLeft = false;
+        bool isCenter = false;
+        bool isRight = false;
         bool isPositionFounded = false;
         bool isBonus = false;
+
+        bool isExcludeOneBefore = false;
+        bool isExcludeTwoBefore = false;
 
         Random rnd = new Random();
 
         if (selectReel == LEFT)
         {
             isLeft = true; //レフトリールフラグをtrue
+        }
+        else if(selectReel == CENTER)
+        {
+            isCenter = true;
+        }
+        else if (selectReel == RIGHT)
+        {
+            isRight = true; //ライトリールフラグをtrue
         }
 
         //現在のリールのポジションで下から上に7つを候補として代入
@@ -316,16 +329,16 @@ public class Game
 
 
         //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
-        for (int j = symbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
+        for (int i = symbolCandidate.Length - 1; i >= 0; i--) //候補となるシンボルの数実行、現在位置から遠い順
         {
-            if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
-            (isBonus || (symbolCandidate[j] > maxExclusion || symbolCandidate[j] < minExclusion))) //役がBIGまたはREGの時、または除外範囲外であるか比較
+            if (reelOrder[symbolCandidate[i]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
+            (isBonus || (symbolCandidate[i] > maxExclusion || symbolCandidate[i] < minExclusion))) //役がBIGまたはREGの時、または除外範囲外であるか比較
             {
-                stopCandidate[0] = symbolCandidate[j]; //停止候補に代入
+                stopCandidate[0] = symbolCandidate[i]; //停止候補に代入
             }
-            else if (reelOrder[symbolCandidate[j]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
+            else if (reelOrder[symbolCandidate[i]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
             {
-                stopCandidate[1] = symbolCandidate[j];
+                stopCandidate[1] = symbolCandidate[i];
             }
         }
 
@@ -334,6 +347,16 @@ public class Game
             oneBeforePosition = CalcReelPosition(stopCandidate[0], -1); //ひとつ前のポジションを代入
             twoBeforePosition = CalcReelPosition(stopCandidate[0], -2); //ふたつ前のポジションを代入
         }
+
+        if(oneBeforePosition <= maxExclusion && oneBeforePosition >= minExclusion) //第一候補の1つ前の地点が除外範囲か判定
+        {
+            isExcludeOneBefore = true;
+        }
+        if (twoBeforePosition <= maxExclusion && twoBeforePosition >= minExclusion) //第一候補の2つ前の地点が除外範囲か判定
+        {
+            isExcludeTwoBefore = true;
+        }
+
 
 
         for (int i = 0; i <= 3 && isPositionFounded == false; i++)
@@ -345,16 +368,19 @@ public class Game
             }
         }
 
-        if (stopCandidate[0] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[0] != NONE && //移動先がもっとも遠く第1候補がある時
-            (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
-            (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
+
+
+        if (stopCandidate[0] != NONE && //第一候補があり
+            (stopCandidate[0] == CalcReelPosition(nowReelPosition, 6) || ((isLeft || isRight) && role == STRONG_CHERRY && stopCandidate[0] == CalcReelPosition(nowReelPosition, 5))) && //移動先が6つ先、または左リールか右リールの時に強チェリー役で移動先が5つ先の時
+            isExcludeOneBefore == false && isExcludeTwoBefore == false ) //一つ前と二つ前の位置が除外範囲でない時
         {
-            reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す    
+            reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように停止位置を2つ戻す    
         }
-        else if (stopCandidate[0] != nowReelPosition && stopCandidate[0] != NONE && //移動前と移動先のリール位置が不一致で、第1候補がある時
-            (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
+        else if (stopCandidate[0] != NONE && stopCandidate[0] != nowReelPosition && //第1候補があり、移動前と移動先のリール位置が不一致
+            isExcludeOneBefore == false && //またひとつ前が除外範囲でない時
+            (isCenter && role == STRONG_CHERRY)) //中央リールで強チェリー役の時は除外
         {
-            reelPosition = oneBeforePosition;
+            reelPosition = oneBeforePosition; //目的のシンボルが中央に来るように停止位置を1つ戻す
 
         }
         else if (stopCandidate[0] != NONE &&
@@ -364,15 +390,14 @@ public class Game
             reelPosition = stopCandidate[0];
         }
         else if (stopCandidate[1] == CalcReelPosition(nowReelPosition, 6) && stopCandidate[1] != NONE && //移動先がもっとも遠く第2候補がある時
-            (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion) &&
-            (twoBeforePosition > maxExclusion || twoBeforePosition < minExclusion)) //一つ前と二つ前の位置が除外範囲外の時
+            isExcludeOneBefore == false && isExcludeTwoBefore) //一つ前と二つ前の位置が除外範囲外の時
         {
 
             reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように止まり先を2つ戻す
 
         }
         else if (stopCandidate[1] != nowReelPosition && stopCandidate[0] != NONE && stopCandidate[1] != NONE && //移動前と移動先のリール位置が不一致で、第2候補がある時
-            (oneBeforePosition > maxExclusion || oneBeforePosition < minExclusion)) //またひとつ前が除外範囲外の時
+            isExcludeOneBefore == false) //またひとつ前が除外範囲外の時
         {
             reelPosition = oneBeforePosition;
         }
@@ -560,6 +585,34 @@ public class Game
         return reelPosition;
     }
 
+
+
+    private static bool ExclusionRangeDetermination(int maxExclusion, int minExclusion, int referencePosition, int range)
+    {
+        bool isExclusionRange = false;
+
+        int absoluteRange = 0;
+        int searchPosition = referencePosition;
+        int add = 1;
+
+        if(range < 0) 
+        { 
+            absoluteRange = range * -1;
+            add = -1;
+        }
+
+        for(int  i = 0; i <= absoluteRange && isExclusionRange == false; i++)
+        {
+            if (searchPosition <= maxExclusion && searchPosition >= minExclusion)
+            {
+                isExclusionRange = true;
+            }
+            searchPosition = CalcReelPosition(searchPosition,add);
+        }
+
+
+        return isExclusionRange;
+    }
 
 
     //書き途中
