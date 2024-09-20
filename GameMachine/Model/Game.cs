@@ -399,7 +399,7 @@ public class Game
         int nowSecondReelPosition = GetNowReelPosition (selectReel);
 
         int reelPosition = NONE;
-        int[] reelOrder = GetReelOrder(selectReel); //選択されたリールのシンボル配列を参照渡しする
+        int[] selectReelOrder = GetReelOrder(selectReel); //選択されたリールのシンボル配列を参照渡しする
         int[] firstSymbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
         int[] secondSymbolCandidate = { NONE, NONE, NONE, NONE, NONE, NONE, NONE }; //ストップボタンを押した時点で表示する滑り4つ含めた候補を要素番号で
         int[] symbolsAccordingRole = { NONE, NONE }; //roleを達成できるシンボルを格納する
@@ -430,7 +430,7 @@ public class Game
         //現在のリールのポジションで下から上に7つを候補として代入
         for (int i = 0; i < secondSymbolCandidate.Length; i++)
         {
-            if (reelOrder[searchReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
+            if (selectReelOrder[searchReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
             {
                 cherryFounded = true; //チェリー発見フラグをtrue
                 maxExclusion = searchReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
@@ -443,7 +443,7 @@ public class Game
 
         for (int i = 0; i < firstSymbolCandidate.Length; i++)
         {
-            if (reelOrder[searchSecondReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
+            if (selectReelOrder[searchSecondReelPosition] == CHERRY && isLeft && cherryFounded == false && (role < WEAK_CHERRY || role > VERY_STRONG_CHERRY))
             {
                 cherryFounded = true; //チェリー発見フラグをtrue
                 maxExclusion = searchSecondReelPosition; //チェリーシンボルがある位置を候補除外範囲の最大値として代入
@@ -489,12 +489,12 @@ public class Game
         //REGとBIGの場合7は即代入7が来なかった場合は7を返す、他の役は即代入
         for (int j = secondSymbolCandidate.Length - 1; j >= 0; j--) //候補となるシンボルの数実行、現在位置から遠い順
         {
-            if (reelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
+            if (selectReelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[0] && //止まり先候補のシンボルとロールを成立させるシンボルを比較
             (isBonus || (secondSymbolCandidate[j] > maxExclusion || secondSymbolCandidate[j] < minExclusion))) //役がBIGまたはREGの時、または除外範囲外であるか比較
             {
                 stopCandidate[0] = secondSymbolCandidate[j]; //停止候補に代入
             }
-            else if (reelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
+            else if (selectReelOrder[secondSymbolCandidate[j]] == symbolsAccordingRole[1] && isBonus)//止まり先候補のシンボルとロールを成立させるシンボルを比較、また役がBIGまたはREGの時
             {
                 stopCandidate[1] = secondSymbolCandidate[j];
             }
