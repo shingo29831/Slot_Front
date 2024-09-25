@@ -1,6 +1,6 @@
 ﻿namespace GameMachine
 {
-    partial class Form1
+    partial class StartUp
     {
         /// <summary>
         ///  Required designer variable.

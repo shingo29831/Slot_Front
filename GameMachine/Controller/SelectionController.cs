@@ -20,7 +20,7 @@ namespace GameMachine
         //アカウント
         private void selectAccountPlay_Click(object sender, EventArgs e)
         {
-            var mainForm = this.Parent as Form1;
+            var mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
                 mainForm.ShowAccountLinkingScreen();
@@ -30,7 +30,7 @@ namespace GameMachine
         //ゲストプレイ
         private void selectGustPlay_Click(object sender, EventArgs e)
         {
-            var mainForm = this.Parent as Form1;
+            var mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
                 mainForm.ShowUserGameScreen();

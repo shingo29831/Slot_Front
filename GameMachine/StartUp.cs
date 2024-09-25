@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GameMachine
 {
-    public partial class Form1 : Form
+    public partial class StartUp : Form
     {
         private SelectionController userSelectionScren; // フィールドとして定義
         private SlotController userGameScreen;         // フィールドとして定義
@@ -12,7 +12,7 @@ namespace GameMachine
         private CounterController counterDisplay;         // フィールドとして定義
         private CreditController creditDisplay;
 
-        public Form1()
+        public StartUp()
         {
             InitializeComponent();
             // 起動時フルスクリーン

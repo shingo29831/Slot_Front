@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using GameMachine.FakeModel;
 
 namespace GameMachine
 {
@@ -17,9 +16,9 @@ namespace GameMachine
         private SlotView slotView;
 
         //データ取得
-        int[] leftReelOrder = SlotModel.leftReelOrder;
-        int[] centerReelOrder = SlotModel.centerReelOrder;
-        int[] rightReelOrder = SlotModel.rightReelOrder;
+        int[] leftReelOrder = BusinessLogic.leftReelOrder;
+        int[] centerReelOrder = BusinessLogic.centerReelOrder;
+        int[] rightReelOrder = BusinessLogic.rightReelOrder;
 
         public SlotController()
         {
@@ -41,10 +40,21 @@ namespace GameMachine
             slotView.initialPictureSet(1,3,20);
         }
 
-        //ストップの動作
+        //リールストップの動作
         private void stopBtns_Click(object sender, EventArgs e)
         {
-
+            if (sender == btnstop1)
+            {
+                slotView.StopLeftReel();
+            }
+            else if (sender == btnstop2)
+            {
+                slotView.StopCenterReel();
+            }
+            else if (sender == btnstop3)
+            {
+                slotView.StopRightReel();
+            }
         }
 
         //スタートの動作

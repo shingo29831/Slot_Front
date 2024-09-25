@@ -24,7 +24,7 @@ namespace GameMachine.InitialSettingView
 
         private void RegistrationBtn_Click(object sender, EventArgs e)
         {
-            var mainForm = this.Parent as Form1;
+            var mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
                 mainForm.ShowUserSelectionScren();

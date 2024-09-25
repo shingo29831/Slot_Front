@@ -9,12 +9,18 @@ namespace GameMachine
     {
         private System.Windows.Forms.Timer reelTimer; // ここで明示的に指定
 
+        private bool leftReelStop = false;
+        private bool centerReelStop = false;
+        private bool rightReelStop = false;
+
         public static int[] leftOrder;
         public static int[] centerOrder;
         public static int[] rightOrder;
+
         public int leftcount = 0;
         public int centercount = 0;
         public int rightcount = 0;
+
         private PictureBox[] leftReel;
         private PictureBox[] centerReel;
         private PictureBox[] rightReel;
@@ -31,10 +37,29 @@ namespace GameMachine
             rightOrder = rightorder;//右リールのパターン
         }
 
-        //タイマーメソッド　スタート
+        //タイマー 　回転スタート
         public void Start()
         {
             reelTimer.Enabled = true;
+            leftReelStop = false;
+            centerReelStop = false;
+            rightReelStop = false;
+        }
+
+        // リールの停止
+        public void StopLeftReel()
+        {
+            leftReelStop = true;
+        }
+
+        public void StopCenterReel()
+        {
+            centerReelStop = true;
+        }
+
+        public void StopRightReel()
+        {
+            rightReelStop = true;
         }
 
         // ここでシンボルに対応する画像を管理してます
@@ -96,9 +121,21 @@ namespace GameMachine
             //ここで速度調節できます
             int speed = 20;
             //リール情報と速度
-            MoveReel(leftReel, speed);
-            MoveReel(centerReel, speed);
-            MoveReel(rightReel, speed);
+            if (!leftReelStop)
+            {
+                MoveReel(leftReel, speed);
+            }
+
+            if (!centerReelStop)
+            {
+                MoveReel(centerReel, speed);
+            }
+
+            if (!rightReelStop)
+            {
+                MoveReel(rightReel, speed);
+            }
+           
         }
 
         //リールを動かす
@@ -225,6 +262,11 @@ namespace GameMachine
                 rightcount = 0;
             }
 
+
+        }
+        //リールのストップ位置補正
+        public void stopCorrection()
+        {
 
         }
     }
