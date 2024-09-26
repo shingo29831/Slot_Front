@@ -276,7 +276,7 @@ public class Game
         {
             isLeft = true; //レフトリールフラグをtrue
         }
-        else if(selectReel == CENTER)
+        else if (selectReel == CENTER)
         {
             isCenter = true;
         }
@@ -310,9 +310,13 @@ public class Game
 
 
         //役を成立させるシンボルを代入、4以下(ボーナス以外)のロールはそのままシンボルとして代入、強・最強チェリーはCHERRYを代入REGとBIGは7と第二候補としてBARを代入
-        if (role <= 4)
+        if (role <= 3)
         {
             symbolsAccordingRole[0] = role;
+        }
+        else if (isLeft == false && role == WEAK_CHERRY)
+        {
+            symbolsAccordingRole[0] = NONE;
         }
         else if (role <= OTHER_BONUS)
         {
@@ -348,7 +352,7 @@ public class Game
             twoBeforePosition = CalcReelPosition(stopCandidate[0], -2); //ふたつ前のポジションを代入
         }
 
-        if(oneBeforePosition <= maxExclusion && oneBeforePosition >= minExclusion) //第一候補の1つ前の地点が除外範囲か判定
+        if (oneBeforePosition <= maxExclusion && oneBeforePosition >= minExclusion) //第一候補の1つ前の地点が除外範囲か判定
         {
             isExcludeOneBefore = true;
         }
@@ -372,13 +376,15 @@ public class Game
 
         if (stopCandidate[0] != NONE && //第一候補があり
             (stopCandidate[0] == CalcReelPosition(nowReelPosition, 6) || ((isLeft || isRight) && role == STRONG_CHERRY && stopCandidate[0] == CalcReelPosition(nowReelPosition, 5))) && //移動先が6つ先、または左リールか右リールの時に強チェリー役で移動先が5つ先の時
-            isExcludeOneBefore == false && isExcludeTwoBefore == false ) //一つ前と二つ前の位置が除外範囲でない時
+            isExcludeOneBefore == false && isExcludeTwoBefore == false) //一つ前と二つ前の位置が除外範囲でない時
         {
             reelPosition = twoBeforePosition; //選択されたシンボルが候補のなかでもっとも遠い時、目的のシンボルが中央に来ないように停止位置を2つ戻す    
         }
         else if (stopCandidate[0] != NONE && stopCandidate[0] != nowReelPosition && //第1候補があり、移動前と移動先のリール位置が不一致
             isExcludeOneBefore == false && //またひとつ前が除外範囲でない時
-            (isCenter && role == STRONG_CHERRY)) //中央リールで強チェリー役の時は除外
+            ((role != WEAK_CHERRY && role != STRONG_CHERRY) || //弱チェリーと強チェリーの時以外
+            (isLeft && role == WEAK_CHERRY) || //または、左リールは弱チェリーの時は有効
+            (isCenter && role == STRONG_CHERRY))) //または。中央リールで強チェリー役の時は除外
         {
             reelPosition = oneBeforePosition; //目的のシンボルが中央に来るように停止位置を1つ戻す
 
