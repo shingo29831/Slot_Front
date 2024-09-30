@@ -62,5 +62,12 @@ public static class Constants
         public static readonly int MIDDLE = 1;
         public static readonly int BOTTOM = 0;
     }
+
+    public enum Reels : short
+    {
+        LEFT = 0,
+        CENTER = 1,
+        RIGHT = 2,
+    }
 }
 

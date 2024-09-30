@@ -7,6 +7,9 @@ using static Model.Setting;
 
 //このクラスはゲームの内部処理を担当する
 namespace Model;
+
+
+
 public class Game 
 {
     static bool leftReelbtn = false;
@@ -30,10 +33,16 @@ public class Game
     private static int nowCenterReel = 0;
     private static int nowRightReel = 0;
 
+    private static bool leftReelMoving = true;
+    private static bool centerReelMoving = true;
+    private static bool rightReelMoving = true;
 
-    const int LEFT = 1;
-    const int CENTER = 2;
-    const int RIGHT = 3;
+    //reachRowsはリーチとなる場所を3次元配列で格納する各リールのポジション(上・中・下)に二つまでの入ったら役が成立するシンボルを代入する
+    private int[,,] reachPositions = { { {NONE,NONE }, {NONE,NONE }, {NONE,NONE } }, //左リール : 0
+                                  { {NONE,NONE }, {NONE,NONE }, {NONE,NONE } }, //中央リール : 1
+                                  { {NONE,NONE }, {NONE,NONE }, {NONE,NONE } } }; //右リール : 2
+
+
 
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
@@ -53,11 +62,11 @@ public class Game
 
 
     //リールを一つずつ移動させる　移動先が決定されている場合はリールのポジションを代入なければ NONE:-1 を代入
-    public static void UpReelPosition(int selectReel,int destinationPosition)
+    public static void UpReelPosition(Reels selectReel,int destinationPosition)
     {
         switch (selectReel)
         {
-            case LEFT:
+            case Reels.LEFT:
                 if(nowLeftReel == NONE)
                 {
                     //NONE:-1が来たときは＋しない
@@ -69,7 +78,7 @@ public class Game
 
                 break;
 
-            case CENTER:
+            case Reels.CENTER:
                 if (nowCenterReel == NONE)
                 {
                     //NONE:-1が来たときは＋しない
@@ -81,7 +90,7 @@ public class Game
                 
                 break;
 
-            case RIGHT:
+            case Reels.RIGHT:
                 if (nowRightReel == NONE)
                 {
                     //NONE:-1が来たときは＋しない
@@ -96,21 +105,21 @@ public class Game
     }
 
 
-    //リールの今のポジションを取得する　引数に定数クラスのLEFT,CENTER,RIGHT
-    public static int GetNowReelPosition(int selectReel)
+    //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
+    public static int GetNowReelPosition(Reels selectReel)
     {
         int nowPosition = NONE;
         switch(selectReel)
         {
-            case LEFT:
+            case Reels.LEFT:
                 nowPosition = nowLeftReel;
                 break;
 
-            case CENTER:
+            case Reels.CENTER:
                 nowPosition = nowCenterReel;
                 break;
 
-            case RIGHT:
+            case Reels.RIGHT:
                 nowPosition = nowRightReel;
                 break;
         }
@@ -118,21 +127,21 @@ public class Game
     }
 
 
-    //表示するリールの位置を取得する　引数に定数クラスのLEFT,CENTER,RIGHTとTOP,MIDDLE,BOTTOM
-    public static int GetDispSymbol(int selectReel,int dispPosition)
+    //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
+    public static int GetDispSymbol(Reels selectReel,int dispPosition)
     {
         int reelPosition = NONE;
         switch (selectReel)
         {
-            case LEFT:
+            case Reels.LEFT:
                 reelPosition = nowLeftReel + dispPosition;
                 break;
 
-            case CENTER:
+            case Reels.CENTER:
                 reelPosition = nowCenterReel + dispPosition;
                 break;
 
-            case RIGHT:
+            case Reels.RIGHT:
                 reelPosition = nowRightReel + dispPosition;
                 break;
         }
@@ -214,23 +223,23 @@ public class Game
     }
 
 
-    //リールのシンボルの並びをLEFT,CENTER,RIGHTで選択し取得する
-    public static int[] GetReelOrder(int selectReel) 
+    //リールのシンボルの並びをReels.LEFT,Reels.CENTER,Reels.RIGHTで選択し取得する
+    public static int[] GetReelOrder(Reels selectReel) 
     {
         int[] reelOrder = {NONE };
         switch (selectReel)
         {
-            case LEFT:
+            case Reels.LEFT:
                 reelOrder = ReelOrder.leftReelOrder;
                 break;
 
 
-            case CENTER:
+            case Reels.CENTER:
                 reelOrder = ReelOrder.centerReelOrder;
                 break;
 
 
-            case RIGHT:
+            case Reels.RIGHT:
                 reelOrder = ReelOrder.rightReelOrder;
                 break;
             
@@ -240,11 +249,11 @@ public class Game
 
 
     //リールで表示されるシンボルの選択をする関数
-    //第1引数には処理するリールの位置を定数クラスのLEFT・CENTER・RIGHTで選択
+    //第1引数には処理するリールの位置を定数クラスのReels.LEFT・Reels.CENTER・Reels.RIGHTで選択
     //第2引数には決まった役（ロール）
     //処理内容にはリーチの行の把握とレギュラーボーナス時にはBARと7がどこにあるか把握する必要もあり
     //一つ目のリールの処理
-    public static int GetFirstReelPosition(int selectReel, int role)
+    public static int GetFirstReelPosition(Reels selectReel, int role)
     {
         int nowReelPosition = GetNowReelPosition(selectReel);
         int reelPosition = NONE;
@@ -272,15 +281,15 @@ public class Game
 
         Random rnd = new Random();
 
-        if (selectReel == LEFT)
+        if (selectReel == Reels.LEFT)
         {
             isLeft = true; //レフトリールフラグをtrue
         }
-        else if (selectReel == CENTER)
+        else if (selectReel == Reels.CENTER)
         {
             isCenter = true;
         }
-        else if (selectReel == RIGHT)
+        else if (selectReel == Reels.RIGHT)
         {
             isRight = true; //ライトリールフラグをtrue
         }
@@ -424,7 +433,7 @@ public class Game
 
 
 
-    public static int GetSecondReelPosition(int firstReel,int selectReel, int role)
+    public static int GetSecondReelPosition(Reels firstReel,Reels selectReel, int role)
     {
         int nowFirstReelPosition = GetNowReelPosition(firstReel);
         int nowSecondReelPosition = GetNowReelPosition (selectReel);
@@ -453,7 +462,7 @@ public class Game
 
         Random rnd = new Random();
 
-        if (selectReel == LEFT)
+        if (selectReel == Reels.LEFT)
         {
             isLeft = true; //レフトリールフラグをtrue
         }
@@ -592,59 +601,38 @@ public class Game
     }
 
 
-
-    private static bool ExclusionRangeDetermination(int maxExclusion, int minExclusion, int referencePosition, int range)
+    //どのリールが動いてるか代入する
+    private static void setReelMoving(Reels selectReel, bool isMoving)
     {
-        bool isExclusionRange = false;
-
-        int absoluteRange = 0;
-        int searchPosition = referencePosition;
-        int add = 1;
-
-        if(range < 0) 
-        { 
-            absoluteRange = range * -1;
-            add = -1;
-        }
-
-        for(int  i = 0; i <= absoluteRange && isExclusionRange == false; i++)
+        switch(selectReel)
         {
-            if (searchPosition <= maxExclusion && searchPosition >= minExclusion)
-            {
-                isExclusionRange = true;
-            }
-            searchPosition = CalcReelPosition(searchPosition,add);
+            case Reels.LEFT:
+                leftReelMoving = isMoving;
+                break;
+            case Reels.CENTER: 
+                centerReelMoving = isMoving;
+                break;
+            case Reels.RIGHT:
+                rightReelMoving = isMoving;
+                break;
         }
+    }
 
-
-        return isExclusionRange;
+    //リールを全て動いている判定にする
+    private static void resetReelsMoving()
+    {
+        setReelMoving(Reels.LEFT,true);
+        setReelMoving(Reels.CENTER,true);
+        setReelMoving(Reels.RIGHT,true);
     }
 
 
-    //書き途中
-    public static int GetReachRow(int selectReel, int selectPosition)
+    //reachPositions に入ったら役が成立するポジションを代入する処理
+    public static void setReachPositions()
     {
-        int[,] nowDispSymbols = { { NONE, NONE, NONE }, { NONE, NONE, NONE }, { NONE, NONE, NONE } };
-
-        for (int reel = 1; reel <= 3; reel++)
-        {
-            for (int row = 0; row < 3; row++)
-            {
-                if(reel != selectReel)
-                {
-                    nowDispSymbols[reel, row] = Game.GetDispSymbol(reel, row);
-                }
-            }
-        }
-
-        if (selectReel == SelectReel.LEFT && nowDispSymbols[0,0] == 0) //仮置き
-        {
-
-        }
-
-
-
-        return 0;
+        
     }
+
+
 
 }
