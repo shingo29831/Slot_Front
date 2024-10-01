@@ -1,73 +1,66 @@
 ﻿using System;
-using static Constants.Symbol;
+using static Constants.Symbols;
 
 public static class Constants
 {
     public static readonly int NONE = -1;
-    public static class Symbol
-    {
-        public static readonly int BELL = 1;
-        public static readonly int REPLAY = 2;
-        public static readonly int WATERMELON = 3;
-        public static readonly int CHERRY = 4;
-        public static readonly int SEVEN = 5;
-        public static readonly int BAR = 6;
-    }
-
     public static class ReelOrder
     {
-        public static readonly int[] leftReelOrder = { BELL, REPLAY, SEVEN, BELL, REPLAY, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON, BELL, REPLAY, WATERMELON, SEVEN, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON };
-        public static readonly int[] centerReelOrder = { WATERMELON, BELL, SEVEN, REPLAY, WATERMELON, CHERRY, BELL, BAR, REPLAY, BELL, CHERRY, REPLAY, WATERMELON, REPLAY, BELL, SEVEN, REPLAY, WATERMELON, BELL, CHERRY, REPLAY };
-        public static readonly int[] rightReelOrder = { REPLAY, CHERRY, BELL, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, BAR, SEVEN, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL };
+        public static readonly Symbols[] leftReelOrder = { BELL, REPLAY, SEVEN, BELL, REPLAY, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON, BELL, REPLAY, WATERMELON, SEVEN, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON };
+        public static readonly Symbols[] centerReelOrder = { WATERMELON, BELL, SEVEN, REPLAY, WATERMELON, CHERRY, BELL, BAR, REPLAY, BELL, CHERRY, REPLAY, WATERMELON, REPLAY, BELL, SEVEN, REPLAY, WATERMELON, BELL, CHERRY, REPLAY };
+        public static readonly Symbols[] rightReelOrder = { REPLAY, CHERRY, BELL, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, BAR, SEVEN, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL };
     }
 
-    public static class Role
+    public enum Symbols
     {
-        public static readonly int BELL = 1;
-        public static readonly int REPLAY = 2;
-        public static readonly int WATERMELON = 3;
-        public static readonly int WEAK_CHERRY = 4;
-        public static readonly int STRONG_CHERRY = 5;
-        public static readonly int VERY_STRONG_CHERRY = 6;
-        public static readonly int REACH = 7;
-        public static readonly int REGULAR = 8;
-        public static readonly int BIG = 9;
-
-        public static readonly int OTHER_BONUS = 6;　//6以下はボーナス以外の役という意味
-
+        NONE,
+        BELL,
+        REPLAY,
+        WATERMELON,
+        CHERRY,
+        BAR,
+        SEVEN
     }
 
-    public static class SelectReel
+    public enum Roles
     {
-        public static readonly int LEFT = 1;
-        public static readonly int CENTER = 2;
-        public static readonly int RIGHT = 3;
+        NONE,
+        BELL,
+        REPLAY,
+        WATERMELON,
+        WEAK_CHERRY,
+        STRONG_CHERRY,
+        VERY_STRONG_CHERRY,
+        REGULAR,
+        BIG
     }
 
-    public static class State
+
+    //リール選択に使用
+    public enum Reels
     {
-        public static readonly int REGULAR = 1;
-        public static readonly int BIG = 2;
+        NONE,
+        LEFT,
+        CENTER,
+        RIGHT
     }
 
-    public static class Bonus
+    //リールの上中下の選択に使用
+    public enum Positions
     {
-        public static readonly int REGULAR = 1;
-        public static readonly int BIG = 2;
+        NONE,
+        TOP,
+        MIDDLE,
+        BOTTOM,
     }
 
-    public static class Position
+    public enum Times
     {
-        public static readonly int TOP = 2;
-        public static readonly int MIDDLE = 1;
-        public static readonly int BOTTOM = 0;
+        NONE,
+        FIRST,
+        SECOND,
+        THIRD
     }
 
-    public enum Reels : short
-    {
-        LEFT = 0,
-        CENTER = 1,
-        RIGHT = 2,
-    }
 }
 

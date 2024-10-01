@@ -93,63 +93,10 @@ public class Setting
     public static int getBonusesProbabilityWeight(int bonus) { return bonusesProbabilityWeight[bonus]; }
 
 
-    public static void weightingSymbol(int expected) //重み付け
+    public static void weightingSymbol(int expected) //重み付け 変更必要
     {
         switch (expected)
         {
-            case 0:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
-
-            case 1:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
-
-            case 2:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
-
-            case 3:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
-
-            case 4:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
-
-            case 5:
-                rolesWeight[Role.BELL] = 1;
-                rolesWeight[Role.REPLAY] = 2;
-                rolesWeight[Role.WATERMELON] = 1;
-                rolesWeight[Role.WEAK_CHERRY] = 1;
-                rolesWeight[Role.STRONG_CHERRY] = 1;
-                rolesWeight[Role.VERY_STRONG_CHERRY] = 1;
-                break;
 
 
         }

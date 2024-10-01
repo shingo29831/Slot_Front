@@ -1,9 +1,9 @@
 using System;
 using static Model.Setting;
-using static Constants;
-using static Constants.Symbol;
-using static Constants.SelectReel;
-using static Model.Game;
+using static oldConstants;
+using static oldConstants.Symbol;
+using static oldConstants.SelectReel;
+using static Model.oldGame;
 
 
 namespace GameMachine
