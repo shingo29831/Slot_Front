@@ -30,7 +30,6 @@ C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameM
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.CreditController.resources
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.SelectionController.resources
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.SlotController.resources
-C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Form1.resources
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Properties.Resources.resources
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.GenerateResource.cache
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.GeneratedMSBuildEditorConfig.editorconfig
@@ -43,3 +42,5 @@ C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameM
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
 C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
