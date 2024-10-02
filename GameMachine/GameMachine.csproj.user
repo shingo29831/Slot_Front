@@ -4,9 +4,6 @@
     <Compile Update="Controller\CreditController.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="StartUp.cs">
       <SubType>Form</SubType>
     </Compile>
