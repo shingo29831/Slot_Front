@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            reelTimer = new System.Windows.Forms.Timer(components);
             CpB1 = new PictureBox();
             CpB2 = new PictureBox();
             CpB3 = new PictureBox();
@@ -48,6 +46,12 @@
             btnStart = new PictureBox();
             btnstop1 = new PictureBox();
             pictureBox1 = new PictureBox();
+            panel3 = new Panel();
+            panel4 = new Panel();
+            panel5 = new Panel();
+            panel6 = new Panel();
+            panel7 = new Panel();
+            panel8 = new Panel();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -68,14 +72,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // reelTimer
-            // 
-            reelTimer.Interval = 5;
-            reelTimer.Tick += reelTimer_Tick;
-            // 
             // CpB1
             // 
-            CpB1.Location = new Point(575, 575);
+            CpB1.Location = new Point(575, 525);
             CpB1.Name = "CpB1";
             CpB1.Size = new Size(175, 150);
             CpB1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -84,7 +83,7 @@
             // 
             // CpB2
             // 
-            CpB2.Location = new Point(575, 400);
+            CpB2.Location = new Point(575, 375);
             CpB2.Name = "CpB2";
             CpB2.Size = new Size(175, 150);
             CpB2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -93,7 +92,7 @@
             // 
             // CpB3
             // 
-            CpB3.Location = new Point(575, 225);
+            CpB3.Location = new Point(575, 200);
             CpB3.Name = "CpB3";
             CpB3.Size = new Size(175, 150);
             CpB3.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -102,7 +101,7 @@
             // 
             // RpB1
             // 
-            RpB1.Location = new Point(825, 575);
+            RpB1.Location = new Point(850, 525);
             RpB1.Name = "RpB1";
             RpB1.Size = new Size(175, 150);
             RpB1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -111,7 +110,7 @@
             // 
             // RpB2
             // 
-            RpB2.Location = new Point(825, 400);
+            RpB2.Location = new Point(850, 375);
             RpB2.Name = "RpB2";
             RpB2.Size = new Size(175, 150);
             RpB2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -120,7 +119,7 @@
             // 
             // RpB3
             // 
-            RpB3.Location = new Point(825, 225);
+            RpB3.Location = new Point(850, 200);
             RpB3.Name = "RpB3";
             RpB3.Size = new Size(175, 150);
             RpB3.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -129,7 +128,7 @@
             // 
             // LpB2
             // 
-            LpB2.Location = new Point(300, 400);
+            LpB2.Location = new Point(300, 375);
             LpB2.Name = "LpB2";
             LpB2.Size = new Size(175, 150);
             LpB2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -138,7 +137,7 @@
             // 
             // LpB1
             // 
-            LpB1.Location = new Point(300, 575);
+            LpB1.Location = new Point(300, 525);
             LpB1.Name = "LpB1";
             LpB1.Size = new Size(175, 150);
             LpB1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -147,7 +146,7 @@
             // 
             // LpB3
             // 
-            LpB3.Location = new Point(300, 225);
+            LpB3.Location = new Point(300, 200);
             LpB3.Name = "LpB3";
             LpB3.Size = new Size(175, 150);
             LpB3.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -156,7 +155,7 @@
             // 
             // LpB4
             // 
-            LpB4.Location = new Point(300, 50);
+            LpB4.Location = new Point(300, 25);
             LpB4.Name = "LpB4";
             LpB4.Size = new Size(175, 150);
             LpB4.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -165,7 +164,7 @@
             // 
             // CpB4
             // 
-            CpB4.Location = new Point(575, 50);
+            CpB4.Location = new Point(575, 25);
             CpB4.Name = "CpB4";
             CpB4.Size = new Size(175, 150);
             CpB4.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -174,7 +173,7 @@
             // 
             // RpB4
             // 
-            RpB4.Location = new Point(825, 50);
+            RpB4.Location = new Point(850, 25);
             RpB4.Name = "RpB4";
             RpB4.Size = new Size(175, 150);
             RpB4.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -183,10 +182,10 @@
             // 
             // btnstop3
             // 
-            btnstop3.Image = Properties.Resources.push_button_1;
-            btnstop3.Location = new Point(850, 575);
+            btnstop3.Image = Properties.Resources.RightButtonOFF;
+            btnstop3.Location = new Point(750, 575);
             btnstop3.Name = "btnstop3";
-            btnstop3.Size = new Size(125, 125);
+            btnstop3.Size = new Size(175, 150);
             btnstop3.SizeMode = PictureBoxSizeMode.StretchImage;
             btnstop3.TabIndex = 18;
             btnstop3.TabStop = false;
@@ -194,10 +193,10 @@
             // 
             // btnstop2
             // 
-            btnstop2.Image = Properties.Resources.push_button_1;
-            btnstop2.Location = new Point(600, 575);
+            btnstop2.Image = Properties.Resources.CenterButtonOFF;
+            btnstop2.Location = new Point(575, 575);
             btnstop2.Name = "btnstop2";
-            btnstop2.Size = new Size(125, 125);
+            btnstop2.Size = new Size(175, 150);
             btnstop2.SizeMode = PictureBoxSizeMode.StretchImage;
             btnstop2.TabIndex = 17;
             btnstop2.TabStop = false;
@@ -205,31 +204,33 @@
             // 
             // pictureBox5
             // 
-            pictureBox5.Image = Properties.Resources.bet;
-            pictureBox5.Location = new Point(75, 375);
+            pictureBox5.Image = Properties.Resources.MAXBETOFF;
+            pictureBox5.Location = new Point(50, 575);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(150, 150);
+            pictureBox5.Size = new Size(125, 125);
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox5.TabIndex = 19;
             pictureBox5.TabStop = false;
             // 
             // btnStart
             // 
-            btnStart.Image = Properties.Resources.lever;
-            btnStart.Location = new Point(75, 525);
+            btnStart.Image = Properties.Resources.LeverOFF;
+            btnStart.Location = new Point(225, 575);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(150, 175);
+            btnStart.Size = new Size(125, 150);
             btnStart.SizeMode = PictureBoxSizeMode.StretchImage;
             btnStart.TabIndex = 15;
             btnStart.TabStop = false;
             btnStart.Click += btnStart_Click;
+            btnStart.MouseDown += btnStart_MouseDown;
+            btnStart.MouseUp += btnStart_MouseUp;
             // 
             // btnstop1
             // 
-            btnstop1.Image = Properties.Resources.push_button_1;
-            btnstop1.Location = new Point(325, 575);
+            btnstop1.Image = Properties.Resources.LeftButtonOFF;
+            btnstop1.Location = new Point(400, 575);
             btnstop1.Name = "btnstop1";
-            btnstop1.Size = new Size(125, 125);
+            btnstop1.Size = new Size(175, 150);
             btnstop1.SizeMode = PictureBoxSizeMode.StretchImage;
             btnstop1.TabIndex = 16;
             btnstop1.TabStop = false;
@@ -243,12 +244,60 @@
             pictureBox1.TabIndex = 31;
             pictureBox1.TabStop = false;
             // 
+            // panel3
+            // 
+            panel3.Location = new Point(300, 525);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(175, 50);
+            panel3.TabIndex = 34;
+            // 
+            // panel4
+            // 
+            panel4.Location = new Point(575, 525);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(175, 50);
+            panel4.TabIndex = 35;
+            // 
+            // panel5
+            // 
+            panel5.Location = new Point(850, 525);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(175, 50);
+            panel5.TabIndex = 36;
+            // 
+            // panel6
+            // 
+            panel6.Location = new Point(850, 0);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(175, 25);
+            panel6.TabIndex = 37;
+            // 
+            // panel7
+            // 
+            panel7.Location = new Point(575, 0);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(175, 25);
+            panel7.TabIndex = 35;
+            // 
+            // panel8
+            // 
+            panel8.Location = new Point(300, 0);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(175, 25);
+            panel8.TabIndex = 38;
+            // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(btnstop1);
+            Controls.Add(panel3);
+            Controls.Add(panel4);
+            Controls.Add(panel5);
+            Controls.Add(panel6);
+            Controls.Add(panel7);
+            Controls.Add(panel8);
             Controls.Add(btnStart);
             Controls.Add(pictureBox5);
             Controls.Add(btnstop2);
@@ -291,7 +340,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Timer reelTimer;
         private PictureBox CpB1;
         private PictureBox CpB2;
         private PictureBox CpB3;
@@ -310,5 +358,11 @@
         private PictureBox btnStart;
         private PictureBox btnstop1;
         private PictureBox pictureBox1;
+        private Panel panel3;
+        private Panel panel4;
+        private Panel panel5;
+        private Panel panel6;
+        private Panel panel7;
+        private Panel panel8;
     }
 }

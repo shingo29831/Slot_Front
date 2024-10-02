@@ -6,107 +6,110 @@ namespace GameMachine
 {
     public partial class StartUp : Form
     {
-        private SelectionController userSelectionScren; // フィールドとして定義
-        private SlotController userGameScreen;         // フィールドとして定義
-        private AccountLinkingController accountLinkingScreen; //定義
-        private CounterController counterDisplay;         // フィールドとして定義
-        private CreditController creditDisplay;
+        private SelectionController userSelectionScreen; // ユーザー選択画面のコントローラー
+        private SlotController userGameScreen;           // スロットゲーム画面のコントローラー
+        private AccountLinkingController accountLinkingScreen; // アカウントリンク画面のコントローラー
+        private CounterController counterDisplay;        // カウンター表示コントローラー
+        private CreditController creditDisplay;          // クレジット表示コントローラー
 
         public StartUp()
         {
             InitializeComponent();
-            // 起動時フルスクリーン
+
+            // 起動時にフルスクリーン
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-
-            // キーイベントをすべてのフォームで受け取る処理
             this.KeyPreview = true;
 
-#nullable disable
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            // DPI スケーリング対応設定
+            this.AutoScaleDimensions = new SizeF(96F, 96F);
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+
+            // キーイベントの設定
+            this.KeyDown += new KeyEventHandler(StartUp_KeyDown);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void StartUp_Load(object sender, EventArgs e)
         {
-            // ユーザーコントロールをインスタンス化
-            counterDisplay = new CounterController();
-            userSelectionScren = new SelectionController();
-            userGameScreen = new SlotController();
-            accountLinkingScreen = new AccountLinkingController();
-            creditDisplay = new CreditController();
+            //ユーザーコントロール インスタンス
+            counterDisplay = new CounterController();        // カウンター表示画面
+            userSelectionScreen = new SelectionController(); // ユーザー選択画面
+            userGameScreen = new SlotController();           // スロットゲーム画面
+            accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面
+            creditDisplay = new CreditController();          // クレジット表示画面
 
-            // counterDisplay のサイズや位置を設定
-            counterDisplay.Size = new Size(1920, 1080);
-            counterDisplay.Location = new Point(0, 0);
+            // 各ユーザーコントロールの初期サイズと位置を設定
+            InitializeControlSettings();
 
-            // userSelectionScren のサイズや位置を設定
-            userSelectionScren.Size = new Size(1275, 700);
-            userSelectionScren.Location = new Point(325, 200);
+            ///////////////////////////
+            // 初期画面表示メソッド  //
+            ///////////////////////////
+            ShowUserSelectionScreen();
+        }
 
-            // userGameScreen のサイズや位置を設定
-            userGameScreen.Size = new Size(1275, 875);
-            userGameScreen.Location = new Point(325, 200);
+        private void InitializeControlSettings()
+        {
+            //リサイズの時に調整されるように設定
+            SetControlProperties(counterDisplay, new Size(1920, 1080), new Point(0, 0)); // カウンター表示
+            SetControlProperties(userSelectionScreen, new Size(1275, 700), new Point(325, 200)); // ユーザー選択
+            SetControlProperties(userGameScreen, new Size(1275, 875), new Point(325, 200)); // スロットゲーム
+            SetControlProperties(accountLinkingScreen, new Size(1275, 875), new Point(325, 200)); // アカウントリンク
+            SetControlProperties(creditDisplay, new Size(1275, 149), new Point(325, 930)); // クレジット表示
+        }
 
-            // accountLinkingScreen のサイズや位置を設定
-            accountLinkingScreen.Size = new Size(1275, 875);
-            accountLinkingScreen.Location = new Point(325, 200);
+        private void SetControlProperties(Control control, Size size, Point location)
+        {
+            control.Size = size;      // コントロールのサイズを設定
+            control.Location = location; // コントロールの位置を設定
+            control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right; // リサイズ対応
+            this.Controls.Add(control); // フォームに追加
+        }
 
-            // creditDisplayn のサイズや位置を設定
-            creditDisplay.Size = new Size(1275, 175);
-            creditDisplay.Location = new Point(325, 900);
+        private void ShowUserControl(Control controlToShow)
+        {
+            //表示処理
+            foreach (Control control in this.Controls)
+            {
+                control.Visible = false; // 他のコントロールを非表示にする
+            }
 
-            // フォームに追加
-            this.Controls.Add(counterDisplay);
-            this.Controls.Add(userSelectionScren);
+            controlToShow.Visible = true; // 対象のコントロールを表示
+            controlToShow.BringToFront(); // 対象のコントロールを前面に表示
+        }
 
-            userSelectionScren.BringToFront(); // 初期表示は userSelectionScren
+        public void ShowUserSelectionScreen()
+        {
+            // counterDisplay と userSelectionScreen を表示する
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            userSelectionScreen.Visible = true; // ユーザー選択画面を有効化
+
+            // それぞれ前面に表示
+            counterDisplay.BringToFront();
+            userSelectionScreen.BringToFront();
         }
 
         public void ShowUserGameScreen()
         {
-            // UserSelectionScren を非表示にして UserGameScreen と　creditDisplayを表示する
-            this.Controls.Remove(userSelectionScren);
-            this.Controls.Add(userGameScreen);
-            this.Controls.Add(creditDisplay);
-            userGameScreen.BringToFront();
-            creditDisplay.BringToFront();
-        }
-
-        public void ShowUserSelectionScren()
-        {
-            // UserGameScreen を非表示にして UserSelectionScren を表示する
-            if (accountLinkingScreen.Visible)
-            {
-                // userScreen1 が表示されている場合の処理
-                this.Controls.Remove(accountLinkingScreen);
-                this.Controls.Add(userSelectionScren);
-                userSelectionScren.BringToFront();
-            }
-            else if (userGameScreen.Visible)
-            {
-                // userScreen2 が表示されている場合の処理
-                this.Controls.Remove(userGameScreen);
-                this.Controls.Add(userSelectionScren);
-                userSelectionScren.BringToFront();
-            }
+            ShowUserControl(userGameScreen); // ゲーム画面を表示
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            creditDisplay.Visible = true;    // クレジット表示を有効にする
+            creditDisplay.BringToFront();    // クレジット表示を前面に移動
         }
 
         public void ShowAccountLinkingScreen()
         {
-            //UserSelectionScren を非表示にして AccountLinkingScreen を表示する
-            this.Controls.Remove(userSelectionScren);
-            this.Controls.Add(accountLinkingScreen);
-            accountLinkingScreen.BringToFront();
+            ShowUserControl(accountLinkingScreen); // アカウントリンク画面を表示
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+
+        private void StartUp_KeyDown(object sender, KeyEventArgs e)
         {
-            // アプリケーション終了処理
+            // Esc キーが押されたら終了確認のダイアログを表示
             if (e.KeyCode == Keys.Escape)
             {
                 DialogResult result = MessageBox.Show("アプリケーションを終了しますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    this.Close();
+                    this.Close(); // アプリケーションを終了
                 }
             }
         }

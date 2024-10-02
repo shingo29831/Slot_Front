@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace GameMachine
 {
-    //#############################################//
-    //                                             //
-    //              　　　未完成          　　　　 //
-    //                                             //
-    //#############################################//
     public partial class SlotController : UserControl
     {
-        //インスタンス生成
-        //view
         private SlotView slotView;
 
-        //データ取得
+        // System.Timers.Timer に変更
+        private System.Timers.Timer reelTimer;
+
+        //モデルからデータ取得
         int[] leftReelOrder = BusinessLogic.leftReelOrder;
         int[] centerReelOrder = BusinessLogic.centerReelOrder;
         int[] rightReelOrder = BusinessLogic.rightReelOrder;
@@ -29,57 +26,47 @@ namespace GameMachine
             PictureBox[] centerReels = { CpB1, CpB2, CpB3, CpB4 };
             PictureBox[] rightReels = { RpB1, RpB2, RpB3, RpB4 };
 
-            // SlotViewのインスタンスを作成
-            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, leftReelOrder, centerReelOrder, rightReelOrder);
+            PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3 };
 
+            // System.Timers.Timer のインスタンスを作成
+            reelTimer = new System.Timers.Timer(10); // 50ミリ秒の間隔
+            reelTimer.AutoReset = true; // 自動リセットを有効に
+            reelTimer.Enabled = false; // 必要なときに開始
+
+            // SlotView のインスタンスを作成
+            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, pictureChange, leftReelOrder, centerReelOrder, rightReelOrder);
         }
 
         private void UserGameScreen_Load(object sender, EventArgs e)
         {
-            //最初に表示される画像
-            slotView.initialPictureSet(1,3,20);
+            //シンボル表示初期位置
+            slotView.initialPictureSet(1, 3, 20);//数値をずらすと始まる位置が変わる
         }
 
-        //リールストップの動作
         private void stopBtns_Click(object sender, EventArgs e)
         {
-            if (sender == btnstop1)
-            {
-                slotView.StopLeftReel();
-            }
-            else if (sender == btnstop2)
-            {
-                slotView.StopCenterReel();
-            }
-            else if (sender == btnstop3)
-            {
-                slotView.StopRightReel();
-            }
+            if (sender == btnstop1) { slotView.StopLeftReel(); slotView.leftbtnChange(); }
+            else if (sender == btnstop2) { slotView.StopCenterReel(); slotView.centerbtnChange(); }
+            else if (sender == btnstop3) { slotView.StopRightReel(); slotView.rightbtnChange(); }
         }
 
-        //スタートの動作
+        //レバーが押されると回転スタート
         private void btnStart_Click(object sender, EventArgs e)
         {
-            // スタートボタンが押されたときにスロットを開始
             slotView.Start();
-            
+            slotView.Changereset();
         }
 
-        private void reelTimer_Tick(object sender, EventArgs e)
+        //レバーが上がったら画像を切り替える
+        private void btnStart_MouseUp(object sender, MouseEventArgs e)
         {
-            // SlotViewのタイマーイベントを呼び出す
-            slotView.reelTimerTick(sender, e);
+            slotView.leverUp();
         }
 
-        //ステータスをモデルに送信
-        private void reelStatusSet()
+        //レバーが下がったら画像を切り替える
+        private void btnStart_MouseDown(object sender, MouseEventArgs e)
         {
-
-        }
-
-        private void reelStatusGet()
-        {
-
+            slotView.leverDown();
         }
     }
 }

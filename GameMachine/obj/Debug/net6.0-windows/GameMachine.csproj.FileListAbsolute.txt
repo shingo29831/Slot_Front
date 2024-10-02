@@ -41,6 +41,5 @@ C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refin
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
-C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
-C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
-C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
+C:\Users\tarakku\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\StartUp.resources
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources

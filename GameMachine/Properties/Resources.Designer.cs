@@ -83,9 +83,19 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap bet {
+        internal static System.Drawing.Bitmap CenterButtonOFF {
             get {
-                object obj = ResourceManager.GetObject("bet", resourceCulture);
+                object obj = ResourceManager.GetObject("CenterButtonOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap CenterButtonON {
+            get {
+                object obj = ResourceManager.GetObject("CenterButtonON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,6 +123,16 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap image11 {
+            get {
+                object obj = ResourceManager.GetObject("image11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap image2 {
             get {
                 object obj = ResourceManager.GetObject("image2", resourceCulture);
@@ -123,9 +143,9 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap lever {
+        internal static System.Drawing.Bitmap LeftButtonOFF {
             get {
-                object obj = ResourceManager.GetObject("lever", resourceCulture);
+                object obj = ResourceManager.GetObject("LeftButtonOFF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +153,49 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap push_button_1 {
+        internal static System.Drawing.Bitmap LeftButtonON {
             get {
-                object obj = ResourceManager.GetObject("push_button-1", resourceCulture);
+                object obj = ResourceManager.GetObject("LeftButtonON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap LeverOFF {
+            get {
+                object obj = ResourceManager.GetObject("LeverOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap LeverON {
+            get {
+                object obj = ResourceManager.GetObject("LeverON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MAXBETOFF {
+            get {
+                object obj = ResourceManager.GetObject("MAXBETOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap MAXBETON {
+            get {
+                object obj = ResourceManager.GetObject("MAXBETON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -146,6 +206,26 @@ namespace GameMachine.Properties {
         internal static System.Drawing.Bitmap REPLAY {
             get {
                 object obj = ResourceManager.GetObject("REPLAY", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap RightButtonOFF {
+            get {
+                object obj = ResourceManager.GetObject("RightButtonOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap RightButtonON {
+            get {
+                object obj = ResourceManager.GetObject("RightButtonON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

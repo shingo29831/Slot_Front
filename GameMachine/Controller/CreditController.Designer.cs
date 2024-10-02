@@ -38,33 +38,33 @@
             // 
             // creditTxb
             // 
-            creditTxb.Location = new Point(200, 25);
+            creditTxb.Location = new Point(350, 25);
             creditTxb.Multiline = true;
             creditTxb.Name = "creditTxb";
-            creditTxb.Size = new Size(175, 125);
+            creditTxb.Size = new Size(150, 100);
             creditTxb.TabIndex = 0;
             // 
             // countTxb
             // 
-            countTxb.Location = new Point(525, 25);
+            countTxb.Location = new Point(550, 25);
             countTxb.Multiline = true;
             countTxb.Name = "countTxb";
-            countTxb.Size = new Size(225, 125);
+            countTxb.Size = new Size(200, 100);
             countTxb.TabIndex = 1;
             // 
             // payoutTxb
             // 
-            payoutTxb.Location = new Point(900, 25);
+            payoutTxb.Location = new Point(800, 25);
             payoutTxb.Multiline = true;
             payoutTxb.Name = "payoutTxb";
-            payoutTxb.Size = new Size(175, 125);
+            payoutTxb.Size = new Size(150, 100);
             payoutTxb.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Italic, GraphicsUnit.Point);
-            label1.Location = new Point(175, 0);
+            label1.Location = new Point(325, 0);
             label1.Name = "label1";
             label1.Size = new Size(73, 25);
             label1.TabIndex = 3;
@@ -84,13 +84,13 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Italic, GraphicsUnit.Point);
-            label3.Location = new Point(875, 0);
+            label3.Location = new Point(775, 0);
             label3.Name = "label3";
             label3.Size = new Size(86, 25);
             label3.TabIndex = 5;
             label3.Text = "PAY OUT";
             // 
-            // CreditDisplay
+            // CreditController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -101,8 +101,8 @@
             Controls.Add(payoutTxb);
             Controls.Add(countTxb);
             Controls.Add(creditTxb);
-            Name = "CreditDisplay";
-            Size = new Size(1275, 175);
+            Name = "CreditController";
+            Size = new Size(1275, 149);
             Load += CreditDisplay_Load;
             ResumeLayout(false);
             PerformLayout();

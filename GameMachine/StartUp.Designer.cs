@@ -35,10 +35,10 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
-            Name = "Form1";
-            Text = "Form1";
-            Load += Form1_Load;
-            KeyDown += Form1_KeyDown;
+            Name = "StartUp";
+            Text = "StartUp";
+            Load += StartUp_Load;
+            KeyDown += StartUp_KeyDown;
             ResumeLayout(false);
         }
 
