@@ -3,109 +3,126 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Timers;  // System.Timers を使用
+using static Constants;
 
 namespace GameMachine
 {
     public class SlotView
     {
-        private System.Timers.Timer reelTimer; // 高精度タイマー
+        // 高精度タイマー（リールの回転速度を制御する）
+        private System.Timers.Timer reelTimer;
 
+        // 各リールの停止フラグ
         private bool leftReelStop = false;
         private bool centerReelStop = false;
         private bool rightReelStop = false;
 
-        public static int[] leftOrder;
-        public static int[] centerOrder;
-        public static int[] rightOrder;
+        // リールのシンボル配置を保持する配列
+        public static Symbols[] leftOrder;
+        public static Symbols[] centerOrder;
+        public static Symbols[] rightOrder;
 
+        // リールの現在
         public int leftcount = 0;
         public int centercount = 0;
         public int rightcount = 0;
 
+        // 各リールに対応する
         private PictureBox[] leftReel;
         private PictureBox[] centerReel;
         private PictureBox[] rightReel;
 
+        // 画面上のレバーやボタンの画像を保持する PictureBox 配列
         private PictureBox[] PChange;
 
-        // コンストラクタ
-        public SlotView(System.Timers.Timer timer, PictureBox[] left, PictureBox[] center, PictureBox[] right, PictureBox[] pictureChange, int[] leftorder, int[] centerorder, int[] rightorder)
-        {
-            reelTimer = timer;
-            reelTimer.Elapsed += ReelTimerTick;  // イベントハンドラを設定
-            reelTimer.AutoReset = true;          // 自動で繰り返し
-            reelTimer.Interval = 50;             // タイマーの間隔を設定 (50ミリ秒)
+        // 列挙型 Symbols をキーとしたシンボル画像辞書
+        private Dictionary<Symbols, Image> symbolImages;
 
+        // コンストラクタ：リール回転に必要な要素を初期化
+        public SlotView(System.Timers.Timer timer, PictureBox[] left, PictureBox[] center, PictureBox[] right, PictureBox[] pictureChange)
+        {
+            // タイマーの設定
+            reelTimer = timer;
+            reelTimer.Elapsed += ReelTimerTick;  // タイマーのイベントハンドラを設定
+            reelTimer.AutoReset = true;          // 自動で繰り返し実行
+            reelTimer.Interval = 50;             // タイマーの間隔を設定（50ミリ秒）
+
+            // 各リールの PictureBox 配列を初期化
             leftReel = left;
             centerReel = center;
             rightReel = right;
-            leftOrder = leftorder;  // 左リールのパターン
-            centerOrder = centerorder;  // 中央リールのパターン
-            rightOrder = rightorder;  // 右リールのパターン
 
+            // 各リールの回転順序を設定
+            leftOrder = ReelOrder.leftReelOrder;
+            centerOrder = ReelOrder.centerReelOrder;
+            rightOrder = ReelOrder.rightReelOrder;
+
+            // レバーやボタンの PictureBox 配列を設定
             PChange = pictureChange;
+
+            // 各シンボルに対応する画像を設定する辞書
+            symbolImages = new Dictionary<Symbols, Image>
+            {
+                { Symbols.BELL, Properties.Resources.bell },
+                { Symbols.REPLAY, Properties.Resources.REPLAY },
+                { Symbols.WATERMELON, Properties.Resources.watermelon },
+                { Symbols.CHERRY, Properties.Resources.cherry },
+                { Symbols.SEVEN, Properties.Resources.seven },
+                { Symbols.BAR, Properties.Resources.bar }
+            };
         }
 
-        // タイマー　回転スタート
+        // タイマーのスタートメソッド（リールの回転開始）
         public void Start()
         {
             reelTimer.Start();  // タイマーをスタート
+            // リール停止フラグを初期化（全てのリールを回転状態に設定）
             leftReelStop = false;
             centerReelStop = false;
             rightReelStop = false;
         }
 
-        // リールの停止
-        public void StopLeftReel() { leftReelStop = true; }
-        public void StopCenterReel() { centerReelStop = true; }
-        public void StopRightReel() { rightReelStop = true; }
+        // 各リールの停止メソッド（ボタン押下時に呼ばれる）
+        public void StopLeftReel() { leftReelStop = true; }    // 左リールを停止
+        public void StopCenterReel() { centerReelStop = true; }  // 中央リールを停止
+        public void StopRightReel() { rightReelStop = true; }   // 右リールを停止
 
-        // ここでシンボルに対応する画像を管理しています
-        Dictionary<int, Image> symbolImages = new Dictionary<int, Image>
+        // リールのシンボルに対応する画像を設定する（初期画像を設定）
+        private void SetReelImages(PictureBox[] reel, Symbols[] order, int standardorder)
         {
-            { 1, Properties.Resources.bell },
-            { 2, Properties.Resources.REPLAY },
-            { 3, Properties.Resources.watermelon },
-            { 4, Properties.Resources.cherry },
-            { 5, Properties.Resources.seven },
-            { 6, Properties.Resources.bar }
-        };
+            standardorder--;  // 指定された基準インデックスを調整（0ベースに変更）
 
-        // リールのシンボルに対応する画像を設定する
-        private void SetReelImages(PictureBox[] reel, int[] order, int standardorder)
-        {
-            // 修正しないとダメ！！
-            standardorder--;
-
+            // 各リール画像に対応するシンボルを設定
             for (int i = 0; i < reel.Length; i++)
             {
-                if (symbolImages.ContainsKey(order[standardorder]))
+                // 辞書を用いてキー対応するシンボル画像
+                if (symbolImages.ContainsKey(ReelOrder.leftReelOrder[standardorder]))
                 {
-                    reel[i].Image = symbolImages[order[standardorder]];
-                    // 配列の最後尾の場合先頭に戻る　それ以外は加算
-                    standardorder = (standardorder + 1) % order.Length;
+                    reel[i].Image = symbolImages[ReelOrder.leftReelOrder[standardorder]];
+
+                    // 配列の最後まで達したら先頭に戻る（循環）
+                    standardorder = (standardorder + 1) % ReelOrder.leftReelOrder.Length;
                 }
             }
         }
 
-        // 初期設定関数
+        // 初期設定関数（ゲーム開始時のリール画像を設定）
         public void initialPictureSet(int standardOrderLeft, int standardOrderCenter, int standardOrderRight)
         {
+            // 各リールの現在位置を設定
             leftcount = standardOrderLeft;
             centercount = standardOrderCenter;
             rightcount = standardOrderRight;
 
-            // 左リールの画像設定　Reel情報, Order情報, 基準情報
+            // 左リールの画像設定
             SetReelImages(leftReel, leftOrder, leftcount);
-
             // 中央リールの画像設定
             SetReelImages(centerReel, centerOrder, centercount);
-
             // 右リールの画像設定
             SetReelImages(rightReel, rightOrder, rightcount);
         }
 
-        // タイマーメソッド
+        // タイマーのイベントハンドラ（定期的に呼び出される）
         private void ReelTimerTick(object sender, ElapsedEventArgs e)
         {
             // UI スレッドで実行するために Invoke を使用
@@ -113,6 +130,7 @@ namespace GameMachine
             {
                 leftReel[0].Invoke(new Action(() =>
                 {
+                    // 各リールの回転処理
                     if (!leftReelStop) { MoveReel(leftReel, ref leftcount, leftOrder); }
                     if (!centerReelStop) { MoveReel(centerReel, ref centercount, centerOrder); }
                     if (!rightReelStop) { MoveReel(rightReel, ref rightcount, rightOrder); }
@@ -120,33 +138,33 @@ namespace GameMachine
             }
         }
 
-        // リールを動かす
-        private void MoveReel(PictureBox[] reels, ref int count, int[] order)
+        // リールを動かす（各リールの回転アニメーション処理）
+        private void MoveReel(PictureBox[] reels, ref int count, Symbols[] order)
         {
             foreach (var reel in reels)
             {
-                reel.Top += 50;  // スピードを調整
-                if (reel.Top > 540) //この座標の場所で上に戻す
+                reel.Top += 50;  // リールの速度を調整
+                if (reel.Top > 540)  // リールが画面外に出たら位置をリセット
                 {
                     reel.Top = -reel.Height;
-                    UpdateImage(reel, ref count, order);//上に戻すタイミングで画像を次のオーダーされている画像に切り替える
+                    UpdateImage(reel, ref count, order); // 画像を次のシンボルに更新
                 }
             }
         }
 
-        // リールの画像を更新する
-        private void UpdateImage(PictureBox reel, ref int count, int[] order)
+        // リールの画像を更新する（シンボル順序に従って画像を変更）
+        private void UpdateImage(PictureBox reel, ref int count, Symbols[] order)
         {
             if (symbolImages.ContainsKey(order[count]))
             {
-                reel.Image = symbolImages[order[count]];
-                count = (count + 1) % order.Length; // カウントをリセット
+                reel.Image = symbolImages[order[count]]; // 新しい画像を設定
+                count = (count + 1) % order.Length;  // インデックスを循環
             }
         }
 
-        // 画像の切り替え
-        public void leverUp() { PChange[0].Image = Properties.Resources.LeverOFF; }//レバーが上がったらOFFの画像を差し込み
-        public void leverDown() { PChange[0].Image = Properties.Resources.LeverON; }//レバーが下がったらONの画像を差し込み
+        // レバー・ボタンの画像変更（操作時のボタン画像を変更）
+        public void leverUp() { PChange[0].Image = Properties.Resources.LeverOFF; }
+        public void leverDown() { PChange[0].Image = Properties.Resources.LeverON; }
         public void leftbtnChange() { PChange[1].Image = Properties.Resources.LeftButtonON; }
         public void centerbtnChange() { PChange[2].Image = Properties.Resources.CenterButtonON; }
         public void rightbtnChange() { PChange[3].Image = Properties.Resources.RightButtonON; }
@@ -156,6 +174,5 @@ namespace GameMachine
             PChange[2].Image = Properties.Resources.CenterButtonOFF;
             PChange[3].Image = Properties.Resources.RightButtonOFF;
         }
-
     }
 }

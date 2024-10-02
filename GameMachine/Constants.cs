@@ -4,6 +4,10 @@ using static Constants.Symbols;
 public static class Constants
 {
     public static readonly int NONE = -1;
+    internal static readonly Symbols[] leftReelOrder;
+    internal static readonly Symbols[] centerReelOrder;
+    internal static readonly Symbols[] rightReelOrder;
+
     public static class ReelOrder
     {
         public static readonly Symbols[] leftReelOrder = { BELL, REPLAY, SEVEN, BELL, REPLAY, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON, BELL, REPLAY, WATERMELON, SEVEN, WATERMELON, BELL, REPLAY, BAR, CHERRY, WATERMELON };

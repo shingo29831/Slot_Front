@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Timers;
+using static Constants;
 
 namespace GameMachine
 {
@@ -11,11 +12,6 @@ namespace GameMachine
 
         // System.Timers.Timer に変更
         private System.Timers.Timer reelTimer;
-
-        //モデルからデータ取得
-        int[] leftReelOrder = BusinessLogic.leftReelOrder;
-        int[] centerReelOrder = BusinessLogic.centerReelOrder;
-        int[] rightReelOrder = BusinessLogic.rightReelOrder;
 
         public SlotController()
         {
@@ -34,7 +30,7 @@ namespace GameMachine
             reelTimer.Enabled = false; // 必要なときに開始
 
             // SlotView のインスタンスを作成
-            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, pictureChange, leftReelOrder, centerReelOrder, rightReelOrder);
+            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, pictureChange);
         }
 
         private void UserGameScreen_Load(object sender, EventArgs e)
