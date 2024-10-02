@@ -581,35 +581,12 @@ public class Game
         lowerToUpper = 16,
     }
 
-    enum SerchFlags:int
-    {
-        NONE = 0,
-        serchLeft = 1,
-        serchCenter = 2,
-        serchRight = 4,
-        serchTop = 8,
-        serchMiddle = 16,
-        serchBottom = 32,
-        basisTop = 64,
-        basisMiddle = 128,
-        basisBottom = 256,
-
-        //複合条件の値を作るために論理和をとり代入する
-        serchBottomLeft = serchLeft | basisTop,
-        serchTopLeft = serchLeft | basisBottom,
-        serchTopCenter = serchCenter | basisTop,
-        serchCenterFromTop = serchCenter | basisTop,
-        serchCenterFromBot= serchCenter | basisBottom,
-        serchBottomRight = serchRight | basisTop,
-        serchTopRight = serchRight | basisBottom,
-    }
-
     //入ったら当選するシンボルを指定したライン(TOP,MIDDLE,BOTTOM)を元に取得する
     //基本左リールを基準に選択したラインを探索TOPなら左リールの上、BOTTOMなら左リールの下。
-    private static Symbols GetReachSymbolsForLine(Reels selectReel , Lines line )
+    private static Symbols GetReachSymbolForLine(Reels selectReel , Lines line )
     {
 
-        Symbols reachSymbols = Symbols.NONE; //リーチになっているシンボルが入る,OR演算で複数代入可能
+        Symbols reachSymbol = Symbols.NONE; //リーチになっているシンボルが入る,OR演算で複数代入可能
         Symbols lineSymbols = Symbols.NONE; //選択したライン上にあるシンボルを代入する
 
         Reels stoppedReels = Reels.NONE;
@@ -698,24 +675,25 @@ public class Game
             case Symbols.BELL:
             case Symbols.REPLAY:
             case Symbols.WATERMELON:
-            case Symbols.CHERRY: //フォールスルー　ここから上のcaseの場合以下をbreakまで実行する
-                reachSymbols = lineSymbols;
-                break;
-
+            case Symbols.CHERRY: 
             case Symbols.BAR:
-            case Symbols.SEVEN:
-                reachSymbols = Symbols.BAR;
-                reachSymbols |= Symbols.SEVEN;
+            case Symbols.SEVEN: //フォールスルー　ここから上のcaseの場合以下の処理をbreakまで実行する
+                reachSymbol = lineSymbols;
                 break;
 
             default:
-                reachSymbols = Symbols.NONE;
+                reachSymbol = Symbols.NONE;
                 break;
+        }
+
+        if(lineSymbols.HasFlag(Symbols.BAR) && lineSymbols.HasFlag(Symbols.SEVEN))
+        {
+
         }
 
 
 
-        return reachSymbols;
+        return reachSymbol;
     }
 
 }
