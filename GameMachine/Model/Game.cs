@@ -571,111 +571,151 @@ public class Game
         return Symbols.NONE;
     }
 
+    enum Lines :int
+    {
+        NONE = 0,
+        upperToUpper = 1,
+        upperToLower = 2,
+        middleToMiddle = 4,
+        lowerToLower = 8,
+        lowerToUpper = 16,
+    }
+
+    enum SerchFlags:int
+    {
+        NONE = 0,
+        serchLeft = 1,
+        serchCenter = 2,
+        serchRight = 4,
+        serchTop = 8,
+        serchMiddle = 16,
+        serchBottom = 32,
+        basisTop = 64,
+        basisMiddle = 128,
+        basisBottom = 256,
+
+        //複合条件の値を作るために論理和をとり代入する
+        serchBottomLeft = serchLeft | basisTop,
+        serchTopLeft = serchLeft | basisBottom,
+        serchTopCenter = serchCenter | basisTop,
+        serchCenterFromTop = serchCenter | basisTop,
+        serchCenterFromBot= serchCenter | basisBottom,
+        serchBottomRight = serchRight | basisTop,
+        serchTopRight = serchRight | basisBottom,
+    }
+
     //入ったら当選するシンボルを指定したライン(TOP,MIDDLE,BOTTOM)を元に取得する
     //基本左リールを基準に選択したラインを探索TOPなら左リールの上、BOTTOMなら左リールの下。
-    //左リールのシンボルを特定する場合は右リールを基準に探索する
-    private static Symbols GetReachSymbolForLine(Reels selectReel ,Positions searchPosition , Positions line )
+    private static Symbols GetReachSymbolsForLine(Reels selectReel , Lines line )
     {
-        sbyte next = 0;
-        bool isLeft = false;
-        bool isCenter = false;
-        bool isRight = false;
 
-        bool isParallel = false;
-        bool isNone = false;
+        Symbols reachSymbols = Symbols.NONE; //リーチになっているシンボルが入る,OR演算で複数代入可能
+        Symbols lineSymbols = Symbols.NONE; //選択したライン上にあるシンボルを代入する
 
-        bool isTop = false;
-        bool isMiddle = false;
-        bool isBottom = false;
-
-        Symbols lineFirstSymbol = Symbols.NONE;
-        Symbols lineSecondSymbol = Symbols.NONE;
-
-        Reels firstReel = Reels.NONE;
-        Reels secondReel = Reels.NONE;
+        Reels stoppedReels = Reels.NONE;
 
         switch(selectReel)
         {
             case Reels.LEFT:
-                isLeft = true;
+                stoppedReels = Reels.CENTER | Reels.RIGHT;
                 break;
             case Reels.CENTER:
-                isCenter = true;
+                stoppedReels = Reels.LEFT | Reels.RIGHT;
                 break;
             case Reels.RIGHT:
-                isRight = true;
+                stoppedReels = Reels.LEFT | Reels.CENTER;
                 break;
         }
 
-        switch (searchPosition) //
+        if (stoppedReels.HasFlag(Reels.LEFT)) //止まっているリールに左リールが含まれている時
         {
-            case Positions.TOP:
-                isTop = true;
-                break;
-            case Positions.MIDDLE:
-                isMiddle = true;
-                break;
-            case Positions.BOTTOM:
-                isBottom = true;
-                break;
-        }
-
-        if (searchPosition == line) //探索ラインが特定するポジションと平行か否か
-        {
-            isParallel = true;
-            switch (searchPosition) //平行の時比較先は全て同じ位置なので全ての上中下の位置を計算するための値を代入
+            switch(line)
             {
-                case Positions.TOP:
-                    next = 2;
+                case Lines.upperToLower: //左上から右下のライン
+                    lineSymbols = leftReel[CalcReelPosition(nowLeftReel, 2)];
                     break;
-                case Positions.MIDDLE:
-                    next = 1;
+                case Lines.upperToUpper: //左上から右上のライン
+                    lineSymbols = leftReel[CalcReelPosition(nowLeftReel, 2)];
                     break;
-                case Positions.BOTTOM:
-                    next = 0;
+                case Lines.middleToMiddle: //左中から右中のライン
+                    lineSymbols = leftReel[CalcReelPosition(nowLeftReel, 1)];
                     break;
-            }
-
-            switch (selectReel) //選択外のリールのシンボルを比べるために代入する
-            {
-                case Reels.LEFT:
-                    lineFirstSymbol = ReelOrder.centerReelOrder[CalcReelPosition(nowCenterReel, next)];
-                    lineSecondSymbol = ReelOrder.rightReelOrder[CalcReelPosition(nowRightReel, next)];
+                case Lines.lowerToLower: //左下から右下のライン
+                    lineSymbols = leftReel[nowLeftReel];
                     break;
-                case Reels.CENTER:
-                    lineFirstSymbol = ReelOrder.leftReelOrder[CalcReelPosition(nowLeftReel, next)];
-                    lineSecondSymbol = ReelOrder.rightReelOrder[CalcReelPosition(nowRightReel, next)];
-                    break;
-                case Reels.RIGHT:
-                    lineFirstSymbol = ReelOrder.leftReelOrder[CalcReelPosition(nowLeftReel, next)];
-                    lineSecondSymbol = ReelOrder.centerReelOrder[CalcReelPosition(nowCenterReel, next)];
+                case Lines.lowerToUpper: //左下から右上のライン
+                    lineSymbols = leftReel[nowLeftReel];
                     break;
             }
         }
 
-
-        if (isParallel == false && isLeft )
+        if (stoppedReels.HasFlag(Reels.CENTER)) //止まっているリールに中央リールが含まれている時
         {
-            
+            switch (line)
+            {
+                case Lines.upperToLower:
+                    lineSymbols |= centerReel[CalcReelPosition(nowCenterReel, 1)]; // "|="で左辺と右辺のOR演算の結果を代入する
+                    break;
+                case Lines.upperToUpper:
+                    lineSymbols |= centerReel[CalcReelPosition(nowCenterReel, 2)];
+                    break;
+                case Lines.middleToMiddle:
+                    lineSymbols |= centerReel[CalcReelPosition(nowCenterReel, 1)];
+                    break;
+                case Lines.lowerToLower:
+                    lineSymbols |= centerReel[CalcReelPosition(nowCenterReel, 1)];
+                    break;
+                case Lines.lowerToUpper:
+                    lineSymbols |= centerReel[nowCenterReel];
+                    break;
+            }
         }
 
-        if(isParallel && lineFirstSymbol == lineSecondSymbol) //平行なシンボルの並びを探索する場合二つとも同じシンボルの時、それを返す
+        if (stoppedReels.HasFlag(Reels.LEFT)) //止まっているリールに左リールが含まれている時
         {
-            return lineFirstSymbol;
+            switch (line)
+            {
+                case Lines.upperToLower: //左上から右下のライン
+                    lineSymbols |= rightReel[nowRightReel];
+                    break;
+                case Lines.upperToUpper: //左上から右上のライン
+                    lineSymbols |= rightReel[CalcReelPosition(nowRightReel, 2)];
+                    break;
+                case Lines.middleToMiddle: //左中から右中のライン
+                    lineSymbols |= rightReel[CalcReelPosition(nowRightReel, 1)];
+                    break;
+                case Lines.lowerToLower: //左下から右下のライン
+                    lineSymbols |= rightReel[nowRightReel];
+                    break;
+                case Lines.lowerToUpper: //左下から右上のライン
+                    lineSymbols |= rightReel[CalcReelPosition(nowRightReel, 2)];
+                    break;
+            }
         }
 
-        if(isParallel == false && isCenter && searchPosition == Positions.MIDDLE && lineFirstSymbol == lineSecondSymbol) //特定するリールが中央の時に平行ではないならMIDDLEのみ比較する
+        switch (lineSymbols)
         {
-            return lineFirstSymbol;
+            case Symbols.BELL:
+            case Symbols.REPLAY:
+            case Symbols.WATERMELON:
+            case Symbols.CHERRY: //フォールスルー　ここから上のcaseの場合以下をbreakまで実行する
+                reachSymbols = lineSymbols;
+                break;
+
+            case Symbols.BAR:
+            case Symbols.SEVEN:
+                reachSymbols = Symbols.BAR;
+                reachSymbols |= Symbols.SEVEN;
+                break;
+
+            default:
+                reachSymbols = Symbols.NONE;
+                break;
         }
 
-        if(isParallel == false && (isLeft || isRight) && line == Positions.MIDDLE) //特定するラインが平行でない時に特定するリールが左右のどちらかで探索ラインがMIDDLEの時NONEを返す
-        {
-            return Symbols.NONE;
-        }
 
 
-        return Symbols.NONE;
+        return reachSymbols;
     }
 
 }
