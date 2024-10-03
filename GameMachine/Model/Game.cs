@@ -515,13 +515,10 @@ public class Game
 
     //入ったら当選するシンボルを取得するtimeはFIRSTかSECONDが入り探索で1or2つ目に発見したか(正確には上から探索or下から探索)
     //positionは探索場所をTOP,MIDDLE,BOTTOMを代入する
-    private static Symbols GetReachSymbol(Reels selectReel,Positions searchPosition,Times time)
+    private static Symbols GetReachSymbolsForPositions(Reels selectReel,Positions searchPosition)
     {
-        sbyte startPosition = 0;
-        bool isFromTop = true;
-        sbyte difference = 1;
-        Positions nextPosition = Positions.NONE;
         bool otherReelIsMoving = true;
+        Symbols reachSymbols = Symbols.NONE;
 
 
         switch (selectReel)
@@ -546,29 +543,61 @@ public class Game
         }
 
 
-
-
-        switch (time)
+        if(selectReel == Reels.LEFT)
         {
-            case Times.FIRST:
-                difference = -1;
-                startPosition = 2;
-                isFromTop = true;
-                break;
-            case Times.SECOND:
-                difference = 1;
-                startPosition = 0;
-                isFromTop = false;
-                break;
+            switch (searchPosition)
+            {
+                case Positions.TOP:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToUpper);
+                    break;
+                case Positions.MIDDLE:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
+                    break;
+                case Positions.BOTTOM:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
+                    break;
+            }
         }
 
-
-        for (int i = 0; i < 3; i++)
+        if (selectReel == Reels.CENTER)
         {
-
+            switch (searchPosition)
+            {
+                case Positions.TOP:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToUpper);
+                    break;
+                case Positions.MIDDLE:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
+                    break;
+                case Positions.BOTTOM:
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToLower);
+                    break;
+            }
         }
 
-        return Symbols.NONE;
+        if (selectReel == Reels.RIGHT)
+        {
+            switch (searchPosition)
+            {
+                case Positions.TOP:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToUpper);
+                    break;
+                case Positions.MIDDLE:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
+                    break;
+                case Positions.BOTTOM:
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToLower);
+                    break;
+            }
+        }
+
+        return reachSymbols;
     }
 
     enum Lines :int
