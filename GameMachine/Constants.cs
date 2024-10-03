@@ -20,6 +20,8 @@ public static class Constants
         CHERRY = 8,
         BAR = 16,
         SEVEN = 32,
+
+        REACH = 64,
     }
 
     public enum Roles : int

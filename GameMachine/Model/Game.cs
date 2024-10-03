@@ -513,8 +513,8 @@ public class Game
         return false;
     }
 
-    //入ったら当選するシンボルを取得するtimeはFIRSTかSECONDが入り探索で1or2つ目に発見したか(正確には上から探索or下から探索)
-    //positionは探索場所をTOP,MIDDLE,BOTTOMを代入する
+    //指定したリールのポジションでリーチのシンボルを取得する
+    //searchPositionは探索場所をTOP,MIDDLE,BOTTOMを代入する
     private static Symbols GetReachSymbolsForPositions(Reels selectReel,Positions searchPosition)
     {
         bool otherReelIsMoving = true;
@@ -603,15 +603,15 @@ public class Game
     enum Lines :int
     {
         NONE = 0,
-        upperToUpper = 1,
-        upperToLower = 2,
-        middleToMiddle = 4,
-        lowerToLower = 8,
-        lowerToUpper = 16,
+        upperToLower = 1, //左上から右下
+        upperToUpper = 2, //左上から右上
+        middleToMiddle = 4, //左中から右中
+        lowerToLower = 8, //左下から右下
+        lowerToUpper = 16, //左下から右上
     }
 
-    //入ったら当選するシンボルを指定したライン(TOP,MIDDLE,BOTTOM)を元に取得する
-    //基本左リールを基準に選択したラインを探索TOPなら左リールの上、BOTTOMなら左リールの下。
+    //入ったら当選するシンボルを指定したLinesを元に取得する
+    //左リールを基準にし、upperToLowerは左上から右下
     private static Symbols GetReachSymbolForLine(Reels selectReel , Lines line )
     {
 
@@ -715,9 +715,9 @@ public class Game
                 break;
         }
 
-        if(lineSymbols.HasFlag(Symbols.BAR) && lineSymbols.HasFlag(Symbols.SEVEN))
+        if(lineSymbols.HasFlag(Symbols.BAR) && lineSymbols.HasFlag(Symbols.SEVEN)) //リーチ目になりそうな状態 
         {
-
+            reachSymbol = Symbols.REACH; //REGが来た場合、優先で7を入れること BIGがきた場合は7以外を揃えること
         }
 
 
