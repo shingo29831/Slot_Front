@@ -74,7 +74,7 @@
             // 
             // CpB1
             // 
-            CpB1.Location = new Point(575, 525);
+            CpB1.Location = new Point(575, 550);
             CpB1.Name = "CpB1";
             CpB1.Size = new Size(175, 150);
             CpB1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -101,7 +101,7 @@
             // 
             // RpB1
             // 
-            RpB1.Location = new Point(850, 525);
+            RpB1.Location = new Point(850, 550);
             RpB1.Name = "RpB1";
             RpB1.Size = new Size(175, 150);
             RpB1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -134,10 +134,11 @@
             LpB2.SizeMode = PictureBoxSizeMode.StretchImage;
             LpB2.TabIndex = 21;
             LpB2.TabStop = false;
+            LpB2.Click += LpB2_Click;
             // 
             // LpB1
             // 
-            LpB1.Location = new Point(300, 525);
+            LpB1.Location = new Point(300, 550);
             LpB1.Name = "LpB1";
             LpB1.Size = new Size(175, 150);
             LpB1.SizeMode = PictureBoxSizeMode.StretchImage;

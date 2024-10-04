@@ -45,7 +45,7 @@ namespace GameMachine
             reelTimer = timer;
             reelTimer.Elapsed += ReelTimerTick;  // タイマーのイベントハンドラを設定
             reelTimer.AutoReset = true;          // 自動で繰り返し実行
-            reelTimer.Interval = 50;             // タイマーの間隔を設定（50ミリ秒）
+            reelTimer.Interval = 1;             // タイマーの間隔を設定（50ミリ秒）
 
             // 各リールの PictureBox 配列を初期化
             leftReel = left;
@@ -83,9 +83,59 @@ namespace GameMachine
         }
 
         // 各リールの停止メソッド（ボタン押下時に呼ばれる）
-        public void StopLeftReel() { leftReelStop = true; }    // 左リールを停止
-        public void StopCenterReel() { centerReelStop = true; }  // 中央リールを停止
-        public void StopRightReel() { rightReelStop = true; }   // 右リールを停止
+        public void StopLeftReel()
+        {
+            while(true)
+            {
+                if (leftReel[0].Top==25|| leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550)
+                {
+                    leftReelStop = true;
+                    break;
+                }
+                else
+                {
+                    for(int i = 0; i < 4; i++)
+                    {
+                        leftReel[i].Top += 25; 
+                    }
+                }
+            }
+                   
+        }    // 左リールを停止
+        public void StopCenterReel() {
+            while (true)
+            {
+                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550)
+                {
+                    centerReelStop = true;
+                    break;
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        centerReel[i].Top += 25;
+                    }
+                }
+            }
+        }  // 中央リールを停止
+        public void StopRightReel() {
+            while (true)
+            {
+                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550)
+                {
+                    rightReelStop = true;
+                    break;
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        rightReel[i].Top += 25;
+                    }
+                }
+            }
+        }   // 右リールを停止
 
         // リールのシンボルに対応する画像を設定する（初期画像を設定）
         private void SetReelImages(PictureBox[] reel, Symbols[] order, int standardorder)
@@ -143,8 +193,8 @@ namespace GameMachine
         {
             foreach (var reel in reels)
             {
-                reel.Top += 50;  // リールの速度を調整
-                if (reel.Top > 540)  // リールが画面外に出たら位置をリセット
+                reel.Top +=25;  // リールの速度を調整
+                if (reel.Top > 550)  // リールが画面外に出たら位置をリセット
                 {
                     reel.Top = -reel.Height;
                     UpdateImage(reel, ref count, order); // 画像を次のシンボルに更新
