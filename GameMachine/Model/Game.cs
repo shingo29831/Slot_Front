@@ -244,17 +244,17 @@ public class Game
         switch (selectReel)
         {
             case Reels.LEFT:
-                reelOrder = ReelOrder.leftReelOrder;
+                reelOrder = ReelOrder.LEFT_REEL_ORDER;
                 break;
 
 
             case Reels.CENTER:
-                reelOrder = ReelOrder.centerReelOrder;
+                reelOrder = ReelOrder.CENTER_REEL_ORDER;
                 break;
 
 
             case Reels.RIGHT:
-                reelOrder = ReelOrder.rightReelOrder;
+                reelOrder = ReelOrder.RIGHT_REEL_ORDER;
                 break;
             
         }
@@ -484,9 +484,7 @@ public class Game
         int reelPosition = CalcReelPosition(GetNowReelPosition(selectReel),gap);
 
 
-        Symbols topReachSymbols = GetReachSymbolsForPosition(selectReel,Positions.TOP);
-        Symbols midleReachSymbols = GetReachSymbolsForPosition(selectReel,Positions.MIDDLE);
-        Symbols bottomReachSymbols = GetReachSymbolsForPosition(selectReel,Positions.BOTTOM);
+
 
         //以下はチェリーを除外する処理
 
@@ -531,6 +529,28 @@ public class Game
         //チェリー除外ここまで
         //ここからシンボルの除外
         Symbols topExclusionSymbols = GetExclusionSymbols(selectReel,Positions.TOP);
+        Symbols middleExclusionSymbols = GetExclusionSymbols(selectReel, Positions.MIDDLE);
+        Symbols bottomExclusionSymbols = GetExclusionSymbols(selectReel, Positions.BOTTOM);
+
+        Symbols[] exclusionSymbolsForReel = { topExclusionSymbols, middleExclusionSymbols, bottomExclusionSymbols };
+        Symbols[] symbols = {Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN};
+
+        int cnt= 0;
+        foreach(Symbols exclusionSymbols in exclusionSymbolsForReel)
+        {
+            foreach (Symbols symbol in symbols)
+            {
+                if(exclusionSymbols.HasFlag(symbol) && reelOrder[reelPosition] == symbol)
+                {
+                    //後で
+                }
+            }
+        }
+        
+        if(reelOrder[reelPosition] == Symbols.NONE)
+        {
+
+        }
 
         
 
@@ -601,7 +621,7 @@ public class Game
                 }
                 if (reachSymbols.HasFlag(Symbols.SEVEN))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR); //
+                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR); 
                 }
                 if (reachSymbols.HasFlag(Symbols.REACH))
                 {
