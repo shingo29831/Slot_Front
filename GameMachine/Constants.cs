@@ -21,7 +21,7 @@ public static class Constants
         BAR = 16,
         SEVEN = 32,
 
-        REACH = 64,
+        REACH = 64, //リーチ目の時に使う値
     }
 
     public enum Roles : int
