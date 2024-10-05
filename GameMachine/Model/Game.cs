@@ -332,13 +332,12 @@ public class Game
         {
             secondStopCandidate = GetBarPosition(reelOrder,nowReelPosition,Positions.NONE);
         }
-        int searchPostion = nowReelPosition;
-        for(int gap = 0; gap < 7; gap++)
+        for(int gap = 0; gap < 5; gap++)
         {
-            isExclusions[gap] = GetIsExclusion( selectReel, gap);
-            searchPostion = CalcReelPosition(searchPostion, 1);
-
+            isExclusions[gap] = GetIsExclusion( selectReel, gap); //停止候補先から5つ先まで順番に除外するかしないかをbool型で代入する
         }
+
+
 
 
         return reelPosition;
@@ -532,7 +531,7 @@ public class Game
         Symbols middleExclusionSymbols = GetExclusionSymbols(selectReel, Positions.MIDDLE);
         Symbols bottomExclusionSymbols = GetExclusionSymbols(selectReel, Positions.BOTTOM);
 
-        Symbols[] exclusionSymbolsForReel = { topExclusionSymbols, middleExclusionSymbols, bottomExclusionSymbols };
+        Symbols[] exclusionSymbolsForReel = { bottomExclusionSymbols, middleExclusionSymbols, topExclusionSymbols };
         Symbols[] symbols = {Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN};
 
         int cnt= 0;
@@ -540,19 +539,13 @@ public class Game
         {
             foreach (Symbols symbol in symbols)
             {
-                if(exclusionSymbols.HasFlag(symbol) && reelOrder[reelPosition] == symbol)
+                if(exclusionSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition,cnt)] == symbol)
                 {
-                    //後で
+                    return true;
                 }
+                cnt++;
             }
-        }
-        
-        if(reelOrder[reelPosition] == Symbols.NONE)
-        {
-
-        }
-
-        
+        }   
 
         return false;
     }
