@@ -83,6 +83,16 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap bet {
+            get {
+                object obj = ResourceManager.GetObject("bet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap CenterButtonOFF {
             get {
                 object obj = ResourceManager.GetObject("CenterButtonOFF", resourceCulture);
@@ -106,6 +116,26 @@ namespace GameMachine.Properties {
         internal static System.Drawing.Bitmap cherry {
             get {
                 object obj = ResourceManager.GetObject("cherry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap FlowerOFF {
+            get {
+                object obj = ResourceManager.GetObject("FlowerOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap FlowerON {
+            get {
+                object obj = ResourceManager.GetObject("FlowerON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,6 +193,16 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap lever {
+            get {
+                object obj = ResourceManager.GetObject("lever", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap LeverOFF {
             get {
                 object obj = ResourceManager.GetObject("LeverOFF", resourceCulture);
@@ -203,6 +243,26 @@ namespace GameMachine.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap OneOFF {
+            get {
+                object obj = ResourceManager.GetObject("OneOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap OneON {
+            get {
+                object obj = ResourceManager.GetObject("OneON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap REPLAY {
             get {
                 object obj = ResourceManager.GetObject("REPLAY", resourceCulture);
@@ -236,6 +296,46 @@ namespace GameMachine.Properties {
         internal static System.Drawing.Bitmap seven {
             get {
                 object obj = ResourceManager.GetObject("seven", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap ThreeOFF {
+            get {
+                object obj = ResourceManager.GetObject("ThreeOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap ThreeON {
+            get {
+                object obj = ResourceManager.GetObject("ThreeON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoOFF {
+            get {
+                object obj = ResourceManager.GetObject("TwoOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoON {
+            get {
+                object obj = ResourceManager.GetObject("TwoON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
