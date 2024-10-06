@@ -42,7 +42,7 @@
             RpB4 = new PictureBox();
             btnstop3 = new PictureBox();
             btnstop2 = new PictureBox();
-            pictureBox5 = new PictureBox();
+            MaxBet = new PictureBox();
             btnStart = new PictureBox();
             btnstop1 = new PictureBox();
             pictureBox1 = new PictureBox();
@@ -52,6 +52,11 @@
             panel6 = new Panel();
             panel7 = new Panel();
             panel8 = new Panel();
+            FlowerLeft = new PictureBox();
+            FlowerRight = new PictureBox();
+            Bet3 = new PictureBox();
+            Bet2 = new PictureBox();
+            Bet1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -66,10 +71,15 @@
             ((System.ComponentModel.ISupportInitialize)RpB4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnstop3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnstop2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MaxBet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnStart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnstop1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)FlowerLeft).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)FlowerRight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Bet3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Bet2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Bet1).BeginInit();
             SuspendLayout();
             // 
             // CpB1
@@ -134,7 +144,6 @@
             LpB2.SizeMode = PictureBoxSizeMode.StretchImage;
             LpB2.TabIndex = 21;
             LpB2.TabStop = false;
-            LpB2.Click += LpB2_Click;
             // 
             // LpB1
             // 
@@ -203,15 +212,16 @@
             btnstop2.TabStop = false;
             btnstop2.Click += stopBtns_Click;
             // 
-            // pictureBox5
+            // MaxBet
             // 
-            pictureBox5.Image = Properties.Resources.MAXBETOFF;
-            pictureBox5.Location = new Point(50, 575);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(125, 125);
-            pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox5.TabIndex = 19;
-            pictureBox5.TabStop = false;
+            MaxBet.Image = Properties.Resources.MAXBETOFF;
+            MaxBet.Location = new Point(50, 575);
+            MaxBet.Name = "MaxBet";
+            MaxBet.Size = new Size(125, 125);
+            MaxBet.SizeMode = PictureBoxSizeMode.StretchImage;
+            MaxBet.TabIndex = 19;
+            MaxBet.TabStop = false;
+            MaxBet.Click += MaxBet_Click;
             // 
             // btnStart
             // 
@@ -287,11 +297,66 @@
             panel8.Size = new Size(175, 25);
             panel8.TabIndex = 38;
             // 
+            // FlowerLeft
+            // 
+            FlowerLeft.Image = Properties.Resources.FlowerOFF;
+            FlowerLeft.Location = new Point(25, 0);
+            FlowerLeft.Name = "FlowerLeft";
+            FlowerLeft.Size = new Size(200, 200);
+            FlowerLeft.SizeMode = PictureBoxSizeMode.StretchImage;
+            FlowerLeft.TabIndex = 39;
+            FlowerLeft.TabStop = false;
+            // 
+            // FlowerRight
+            // 
+            FlowerRight.Image = Properties.Resources.FlowerOFF;
+            FlowerRight.Location = new Point(1050, 0);
+            FlowerRight.Name = "FlowerRight";
+            FlowerRight.Size = new Size(200, 200);
+            FlowerRight.SizeMode = PictureBoxSizeMode.StretchImage;
+            FlowerRight.TabIndex = 40;
+            FlowerRight.TabStop = false;
+            // 
+            // Bet3
+            // 
+            Bet3.Image = Properties.Resources.ThreeOFF;
+            Bet3.Location = new Point(150, 250);
+            Bet3.Name = "Bet3";
+            Bet3.Size = new Size(75, 75);
+            Bet3.SizeMode = PictureBoxSizeMode.StretchImage;
+            Bet3.TabIndex = 41;
+            Bet3.TabStop = false;
+            // 
+            // Bet2
+            // 
+            Bet2.Image = Properties.Resources.TwoOFF;
+            Bet2.Location = new Point(150, 325);
+            Bet2.Name = "Bet2";
+            Bet2.Size = new Size(75, 75);
+            Bet2.SizeMode = PictureBoxSizeMode.StretchImage;
+            Bet2.TabIndex = 42;
+            Bet2.TabStop = false;
+            // 
+            // Bet1
+            // 
+            Bet1.Image = Properties.Resources.OneOFF;
+            Bet1.Location = new Point(150, 400);
+            Bet1.Name = "Bet1";
+            Bet1.Size = new Size(75, 75);
+            Bet1.SizeMode = PictureBoxSizeMode.StretchImage;
+            Bet1.TabIndex = 43;
+            Bet1.TabStop = false;
+            // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(Bet1);
+            Controls.Add(Bet2);
+            Controls.Add(Bet3);
+            Controls.Add(FlowerRight);
+            Controls.Add(FlowerLeft);
             Controls.Add(btnstop1);
             Controls.Add(panel3);
             Controls.Add(panel4);
@@ -300,7 +365,7 @@
             Controls.Add(panel7);
             Controls.Add(panel8);
             Controls.Add(btnStart);
-            Controls.Add(pictureBox5);
+            Controls.Add(MaxBet);
             Controls.Add(btnstop2);
             Controls.Add(btnstop3);
             Controls.Add(pictureBox1);
@@ -333,10 +398,15 @@
             ((System.ComponentModel.ISupportInitialize)RpB4).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnstop3).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnstop2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MaxBet).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnStart).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnstop1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)FlowerLeft).EndInit();
+            ((System.ComponentModel.ISupportInitialize)FlowerRight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Bet3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Bet2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Bet1).EndInit();
             ResumeLayout(false);
         }
 
@@ -355,7 +425,7 @@
         private PictureBox RpB4;
         private PictureBox btnstop3;
         private PictureBox btnstop2;
-        private PictureBox pictureBox5;
+        private PictureBox MaxBet;
         private PictureBox btnStart;
         private PictureBox btnstop1;
         private PictureBox pictureBox1;
@@ -365,5 +435,10 @@
         private Panel panel6;
         private Panel panel7;
         private Panel panel8;
+        private PictureBox FlowerLeft;
+        private PictureBox FlowerRight;
+        private PictureBox Bet3;
+        private PictureBox Bet2;
+        private PictureBox Bet1;
     }
 }
