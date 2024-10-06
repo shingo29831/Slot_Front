@@ -2,6 +2,7 @@ using System;
 using static Model.Setting;
 using static Constants;
 using static Model.Game;
+using System.Collections;
 
 
 namespace GameMachine
@@ -9,9 +10,9 @@ namespace GameMachine
     public partial class TestForm : Form
     {
         int leftNowReelPosition = GetNowReelPosition(Reels.LEFT);
-        int[] leftReelOrder = GetReelOrder(Reels.LEFT);
-        int[] centerReelOrder = GetReelOrder(Reels.CENTER);
-        int[] rightReelOrder = GetReelOrder(Reels.RIGHT);
+        bool leftStopBtn = false;
+        bool centerStopBtn = false;
+        bool rightStopBtn = false;
 
 
         int bonusState = NONE;
@@ -47,15 +48,13 @@ namespace GameMachine
         {
             if (stopBtnCount == 0)
             {
-                role = HitRoleLottery();
-                role = Role.STRONG_CHERRY;
-                lblArray.Text = "ROLE:" + changeToName(role);
+                lblArray.Text = "ROLE:" + roleChangeToName(Roles.VERY_STRONG_CHERRY);
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
             }
-            
+
 
 
         }
@@ -63,42 +62,152 @@ namespace GameMachine
         private void button2_Click(object sender, EventArgs e)
         {
 
+            //timer1.Enabled=true;
+
+
+            Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
+            Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
+            lblArray.Text = "GetReachSymbols:";
+            int cnt = 0;
+            lblArray.Text += " " + cnt.ToString() + ":" + PositionsChangeToNames(GetRoleReachPositions()) + " , ";
+
+
+            dispReelsSymbols(Reels.LEFT);
+
+
+
+            dispReelsSymbols(Reels.CENTER);
+
+            //UpReelPosition(Reels.RIGHT, rightPosition);
+            dispReelsSymbols(Reels.RIGHT);
+            UpReelPosition(Reels.RIGHT, leftPosition);
+            if (nowRightReel == 20)
+            {
+                UpReelPosition(Reels.CENTER, centerPosition);
+            }
         }
 
-        private String changeToName(int roleNum)
+        private String roleChangeToName(Roles role)
         {
             String value = "";
-            switch (roleNum)
+            switch (role)
             {
-                case 0:
+                case Roles.NONE:
                     value = "NONE";
                     break;
-                case 1:
+                case Roles.BELL:
                     value = "BELL";
                     break;
-                case 2:
+                case Roles.REPLAY:
                     value = "REPLAY";
                     break;
-                case 3:
+                case Roles.WATERMELON:
                     value = "WATERMELON";
                     break;
-                case 4:
+                case Roles.WEAK_CHERRY:
                     value = "WEAK_CHERRY";
                     break;
-                case 5:
+                case Roles.STRONG_CHERRY:
                     value = "STRONG_CHERRY";
                     break;
-                case 6:
+                case Roles.VERY_STRONG_CHERRY:
                     value = "VERY_STRONG_CHERRY";
                     break;
-                case 7:
-                    value = "REACH";
-                    break;
-                case 8:
+                case Roles.REGULAR:
                     value = "REG";
                     break;
-                case 9:
+                case Roles.BIG:
                     value = "BIG";
+                    break;
+            }
+            return value;
+        }
+
+        private String PositionsChangeToNames(Positions positions)
+        {
+            String value = "";
+            if (positions.HasFlag(Positions.TOP))
+            {
+                value += " Åï TOP";
+            }
+            if (positions.HasFlag(Positions.MIDDLE))
+            {
+                value += " Åï MIDDLE";
+            }
+            if (positions.HasFlag(Positions.BOTTOM))
+            {
+                value += " Åï BOTTOM";
+            }
+            return value;
+        }
+
+
+        private String SymbolsChangeToNames(Symbols symbols)
+        {
+            String value = "";
+
+            if (symbols.HasFlag(Symbols.BELL))
+            {
+                value += " Åï BELL";
+            }
+            if (symbols.HasFlag(Symbols.REPLAY))
+            {
+                value += " Åï REPLAY";
+            }
+            if (symbols.HasFlag(Symbols.WATERMELON))
+            {
+                value += " Åï WATERMELON";
+            }
+            if (symbols.HasFlag(Symbols.CHERRY))
+            {
+                value += " Åï CHERRY";
+            }
+            if (symbols.HasFlag(Symbols.BAR))
+            {
+                value += " Åï BAR";
+            }
+            if (symbols.HasFlag(Symbols.SEVEN))
+            {
+                value += " Åï SEVEN";
+            }
+            if (symbols.HasFlag(Symbols.REACH))
+            {
+                value += " Åï REACH";
+            }
+
+
+
+            return value;
+        }
+
+        private String SymbolChangeToName(Symbols symbol)
+        {
+            String value = "";
+            switch (symbol)
+            {
+                case Symbols.NONE:
+                    value = "NONE";
+                    break;
+                case Symbols.BELL:
+                    value = "BELL";
+                    break;
+                case Symbols.REPLAY:
+                    value = "REPLAY";
+                    break;
+                case Symbols.WATERMELON:
+                    value = "WATERMELON";
+                    break;
+                case Symbols.CHERRY:
+                    value = "CHERRY";
+                    break;
+                case Symbols.BAR:
+                    value = "BAR";
+                    break;
+                case Symbols.SEVEN:
+                    value = "SEVEN";
+                    break;
+                case Symbols.REACH:
+                    value = "REACH";
                     break;
             }
             return value;
@@ -107,84 +216,120 @@ namespace GameMachine
         //íËêîÇ≈ëIë
         private void dispReelsSymbols(Reels selectReel)
         {
+            Symbols[] leftReelOrder = GetReelOrder(Reels.LEFT);
+            Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
+            Symbols[] rightReelOrder = GetReelOrder(Reels.RIGHT);
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    leftReelBot.Text = leftReelOrder[GetDispSymbol(Reels.LEFT, Position.BOTTOM)].ToString();
-                    leftReelMid.Text = leftReelOrder[GetDispSymbol(Reels.LEFT, Position.MIDDLE)].ToString();
-                    leftReelTop.Text = leftReelOrder[GetDispSymbol(Reels.LEFT, Position.TOP)].ToString();
+                    leftReelBot.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.BOTTOM)]);
+                    leftReelMid.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.MIDDLE)]);
+                    leftReelTop.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.TOP)]);
                     break;
 
                 case Reels.CENTER:
-                    centerReelBot.Text = centerReelOrder[GetDispSymbol(Reels.CENTER, Position.BOTTOM)].ToString();
-                    centerReelMid.Text = centerReelOrder[GetDispSymbol(Reels.CENTER, Position.MIDDLE)].ToString();
-                    centerReelTop.Text = centerReelOrder[GetDispSymbol(Reels.CENTER, Position.TOP)].ToString();
+                    centerReelBot.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.BOTTOM)]);
+                    centerReelMid.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.MIDDLE)]);
+                    centerReelTop.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.TOP)]);
                     break;
 
                 case Reels.RIGHT:
-                    rightReelBot.Text = rightReelOrder[GetDispSymbol(Reels.RIGHT, Position.BOTTOM)].ToString();
-                    rightReelMid.Text = rightReelOrder[GetDispSymbol(Reels.RIGHT, Position.MIDDLE)].ToString();
-                    rightReelTop.Text = rightReelOrder[GetDispSymbol(Reels.RIGHT, Position.TOP)].ToString();
+                    rightReelBot.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.BOTTOM)]);
+                    rightReelMid.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.MIDDLE)]);
+                    rightReelTop.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.TOP)]);
                     break;
             }
         }
 
         private void leftStop_Click(object sender, EventArgs e)
         {
-            leftPosition = GetFirstReelPosition(Reels.LEFT, role);
-
-            lblArray.Text += "   Reels.LEFT:" + leftPosition.ToString() + " , " + GetNowReelPosition(Reels.LEFT);
-            stopBtnCount++;
-            if (stopBtnCount == 3)
-            {
-                stopBtnCount = 0;
-            }
+            leftPosition = PushStopReelPosition(Reels.LEFT);
         }
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            centerPosition = GetFirstReelPosition(Reels.CENTER, role);
-
-
-            lblArray.Text += "   Reels.CENTER:" + centerPosition.ToString() + " , " + GetNowReelPosition(Reels.CENTER);
-            stopBtnCount++;
-            if (stopBtnCount == 3)
-            {
-                stopBtnCount = 0;
-            }
+            centerPosition= PushStopReelPosition(Reels.CENTER);
         }
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            rightPosition = GetFirstReelPosition(Reels.RIGHT, role);
-
-
-            lblArray.Text += "   Reels.RIGHT:" + rightPosition.ToString() + " , " + GetNowReelPosition(Reels.RIGHT);
-            stopBtnCount++;
-
-            if (stopBtnCount == 3)
-            {
-                stopBtnCount = 0;
-            }
+            rightPosition = PushStopReelPosition(Reels.RIGHT);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (stopBtnCount < 3)
+
+
+            Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
+            Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
+            lblArray.Text = "GetReachSymbols:";
+            int cnt = 0;
+                lblArray.Text += " " + cnt.ToString() + ":" + PositionsChangeToNames(GetRoleReachPositions()) + " , ";
+
+
+            dispReelsSymbols(Reels.LEFT);
+
+
+
+            dispReelsSymbols(Reels.CENTER);
+
+            //UpReelPosition(Reels.RIGHT, rightPosition);
+            dispReelsSymbols(Reels.RIGHT);
+            UpReelPosition(Reels.RIGHT, leftPosition);
+            if (nowRightReel == 20)
             {
-                UpReelPosition(Reels.LEFT, leftPosition);
-                dispReelsSymbols(Reels.LEFT);
-
-
                 UpReelPosition(Reels.CENTER, centerPosition);
-                dispReelsSymbols(Reels.CENTER);
-
-                UpReelPosition(Reels.RIGHT, rightPosition);
-                dispReelsSymbols(Reels.RIGHT);
             }
+
 
         }
 
-        
+        private int PushStopReelPosition(Reels selectReel)
+        {
+            bool isExecution = false;
+            int stopReelPosition = NONE;
+            String value = "";
+
+
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    if (leftStopBtn == false)
+                    {
+                        leftStopBtn = true;
+                        isExecution = true;
+                        value = "  LEFT:" + nowLeftReel.ToString();
+                    }
+                    break;
+                case Reels.CENTER:
+                    if (centerStopBtn == false)
+                    {
+                        centerStopBtn = true;
+                        isExecution = true;
+                        value = "  CENTER:" + nowCenterReel.ToString();
+                    }
+                    break;
+                case Reels.RIGHT:
+                    if (rightStopBtn == false)
+                    {
+                        rightStopBtn = true;
+                        isExecution = true;
+                        value = " RIGHT:" + nowRightReel.ToString();
+                    }
+                    break;
+            }
+
+            if (isExecution)
+            {
+                stopReelPosition = GetStopReelPosition(selectReel);
+
+                lblArray.Text += value + " , " +  stopReelPosition.ToString() + " , ";
+            }
+
+            return stopReelPosition;
+        }
+
+
+
     }
 }

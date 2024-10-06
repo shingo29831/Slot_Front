@@ -76,7 +76,7 @@
             leftReelTop.BackColor = Color.White;
             leftReelTop.Location = new Point(121, 87);
             leftReelTop.Name = "leftReelTop";
-            leftReelTop.Size = new Size(50, 50);
+            leftReelTop.Size = new Size(120, 50);
             leftReelTop.TabIndex = 2;
             leftReelTop.Text = "NONE";
             leftReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -86,7 +86,7 @@
             centerReelTop.BackColor = Color.White;
             centerReelTop.Location = new Point(306, 87);
             centerReelTop.Name = "centerReelTop";
-            centerReelTop.Size = new Size(50, 50);
+            centerReelTop.Size = new Size(120, 50);
             centerReelTop.TabIndex = 3;
             centerReelTop.Text = "NONE";
             centerReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -96,7 +96,7 @@
             rightReelTop.BackColor = Color.White;
             rightReelTop.Location = new Point(474, 87);
             rightReelTop.Name = "rightReelTop";
-            rightReelTop.Size = new Size(50, 50);
+            rightReelTop.Size = new Size(120, 50);
             rightReelTop.TabIndex = 4;
             rightReelTop.Text = "NONE";
             rightReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -106,7 +106,7 @@
             leftReelMid.BackColor = Color.White;
             leftReelMid.Location = new Point(121, 178);
             leftReelMid.Name = "leftReelMid";
-            leftReelMid.Size = new Size(50, 50);
+            leftReelMid.Size = new Size(120, 50);
             leftReelMid.TabIndex = 5;
             leftReelMid.Text = "NONE";
             leftReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -116,7 +116,7 @@
             centerReelMid.BackColor = Color.White;
             centerReelMid.Location = new Point(306, 178);
             centerReelMid.Name = "centerReelMid";
-            centerReelMid.Size = new Size(50, 50);
+            centerReelMid.Size = new Size(120, 50);
             centerReelMid.TabIndex = 6;
             centerReelMid.Text = "NONE";
             centerReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -126,7 +126,7 @@
             rightReelMid.BackColor = Color.White;
             rightReelMid.Location = new Point(474, 178);
             rightReelMid.Name = "rightReelMid";
-            rightReelMid.Size = new Size(50, 50);
+            rightReelMid.Size = new Size(120, 50);
             rightReelMid.TabIndex = 7;
             rightReelMid.Text = "NONE";
             rightReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -136,7 +136,7 @@
             leftReelBot.BackColor = Color.White;
             leftReelBot.Location = new Point(121, 259);
             leftReelBot.Name = "leftReelBot";
-            leftReelBot.Size = new Size(50, 50);
+            leftReelBot.Size = new Size(120, 50);
             leftReelBot.TabIndex = 8;
             leftReelBot.Text = "NONE";
             leftReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -146,7 +146,7 @@
             centerReelBot.BackColor = Color.White;
             centerReelBot.Location = new Point(306, 259);
             centerReelBot.Name = "centerReelBot";
-            centerReelBot.Size = new Size(50, 50);
+            centerReelBot.Size = new Size(120, 50);
             centerReelBot.TabIndex = 9;
             centerReelBot.Text = "NONE";
             centerReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -156,7 +156,7 @@
             rightReelBot.BackColor = Color.White;
             rightReelBot.Location = new Point(474, 259);
             rightReelBot.Name = "rightReelBot";
-            rightReelBot.Size = new Size(50, 50);
+            rightReelBot.Size = new Size(120, 50);
             rightReelBot.TabIndex = 10;
             rightReelBot.Text = "NONE";
             rightReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -222,7 +222,7 @@
             rightStop.UseVisualStyleBackColor = true;
             rightStop.Click += rightStop_Click;
             // 
-            // Form1
+            // TestForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -244,7 +244,7 @@
             Controls.Add(leftReelTop);
             Controls.Add(button1);
             Controls.Add(txtbox1);
-            Name = "Form1";
+            Name = "TestForm";
             Text = "Form1";
             Load += Form1_Load;
             ResumeLayout(false);
