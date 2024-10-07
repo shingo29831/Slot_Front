@@ -78,7 +78,7 @@ namespace GameMachine
 
             for(int gap = 0; gap <= 4 ; gap++)
             {
-                int reelPosition = CalcReelPosition(nowLeftReel, gap);
+                //int reelPosition = CalcReelPosition(nowLeftReel, gap);
                 //lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
                 cnt++;
             }
@@ -92,7 +92,7 @@ namespace GameMachine
 
 
             UpReelPosition(Reels.LEFT, rightPosition);
-            if (nowRightReel == 20)
+            if (1 == 20)
             {
                 UpReelPosition(Reels.CENTER, centerPosition);
             }
@@ -301,7 +301,7 @@ namespace GameMachine
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            int position = GetReelPosition(Reels.LEFT);
+            int position = GetReelPosition(Reels.RIGHT);
             lblArray.Text += " Žn:"+ position.ToString();
             rightPosition = position;
             SetReelMoving(Reels.RIGHT, false);
@@ -311,14 +311,14 @@ namespace GameMachine
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //dispReelsSymbols(Reels.LEFT);
-            //dispReelsSymbols(Reels.CENTER);
-            //dispReelsSymbols(Reels.RIGHT);
+            dispReelsSymbols(Reels.LEFT);
+            dispReelsSymbols(Reels.CENTER);
+            dispReelsSymbols(Reels.RIGHT);
 
-            
-            //UpReelPosition(Reels.LEFT, leftPosition);
-            //UpReelPosition(Reels.CENTER, centerPosition);
-            //UpReelPosition(Reels.RIGHT, rightPosition);
+
+            UpReelPosition(Reels.LEFT, leftPosition);
+            UpReelPosition(Reels.CENTER, centerPosition);
+            UpReelPosition(Reels.RIGHT, rightPosition);
 
 
 
@@ -338,7 +338,7 @@ namespace GameMachine
                     {
                         leftStopBtn = true;
                         isExecution = true;
-                        value = "  LEFT:" + nowLeftReel.ToString();
+                        value = "  LEFT:" + 1l.ToString();
                     }
                     break;
                 case Reels.CENTER:
@@ -346,7 +346,7 @@ namespace GameMachine
                     {
                         centerStopBtn = true;
                         isExecution = true;
-                        value = "  CENTER:" + nowCenterReel.ToString();
+                        value = "  CENTER:" + 1.ToString();
                     }
                     break;
                 case Reels.RIGHT:
@@ -354,17 +354,11 @@ namespace GameMachine
                     {
                         rightStopBtn = true;
                         isExecution = true;
-                        value = " RIGHT:" + nowRightReel.ToString();
+                        value = " RIGHT:" + 1.ToString();
                     }
                     break;
             }
 
-            if (isExecution)
-            {
-                stopReelPosition = GetStopReelPosition(selectReel);
-
-                lblArray.Text += value + " , " +  stopReelPosition.ToString() + " , ";
-            }
 
             return stopReelPosition;
         }

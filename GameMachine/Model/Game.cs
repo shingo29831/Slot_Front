@@ -30,16 +30,16 @@ public class Game
     static Symbols[] rightReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
 
 
-    public static int nowLeftReel = 0;
-    public static int nowCenterReel = 6;
-    public static int nowRightReel = 9;
+    static int nowLeftReel = 0;
+    static int nowCenterReel = 6;
+    static int nowRightReel = 6;
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = true; //テストでfalse
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    public static Roles nowRole = Roles.REGULAR; //テスト前はNONE
+    public static Roles nowRole = Roles.BELL; //テスト前はNONE
     public static Symbols symbolsAccordingRole = Symbols.NONE;
 
     //reachRowsはリーチとなる場所を3次元配列で格納する各リールのポジション(上・中・下)に二つまでの入ったら役が成立するシンボルを代入する
@@ -133,7 +133,6 @@ public class Game
                 return nowRightReel;
                 break;
         }
-        MessageBox.Show("nowPo" + nowPosition.ToString());
         return nowPosition;
     }
 
@@ -299,101 +298,16 @@ public class Game
     }
 
 
-
-
-
-
-
-
-    //止める位置
-    //編集中
-    public static int GetStopReelPosition(Reels selectReel)
-    {
-        int stopReelPosition = GetNowReelPosition(selectReel);
-
-        switch (stopReelCount)
-        {
-            case 0:
-                stopReelPosition = GetFirstReelPosition(selectReel);
-                break;
-            case 1:
-                stopReelPosition = GetSecondReelPosition(selectReel);
-                break;
-            case 2:
-                stopReelPosition = GetThirdReelPostion(selectReel);
-                break;
-        }
-
-
-        return stopReelPosition;
-    }
-
-    //一つ目にストップさせるリールの処理
-    public static int GetFirstReelPosition(Reels selectReel)
-    {
-        int reelPosition = NONE;
-
-
-        Positions candidateStopPositions = Positions.TOP | Positions.MIDDLE | Positions.BOTTOM;
-        
-
-        reelPosition = GetReelPositionForCandidatePositions(selectReel, candidateStopPositions);
-
-        return reelPosition;
-    }
-
-    //二つ目にストップさせるリールの処理
-    public static int GetSecondReelPosition(Reels selectReel)
-    {
-        int reelPosition = NONE;
-        int candidateReelPosition = NONE;
-        int nowReelPosition = GetNowReelPosition(selectReel);
-
-        Positions candidateStopPositions = GetPositionsToReach(selectReel); //役を成立させるリーチがあった時にシンボルを止める場所を代入する
-
-        if (candidateStopPositions == Positions.NONE)
-        {
-            candidateStopPositions = Positions.TOP | Positions.MIDDLE | Positions.BOTTOM;
-        }
-
-        reelPosition = GetReelPositionForCandidatePositions(selectReel, candidateStopPositions);
-
-        return reelPosition;
-    }
-
-
-    //三つ目にストップさせるリールの処理
-    public static int GetThirdReelPostion(Reels selectReel)
-    {
-        int reelPosition = NONE;
-        int candidateReelPosition = NONE;
-        int nowReelPosition = GetNowReelPosition(selectReel);
-
-        Positions candidateStopPositions = GetRoleReachPositions(); //役を成立させるリーチがあった時にシンボルを止める場所を代入する
-
-        if(candidateStopPositions == Positions.NONE)
-        {
-            candidateStopPositions = Positions.TOP | Positions.MIDDLE | Positions.BOTTOM;
-        }
-
-        reelPosition = GetReelPositionForCandidatePositions(selectReel,candidateStopPositions);
-
-
-
-        return reelPosition;
-    }
-
-
     //選択したリールの次のリールポジションを返す
     public static int GetReelPosition(Reels selectReel)
     {
         int reelPosition = NONE;
-        MessageBox.Show("前" + GetNowReelPosition(selectReel).ToString());
+
         int nowReelposition = GetNowReelPosition(selectReel);
         bool isFindedReelPosition = false;
         bool isFindedProxyReelPosition = false;
         //nowReelPositionの5つ先まで止まるため5を代入
-        for(int gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
+        for (int gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
         {
             int searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
             bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
@@ -407,12 +321,12 @@ public class Game
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
-                MessageBox.Show("リーチ目" + searchReelPosition.ToString());
+                //MessageBox.Show("リーチ目" + searchReelPosition.ToString());
             }
             if(isExclusion == false && (isFindedReelPosition | isFindedProxyReelPosition) == false)
             {
                 reelPosition = searchReelPosition;
-                MessageBox.Show("役なし" + searchReelPosition.ToString());
+                //MessageBox.Show("役なし" + searchReelPosition.ToString());
             }
 
         }
@@ -429,7 +343,6 @@ public class Game
     {
 
         Symbols[] reelOrder = GetReelOrder(selectReel);
-        MessageBox.Show("h");
 
 
 
