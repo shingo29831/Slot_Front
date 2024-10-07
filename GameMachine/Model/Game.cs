@@ -17,12 +17,12 @@ public class Game
     static bool centerReelbtn = false;
     static bool rightReelbtn = false;
 
-    static int bonusReturn = 0;
+    static sbyte bonusReturn = 0;
     static bool nextBonusFlag = false;
     static bool bonusFlag = false;
 
-    static int[] dispSymbol = new int[3];
-    public static int stopReelCount = 0; //テスト前0
+    static sbyte[] dispSymbol = new sbyte[3];
+    public static sbyte stopReelCount = 0; //テスト前0
 
 
     static Symbols[] leftReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
@@ -30,9 +30,9 @@ public class Game
     static Symbols[] rightReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
 
 
-    static int nowLeftReel = 0;
-    static int nowCenterReel = 6;
-    static int nowRightReel = 6;
+    static sbyte nowLeftReel = 0;
+    static sbyte nowCenterReel = 6;
+    static sbyte nowRightReel = 6;
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = true; //テストでfalse
@@ -52,11 +52,11 @@ public class Game
     public static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
     public static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
     public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-    public static readonly int NOT = -1;
+    public static readonly sbyte NOT = -1;
 
 
     //左リールを基準にし、upperToLowerは左上から右下
-    public enum Lines : int
+    public enum Lines : sbyte
     {
         NONE = 0,
         upperToLower = 1, //左上から右下
@@ -67,7 +67,7 @@ public class Game
     }
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
-    public static int CalcReelPosition(int reelPosition,int move)
+    public static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
     {
         reelPosition += move;
         if (reelPosition < 0)
@@ -84,7 +84,7 @@ public class Game
 
 
     //リールを一つずつ移動させる　移動先が決定されている場合はリールのポジションを代入なければ NONE:-1 を代入
-    public static void UpReelPosition(Reels selectReel,int destinationPosition)
+    public static void UpReelPosition(Reels selectReel,sbyte destinationPosition)
     {
         switch (selectReel)
         {
@@ -116,9 +116,9 @@ public class Game
 
 
     //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
-    public static int GetNowReelPosition(Reels selectReel)
+    public static sbyte GetNowReelPosition(Reels selectReel)
     {
-        int nowPosition = NONE;
+        sbyte nowPosition = NONE;
         switch(selectReel)
         {
             case Reels.LEFT:
@@ -138,10 +138,10 @@ public class Game
 
 
     //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
-    public static int GetSymbolForPosition(Reels selectReel,Positions position)
+    public static sbyte GetSymbolForPosition(Reels selectReel,Positions position)
     {
-        int reelPosition = NONE;
-        int nowReelPosition = GetNowReelPosition (selectReel);
+        sbyte reelPosition = NONE;
+        sbyte nowReelPosition = GetNowReelPosition (selectReel);
         switch (position)
         {
             case Positions.TOP:
@@ -179,7 +179,7 @@ public class Game
     public static bool BonusLottery()
     {
         Random rnd = new Random();
-        int rndnum = rnd.Next(1, 101);  //1以上101未満の値がランダムに出力
+        sbyte rndnum = (sbyte)rnd.Next(1, 101);  //1以上101未満の値がランダムに出力
         if (rndnum <= Setting.getBonusProbability())
         {
             return true;
@@ -193,10 +193,10 @@ public class Game
     {
         Roles bonus = Roles.NONE;
         Random rnd = new Random();
-        int regularProbabilityWeight = Setting.getBonusesProbabilityWeight(0);
-        int bigProbabilityWeight = Setting.getBonusesProbabilityWeight(1);
-        int sumWeight = regularProbabilityWeight + bigProbabilityWeight;
-        int rndnum = rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
+        sbyte regularProbabilityWeight = Setting.getBonusesProbabilityWeight(0);
+        sbyte bigProbabilityWeight = Setting.getBonusesProbabilityWeight(1);
+        sbyte sumWeight = (sbyte)(regularProbabilityWeight + bigProbabilityWeight);
+        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
 
         if(regularProbabilityWeight <= rndnum)
         {
@@ -211,24 +211,24 @@ public class Game
 
 
     //役の抽選の関数　ボーナス以外の役が当選する
-    public static int HitRoleLottery()
+    public static sbyte HitRoleLottery()
     {
 
-        int role = 0;
-        int sumWeight = 0;
-        int lotteryRange = 6;
+        sbyte role = 0;
+        sbyte sumWeight = 0;
+        sbyte lotteryRange = 6;
 
 
-        for (int i = 0; i <= lotteryRange; i++)
+        for (sbyte i = 0; i <= lotteryRange; i++)
         {
             sumWeight += Setting.getRoleWeight(i);
         }
 
         Random rnd = new Random();
-        int rndnum = rnd.Next(1, sumWeight + 1);
+        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight + 1);
         sumWeight = 0;
-        int tmp = 0;
-        for (int i = 0; i <= lotteryRange; i++)
+        sbyte tmp = 0;
+        for (sbyte i = 0; i <= lotteryRange; i++)
         {
             tmp = sumWeight;
             sumWeight += Setting.getRoleWeight(i);
@@ -301,17 +301,17 @@ public class Game
 
 
     //選択したリールの次のリールポジションを返す
-    public static int GetReelPosition(Reels selectReel)
+    public static sbyte GetReelPosition(Reels selectReel)
     {
-        int reelPosition = NONE;
+        sbyte reelPosition = NONE;
 
-        int nowReelposition = GetNowReelPosition(selectReel);
+        sbyte nowReelposition = GetNowReelPosition(selectReel);
         bool isFindedReelPosition = false;
         bool isFindedProxyReelPosition = false;
         //nowReelPositionの5つ先まで止まるため5を代入
-        for (int gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
+        for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
         {
-            int searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
+            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
             bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
             if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition))
             {
@@ -341,7 +341,7 @@ public class Game
 
     //選択したリールの位置が除外か否かを返す
     //getIsExclusion(リールの選択,リールの位置)
-    private static bool GetIsExclusion(Reels selectReel, int reelPosition)
+    private static bool GetIsExclusion(Reels selectReel, sbyte reelPosition)
     {
 
         Symbols[] reelOrder = GetReelOrder(selectReel);
@@ -350,10 +350,10 @@ public class Game
 
         //以下は弱チェリーを回避する処理
 
-        int searchPosition = reelPosition;
+        sbyte searchPosition = reelPosition;
 
 
-        for (int i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
+        for (sbyte i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
         {
             if (reelOrder[searchPosition] == Symbols.CHERRY)
             {
@@ -372,7 +372,7 @@ public class Game
 
         Symbols[] exclusionSymbolsForReel = { bottomExclusionSymbols, middleExclusionSymbols, topExclusionSymbols };
 
-        int gap = 0;
+        sbyte gap = 0;
         foreach (Symbols exclusionSymbols in exclusionSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
         {
             foreach (Symbols symbol in SYMBOLS_ARRAY)
@@ -506,7 +506,7 @@ public class Game
 
 
     //役を達成できるか否か返す
-    public static bool GetIsAchieveRole(Reels selectReel,int reelPosition)
+    public static bool GetIsAchieveRole(Reels selectReel,sbyte reelPosition)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
@@ -517,7 +517,7 @@ public class Game
 
         Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };
 
-        int cnt = 0;
+        sbyte cnt = 0;
         foreach (Symbols achieveRoleSymbols in achieveRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
         {
             foreach (Symbols symbol in SYMBOLS_ARRAY)
@@ -619,7 +619,7 @@ public class Game
     }
 
 
-    public static bool GetIsReachRole(Reels selectReel,int reelPosition)
+    public static bool GetIsReachRole(Reels selectReel,sbyte reelPosition)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
@@ -630,7 +630,7 @@ public class Game
 
         Symbols[] reachRoleSymbolsForReel = { bottomReachRoleSymbols, middleReachRoleSymbols, topReachRoleSymbols };
 
-        int cnt = 0;
+        sbyte cnt = 0;
         foreach (Symbols reachRoleSymbols in reachRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
         {
             foreach (Symbols symbol in SYMBOLS_ARRAY)
@@ -708,51 +708,12 @@ public class Game
     }
 
 
-    public static int GetReelPositionForCandidatePositions(Reels selectReel,Positions selectPositions)
-    {
-        int reelPosition = NONE;
-        int[] candidateReelPosition = { NONE, NONE, NONE };
-        
-
-        int nearestGap = NONE;
-        int gap = NONE;
-
-        sbyte element = 0;
-        foreach (Positions position in POSITIONS_ARRAY)
-        {
-            
-            if (selectPositions.HasFlag(position))
-            {
-                candidateReelPosition[element] = CalcReelPosition(GetStopCandidateForPosition(selectReel, position),element * -1);
-            }
-            element++;
-        }
-
-        for(element = 0; element < candidateReelPosition.Length; element++)
-        {
-            gap = CalcGapNowReelPosition(selectReel, candidateReelPosition[element]); //差を代入する
-            if (( nearestGap == NONE || nearestGap > gap ) && gap != NONE) //差に値がある時にnearestGapよりも小さい値の時に処理する
-            {
-                reelPosition = candidateReelPosition[element];
-                nearestGap = gap;
-            }
-        }
-
-
-        if (reelPosition == NONE) //reelPositionがNONEだった時
-        {
-            reelPosition = GetReelPositionForRoleFailure(selectReel); //除外範囲ではない最も近い値をいれる
-        }
-
-        return reelPosition;
-    }
-
 
     //役が成立できない時に、除外範囲ではない最も近いリールの位置を代入する
-    public static int GetReelPositionForRoleFailure(Reels selectReel)
+    public static sbyte GetReelPositionForRoleFailure(Reels selectReel)
     {
-        int reelPosition = GetNowReelPosition(selectReel);
-        for (int gapNowReelPosition = 0; gapNowReelPosition < 5; gapNowReelPosition++) //reelPositionがNONEだった時に最も近い代入可能な位置をいれる
+        sbyte reelPosition = GetNowReelPosition(selectReel);
+        for (sbyte gapNowReelPosition = 0; gapNowReelPosition < 5; gapNowReelPosition++) //reelPositionがNONEだった時に最も近い代入可能な位置をいれる
         {
             if (GetIsExclusion(selectReel, reelPosition) == false) //除外範囲ではない時
             {
@@ -766,10 +727,10 @@ public class Game
 
 
     //現在のリールの位置からの差を返す 探索位置がNONEだった場合はNONEを返す
-    public static int CalcGapNowReelPosition(Reels selectReel, int reelSearchPosition)
+    public static sbyte CalcGapNowReelPosition(Reels selectReel, sbyte reelSearchPosition)
     {
-        int gap = 0;
-        int reelPosition = GetNowReelPosition(selectReel);
+        sbyte gap = 0;
+        sbyte reelPosition = GetNowReelPosition(selectReel);
         while (reelPosition != reelSearchPosition && reelSearchPosition !=NONE)
         {
             reelPosition = CalcReelPosition(reelPosition, 1);
@@ -896,13 +857,13 @@ public class Game
     //選択したポジションに入れることが可能で、現在のポジションに最も近い役を成立させるシンボルの位置を取得
     //除外範囲は含まない
     //TOPを選択した場合、止める基準地点のBOTTOMではなくTOPの位置で返すため注意
-    public static int GetStopCandidateForPosition(Reels selectReel, Positions position)
+    public static sbyte GetStopCandidateForPosition(Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
-        int nowReelPosition = GetNowReelPosition(selectReel);
-        int maxRange = 6;
-        int repetitions = 7;
-        int gapBottomPosition = NONE;
+        sbyte nowReelPosition = GetNowReelPosition(selectReel);
+        sbyte maxRange = 6;
+        sbyte repetitions = 7;
+        sbyte gapBottomPosition = NONE;
         switch (position)
         {
             case Positions.TOP:
@@ -923,12 +884,12 @@ public class Game
                 gapBottomPosition = 0;
                 break;
         }
-        int searchReelPosition = CalcReelPosition(nowReelPosition, maxRange);
-        int findedPostion = NONE;
-        for(int i = 0; i < repetitions; i++)
+        sbyte searchReelPosition = CalcReelPosition(nowReelPosition, maxRange);
+        sbyte findedPostion = NONE;
+        for(sbyte i = 0; i < repetitions; i++)
         {
             searchReelPosition = CalcReelPosition(searchReelPosition, -1);
-            if (GetIsEstablishingRole(reelOrder[searchReelPosition]) && GetIsExclusion(selectReel,CalcReelPosition(searchReelPosition ,gapBottomPosition * -1)) == false) //役を成立させれるシンボル && 除外範囲ではない
+            if (GetIsEstablishingRole(reelOrder[searchReelPosition]) && GetIsExclusion(selectReel,CalcReelPosition(searchReelPosition ,(sbyte)(gapBottomPosition * -1))) == false) //役を成立させれるシンボル && 除外範囲ではない
             {
                  findedPostion = searchReelPosition;
             }
@@ -937,13 +898,13 @@ public class Game
     }
 
     //選択したポジションに入れることが可能な現在のポジションに最も近いBARを取得
-    public static int GetBarPosition(Reels selectReel, Positions position)
+    public static sbyte GetBarPosition(Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
-        int nowReelPosition = GetNowReelPosition(selectReel);
-        int maxRange = 6;
-        int repetitions = 7;
-        int gapBottomPosition = 0;
+        sbyte nowReelPosition = GetNowReelPosition(selectReel);
+        sbyte maxRange = 6;
+        sbyte repetitions = 7;
+        sbyte gapBottomPosition = 0;
         switch (position)
         {
             case Positions.TOP:
@@ -965,13 +926,13 @@ public class Game
                 break;
         }
 
-        int searchReelPosition = CalcReelPosition(nowReelPosition, maxRange);
-        int barPostion = NONE;
+        sbyte searchReelPosition = CalcReelPosition(nowReelPosition, maxRange);
+        sbyte barPostion = NONE;
 
-        for (int i = 0; i < repetitions; i++)
+        for (sbyte i = 0; i < repetitions; i++)
         {
             searchReelPosition = CalcReelPosition(searchReelPosition, -1);
-            if (reelOrder[searchReelPosition] == Symbols.BAR && GetIsExclusion(selectReel,CalcReelPosition(searchReelPosition,gapBottomPosition * -1))) //
+            if (reelOrder[searchReelPosition] == Symbols.BAR && GetIsExclusion(selectReel,CalcReelPosition(searchReelPosition,(sbyte)(gapBottomPosition * -1)))) //
             {
                 barPostion = searchReelPosition;
             }
@@ -1099,7 +1060,7 @@ public class Game
         Reels stopReel = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & ~GetMovingReels();
 
         Symbols[] nowStopReelOrder = GetReelOrder(stopReel);
-        int nowStopReelPosition = GetNowReelPosition(stopReel);
+        sbyte nowStopReelPosition = GetNowReelPosition(stopReel);
         Positions stopReelSymbolPositions = Positions.NONE;
 
 

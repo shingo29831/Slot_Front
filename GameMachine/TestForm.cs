@@ -9,20 +9,20 @@ namespace GameMachine
 {
     public partial class TestForm : Form
     {
-        int leftNowReelPosition = GetNowReelPosition(Reels.LEFT);
+        sbyte leftNowReelPosition = GetNowReelPosition(Reels.LEFT);
         bool leftStopBtn = false;
         bool centerStopBtn = false;
         bool rightStopBtn = false;
 
 
-        int bonusState = NONE;
+        sbyte bonusState = NONE;
 
-        int role = NONE;
-        int leftPosition = NONE;
-        int centerPosition = NONE;
-        int rightPosition = NONE;
+        sbyte role = NONE;
+        sbyte leftPosition = NONE;
+        sbyte centerPosition = NONE;
+        sbyte rightPosition = NONE;
 
-        int stopBtnCount = 0;
+        sbyte stopBtnCount = 0;
 
         String uniqueID = "";
         public TestForm()
@@ -73,12 +73,12 @@ namespace GameMachine
             Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
             Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT }; 
             lblArray.Text = "GetReachPositions:";
-            int cnt = 0;
+            sbyte cnt = 0;
 
 
-            for(int gap = 0; gap <= 4 ; gap++)
+            for(sbyte gap = 0; gap <= 4 ; gap++)
             {
-                //int reelPosition = CalcReelPosition(nowLeftReel, gap);
+                //sbyte reelPosition = CalcReelPosition(nowLeftReel, gap);
                 //lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
                 cnt++;
             }
@@ -284,7 +284,7 @@ namespace GameMachine
         private void leftStop_Click(object sender, EventArgs e)
         {
 
-            int position = GetReelPosition(Reels.LEFT);
+            sbyte position = GetReelPosition(Reels.LEFT);
             lblArray.Text += " Žn:" + GetNowReelPosition(Reels.LEFT).ToString();
             leftPosition = position;
             SetReelMoving(Reels.LEFT, false);
@@ -295,7 +295,7 @@ namespace GameMachine
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            int position = GetReelPosition(Reels.CENTER);
+            sbyte position = GetReelPosition(Reels.CENTER);
             lblArray.Text += " Žn:" + GetNowReelPosition(Reels.CENTER).ToString();
             centerPosition = position;
             SetReelMoving(Reels.CENTER, false);
@@ -305,7 +305,7 @@ namespace GameMachine
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            int position = GetReelPosition(Reels.RIGHT);
+            sbyte position = GetReelPosition(Reels.RIGHT);
             lblArray.Text += " Žn:"+ GetNowReelPosition(Reels.RIGHT).ToString();
             rightPosition = position;
             SetReelMoving(Reels.RIGHT, false);
@@ -328,10 +328,10 @@ namespace GameMachine
 
         }
 
-        private int PushStopReelPosition(Reels selectReel)
+        private sbyte PushStopReelPosition(Reels selectReel)
         {
             bool isExecution = false;
-            int stopReelPosition = NONE;
+            sbyte stopReelPosition = NONE;
             String value = "";
 
 
