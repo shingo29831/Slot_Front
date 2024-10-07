@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.AccessControl;
 using System.Xml.Linq;
 using static Constants;
 using static Model.Setting;
@@ -45,7 +46,7 @@ public class Game
                                   { {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE } }, //中央リール : 1
                                   { {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE } } }; //右リール : 2
 
-    public static readonly Symbols[] symbols = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
+    public static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
 
     public static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
     public static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
@@ -297,6 +298,11 @@ public class Game
 
 
 
+
+
+
+
+
     //止める位置
     //編集中
     public static int GetStopReelPosition(Reels selectReel)
@@ -341,7 +347,7 @@ public class Game
         int candidateReelPosition = NONE;
         int nowReelPosition = GetNowReelPosition(selectReel);
 
-        Positions candidateStopPositions = GetPositionToReach(selectReel); //役を成立させるリーチがあった時にシンボルを止める場所を代入する
+        Positions candidateStopPositions = GetPositionsToReach(selectReel); //役を成立させるリーチがあった時にシンボルを止める場所を代入する
 
         if (candidateStopPositions == Positions.NONE)
         {
@@ -375,17 +381,422 @@ public class Game
         return reelPosition;
     }
 
+
+    //選択したリールの次のリールポジションを返す
+    public static int GetReelPosition(Reels selectReel)
+    {
+        int reelPosition = NONE;
+        int nowReelposition = GetNowReelPosition(selectReel);
+        bool isFindedReelPosition = false;
+        bool isFindedProxyReelPosition = false;
+        //nowReelPositionの5つ先まで止まるため5を代入
+        for(int gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
+        {
+            int searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
+            bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
+            if (isExclusion && GetIsAchieveRole(selectReel,searchReelPosition))
+            {
+                reelPosition = searchReelPosition;
+                isFindedReelPosition = true;
+            }
+            if(isExclusion && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition)
+            {
+                reelPosition = searchReelPosition;
+                isFindedProxyReelPosition = true;
+            }
+            if(isExclusion && (isFindedReelPosition | isFindedProxyReelPosition) == false)
+            {
+                reelPosition = searchReelPosition;
+            }
+
+        }
+
+
+        return reelPosition;
+    }
+
+
+
+    //選択したリールの位置が除外か否かを返す
+    //getIsExclusion(リールの選択,リールの位置)
+    private static bool GetIsExclusion(Reels selectReel, int reelPosition)
+    {
+
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+
+
+
+
+        //以下は弱チェリーを回避する処理
+
+        int searchPosition = reelPosition;
+
+
+        for (int i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
+        {
+            if (reelOrder[searchPosition] == Symbols.CHERRY)
+            {
+                return true;
+            }
+            searchPosition = CalcReelPosition(searchPosition, 1);
+        }
+
+        //弱チェリー回避ここまで
+
+        //ここからシンボルの除外
+        Symbols topExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.TOP);
+        Symbols middleExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.MIDDLE);
+        Symbols bottomExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.BOTTOM);
+
+        Symbols[] exclusionSymbolsForReel = { bottomExclusionSymbols, middleExclusionSymbols, topExclusionSymbols };
+
+        int gap = 0;
+        foreach (Symbols exclusionSymbols in exclusionSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
+        {
+            foreach (Symbols symbol in SYMBOLS_ARRAY)
+            {
+                if (exclusionSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition, gap)] == symbol) //除外するシンボルで判定しているか && 除外するシンボルであるか 
+                {
+                    return true;
+                }
+            }
+            gap++; //ポジションを一つずつ上げる
+        }
+
+        return false;
+    }
+
+
+    //除外するシンボルをビットフラグで返す　positionにはTOP,MIDDLE,BOTTOMが入る
+    private static Symbols GetExclusionSymbolsForPosition(Reels selectReel, Positions position)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+        Symbols exclusionSymbols = Symbols.NONE;
+
+        Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
+
+        switch (nowRole)
+        {
+            case Roles.BELL:
+                //リーチのビットフラグからベルのフラグを消している
+                exclusionSymbols = reachSymbols & ~Symbols.BELL;
+                break;
+
+
+            case Roles.REPLAY:
+                exclusionSymbols = reachSymbols & ~Symbols.REPLAY;
+                break;
+
+
+            case Roles.WATERMELON:
+                exclusionSymbols = reachSymbols & ~Symbols.WATERMELON;
+                break;
+
+
+            case Roles.WEAK_CHERRY:
+                if (selectReel == Reels.LEFT) //弱チェリーが当選した時、左リールでは除外用ビットフラグからチェリーを消す
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                }
+                if (selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
+                {
+                    exclusionSymbols = reachSymbols;
+                }
+                break;
+
+
+            case Roles.STRONG_CHERRY:
+                if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && (position == Positions.TOP || position == Positions.BOTTOM)) //左・右リールで上・下段の時、除外用ビットフラグのチェリーを下げる
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                }
+                if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && position == Positions.MIDDLE) //強チェリーが当選した時、左または右リールの中段にチェリーが来ないようにする
+                {
+                    exclusionSymbols = reachSymbols;
+                }
+                if (selectReel == Reels.CENTER) //中央リールでは、どこにチェリーが来てもよい
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                }
+                break;
+
+
+            case Roles.VERY_STRONG_CHERRY:
+                exclusionSymbols = reachSymbols & ~Symbols.CHERRY; //配置的に強チェリーになっても良いためどこにチェリーがきても良い
+                break;
+
+
+            case Roles.REGULAR:
+                if (reachSymbols.HasFlag(Symbols.BAR))
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN; //除外用ビットフラグからSEVENフラグを消す BARを揃えるとBBになるため注意
+                }
+                if (reachSymbols.HasFlag(Symbols.SEVEN))
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
+                }
+                if (reachSymbols.HasFlag(Symbols.REACH))
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN);
+                }
+                break;
+
+
+            case Roles.BIG:
+                if (reachSymbols.HasFlag(Symbols.BAR))
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
+                }
+                if (reachSymbols.HasFlag(Symbols.SEVEN))
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
+                }
+
+                Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
+                Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
+
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからBARを消す
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
+                }
+
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.SEVEN) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールに7が来ていた時
+                {
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
+                }
+
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.BAR) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールにBARが来ていた時
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN); //7とBARを除外用ビットフラグから消す
+                }
+                break;
+
+            case Roles.NONE:
+                exclusionSymbols = reachSymbols;
+                break;
+        }
+
+
+        return exclusionSymbols;
+    }
+
+
+
+
+    //役を達成できるか否か返す
+    public static bool GetIsAchieveRole(Reels selectReel,int reelPosition)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+
+
+        Symbols topAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.TOP);
+        Symbols middleAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.MIDDLE);
+        Symbols bottomAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.BOTTOM);
+
+        Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };
+
+        int cnt = 0;
+        foreach (Symbols achieveRoleSymbols in achieveRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
+        {
+            foreach (Symbols symbol in SYMBOLS_ARRAY)
+            {
+                if (achieveRoleSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition, cnt)] == symbol) //roleReachで判定しているか && 除外するシンボルであるか 
+                {
+                    return true;
+                }
+            }
+            cnt++; //ポジションを一つずつ上げる
+        }
+
+        return false;
+    }
+
+
+    //一つ目は役を達成できるシンボルを返す
+    //二つ目は候補のライン上のシンボルを返す
+    //三つ目はリーチ上の役を成立できるシンボルを返す
+    public static Symbols GetAchieveRoleSymbolsForPosition(Reels selectReel, Positions position)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+        Symbols exclusionSymbols = Symbols.NONE;
+        Lines searchLines = Lines.NONE;
+        
+        Positions searchPositions = Positions.NONE;
+        Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) & GetMovingReels();
+
+        switch (stopReelCount)
+        {
+            case 0:
+                return GetSymbolsAccordingRole();
+                break;
+            case 1:
+                if (selectReel == Reels.CENTER && nowRole == Roles.REGULAR && GetPositionsToReach(selectReel).HasFlag(position)) //中リールでレギュラー役が来た時、リーチにさせれるpositionだった時
+                {
+                    return Symbols.SEVEN;
+                }
+                if((Reels.LEFT|Reels.RIGHT).HasFlag(selectReel) && nowRole == Roles.REGULAR && //左または右リールでレギュラー役の時
+                    GetIsStopBarForLines((Reels.LEFT | Reels.RIGHT) & ~selectReel,position) && GetPositionsToReach(selectReel).HasFlag(position)) //かつ止まっているリールにバーがあった時でリーチにさせれるpositionだった時
+                {
+                    return Symbols.SEVEN;
+                }
+                if (GetPositionsToReach(selectReel).HasFlag(position)) //リーチにさせれるpositionだった時
+                {
+                    return GetSymbolsAccordingRole();
+                }
+                break;
+            case 2:
+                if (GetIsReachLinesForRole(position))
+                {
+                    return GetSymbolsCanArcheveReachRole();
+                }
+
+                break;
+        }
+
+        
+
+
+        return exclusionSymbols;
+    }
+
+    //positionが役を達成できるリーチライン上にある時true
+    public static bool GetIsReachLinesForRole(Positions position)
+    {
+        
+        Lines reachLines = GetReachLinesCanArcheveRole();
+        Reels movingReel = GetLastMovingReel();
+        bool isRole = false;
+        foreach(Symbols symbol in SYMBOLS_ARRAY)
+        {
+            if (GetSymbolsCanArcheveReachRole().HasFlag(symbol))
+            {
+                isRole = true;
+            }
+        }
+        
+
+        if (GetPositionsForLines(movingReel, reachLines).HasFlag(position) && isRole)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
+    //バーが止まっているか否か返す　二つ目のリールの処理用
+    //(一つ目ののリール,二つ目のリールのPositions)
+    public static bool GetIsStopBarForLines(Reels selectStopReel,Positions position)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectStopReel);
+        Positions stopReelBarPosition = GetPositionsForLines(selectStopReel,GetReachCandidateLines()) ;
+        if(selectStopReel != Reels.CENTER && reelOrder[GetSymbolForPosition(selectStopReel,stopReelBarPosition)] == Symbols.BAR)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static bool GetIsReachRole(Reels selectReel,int reelPosition)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+
+
+        Symbols topReachRoleSymbols = GetReachRoleSymbolsForPosition(selectReel, Positions.TOP);
+        Symbols middleReachRoleSymbols = GetReachRoleSymbolsForPosition(selectReel, Positions.MIDDLE);
+        Symbols bottomReachRoleSymbols = GetReachRoleSymbolsForPosition(selectReel, Positions.BOTTOM);
+
+        Symbols[] reachRoleSymbolsForReel = { bottomReachRoleSymbols, middleReachRoleSymbols, topReachRoleSymbols };
+
+        int cnt = 0;
+        foreach (Symbols reachRoleSymbols in reachRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
+        {
+            foreach (Symbols symbol in SYMBOLS_ARRAY)
+            {
+                if (reachRoleSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition, cnt)] == symbol) //roleReachで判定しているか && 除外するシンボルであるか 
+                {
+                    return true;
+                }
+            }
+            cnt++; //ポジションを一つずつ上げる
+        }
+
+        return false;
+    }
+
+    //リーチ役が成立するシンボルを返す
+    public static Symbols GetReachRoleSymbolsForPosition(Reels selectReel, Positions position)
+    {
+        Positions searchPositions = Positions.NONE;
+        Symbols reachRoleSymbols = Symbols.NONE;
+
+        foreach(Lines line in LINES_ARRAY)
+        {
+            if (GetReachLinesCanArcheveRole().HasFlag(line) && GetPositionsForLines(selectReel,line).HasFlag(position))
+            {
+                reachRoleSymbols = GetSymbolForReachRoleLine(selectReel,line);
+            }
+            if(GetReachCandidateLines().HasFlag(line) && GetPositionsForLines(selectReel, line).HasFlag(position))
+            {
+                reachRoleSymbols = GetSymbolForReachRoleLine(selectReel,line);
+            }
+        }
+
+        return reachRoleSymbols;
+
+    }
+
+    //リーチ目の条件となるシンボルを返す
+    public static Symbols GetSymbolForReachRoleLine(Reels selectReel,Lines line)
+    {
+        Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) &~GetMovingReels();
+
+        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER,line) == Symbols.BAR)
+        {
+            return Symbols.SEVEN|Symbols.BAR;
+        }
+        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER, line) == Symbols.SEVEN)
+        {
+            return Symbols.NONE;
+        }
+        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.BAR)
+        {
+            return Symbols.SEVEN;
+        }
+        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.SEVEN)
+        {
+            return Symbols.NONE;
+        }
+        if (stopReelCount == 2 && selectReel == Reels.CENTER && GetReachSymbolForLine(selectReel,line) == Symbols.REACH)
+        {
+            return Symbols.BAR;
+        }
+        if (stopReelCount == 2 && selectReel == Reels.CENTER && (Symbols.SEVEN|Symbols.BAR).HasFlag(GetReachSymbolForLine(selectReel, line)) ) //停止リールが2つで中リールの時リーチなっていないシンボルを返す
+        {
+            return (Symbols.SEVEN|Symbols.BAR) &~GetReachSymbolForLine(selectReel, line);
+        }
+        if (stopReelCount == 1 && (Roles.BIG|Roles.REGULAR).HasFlag(nowRole)) //停止リールが1つでnowRoleがBIGかREGの時
+        {
+            return Symbols.SEVEN | Symbols.BAR;
+        }
+        
+        return Symbols.NONE;
+
+
+    }
+
+
     public static int GetReelPositionForCandidatePositions(Reels selectReel,Positions selectPositions)
     {
         int reelPosition = NONE;
         int[] candidateReelPosition = { NONE, NONE, NONE };
-        Positions[] positions = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP };
+        
 
         int nearestGap = NONE;
         int gap = NONE;
 
         sbyte element = 0;
-        foreach (Positions position in positions)
+        foreach (Positions position in POSITIONS_ARRAY)
         {
             
             if (selectPositions.HasFlag(position))
@@ -456,7 +867,7 @@ public class Game
     public static bool GetIsCanAchieveRoleForSymbols(Symbols searchSymbols,Positions searchPosition)
     {
 
-        foreach(Symbols symbol in symbols) //全てのシンボルのビットフラグを順に代入
+        foreach(Symbols symbol in SYMBOLS_ARRAY) //全てのシンボルのビットフラグを順に代入
         {
             //searchSymbolsのビットフラグがnowRoleを達成できるリーチなシンボルか
             if (searchSymbols.HasFlag(symbol) && GetSymbolsCanArcheveReachRole().HasFlag(symbol)) //symbolがsearchSymbolで役を成立させれるシンボルの時は実行
@@ -482,7 +893,7 @@ public class Game
         Symbols canAchieveRoleSymbols = Symbols.NONE;
         Symbols[] candidateSymbolArray = { Symbols.NONE, Symbols.NONE };
         sbyte element = 0;
-        foreach (Symbols symbol in symbols) //全てのシンボルのビットフラグを順に代入
+        foreach (Symbols symbol in SYMBOLS_ARRAY) //全てのシンボルのビットフラグを順に代入
         {
             //searchSymbolsのビットフラグがnowRoleを達成できるシンボルであり、リーチのシンボルに含まれる時
             if (GetSymbolsAccordingRole().HasFlag(symbol) && reachSymbols.HasFlag(symbol))
@@ -510,7 +921,7 @@ public class Game
     {
 
         Symbols[] seachSymbolsArray = { Symbols.NONE, Symbols.NONE, Symbols.NONE};
-        foreach(Symbols symbol in symbols)
+        foreach(Symbols symbol in SYMBOLS_ARRAY)
         {
             if (searchSymbols.HasFlag(symbol) && GetSymbolsAccordingRole().HasFlag(symbol)) //どのシンボルが入っているか見ていき同時に役を成立させるか判定する
             {
@@ -646,201 +1057,21 @@ public class Game
         return barPostion;
     }
 
-    //選択したリールの位置が除外か否かを返す
-    //getIsExclusion(リールの選択,リールの位置)
-    private static bool GetIsExclusion(Reels selectReel, int reelPosition)
-    {
+    
 
-        Symbols[] reelOrder = GetReelOrder(selectReel);
-
-
-
-
-        //以下は弱チェリーを回避する処理
-
-        int searchPosition = reelPosition;
-
-
-        for (int i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
-        {
-            if (reelOrder[searchPosition] == Symbols.CHERRY)
-            {
-                return true;
-            }
-            searchPosition = CalcReelPosition(searchPosition, 1);
-        }
-
-        //弱チェリー回避ここまで
-
-        //ここからシンボルの除外
-        Symbols topExclusionSymbols = GetExclusionSymbolsForPosition(selectReel,Positions.TOP);
-        Symbols middleExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.MIDDLE);
-        Symbols bottomExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.BOTTOM);
-
-        Symbols[] exclusionSymbolsForReel = { bottomExclusionSymbols, middleExclusionSymbols, topExclusionSymbols };
-        Symbols[] symbols = {Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN};
-
-        int cnt= 0;
-        foreach(Symbols exclusionSymbols in exclusionSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
-        {
-            foreach (Symbols symbol in symbols)
-            {
-                if(exclusionSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition,cnt)] == symbol) //除外するシンボルで判定しているか && 除外するシンボルであるか 
-                {
-                    return true;
-                }
-            }
-            cnt++; //ポジションを一つずつ上げる
-        }   
-
-        return false;
-    }
-
-    //除外するシンボルをビットフラグで返す　positionにはTOP,MIDDLE,BOTTOMが入る
-    private static Symbols GetExclusionSymbolsForPosition(Reels selectReel, Positions position)
-    {
-        Symbols[] reelOrder = GetReelOrder(selectReel);
-        Symbols exclusionSymbols = Symbols.NONE;
-
-        Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
-
-        switch (nowRole)
-        {
-            case Roles.BELL:
-                //exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BELL); //C#の仕様が分からないのでややこしいがリーチのビットフラグからベルのフラグを消している
-                exclusionSymbols = reachSymbols & ~Symbols.BELL;
-                break;
-
-
-            case Roles.REPLAY:
-                exclusionSymbols = reachSymbols & ~Symbols.REPLAY;
-                break;
-
-
-            case Roles.WATERMELON:
-                exclusionSymbols = reachSymbols & ~Symbols.WATERMELON;
-                break;
-
-
-            case Roles.WEAK_CHERRY:
-                if (selectReel == Reels.LEFT) //弱チェリーが当選した時、左リールでは除外用ビットフラグからチェリーを消す
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
-                }
-                if(selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
-                {
-                    exclusionSymbols = reachSymbols;
-                }
-                break;
-
-
-            case Roles.STRONG_CHERRY:
-                if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && (position == Positions.TOP || position == Positions.BOTTOM)) //左・右リールで上・下段の時、除外用ビットフラグのチェリーを下げる
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
-                }
-                if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT ) && position == Positions.MIDDLE) //強チェリーが当選した時、左または右リールの中段にチェリーが来ないようにする
-                {
-                    exclusionSymbols = reachSymbols;
-                }
-                if(selectReel == Reels.CENTER) //中央リールでは、どこにチェリーが来てもよい
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
-                }
-                break;
-
-
-            case Roles.VERY_STRONG_CHERRY:
-                exclusionSymbols = reachSymbols & ~Symbols.CHERRY; //配置的に強チェリーになっても良いためどこにチェリーがきても良い
-                break;
-
-
-            case Roles.REGULAR:
-                if (reachSymbols.HasFlag(Symbols.BAR))
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN; //除外用ビットフラグからSEVENフラグを消す BARを揃えるとBBになるため注意
-                }
-                if (reachSymbols.HasFlag(Symbols.SEVEN))
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.BAR; 
-                }
-                if (reachSymbols.HasFlag(Symbols.REACH))
-                {
-                    exclusionSymbols = reachSymbols & ~( Symbols.BAR | Symbols.SEVEN) ;
-                }
-                break;
-
-
-            case Roles.BIG:
-                if (reachSymbols.HasFlag(Symbols.BAR))
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
-                }
-                if (reachSymbols.HasFlag(Symbols.SEVEN))
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
-                }
-
-                Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
-                Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
-
-                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからBARを消す
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
-                }
-
-                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.SEVEN) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールに7が来ていた時
-                {
-                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
-                }
-
-                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.BAR) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールにBARが来ていた時
-                {
-                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN); //7とBARを除外用ビットフラグから消す
-                }
-                break;
-
-            case Roles.NONE:
-                exclusionSymbols = reachSymbols;
-                break;
-        }
-
-
-        return exclusionSymbols;
-    }
+    
 
 
     //当選した役をリーチにさせる、選択したリールのPositionsをビットフラグで返す
     //ない場合とリールが2つ以上止まっている時はNONEで返す
-    private static Positions GetPositionToReach(Reels selectReel)
+    private static Positions GetPositionsToReach(Reels selectReel)
     {
-        Reels stopReel = Reels.NONE;
-        if (leftReelMoving == false)
+        if(stopReelCount >= 2)
         {
-            stopReel = Reels.LEFT;
+            return Positions.NONE;
         }
 
-        if (centerReelMoving == false)
-        {
-            stopReel |= Reels.CENTER;
-        }
-
-        if (rightReelMoving == false)
-        {
-            stopReel |= Reels.RIGHT;
-        }
-
-        switch (stopReel)
-        {
-            case Reels.LEFT:
-            case Reels.CENTER:
-            case Reels.RIGHT:
-                break;
-            default:
-                return Positions.NONE;
-        }
-
-        Lines candidateLines = GetReachCandidateLines(stopReel);
+        Lines candidateLines = GetReachCandidateLines();
         Positions candidatePositions = GetPositionsForLines(selectReel,candidateLines);
         
 
@@ -936,9 +1167,14 @@ public class Game
 
 
     //リーチにさせれるラインを返す
-    private static Lines GetReachCandidateLines(Reels stopReel)
+    private static Lines GetReachCandidateLines()
     {
-       
+        if (stopReelCount != 1)
+        {
+            return Lines.NONE;
+        }
+
+        Reels stopReel = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & ~GetMovingReels();
 
         Symbols[] nowStopReelOrder = GetReelOrder(stopReel);
         int nowStopReelPosition = GetNowReelPosition(stopReel);
@@ -1050,7 +1286,10 @@ public class Game
     {
         Reels movingReel = GetLastMovingReel();
         Lines reachLine = Lines.NONE;
-
+        if(stopReelCount != 2)
+        {
+            return Lines.NONE;
+        }
 
         foreach (Lines line in LINES_ARRAY)
         {

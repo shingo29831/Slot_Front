@@ -75,7 +75,7 @@ namespace GameMachine
             for(int gap = 0; gap <= 4 ; gap++)
             {
                 int reelPosition = CalcReelPosition(nowLeftReel, gap);
-                lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
+                //lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
                 cnt++;
             }
 
@@ -258,21 +258,21 @@ namespace GameMachine
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    leftReelBot.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.BOTTOM)]);
-                    leftReelMid.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.MIDDLE)]);
-                    leftReelTop.Text = SymbolChangeToName(leftReelOrder[GetDispSymbol(Reels.LEFT, Positions.TOP)]);
+                    leftReelBot.Text = SymbolChangeToName(leftReelOrder[GetSymbolForPosition(Reels.LEFT, Positions.BOTTOM)]);
+                    leftReelMid.Text = SymbolChangeToName(leftReelOrder[GetSymbolForPosition(Reels.LEFT, Positions.MIDDLE)]);
+                    leftReelTop.Text = SymbolChangeToName(leftReelOrder[GetSymbolForPosition(Reels.LEFT, Positions.TOP)]);
                     break;
 
                 case Reels.CENTER:
-                    centerReelBot.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.BOTTOM)]);
-                    centerReelMid.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.MIDDLE)]);
-                    centerReelTop.Text = SymbolChangeToName(centerReelOrder[GetDispSymbol(Reels.CENTER, Positions.TOP)]);
+                    centerReelBot.Text = SymbolChangeToName(centerReelOrder[GetSymbolForPosition(Reels.CENTER, Positions.BOTTOM)]);
+                    centerReelMid.Text = SymbolChangeToName(centerReelOrder[GetSymbolForPosition(Reels.CENTER, Positions.MIDDLE)]);
+                    centerReelTop.Text = SymbolChangeToName(centerReelOrder[GetSymbolForPosition(Reels.CENTER, Positions.TOP)]);
                     break;
 
                 case Reels.RIGHT:
-                    rightReelBot.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.BOTTOM)]);
-                    rightReelMid.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.MIDDLE)]);
-                    rightReelTop.Text = SymbolChangeToName(rightReelOrder[GetDispSymbol(Reels.RIGHT, Positions.TOP)]);
+                    rightReelBot.Text = SymbolChangeToName(rightReelOrder[GetSymbolForPosition(Reels.RIGHT, Positions.BOTTOM)]);
+                    rightReelMid.Text = SymbolChangeToName(rightReelOrder[GetSymbolForPosition(Reels.RIGHT, Positions.MIDDLE)]);
+                    rightReelTop.Text = SymbolChangeToName(rightReelOrder[GetSymbolForPosition(Reels.RIGHT, Positions.TOP)]);
                     break;
             }
         }
