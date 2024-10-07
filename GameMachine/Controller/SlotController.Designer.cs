@@ -204,6 +204,8 @@
             MaxBet.TabIndex = 19;
             MaxBet.TabStop = false;
             MaxBet.Click += MaxBet_Click;
+            MaxBet.MouseDown += MaxBet_MouseDown;
+            MaxBet.MouseUp += MaxBet_MouseUp;
             // 
             // btnStart
             // 

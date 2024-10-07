@@ -70,5 +70,15 @@ namespace GameMachine
         {
 
         }
+
+        private void MaxBet_MouseUp(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void MaxBet_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }
