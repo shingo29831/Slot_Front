@@ -284,25 +284,29 @@ namespace GameMachine
         private void leftStop_Click(object sender, EventArgs e)
         {
 
-            lblArray.Text +=" 始:" + GetNowReelPosition(Reels.LEFT).ToString();
+            int position = GetReelPosition(Reels.LEFT);
+            lblArray.Text += " 始:" + GetNowReelPosition(Reels.LEFT).ToString();
+            leftPosition = position;
             SetReelMoving(Reels.LEFT, false);
-            leftPosition = GetReelPosition(Reels.LEFT);
-            lblArray.Text +=" 返:" +leftPosition.ToString();
+
+            lblArray.Text += " 返:" + leftPosition.ToString();
 
         }
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            lblArray.Text +=" 始:" + GetNowReelPosition(Reels.CENTER).ToString();
+            int position = GetReelPosition(Reels.CENTER);
+            lblArray.Text += " 始:" + GetNowReelPosition(Reels.CENTER).ToString();
+            centerPosition = position;
             SetReelMoving(Reels.CENTER, false);
-            centerPosition = GetReelPosition(Reels.LEFT);
-            lblArray.Text += " 返:"+centerPosition.ToString();
+
+            lblArray.Text += " 返:" + centerPosition.ToString();
         }
 
         private void rightStop_Click(object sender, EventArgs e)
         {
             int position = GetReelPosition(Reels.RIGHT);
-            lblArray.Text += " 始:"+ position.ToString();
+            lblArray.Text += " 始:"+ GetNowReelPosition(Reels.RIGHT).ToString();
             rightPosition = position;
             SetReelMoving(Reels.RIGHT, false);
             

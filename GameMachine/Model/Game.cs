@@ -287,6 +287,7 @@ public class Game
                 rightReelMoving = isMoving;
                 break;
         }
+        stopReelCount++;
     }
 
     //リールを全て動いている判定にする
@@ -295,6 +296,7 @@ public class Game
         SetReelMoving(Reels.LEFT,true);
         SetReelMoving(Reels.CENTER,true);
         SetReelMoving(Reels.RIGHT,true);
+        stopReelCount = 0;
     }
 
 
@@ -315,7 +317,7 @@ public class Game
             {
                 reelPosition = searchReelPosition;
                 isFindedReelPosition = true;
-                MessageBox.Show("役"+searchReelPosition.ToString());
+                //MessageBox.Show("役"+searchReelPosition.ToString());
             }
             if(isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
             {
@@ -565,7 +567,7 @@ public class Game
                 }
                 break;
             case 2:
-                if (GetIsReachLinesForRole(position))
+                if (GetIsReachLinesForRole(position)) //ここバグ修正中
                 {
                     return GetSymbolsCanArcheveReachRole();
                 }
