@@ -46,13 +46,17 @@ namespace GameMachine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (stopBtnCount == 0)
+            if (stopReelCount == 0)
             {
                 lblArray.Text = "ROLE:" + RoleChangeToName(Roles.VERY_STRONG_CHERRY);
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
+            }
+            if(stopReelCount == 3)
+            {
+                ResetReelsMoving();
             }
 
 
@@ -279,23 +283,42 @@ namespace GameMachine
 
         private void leftStop_Click(object sender, EventArgs e)
         {
-            leftPosition = PushStopReelPosition(Reels.LEFT);
+
+            lblArray.Text +=" Žn:" + GetNowReelPosition(Reels.LEFT).ToString();
+            SetReelMoving(Reels.LEFT, false);
+            leftPosition = GetReelPosition(Reels.LEFT);
+            lblArray.Text +=" •Ô:" +leftPosition.ToString();
+
         }
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            centerPosition= PushStopReelPosition(Reels.CENTER);
+            lblArray.Text +=" Žn:" + GetNowReelPosition(Reels.CENTER).ToString();
+            SetReelMoving(Reels.CENTER, false);
+            centerPosition = GetReelPosition(Reels.LEFT);
+            lblArray.Text += " •Ô:"+centerPosition.ToString();
         }
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            rightPosition = PushStopReelPosition(Reels.RIGHT);
+            int position = GetReelPosition(Reels.LEFT);
+            lblArray.Text += " Žn:"+ position.ToString();
+            rightPosition = position;
+            SetReelMoving(Reels.RIGHT, false);
+            
+            lblArray.Text += " •Ô:"+rightPosition.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            //dispReelsSymbols(Reels.LEFT);
+            //dispReelsSymbols(Reels.CENTER);
+            //dispReelsSymbols(Reels.RIGHT);
 
-
+            
+            //UpReelPosition(Reels.LEFT, leftPosition);
+            //UpReelPosition(Reels.CENTER, centerPosition);
+            //UpReelPosition(Reels.RIGHT, rightPosition);
 
 
 

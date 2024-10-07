@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.AccessControl;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using static Constants;
 using static Model.Setting;
@@ -21,7 +22,7 @@ public class Game
     static bool bonusFlag = false;
 
     static int[] dispSymbol = new int[3];
-    static int stopReelCount = 2; //テスト前0
+    public static int stopReelCount = 0; //テスト前0
 
 
     static Symbols[] leftReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
@@ -34,8 +35,8 @@ public class Game
     public static int nowRightReel = 9;
 
     public static bool leftReelMoving = true;
-    public static bool centerReelMoving = false; //テストでfalse
-    public static bool rightReelMoving = false; //テストでfalse
+    public static bool centerReelMoving = true; //テストでfalse
+    public static bool rightReelMoving = true; //テストでfalse
 
 
     public static Roles nowRole = Roles.REGULAR; //テスト前はNONE
@@ -73,7 +74,7 @@ public class Game
         {
             reelPosition += 21;
         }
-        else if (reelPosition > 20) 
+        if (reelPosition > 20) 
         {
             reelPosition %= 21;
         }
@@ -121,17 +122,18 @@ public class Game
         switch(selectReel)
         {
             case Reels.LEFT:
-                nowPosition = nowLeftReel;
+                return nowLeftReel;
                 break;
 
             case Reels.CENTER:
-                nowPosition = nowCenterReel;
+                return nowCenterReel;
                 break;
 
             case Reels.RIGHT:
-                nowPosition = nowRightReel;
+                return nowRightReel;
                 break;
         }
+        MessageBox.Show("nowPo" + nowPosition.ToString());
         return nowPosition;
     }
 
@@ -386,6 +388,7 @@ public class Game
     public static int GetReelPosition(Reels selectReel)
     {
         int reelPosition = NONE;
+        MessageBox.Show("前" + GetNowReelPosition(selectReel).ToString());
         int nowReelposition = GetNowReelPosition(selectReel);
         bool isFindedReelPosition = false;
         bool isFindedProxyReelPosition = false;
@@ -394,19 +397,22 @@ public class Game
         {
             int searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
             bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
-            if (isExclusion && GetIsAchieveRole(selectReel,searchReelPosition))
+            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition))
             {
                 reelPosition = searchReelPosition;
                 isFindedReelPosition = true;
+                MessageBox.Show("役"+searchReelPosition.ToString());
             }
-            if(isExclusion && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition)
+            if(isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
+                MessageBox.Show("リーチ目" + searchReelPosition.ToString());
             }
-            if(isExclusion && (isFindedReelPosition | isFindedProxyReelPosition) == false)
+            if(isExclusion == false && (isFindedReelPosition | isFindedProxyReelPosition) == false)
             {
                 reelPosition = searchReelPosition;
+                MessageBox.Show("役なし" + searchReelPosition.ToString());
             }
 
         }
@@ -423,7 +429,7 @@ public class Game
     {
 
         Symbols[] reelOrder = GetReelOrder(selectReel);
-
+        MessageBox.Show("h");
 
 
 
@@ -436,6 +442,7 @@ public class Game
         {
             if (reelOrder[searchPosition] == Symbols.CHERRY)
             {
+               
                 return true;
             }
             searchPosition = CalcReelPosition(searchPosition, 1);
