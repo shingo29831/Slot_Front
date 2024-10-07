@@ -65,6 +65,7 @@ namespace GameMachine
             slotView.leverDown();
         }
 
+        //MAXBET
         private void MaxBet_Click(object sender, EventArgs e)
         {
 
