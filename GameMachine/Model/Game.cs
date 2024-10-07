@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
-using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 using static Constants;
 using static Model.Setting;
 
@@ -21,7 +20,7 @@ public class Game
     static bool bonusFlag = false;
 
     static int[] dispSymbol = new int[3];
-    static int stopReelCount = 2; //テストで2
+    static int stopReelCount = 2; //テスト前0
 
 
     static Symbols[] leftReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
@@ -30,15 +29,15 @@ public class Game
 
 
     public static int nowLeftReel = 0;
-    public static int nowCenterReel = 0;
-    public static int nowRightReel = 0;
+    public static int nowCenterReel = 6;
+    public static int nowRightReel = 9;
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = false; //テストでfalse
     public static bool rightReelMoving = false; //テストでfalse
 
 
-    public static Roles nowRole = Roles.NONE; //テスト前はNONE
+    public static Roles nowRole = Roles.REGULAR; //テスト前はNONE
     public static Symbols symbolsAccordingRole = Symbols.NONE;
 
     //reachRowsはリーチとなる場所を3次元配列で格納する各リールのポジション(上・中・下)に二つまでの入ったら役が成立するシンボルを代入する
@@ -46,8 +45,24 @@ public class Game
                                   { {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE } }, //中央リール : 1
                                   { {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE }, {Symbols.NONE,Symbols.NONE } } }; //右リール : 2
 
+    public static readonly Symbols[] symbols = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
+
+    public static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
+    public static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
+    public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
     public static readonly int NOT = -1;
 
+
+    //左リールを基準にし、upperToLowerは左上から右下
+    public enum Lines : int
+    {
+        NONE = 0,
+        upperToLower = 1, //左上から右下
+        upperToUpper = 2, //左上から右上
+        middleToMiddle = 4, //左中から右中
+        lowerToLower = 8, //左下から右下
+        lowerToUpper = 16, //左下から右上
+    }
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
     public static int CalcReelPosition(int reelPosition,int move)
@@ -121,7 +136,7 @@ public class Game
 
 
     //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
-    public static int GetDispSymbol(Reels selectReel,Positions position)
+    public static int GetSymbolForPosition(Reels selectReel,Positions position)
     {
         int reelPosition = NONE;
         int nowReelPosition = GetNowReelPosition (selectReel);
@@ -150,9 +165,9 @@ public class Game
         Symbols nowReelSymbols = Symbols.NONE;
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
-        nowReelSymbols = reelOrder[GetDispSymbol(selectReel,Positions.TOP)];
-        nowReelSymbols |= reelOrder[GetDispSymbol(selectReel, Positions.MIDDLE)];
-        nowReelSymbols |= reelOrder[GetDispSymbol(selectReel, Positions.BOTTOM)];
+        nowReelSymbols = reelOrder[GetSymbolForPosition(selectReel,Positions.TOP)];
+        nowReelSymbols |= reelOrder[GetSymbolForPosition(selectReel, Positions.MIDDLE)];
+        nowReelSymbols |= reelOrder[GetSymbolForPosition(selectReel, Positions.BOTTOM)];
 
         return nowReelSymbols;
     }
@@ -436,13 +451,63 @@ public class Game
         return gap;
     }
 
-
-    //現在の役を成立させれるシンボルかboolで返す
-    //複数のシンボルが入っていても一つでも役を成立させれるならtrueを返す
-    public static bool GetIsEstablishingRole(Symbols searchSymbols)
+    //現在の役を成立させれるシンボルであるかboolで返す
+    //停止リールが2つで役を成立させるリーチの時はPositionsを元にそのリーチを達成できる時のみtrue
+    public static bool GetIsCanAchieveRoleForSymbols(Symbols searchSymbols,Positions searchPosition)
     {
 
-        Symbols[] symbols = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
+        foreach(Symbols symbol in symbols) //全てのシンボルのビットフラグを順に代入
+        {
+            //searchSymbolsのビットフラグがnowRoleを達成できるリーチなシンボルか
+            if (searchSymbols.HasFlag(symbol) && GetSymbolsCanArcheveReachRole().HasFlag(symbol)) //symbolがsearchSymbolで役を成立させれるシンボルの時は実行
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //役を成立させれるシンボルを返す
+    //停止リールが2の時はリーチを揃えるシンボルを返す
+    public static Symbols GetSymbolsCanAchieveRoleForPosition(Positions searchPosition)
+    {
+        //停止リールが2よりすくない場合は役を成立させれるシンボルをそのまま返す　それ以上の時はリーチを揃えるシンボルを返す
+        if(stopReelCount < 2)
+        {
+            return GetSymbolsAccordingRole();
+        }
+
+        Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(searchPosition);
+        Symbols canAchieveRoleSymbols = Symbols.NONE;
+        Symbols[] candidateSymbolArray = { Symbols.NONE, Symbols.NONE };
+        sbyte element = 0;
+        foreach (Symbols symbol in symbols) //全てのシンボルのビットフラグを順に代入
+        {
+            //searchSymbolsのビットフラグがnowRoleを達成できるシンボルであり、リーチのシンボルに含まれる時
+            if (GetSymbolsAccordingRole().HasFlag(symbol) && reachSymbols.HasFlag(symbol))
+            {
+                candidateSymbolArray[element] = symbol;
+                element++;
+            }
+        }
+
+
+
+
+
+        return canAchieveRoleSymbols;
+    }
+
+
+
+
+
+    //現在の役を成立させれるシンボルをビットフラグで返す
+    //複数のシンボルが入っていても一つでも役を成立させれるならtrueを返す
+    //現在の役が揃うか隣接しているシンボルを元に求めること
+    public static bool GetIsEstablishingRole(Symbols searchSymbols)//あとで変更
+    {
 
         Symbols[] seachSymbolsArray = { Symbols.NONE, Symbols.NONE, Symbols.NONE};
         foreach(Symbols symbol in symbols)
@@ -459,7 +524,7 @@ public class Game
 
 
     //役を成立させるシンボルを取得
-    public static Symbols GetSymbolsAccordingRole()
+    private static Symbols GetSymbolsAccordingRole()
     {
         switch (nowRole)
         {
@@ -583,7 +648,7 @@ public class Game
 
     //選択したリールの位置が除外か否かを返す
     //getIsExclusion(リールの選択,リールの位置)
-    public static bool GetIsExclusion(Reels selectReel, int reelPosition)
+    private static bool GetIsExclusion(Reels selectReel, int reelPosition)
     {
 
         Symbols[] reelOrder = GetReelOrder(selectReel);
@@ -595,7 +660,8 @@ public class Game
 
         int searchPosition = reelPosition;
 
-        for (int i = 0; i < 3 && selectReel == Reels.LEFT && nowRole == Roles.WEAK_CHERRY; i++) //
+
+        for (int i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
         {
             if (reelOrder[searchPosition] == Symbols.CHERRY)
             {
@@ -631,34 +697,35 @@ public class Game
     }
 
     //除外するシンボルをビットフラグで返す　positionにはTOP,MIDDLE,BOTTOMが入る
-    public static Symbols GetExclusionSymbolsForPosition(Reels selectReel, Positions position)
+    private static Symbols GetExclusionSymbolsForPosition(Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
 
-        Symbols reachSymbols = GetReachSymbolsForPosition(position);
+        Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
 
         switch (nowRole)
         {
             case Roles.BELL:
-                exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BELL); //C#の仕様が分からないのでややこしいがリーチのビットフラグからベルのフラグを消している
+                //exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BELL); //C#の仕様が分からないのでややこしいがリーチのビットフラグからベルのフラグを消している
+                exclusionSymbols = reachSymbols & ~Symbols.BELL;
                 break;
 
 
             case Roles.REPLAY:
-                exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.REPLAY);
+                exclusionSymbols = reachSymbols & ~Symbols.REPLAY;
                 break;
 
 
             case Roles.WATERMELON:
-                exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.WATERMELON);
+                exclusionSymbols = reachSymbols & ~Symbols.WATERMELON;
                 break;
 
 
             case Roles.WEAK_CHERRY:
                 if (selectReel == Reels.LEFT) //弱チェリーが当選した時、左リールでは除外用ビットフラグからチェリーを消す
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.CHERRY);
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                 }
                 if(selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
                 {
@@ -670,7 +737,7 @@ public class Game
             case Roles.STRONG_CHERRY:
                 if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && (position == Positions.TOP || position == Positions.BOTTOM)) //左・右リールで上・下段の時、除外用ビットフラグのチェリーを下げる
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.CHERRY);
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                 }
                 if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT ) && position == Positions.MIDDLE) //強チェリーが当選した時、左または右リールの中段にチェリーが来ないようにする
                 {
@@ -678,28 +745,28 @@ public class Game
                 }
                 if(selectReel == Reels.CENTER) //中央リールでは、どこにチェリーが来てもよい
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.CHERRY);
+                    exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                 }
                 break;
 
 
             case Roles.VERY_STRONG_CHERRY:
-                exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.CHERRY); //配置的に強チェリーになっても良いためどこにチェリーがきても良い
+                exclusionSymbols = reachSymbols & ~Symbols.CHERRY; //配置的に強チェリーになっても良いためどこにチェリーがきても良い
                 break;
 
 
             case Roles.REGULAR:
                 if (reachSymbols.HasFlag(Symbols.BAR))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.SEVEN) ; //除外用ビットフラグからSEVENフラグを消す BARを揃えるとBBになるため注意
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN; //除外用ビットフラグからSEVENフラグを消す BARを揃えるとBBになるため注意
                 }
                 if (reachSymbols.HasFlag(Symbols.SEVEN))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR); 
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR; 
                 }
                 if (reachSymbols.HasFlag(Symbols.REACH))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR | Symbols.SEVEN) ;
+                    exclusionSymbols = reachSymbols & ~( Symbols.BAR | Symbols.SEVEN) ;
                 }
                 break;
 
@@ -707,11 +774,11 @@ public class Game
             case Roles.BIG:
                 if (reachSymbols.HasFlag(Symbols.BAR))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR);
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
                 }
                 if (reachSymbols.HasFlag(Symbols.SEVEN))
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.SEVEN);
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
                 }
 
                 Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
@@ -719,18 +786,22 @@ public class Game
 
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからBARを消す
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR);
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
                 }
 
                 if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.SEVEN) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールに7が来ていた時
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & Symbols.BAR);
+                    exclusionSymbols = reachSymbols & ~Symbols.BAR;
                 }
 
                 if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.BAR) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールにBARが来ていた時
                 {
-                    exclusionSymbols = reachSymbols ^ (reachSymbols & (Symbols.BAR | Symbols.SEVEN)); //7とBARを除外用ビットフラグから消す
+                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN); //7とBARを除外用ビットフラグから消す
                 }
+                break;
+
+            case Roles.NONE:
+                exclusionSymbols = reachSymbols;
                 break;
         }
 
@@ -741,20 +812,20 @@ public class Game
 
     //当選した役をリーチにさせる、選択したリールのPositionsをビットフラグで返す
     //ない場合とリールが2つ以上止まっている時はNONEで返す
-    public static Positions GetPositionToReach(Reels selectReel)
+    private static Positions GetPositionToReach(Reels selectReel)
     {
         Reels stopReel = Reels.NONE;
-        if (leftReelMoving)
+        if (leftReelMoving == false)
         {
             stopReel = Reels.LEFT;
         }
 
-        if (centerReelMoving)
+        if (centerReelMoving == false)
         {
             stopReel |= Reels.CENTER;
         }
 
-        if (rightReelMoving)
+        if (rightReelMoving == false)
         {
             stopReel |= Reels.RIGHT;
         }
@@ -770,27 +841,17 @@ public class Game
         }
 
         Lines candidateLines = GetReachCandidateLines(stopReel);
-        Positions candidatePositions = GetCandidatePositionsForLines(selectReel,candidateLines);
+        Positions candidatePositions = GetPositionsForLines(selectReel,candidateLines);
         
 
 
         return candidatePositions;
     }
 
-    //左リールを基準にし、upperToLowerは左上から右下
-    public enum Lines : int
-    {
-        NONE = 0,
-        upperToLower = 1, //左上から右下
-        upperToUpper = 2, //左上から右上
-        middleToMiddle = 4, //左中から右中
-        lowerToLower = 8, //左下から右下
-        lowerToUpper = 16, //左下から右上
-    }
 
-    //リーチにさせれるPositionsを返す
-    //リーチにさせれるラインを第二引数にいれる
-    public static Positions GetCandidatePositionsForLines(Reels selectReel, Lines candidateLines)
+    //選択したリール上でLines上のPositionsを返す
+    //ラインを第二引数にいれる
+    private static Positions GetPositionsForLines(Reels selectReel, Lines candidateLines)
     {
         Positions candidatePositions = Positions.NONE;
 
@@ -834,7 +895,7 @@ public class Game
                 }
                 if (candidateLines.HasFlag(Lines.lowerToLower))
                 {
-                    candidatePositions |= Positions.TOP;
+                    candidatePositions |= Positions.BOTTOM;
                 }
                 if (candidateLines.HasFlag(Lines.lowerToUpper))
                 {
@@ -875,7 +936,7 @@ public class Game
 
 
     //リーチにさせれるラインを返す
-    public static Lines GetReachCandidateLines(Reels stopReel)
+    private static Lines GetReachCandidateLines(Reels stopReel)
     {
        
 
@@ -960,22 +1021,23 @@ public class Game
     }
 
 
-
     //役が成立するリーチのPositionsを返す
     private static Positions GetRoleReachPositions()
     {
 
-        Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
+        Lines reachLines = GetReachLinesCanArcheveRole();
         Positions reachPositions = Positions.NONE;
 
+        Reels movingReels = GetLastMovingReel();
 
-        foreach(Positions position in positions)
+        foreach (Lines line in LINES_ARRAY)
         {
-            if(GetIsEstablishingRole(GetReachSymbolsForPosition(position)))
+            if (reachLines.HasFlag(line))
             {
-                reachPositions |= position;
+                reachPositions = GetPositionsForLines(movingReels, line);
             }
         }
+
 
 
         return reachPositions;
@@ -983,88 +1045,178 @@ public class Game
 
 
 
+    //役を成立させれるリーチのラインを返す
+    private static Lines GetReachLinesCanArcheveRole()
+    {
+        Reels movingReel = GetLastMovingReel();
+        Lines reachLine = Lines.NONE;
+
+
+        foreach (Lines line in LINES_ARRAY)
+        {
+            if(GetSymbolsAccordingRole().HasFlag(GetReachSymbolForLine(movingReel, line)))
+            {
+                reachLine |= line;
+            }
+        }
+
+        return reachLine;
+    }
+
+
+
+
+    //役を成立させれるシンボルを返す
+    public static Symbols GetSymbolsCanArcheveReachRole()
+    {
+        Symbols symbolArcheveReachRole = Symbols.NONE;
+        Lines reachLines = GetReachLinesCanArcheveRole();
+
+ 
+
+        foreach (Lines line in LINES_ARRAY)
+        {
+            if (reachLines.HasFlag(line))
+            {
+                symbolArcheveReachRole |= GetChangeToAvailableSymbol(line);
+            }
+        }
+
+
+        return symbolArcheveReachRole;
+
+    }
+
+    //役を成立できるリーチ状態のシンボルを比較可能な状態にする
+    public static Symbols GetChangeToAvailableSymbol(Lines line)
+    {
+        Reels movingReel = GetLastMovingReel();
+        Reels stopedReels = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & ~movingReel;
+        Reels[] stopedReelArray = { Reels.NONE, Reels.NONE };
+        Symbols[] stopedSymbolArray = { Symbols.NONE, Symbols.NONE };
+
+        Symbols reachSymbol = Symbols.NONE;
+
+        sbyte element = 0;
+        foreach (Reels reel in REELS_ARRAY) //左～右へ探索
+        {
+            if (stopedReels.HasFlag(reel))
+            {
+                stopedReelArray[element] = reel;
+                element++;
+            }
+        }
+
+        stopedSymbolArray[0] = GetSymbolForLine(stopedReelArray[0], line);
+        stopedSymbolArray[1] = GetSymbolForLine(stopedReelArray[1], line);
+        reachSymbol = GetReachSymbolForLine(movingReel, line);
+
+        if(nowRole != Roles.REGULAR)
+        {
+            return reachSymbol;
+        }
+
+        if(reachSymbol == Symbols.REACH && movingReel == Reels.LEFT && stopedSymbolArray[0] == Symbols.SEVEN)
+        {
+            return Symbols.SEVEN;
+        }
+
+        if(reachSymbol == Symbols.REACH && movingReel == Reels.CENTER)
+        {
+            return Symbols.SEVEN;
+        }
+
+        if(reachSymbol == Symbols.REACH && movingReel == Reels.RIGHT && stopedSymbolArray[1] == Symbols.SEVEN)
+        {
+            return Symbols.SEVEN;
+        }
+
+        if(nowRole == Roles.REGULAR && reachSymbol == Symbols.SEVEN)
+        {
+            return Symbols.BAR;
+        }
+
+        return reachSymbol;
+    }
+
+
+
+    //選択したリールとライン上にあるシンボルを返す
+    public static Symbols GetSymbolForLine(Reels selectReel,Lines line)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel); 
+        Positions searchPosition = GetPositionsForLines(selectReel, line);
+        return reelOrder[GetSymbolForPosition(selectReel, searchPosition)];
+
+    }
+
+
     //リールの指定したポジションでリーチのシンボルを取得する
     //searchPositionは探索場所をTOP,MIDDLE,BOTTOMを代入する
-    private static Symbols GetReachSymbolsForPosition(Positions searchPosition)
+    private static Symbols GetReachSymbolsForMovingReelsPosition(Positions searchPosition)
+    {
+        Reels movingReel = GetLastMovingReel();
+
+        return GetReachSymbolsForPosition(movingReel, searchPosition);
+    }
+
+
+    //選択したリールのPositionsを元に、リーチのシンボルを返す
+    //なければNONE
+    private static Symbols GetReachSymbolsForPosition(Reels selectReel,Positions searchPosition)
     {
         Symbols reachSymbols = Symbols.NONE;
-        Reels movingReel = Reels.NONE;
 
-
-        if (stopReelCount < 2)
-        {
-            return Symbols.NONE;
-        }
-
-
-        if (leftReelMoving)
-        {
-            movingReel |= Reels.LEFT;
-        }
-
-        if (centerReelMoving)
-        {
-            movingReel = Reels.CENTER;
-        }
-
-        if (rightReelMoving)
-        {
-            movingReel = Reels.RIGHT;
-        }
-
-
-
-        //動いているリールの、それぞれの段に対応したリーチのシンボルをビットフラグで代入する
-        if (movingReel == Reels.LEFT)
+        if (selectReel == Reels.LEFT)
         {
             switch (searchPosition)
             {
                 case Positions.TOP:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.upperToLower);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.upperToUpper);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToUpper);
                     break;
                 case Positions.MIDDLE:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.middleToMiddle);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
                     break;
                 case Positions.BOTTOM:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.lowerToLower);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.lowerToUpper);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
                     break;
             }
         }
 
-        if (movingReel == Reels.CENTER)
+        if (selectReel == Reels.CENTER)
         {
             switch (searchPosition)
             {
                 case Positions.TOP:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.upperToUpper);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToUpper);
                     break;
                 case Positions.MIDDLE:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.upperToLower);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.middleToMiddle);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.lowerToUpper);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.upperToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
                     break;
                 case Positions.BOTTOM:
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.lowerToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.lowerToLower);
                     break;
             }
         }
 
-        if (movingReel == Reels.RIGHT)
+        if (selectReel == Reels.RIGHT)
         {
             switch (searchPosition)
             {
                 case Positions.TOP:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.lowerToUpper);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.upperToUpper);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToUpper);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToUpper);
                     break;
                 case Positions.MIDDLE:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.middleToMiddle);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.middleToMiddle);
                     break;
                 case Positions.BOTTOM:
-                    reachSymbols = GetReachSymbolForLine(movingReel, Lines.lowerToLower);
-                    reachSymbols |= GetReachSymbolForLine(movingReel, Lines.upperToLower);
+                    reachSymbols = GetReachSymbolForLine(selectReel, Lines.lowerToLower);
+                    reachSymbols |= GetReachSymbolForLine(selectReel, Lines.upperToLower);
                     break;
             }
         }
@@ -1072,7 +1224,8 @@ public class Game
         return reachSymbols;
     }
 
-    //現時点リーチ目を滑らせない仕様
+
+
     //入ったら当選するシンボルを指定したLinesを元に取得する
     private static Symbols GetReachSymbolForLine(Reels selectReel , Lines line )
     {
@@ -1191,7 +1344,39 @@ public class Game
         return reachSymbol;
     }
 
+    private static Reels GetLastMovingReel()
+    {
+        if(stopReelCount < 2)
+        {
+            return Reels.NONE;
+        }
 
+        return GetMovingReels();
+    }
+
+    private static Reels GetMovingReels()
+    {
+        Reels movingReels = Reels.NONE;
+
+
+        if (leftReelMoving)
+        {
+            movingReels |= Reels.LEFT;
+        }
+
+        if (centerReelMoving)
+        {
+            movingReels |= Reels.CENTER;
+        }
+
+        if (rightReelMoving)
+        {
+            movingReels |= Reels.RIGHT;
+        }
+
+
+        return movingReels;
+    }
     
 
 }

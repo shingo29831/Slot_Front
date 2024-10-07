@@ -48,7 +48,7 @@ namespace GameMachine
         {
             if (stopBtnCount == 0)
             {
-                lblArray.Text = "ROLE:" + roleChangeToName(Roles.VERY_STRONG_CHERRY);
+                lblArray.Text = "ROLE:" + RoleChangeToName(Roles.VERY_STRONG_CHERRY);
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
@@ -67,27 +67,36 @@ namespace GameMachine
 
             Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
             Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            lblArray.Text = "GetReachSymbols:";
+            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT }; 
+            lblArray.Text = "GetReachPositions:";
             int cnt = 0;
-            lblArray.Text += " " + cnt.ToString() + ":" + PositionsChangeToNames(GetRoleReachPositions()) + " , ";
 
+
+            for(int gap = 0; gap <= 4 ; gap++)
+            {
+                int reelPosition = CalcReelPosition(nowLeftReel, gap);
+                lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
+                cnt++;
+            }
 
             dispReelsSymbols(Reels.LEFT);
-
-
-
             dispReelsSymbols(Reels.CENTER);
+            dispReelsSymbols(Reels.RIGHT);
 
             //UpReelPosition(Reels.RIGHT, rightPosition);
-            dispReelsSymbols(Reels.RIGHT);
-            UpReelPosition(Reels.RIGHT, leftPosition);
+
+
+
+            UpReelPosition(Reels.LEFT, rightPosition);
             if (nowRightReel == 20)
             {
                 UpReelPosition(Reels.CENTER, centerPosition);
             }
         }
 
-        private String roleChangeToName(Roles role)
+
+
+        private String RoleChangeToName(Roles role)
         {
             String value = "";
             switch (role)
@@ -122,6 +131,33 @@ namespace GameMachine
             }
             return value;
         }
+        private String LinesChangeToNames(Lines lines)
+        {
+            String value = "";
+            if (lines.HasFlag(Lines.upperToLower))
+            {
+                value += " • _";
+            }
+            if (lines.HasFlag(Lines.upperToUpper))
+            {
+                value += " • P";
+            }
+            if (lines.HasFlag(Lines.middleToMiddle))
+            {
+                value += " • [";
+            }
+            if (lines.HasFlag(Lines.lowerToLower))
+            {
+                value += " • Q";
+            }
+            if (lines.HasFlag(Lines.lowerToUpper))
+            {
+                value += " • ^";
+            }
+
+            return value;
+        }
+
 
         private String PositionsChangeToNames(Positions positions)
         {
@@ -260,26 +296,7 @@ namespace GameMachine
         {
 
 
-            Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
-            Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            lblArray.Text = "GetReachSymbols:";
-            int cnt = 0;
-                lblArray.Text += " " + cnt.ToString() + ":" + PositionsChangeToNames(GetRoleReachPositions()) + " , ";
 
-
-            dispReelsSymbols(Reels.LEFT);
-
-
-
-            dispReelsSymbols(Reels.CENTER);
-
-            //UpReelPosition(Reels.RIGHT, rightPosition);
-            dispReelsSymbols(Reels.RIGHT);
-            UpReelPosition(Reels.RIGHT, leftPosition);
-            if (nowRightReel == 20)
-            {
-                UpReelPosition(Reels.CENTER, centerPosition);
-            }
 
 
         }
