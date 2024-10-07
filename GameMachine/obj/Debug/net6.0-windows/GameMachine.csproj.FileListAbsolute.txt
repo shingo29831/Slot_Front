@@ -41,7 +41,6 @@ C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refin
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
-C:\Users\tarakku\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\StartUp.resources
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
 C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.exe
 C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.deps.json
@@ -66,3 +65,4 @@ C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\obj\Debug\net6.0-win
 C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\OneDrive\デスクトップ\Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
+C:\Users\tarakku\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.StartUp.resources
