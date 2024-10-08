@@ -135,32 +135,6 @@ namespace GameMachine
             }
             return value;
         }
-        private String LinesChangeToNames(Lines lines)
-        {
-            String value = "";
-            if (lines.HasFlag(Lines.upperToLower))
-            {
-                value += " Åï Å_";
-            }
-            if (lines.HasFlag(Lines.upperToUpper))
-            {
-                value += " Åï ÅP";
-            }
-            if (lines.HasFlag(Lines.middleToMiddle))
-            {
-                value += " Åï Å[";
-            }
-            if (lines.HasFlag(Lines.lowerToLower))
-            {
-                value += " Åï ÅQ";
-            }
-            if (lines.HasFlag(Lines.lowerToUpper))
-            {
-                value += " Åï Å^";
-            }
-
-            return value;
-        }
 
 
         private String PositionsChangeToNames(Positions positions)
