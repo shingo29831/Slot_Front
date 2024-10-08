@@ -58,7 +58,7 @@
             // 
             pictureBox2.BackColor = Color.FromArgb(255, 128, 128);
             pictureBox2.Image = Properties.Resources.image2;
-            pictureBox2.Location = new Point(1549, 0);
+            pictureBox2.Location = new Point(1546, 0);
             pictureBox2.Margin = new Padding(3, 4, 3, 4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(371, 1467);

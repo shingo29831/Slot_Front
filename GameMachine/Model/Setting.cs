@@ -10,10 +10,10 @@ public class Setting
 {
 	static String tableID = "info";
     static String userID = "";
-    static int expected = 0;
-    static int bonusProbability = 50; //最大100%での表記
-    static int[] bonusesProbabilityWeight = {0,10,20};//ボーナス当選後のREG/BIGに入る確率
-    static int[] rolesWeight = {20,8,5,4,4,2,1,0,1,1};
+    static sbyte expected = 0;
+    static sbyte bonusProbability = 50; //最大100%での表記
+    static sbyte[] bonusesProbabilityWeight = {0,10,20};//ボーナス当選後のREG/BIGに入る確率
+    static sbyte[] rolesWeight = {20,8,5,4,4,2,1,0,1,1};
     //NONE,ベル,リプレイ,スイカ,弱チェリー,強チェリー,最強チェリー,リーチ,REG,BIGの順で入れること
   
 
@@ -85,15 +85,15 @@ public class Setting
     }
 
 
-    public static void setBonusProbability(int bonusProbability) { Setting.bonusProbability = bonusProbability; }
-    public static int getBonusProbability() {  return Setting.bonusProbability; }
+    public static void setBonusProbability(sbyte bonusProbability) { Setting.bonusProbability = bonusProbability; }
+    public static sbyte getBonusProbability() {  return Setting.bonusProbability; }
 
 
-    public static void setBonusesProbabilityWeight(int bonus, int weight) { bonusesProbabilityWeight[bonus] = weight; }
-    public static int getBonusesProbabilityWeight(int bonus) { return bonusesProbabilityWeight[bonus]; }
+    public static void setBonusesProbabilityWeight(sbyte bonus, sbyte weight) { bonusesProbabilityWeight[bonus] = weight; }
+    public static sbyte getBonusesProbabilityWeight(sbyte bonus) { return bonusesProbabilityWeight[bonus]; }
 
 
-    public static void weightingSymbol(int expected) //重み付け 変更必要
+    public static void weightingSymbol(sbyte expected) //重み付け 変更必要
     {
         switch (expected)
         {
@@ -102,7 +102,7 @@ public class Setting
         }
     } 
 
-    public static int getRoleWeight(int symbol) 
+    public static sbyte getRoleWeight(sbyte symbol) 
     {
         return rolesWeight[symbol];
     }
