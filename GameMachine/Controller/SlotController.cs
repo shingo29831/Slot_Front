@@ -10,9 +10,6 @@ namespace GameMachine
     {
         private SlotView slotView;
 
-        // System.Timers.Timer に変更
-        private System.Timers.Timer reelTimer;
-
         public SlotController()
         {
             InitializeComponent();
@@ -24,13 +21,8 @@ namespace GameMachine
 
             PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3 };
 
-            // System.Timers.Timer のインスタンスを作成
-            reelTimer = new System.Timers.Timer(10); // 50ミリ秒の間隔
-            reelTimer.AutoReset = true; // 自動リセットを有効に
-            reelTimer.Enabled = false; // 必要なときに開始
-
             // SlotView のインスタンスを作成
-            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, pictureChange);
+            slotView = new SlotView(leftReels, centerReels, rightReels, pictureChange);
         }
 
         private void UserGameScreen_Load(object sender, EventArgs e)

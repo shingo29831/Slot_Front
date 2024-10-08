@@ -200,7 +200,6 @@
             MaxBet.Location = new Point(50, 575);
             MaxBet.Name = "MaxBet";
             MaxBet.Size = new Size(125, 125);
-            MaxBet.SizeMode = PictureBoxSizeMode.StretchImage;
             MaxBet.TabIndex = 19;
             MaxBet.TabStop = false;
             MaxBet.Click += MaxBet_Click;
@@ -273,7 +272,6 @@
             FlowerLeft.Location = new Point(25, 0);
             FlowerLeft.Name = "FlowerLeft";
             FlowerLeft.Size = new Size(200, 200);
-            FlowerLeft.SizeMode = PictureBoxSizeMode.StretchImage;
             FlowerLeft.TabIndex = 39;
             FlowerLeft.TabStop = false;
             // 
@@ -283,7 +281,6 @@
             FlowerRight.Location = new Point(1050, 0);
             FlowerRight.Name = "FlowerRight";
             FlowerRight.Size = new Size(200, 200);
-            FlowerRight.SizeMode = PictureBoxSizeMode.StretchImage;
             FlowerRight.TabIndex = 40;
             FlowerRight.TabStop = false;
             // 
@@ -293,7 +290,6 @@
             Bet3.Location = new Point(248, 68);
             Bet3.Name = "Bet3";
             Bet3.Size = new Size(75, 75);
-            Bet3.SizeMode = PictureBoxSizeMode.StretchImage;
             Bet3.TabIndex = 41;
             Bet3.TabStop = false;
             // 
@@ -303,7 +299,6 @@
             Bet2.Location = new Point(248, 242);
             Bet2.Name = "Bet2";
             Bet2.Size = new Size(75, 75);
-            Bet2.SizeMode = PictureBoxSizeMode.StretchImage;
             Bet2.TabIndex = 42;
             Bet2.TabStop = false;
             // 
@@ -313,7 +308,6 @@
             Bet1.Location = new Point(248, 413);
             Bet1.Name = "Bet1";
             Bet1.Size = new Size(75, 75);
-            Bet1.SizeMode = PictureBoxSizeMode.StretchImage;
             Bet1.TabIndex = 43;
             Bet1.TabStop = false;
             // 
