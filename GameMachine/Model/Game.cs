@@ -13,6 +13,8 @@ namespace Model;
 
 public class Game
 {
+    public static String value = "";
+
     static bool leftReelbtn = false;
     static bool centerReelbtn = false;
     static bool rightReelbtn = false;
@@ -39,7 +41,7 @@ public class Game
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    public static Roles nowRole = Roles.BELL; //テスト前はNONE
+    public static Roles nowRole = Roles.VERY_STRONG_CHERRY; //テスト前はNONE
     public static Symbols symbolsAccordingRole = Symbols.NONE;
 
     //reachRowsはリーチとなる場所を3次元配列で格納する各リールのポジション(上・中・下)に二つまでの入ったら役が成立するシンボルを代入する
@@ -123,15 +125,13 @@ public class Game
         {
             case Reels.LEFT:
                 return nowLeftReel;
-                break;
 
             case Reels.CENTER:
                 return nowCenterReel;
-                break;
 
             case Reels.RIGHT:
                 return nowRightReel;
-                break;
+
         }
         return nowPosition;
     }
@@ -317,18 +317,15 @@ public class Game
             {
                 reelPosition = searchReelPosition;
                 isFindedReelPosition = true;
-                //MessageBox.Show("役"+searchReelPosition.ToString());
             }
             if(isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
-                //MessageBox.Show("リーチ目" + searchReelPosition.ToString());
             }
             if(isExclusion == false && (isFindedReelPosition | isFindedProxyReelPosition) == false)
             {
                 reelPosition = searchReelPosition;
-                //MessageBox.Show("役なし" + searchReelPosition.ToString());
             }
 
         }
@@ -510,13 +507,12 @@ public class Game
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
-
+        
         Symbols topAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.TOP);
         Symbols middleAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.MIDDLE);
         Symbols bottomAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.BOTTOM);
 
         Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };
-
         sbyte cnt = 0;
         foreach (Symbols achieveRoleSymbols in achieveRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
         {
@@ -534,6 +530,8 @@ public class Game
     }
 
 
+
+    //Positionsのところにいれることが可能なシンボルを返す
     //一つ目は役を達成できるシンボルを返す
     //二つ目は候補のライン上のシンボルを返す
     //三つ目はリーチ上の役を成立できるシンボルを返す
@@ -541,16 +539,12 @@ public class Game
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
-        Lines searchLines = Lines.NONE;
         
-        Positions searchPositions = Positions.NONE;
         Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) & GetMovingReels();
-
         switch (stopReelCount)
         {
             case 0:
                 return GetSymbolsAccordingRole();
-                break;
             case 1:
                 if (selectReel == Reels.CENTER && nowRole == Roles.REGULAR && GetPositionsToReach(selectReel).HasFlag(position)) //中リールでレギュラー役が来た時、リーチにさせれるpositionだった時
                 {
@@ -567,7 +561,7 @@ public class Game
                 }
                 break;
             case 2:
-                if (GetIsReachLinesForRole(position)) //ここバグ修正中
+                if (GetPositionsToHit().HasFlag(position))
                 {
                     return GetSymbolsCanArcheveReachRole();
                 }
@@ -581,21 +575,7 @@ public class Game
         return exclusionSymbols;
     }
 
-    //positionが役を達成できるリーチライン上にある時true
-    public static bool GetIsReachLinesForRole(Positions position)
-    {
-        
-        Lines reachLines = GetReachLinesCanArcheveRole();
-        Reels movingReel = GetLastMovingReel();
-        
 
-        if (GetPositionsForLines(movingReel, reachLines).HasFlag(position))
-        {
-            return true;
-        }
-        
-        return false;
-    }
 
     //バーが止まっているか否か返す　二つ目のリールの処理用
     //(一つ目ののリール,二つ目のリールのPositions)
@@ -641,7 +621,6 @@ public class Game
     //リーチ役が成立するシンボルを返す
     public static Symbols GetReachRoleSymbolsForPosition(Reels selectReel, Positions position)
     {
-        Positions searchPositions = Positions.NONE;
         Symbols reachRoleSymbols = Symbols.NONE;
 
         foreach(Lines line in LINES_ARRAY)
@@ -808,6 +787,7 @@ public class Game
         return false;
     }
 
+    //役を成立させる条件のLinesを返す
     private static Lines GetLinesAccordingRole()
     {
         Lines lines = Lines.NONE;
@@ -909,6 +889,17 @@ public class Game
     }
 
 
+    private static Positions GetPositionsToHit()
+    {
+        if(stopReelCount < 2)
+        {
+            return Positions.NONE;
+        }
+        Reels movingReel = GetMovingReels();
+        Lines reachLines = GetReachLinesCanArcheveRole();
+        Positions toHitPositions = GetPositionsForLines(movingReel, reachLines);
+        return toHitPositions;
+    }
 
 
     //当選した役をリーチにさせる、選択したリールのPositionsをビットフラグで返す
@@ -1115,108 +1106,10 @@ public class Game
 
         return GetCandidateLines(stopReel);
 
-        Symbols[] nowStopReelOrder = GetReelOrder(stopReel);
-        sbyte nowStopReelPosition = GetNowReelPosition(stopReel);
-        Positions stopReelSymbolPositions = Positions.NONE;
-
-
-        //役を成立させるシンボルがはいっていたらPositionsビットフラグを上げる
-        if (GetIsEstablishingRole(nowStopReelOrder[CalcReelPosition(nowStopReelPosition, 2)]))
-        {
-            stopReelSymbolPositions = Positions.TOP;
-        }
-
-        if (GetIsEstablishingRole(nowStopReelOrder[CalcReelPosition(nowStopReelPosition, 1)]))
-        {
-            stopReelSymbolPositions |= Positions.MIDDLE;
-        }
-
-        if (GetIsEstablishingRole(nowStopReelOrder[nowStopReelPosition]))
-        {
-            stopReelSymbolPositions |= Positions.BOTTOM;
-        }
-
-        Lines reachCandidateLines = Lines.NONE;
-
-        switch (stopReel)
-        {
-            case Reels.LEFT:
-                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
-                {
-                    reachCandidateLines |= Lines.upperToLower;
-                    reachCandidateLines |= Lines.upperToUpper;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
-                {
-                    reachCandidateLines |= Lines.middleToMiddle;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
-                {
-                    reachCandidateLines |= Lines.lowerToLower;
-                    reachCandidateLines |= Lines.lowerToUpper;
-                }
-                break;
-
-            case Reels.CENTER:
-                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
-                {
-                    reachCandidateLines |= Lines.upperToUpper;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
-                {
-                    reachCandidateLines |= Lines.upperToLower;
-                    reachCandidateLines |= Lines.middleToMiddle;
-                    reachCandidateLines |= Lines.lowerToUpper;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
-                {
-                    reachCandidateLines |= Lines.lowerToLower;
-                }
-                break;
-
-            case Reels.RIGHT:
-                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
-                {
-                    reachCandidateLines |= Lines.upperToUpper;
-                    reachCandidateLines |= Lines.lowerToUpper;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
-                {
-                    reachCandidateLines |= Lines.middleToMiddle;
-                }
-                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
-                {
-                    reachCandidateLines |= Lines.upperToLower;
-                    reachCandidateLines |= Lines.lowerToLower;
-                }
-                break;
-        }
-
-        return reachCandidateLines;
+        
     }
 
 
-    //役が成立するリーチのPositionsを返す
-    private static Positions GetRoleReachPositions()
-    {
-
-        Lines reachLines = GetReachLinesCanArcheveRole();
-        Positions reachPositions = Positions.NONE;
-
-        Reels movingReels = GetLastMovingReel();
-
-        foreach (Lines line in LINES_ARRAY)
-        {
-            if (reachLines.HasFlag(line))
-            {
-                reachPositions = GetPositionsForLines(movingReels, line);
-            }
-        }
-
-
-
-        return reachPositions;
-    }
 
 
 
@@ -1253,13 +1146,14 @@ public class Game
                 element++;
             }
         }
-        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(movingReel).HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line))
+        
+        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line))
         {
             return true;
         }
+    
         return false;
     }
-
 
 
     //役を成立させれるシンボルを返す
@@ -1307,9 +1201,9 @@ public class Game
         stopedSymbolArray[1] = GetSymbolForLine(stopedReelArray[1], line);
         reachSymbol = GetReachSymbolForLine(movingReel, line);
 
-        if(nowRole != Roles.REGULAR)
+        if(!(Roles.REGULAR|Roles.BIG).HasFlag(nowRole))
         {
-            return reachSymbol;
+            return GetSymbolsAccordingRole();
         }
 
         if(reachSymbol == Symbols.REACH && movingReel == Reels.LEFT && stopedSymbolArray[0] == Symbols.SEVEN)
@@ -1332,6 +1226,7 @@ public class Game
             return Symbols.BAR;
         }
 
+        
         return reachSymbol;
     }
 

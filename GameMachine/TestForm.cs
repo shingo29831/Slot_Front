@@ -48,7 +48,7 @@ namespace GameMachine
         {
             if (stopReelCount == 0)
             {
-                lblArray.Text = "ROLE:" + RoleChangeToName(Roles.VERY_STRONG_CHERRY);
+                lblArray.Text = "ROLE:" + RoleChangeToName(nowRole);
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
@@ -283,34 +283,49 @@ namespace GameMachine
 
         private void leftStop_Click(object sender, EventArgs e)
         {
+            if (leftReelMoving)
+            {
+                sbyte position = GetReelPosition(Reels.LEFT);
+                lblArray.Text += " 始:" + GetNowReelPosition(Reels.LEFT).ToString();
+                leftPosition = position;
+                SetReelMoving(Reels.LEFT, false);
 
-            sbyte position = GetReelPosition(Reels.LEFT);
-            lblArray.Text += " 始:" + GetNowReelPosition(Reels.LEFT).ToString();
-            leftPosition = position;
-            SetReelMoving(Reels.LEFT, false);
+                lblArray.Text += " 返:" + leftPosition.ToString();
+            }
 
-            lblArray.Text += " 返:" + leftPosition.ToString();
+
 
         }
 
         private void centerStop_Click(object sender, EventArgs e)
         {
-            sbyte position = GetReelPosition(Reels.CENTER);
-            lblArray.Text += " 始:" + GetNowReelPosition(Reels.CENTER).ToString();
-            centerPosition = position;
-            SetReelMoving(Reels.CENTER, false);
+            if (centerReelMoving)
+            {
+                sbyte position = GetReelPosition(Reels.CENTER);
+                lblArray.Text += " 始:" + GetNowReelPosition(Reels.CENTER).ToString();
+                centerPosition = position;
+                SetReelMoving(Reels.CENTER, false);
 
-            lblArray.Text += " 返:" + centerPosition.ToString();
+                lblArray.Text += " 返:" + centerPosition.ToString();
+            }
+
+
         }
 
         private void rightStop_Click(object sender, EventArgs e)
         {
-            sbyte position = GetReelPosition(Reels.RIGHT);
-            lblArray.Text += " 始:"+ GetNowReelPosition(Reels.RIGHT).ToString();
-            rightPosition = position;
-            SetReelMoving(Reels.RIGHT, false);
-            
-            lblArray.Text += " 返:"+rightPosition.ToString();
+            if (rightReelMoving)
+            {
+                sbyte position = GetReelPosition(Reels.RIGHT);
+                lblArray.Text += " 始:" + GetNowReelPosition(Reels.RIGHT).ToString();
+                rightPosition = position;
+                SetReelMoving(Reels.RIGHT, false);
+
+
+                lblArray.Text += " 返:" + rightPosition.ToString();
+            }
+
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
