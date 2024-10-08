@@ -587,17 +587,9 @@ public class Game
         
         Lines reachLines = GetReachLinesCanArcheveRole();
         Reels movingReel = GetLastMovingReel();
-        bool isRole = false;
-        foreach(Symbols symbol in SYMBOLS_ARRAY)
-        {
-            if (GetSymbolsCanArcheveReachRole().HasFlag(symbol))
-            {
-                isRole = true;
-            }
-        }
         
 
-        if (GetPositionsForLines(movingReel, reachLines).HasFlag(position) && isRole)
+        if (GetPositionsForLines(movingReel, reachLines).HasFlag(position))
         {
             return true;
         }
@@ -610,7 +602,7 @@ public class Game
     public static bool GetIsStopBarForLines(Reels selectStopReel,Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectStopReel);
-        Positions stopReelBarPosition = GetPositionsForLines(selectStopReel,GetReachCandidateLines()) ;
+        Positions stopReelBarPosition = GetPositionsForLines(selectStopReel,GetCandidateLines()) ;
         if(selectStopReel != Reels.CENTER && reelOrder[GetSymbolForPosition(selectStopReel,stopReelBarPosition)] == Symbols.BAR)
         {
             return true;
@@ -658,7 +650,7 @@ public class Game
             {
                 reachRoleSymbols = GetSymbolForReachRoleLine(selectReel,line);
             }
-            if(GetReachCandidateLines().HasFlag(line) && GetPositionsForLines(selectReel, line).HasFlag(position))
+            if(GetCandidateLines().HasFlag(line) && GetPositionsForLines(selectReel, line).HasFlag(position))
             {
                 reachRoleSymbols = GetSymbolForReachRoleLine(selectReel,line);
             }
@@ -816,6 +808,25 @@ public class Game
         return false;
     }
 
+    private static Lines GetLinesAccordingRole()
+    {
+        Lines lines = Lines.NONE;
+        foreach(Lines line in LINES_ARRAY) //全てのLinesビットフラグを上げる
+        {
+            lines |= line;
+        }
+        switch (nowRole)
+        {
+            case Roles.STRONG_CHERRY:
+                return lines & ~Lines.middleToMiddle;
+
+            case Roles.VERY_STRONG_CHERRY:
+                return Lines.middleToMiddle;
+
+            default:
+                return lines;
+        }
+    }
 
     //役を成立させるシンボルを取得
     private static Symbols GetSymbolsAccordingRole()
@@ -897,52 +908,7 @@ public class Game
         return findedPostion;
     }
 
-    //選択したポジションに入れることが可能な現在のポジションに最も近いBARを取得
-    public static sbyte GetBarPosition(Reels selectReel, Positions position)
-    {
-        Symbols[] reelOrder = GetReelOrder(selectReel);
-        sbyte nowReelPosition = GetNowReelPosition(selectReel);
-        sbyte maxRange = 6;
-        sbyte repetitions = 7;
-        sbyte gapBottomPosition = 0;
-        switch (position)
-        {
-            case Positions.TOP:
-                maxRange = 6;
-                repetitions = 5;
-                gapBottomPosition = 2;
-                break;
 
-            case Positions.MIDDLE:
-                maxRange = 5;
-                repetitions = 5;
-                gapBottomPosition = 1;
-                break;
-
-            case  Positions.BOTTOM:
-                maxRange = 4;
-                repetitions = 5;
-                gapBottomPosition= 0;
-                break;
-        }
-
-        sbyte searchReelPosition = CalcReelPosition(nowReelPosition, maxRange);
-        sbyte barPostion = NONE;
-
-        for (sbyte i = 0; i < repetitions; i++)
-        {
-            searchReelPosition = CalcReelPosition(searchReelPosition, -1);
-            if (reelOrder[searchReelPosition] == Symbols.BAR && GetIsExclusion(selectReel,CalcReelPosition(searchReelPosition,(sbyte)(gapBottomPosition * -1)))) //
-            {
-                barPostion = searchReelPosition;
-            }
-        }
-        return barPostion;
-    }
-
-    
-
-    
 
 
     //当選した役をリーチにさせる、選択したリールのPositionsをビットフラグで返す
@@ -954,7 +920,7 @@ public class Game
             return Positions.NONE;
         }
 
-        Lines candidateLines = GetReachCandidateLines();
+        Lines candidateLines = GetCandidateLines();
         Positions candidatePositions = GetPositionsForLines(selectReel,candidateLines);
         
 
@@ -1049,8 +1015,96 @@ public class Game
     }
 
 
-    //リーチにさせれるラインを返す
-    private static Lines GetReachCandidateLines()
+    //選択したリールから役を成立させる候補のラインを返す
+    private static Lines GetCandidateLines(Reels selectReel)
+    {
+        if(selectReel == Reels.NONE)
+        {
+            return Lines.NONE;
+        }
+
+        Symbols[] nowStopReelOrder = GetReelOrder(selectReel);
+        sbyte nowStopReelPosition = GetNowReelPosition(selectReel);
+        Positions stopReelSymbolPositions = Positions.NONE;
+
+
+        //役を成立させるシンボルがはいっていたらPositionsビットフラグを上げる
+        if (GetIsEstablishingRole(nowStopReelOrder[CalcReelPosition(nowStopReelPosition, 2)]))
+        {
+            stopReelSymbolPositions = Positions.TOP;
+        }
+
+        if (GetIsEstablishingRole(nowStopReelOrder[CalcReelPosition(nowStopReelPosition, 1)]))
+        {
+            stopReelSymbolPositions |= Positions.MIDDLE;
+        }
+
+        if (GetIsEstablishingRole(nowStopReelOrder[nowStopReelPosition]))
+        {
+            stopReelSymbolPositions |= Positions.BOTTOM;
+        }
+
+        Lines reachCandidateLines = Lines.NONE;
+
+        switch (selectReel)
+        {
+            case Reels.LEFT:
+                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
+                {
+                    reachCandidateLines |= Lines.upperToLower;
+                    reachCandidateLines |= Lines.upperToUpper;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
+                {
+                    reachCandidateLines |= Lines.middleToMiddle;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
+                {
+                    reachCandidateLines |= Lines.lowerToLower;
+                    reachCandidateLines |= Lines.lowerToUpper;
+                }
+                break;
+
+            case Reels.CENTER:
+                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
+                {
+                    reachCandidateLines |= Lines.upperToUpper;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
+                {
+                    reachCandidateLines |= Lines.upperToLower;
+                    reachCandidateLines |= Lines.middleToMiddle;
+                    reachCandidateLines |= Lines.lowerToUpper;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
+                {
+                    reachCandidateLines |= Lines.lowerToLower;
+                }
+                break;
+
+            case Reels.RIGHT:
+                if (stopReelSymbolPositions.HasFlag(Positions.TOP))
+                {
+                    reachCandidateLines |= Lines.upperToUpper;
+                    reachCandidateLines |= Lines.lowerToUpper;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.MIDDLE))
+                {
+                    reachCandidateLines |= Lines.middleToMiddle;
+                }
+                if (stopReelSymbolPositions.HasFlag(Positions.BOTTOM))
+                {
+                    reachCandidateLines |= Lines.upperToLower;
+                    reachCandidateLines |= Lines.lowerToLower;
+                }
+                break;
+        }
+
+        return reachCandidateLines;
+    }
+
+    //リーチに候補のラインを返す
+    private static Lines GetCandidateLines()
     {
         if (stopReelCount != 1)
         {
@@ -1058,6 +1112,8 @@ public class Game
         }
 
         Reels stopReel = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & ~GetMovingReels();
+
+        return GetCandidateLines(stopReel);
 
         Symbols[] nowStopReelOrder = GetReelOrder(stopReel);
         sbyte nowStopReelPosition = GetNowReelPosition(stopReel);
@@ -1167,16 +1223,14 @@ public class Game
     //役を成立させれるリーチのラインを返す
     private static Lines GetReachLinesCanArcheveRole()
     {
-        Reels movingReel = GetLastMovingReel();
+        
         Lines reachLine = Lines.NONE;
-        if(stopReelCount != 2)
-        {
-            return Lines.NONE;
-        }
+        
+
 
         foreach (Lines line in LINES_ARRAY)
         {
-            if(GetSymbolsAccordingRole().HasFlag(GetReachSymbolForLine(movingReel, line)))
+            if (GetIsReachRoleLine(line))
             {
                 reachLine |= line;
             }
@@ -1185,6 +1239,26 @@ public class Game
         return reachLine;
     }
 
+
+    private static bool GetIsReachRoleLine(Lines line)
+    {
+        Reels movingReel = GetLastMovingReel();
+        Reels[] stopedReelArray = { Reels.NONE, Reels.NONE };
+        sbyte element = 0;
+        foreach (Reels reel in REELS_ARRAY)
+        {
+            if (reel != movingReel && movingReel != Reels.NONE)
+            {
+                stopedReelArray[element] = reel;
+                element++;
+            }
+        }
+        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(movingReel).HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line))
+        {
+            return true;
+        }
+        return false;
+    }
 
 
 
