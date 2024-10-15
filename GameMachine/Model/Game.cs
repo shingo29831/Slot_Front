@@ -41,7 +41,7 @@ public class Game
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    public static Roles nowRole = Roles.VERY_STRONG_CHERRY; //テスト前はNONE
+    public static Roles nowRole = Roles.REPLAY; //テスト前はNONE
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
 

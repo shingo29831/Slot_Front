@@ -6,15 +6,36 @@ using System.Text;
 using static Constants;
 
 namespace Model;
+
+
 public class Setting
 {
-	static String tableID = "info";
+    public enum  RolesIndex: byte
+    {
+        NONE = 0,
+        BELL = 1,
+        REPLAY = 2,
+        WATERMELON = 3,
+        WEAK_CHERRY = 4,
+        STRONG_CHERRY = 5,
+        VERY_STRONG_CHERRY = 6,
+    }
+
+    public enum BonusesIndex: byte
+    {
+        BIG = 0,
+        REGULAR = 1,
+    }
+
+
+	static String pcID = "info";
     static String userID = "";
     static sbyte expected = 0;
     static sbyte bonusProbability = 50; //最大100%での表記
-    static sbyte[] bonusesProbabilityWeight = {0,10,20};//ボーナス当選後のREG/BIGに入る確率
-    static sbyte[] rolesWeight = {20,8,5,4,4,2,1,0,1,1};
-    //NONE,ベル,リプレイ,スイカ,弱チェリー,強チェリー,最強チェリー,リーチ,REG,BIGの順で入れること
+    static byte[] rolesReturn = {0,9,0, };
+    static byte[] bonusesProbability = {10,20};//ボーナス当選後のBIG/REGに入る確率の割合 {BIG,REG}の順で格納
+    static byte[] rolesWeight = {20,8,5,4,4,2,1};
+    //NONE,ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
   
 
 
@@ -26,17 +47,17 @@ public class Setting
         byte[] hashValue = generateHash(getMacAddress() + getProductID());
 
         // ハッシュ値を表示
-        tableID = BitConverter.ToString(hashValue).Replace("-", "");
+        pcID = BitConverter.ToString(hashValue).Replace("-", "");
     }
 
-    public static void setTableID(String tableID)
+    public static void setTableID(String pcID)
 	{
-        Setting.tableID = tableID;
+        Setting.pcID = pcID;
     }
 
     public static String getTableID()
     {
-        return Setting.tableID;
+        return Setting.pcID;
     }
 
     public static byte[] generateHash(string input)
