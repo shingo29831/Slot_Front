@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;  // System.Timers を使用
 using static Constants;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GameMachine
 {
@@ -70,7 +71,7 @@ namespace GameMachine
                 { Symbols.CHERRY, Properties.Resources.cherry },
                 { Symbols.SEVEN, Properties.Resources.seven },
                 { Symbols.BAR, Properties.Resources.bar }
-            };
+            };   
         }
 
         // タイマーのスタートメソッド（リールの回転開始）
@@ -90,17 +91,9 @@ namespace GameMachine
             {
                 if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550)
                 {
-                    leftReelStop = true;  // 停止フラグを設定
+                    leftReelStop = true;  // 停止フラグを設定               
                     break;
-                }
-                else
-                {
-                    // リールの位置を調整（シンボルを 25 ピクセルずつ移動）
-                    for (int i = 0; i < leftReel.Length; i++)
-                    {
-                        leftReel[i].Top += 25;
-                    }
-                }
+                }  
                 await Task.Delay(16);  // 非同期で16ミリ秒待機（UIフリーズを防ぐ）
             }
         }
@@ -115,13 +108,6 @@ namespace GameMachine
                     centerReelStop = true;  // 停止フラグを設定
                     break;
                 }
-                else
-                {
-                    for (int i = 0; i < centerReel.Length; i++)
-                    {
-                        centerReel[i].Top += 25;
-                    }
-                }
                 await Task.Delay(16);  // 非同期で16ミリ秒待機
             }
         }
@@ -135,14 +121,7 @@ namespace GameMachine
                 {
                     rightReelStop = true;  // 停止フラグを設定
                     break;
-                }
-                else
-                {
-                    for (int i = 0; i < rightReel.Length; i++)
-                    {
-                        rightReel[i].Top += 25;
-                    }
-                }
+                }//元々のずらし処理削除
                 await Task.Delay(16);  // 非同期で16ミリ秒待機
             }
         }

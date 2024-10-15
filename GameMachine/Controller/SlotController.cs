@@ -10,6 +10,9 @@ namespace GameMachine
     {
         private SlotView slotView;
 
+        //止まっているリールの数でボタンのカウントを初期化
+        private int btnCount = 3;
+
         public SlotController()
         {
             InitializeComponent();
@@ -33,16 +36,42 @@ namespace GameMachine
 
         private void stopBtns_Click(object sender, EventArgs e)
         {
-            if (sender == btnstop1) { slotView.StopLeftReel(); slotView.leftbtnChange(); }
-            else if (sender == btnstop2) { slotView.StopCenterReel(); slotView.centerbtnChange(); }
-            else if (sender == btnstop3) { slotView.StopRightReel(); slotView.rightbtnChange(); }
+            if (sender == btnstop1){ 
+                slotView.StopLeftReel(); 
+                slotView.leftbtnChange();
+                btnCount++;
+                btnstop1.Enabled = false;
+            }else if (sender == btnstop2)
+            { 
+                slotView.StopCenterReel(); 
+                slotView.centerbtnChange();
+                btnCount++;
+                btnstop2.Enabled = false;
+            }
+            else if (sender == btnstop3){ 
+                slotView.StopRightReel(); 
+                slotView.rightbtnChange();
+                btnCount++;
+                btnstop3.Enabled = false;
+            }
+            
         }
 
         //レバーが押されると回転スタート
         private void btnStart_Click(object sender, EventArgs e)
         {
-            slotView.Start();
-            slotView.Changereset();
+            if (btnCount == 3)
+            {
+                btnstop1.Enabled = true;
+                btnstop2.Enabled = true;
+                btnstop3.Enabled = true;
+
+                slotView.Start();
+                slotView.Changereset();
+
+                btnCount = 0;
+            }
+            
         }
 
         //レバーが上がったら画像を切り替える
