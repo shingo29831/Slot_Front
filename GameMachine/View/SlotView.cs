@@ -225,6 +225,14 @@ namespace GameMachine
         public void leftbtnChange() { PChange[1].Image = Properties.Resources.LeftButtonON; }
         public void centerbtnChange() { PChange[2].Image = Properties.Resources.CenterButtonON; }
         public void rightbtnChange() { PChange[3].Image = Properties.Resources.RightButtonON; }
+        public void maxbetChengeUp() { PChange[4].Image = Properties.Resources.MAXBETOFF; }
+        public void maxbetChengeDown() { PChange[4].Image = Properties.Resources.MAXBETON; }
+        public void betChenge()
+        {
+            PChange[5].Image = Properties.Resources.OneON;
+            PChange[6].Image = Properties.Resources.TwoON;
+            PChange[7].Image = Properties.Resources.ThreeON;
+        }
         public void Changereset()
         {
             PChange[1].Image = Properties.Resources.LeftButtonOFF;
