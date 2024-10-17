@@ -22,7 +22,7 @@ namespace GameMachine
             PictureBox[] centerReels = { CpB1, CpB2, CpB3, CpB4 };
             PictureBox[] rightReels = { RpB1, RpB2, RpB3, RpB4 };
 
-            PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3 };
+            PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3, btnstop3, MaxBet, Bet1, Bet2, Bet3 };
 
             // SlotView のインスタンスを作成
             slotView = new SlotView(leftReels, centerReels, rightReels, pictureChange);
@@ -89,17 +89,17 @@ namespace GameMachine
         //MAXBET
         private void MaxBet_Click(object sender, EventArgs e)
         {
-
+            slotView.betChenge();
         }
 
         private void MaxBet_MouseUp(object sender, MouseEventArgs e)
         {
-
+            slotView.maxbetChengeUp();
         }
 
         private void MaxBet_MouseDown(object sender, MouseEventArgs e)
         {
-
+            slotView.maxbetChengeDown();
         }
     }
 }
