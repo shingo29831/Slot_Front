@@ -31,7 +31,7 @@ namespace GameMachine
         private void UserGameScreen_Load(object sender, EventArgs e)
         {
             //シンボル表示初期位置
-            slotView.initialPictureSet(1, 3, 20);//数値をずらすと始まる位置が変わる
+            slotView.initialPictureSet(1, 1, 1);//数値をずらすと始まる位置が変わる
         }
 
         private void stopBtns_Click(object sender, EventArgs e)
