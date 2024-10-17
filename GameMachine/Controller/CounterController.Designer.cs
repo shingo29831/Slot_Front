@@ -46,7 +46,7 @@
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.FromArgb(255, 128, 128);
-            pictureBox1.Image = Properties.Resources.image1;
+            pictureBox1.Image = Properties.Resources.image2;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(325, 1100);
@@ -56,7 +56,7 @@
             // pictureBox2
             // 
             pictureBox2.BackColor = Color.FromArgb(255, 128, 128);
-            pictureBox2.Image = Properties.Resources.image2;
+            pictureBox2.Image = Properties.Resources.image1;
             pictureBox2.Location = new Point(1600, 0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(325, 1100);
@@ -149,7 +149,7 @@
             panel2.Size = new Size(1275, 180);
             panel2.TabIndex = 3;
             // 
-            // CounterDisplay
+            // CounterController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -157,7 +157,7 @@
             Controls.Add(panel1);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Name = "CounterDisplay";
+            Name = "CounterController";
             Size = new Size(1920, 1080);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();

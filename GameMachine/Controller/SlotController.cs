@@ -10,8 +10,8 @@ namespace GameMachine
     {
         private SlotView slotView;
 
-        // System.Timers.Timer に変更
-        private System.Timers.Timer reelTimer;
+        //止まっているリールの数でボタンのカウントを初期化
+        private int btnCount = 3;
 
         public SlotController()
         {
@@ -22,15 +22,10 @@ namespace GameMachine
             PictureBox[] centerReels = { CpB1, CpB2, CpB3, CpB4 };
             PictureBox[] rightReels = { RpB1, RpB2, RpB3, RpB4 };
 
-            PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3 };
-
-            // System.Timers.Timer のインスタンスを作成
-            reelTimer = new System.Timers.Timer(10); // 50ミリ秒の間隔
-            reelTimer.AutoReset = true; // 自動リセットを有効に
-            reelTimer.Enabled = false; // 必要なときに開始
+            PictureBox[] pictureChange = { btnStart, btnstop1, btnstop2, btnstop3, btnstop3, MaxBet, Bet1, Bet2, Bet3 };
 
             // SlotView のインスタンスを作成
-            slotView = new SlotView(reelTimer, leftReels, centerReels, rightReels, pictureChange);
+            slotView = new SlotView(leftReels, centerReels, rightReels, pictureChange);
         }
 
         private void UserGameScreen_Load(object sender, EventArgs e)
@@ -41,16 +36,42 @@ namespace GameMachine
 
         private void stopBtns_Click(object sender, EventArgs e)
         {
-            if (sender == btnstop1) { slotView.StopLeftReel(); slotView.leftbtnChange(); }
-            else if (sender == btnstop2) { slotView.StopCenterReel(); slotView.centerbtnChange(); }
-            else if (sender == btnstop3) { slotView.StopRightReel(); slotView.rightbtnChange(); }
+            if (sender == btnstop1){ 
+                slotView.StopLeftReel(); 
+                slotView.leftbtnChange();
+                btnCount++;
+                btnstop1.Enabled = false;
+            }else if (sender == btnstop2)
+            { 
+                slotView.StopCenterReel(); 
+                slotView.centerbtnChange();
+                btnCount++;
+                btnstop2.Enabled = false;
+            }
+            else if (sender == btnstop3){ 
+                slotView.StopRightReel(); 
+                slotView.rightbtnChange();
+                btnCount++;
+                btnstop3.Enabled = false;
+            }
+            
         }
 
         //レバーが押されると回転スタート
         private void btnStart_Click(object sender, EventArgs e)
         {
-            slotView.Start();
-            slotView.Changereset();
+            if (btnCount == 3)
+            {
+                btnstop1.Enabled = true;
+                btnstop2.Enabled = true;
+                btnstop3.Enabled = true;
+
+                slotView.Start();
+                slotView.Changereset();
+
+                btnCount = 0;
+            }
+            
         }
 
         //レバーが上がったら画像を切り替える
@@ -65,9 +86,20 @@ namespace GameMachine
             slotView.leverDown();
         }
 
-        private void LpB2_Click(object sender, EventArgs e)
+        //MAXBET
+        private void MaxBet_Click(object sender, EventArgs e)
         {
+            slotView.betChenge();
+        }
 
+        private void MaxBet_MouseUp(object sender, MouseEventArgs e)
+        {
+            slotView.maxbetChengeUp();
+        }
+
+        private void MaxBet_MouseDown(object sender, MouseEventArgs e)
+        {
+            slotView.maxbetChengeDown();
         }
     }
 }
