@@ -10,9 +10,6 @@
     <Compile Update="Controller\AccountLinkingController.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controller\ResultController.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Controller\SlotController.cs">
       <SubType>UserControl</SubType>
     </Compile>
