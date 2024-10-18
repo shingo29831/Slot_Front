@@ -187,7 +187,10 @@ namespace GameMachine
         // リールの画像を更新する（シンボル順序に従って画像を変更）
         private void UpdateImage(PictureBox reel, ref int count, Symbols[] order)
         {
-            // シンボル画像が辞書に存在する場合
+            // 現在表示されている画像と次の画像が同じ場合は更新しない
+            if (reel.Image == symbolImages[order[count]])
+                return;
+
             if (symbolImages.ContainsKey(order[count]))
             {
                 reel.Image = symbolImages[order[count]]; // 新しい画像を設定
