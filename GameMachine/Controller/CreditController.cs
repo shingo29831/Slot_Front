@@ -24,9 +24,11 @@ namespace GameMachine
         {
 
         }
-        public void switchRemainingCreditDisplay(int remainingCredit) { }
-        public void switchReturnBonusCreditDisplay(int returnBonusCredit) { }
-        public void switchReturnCredit(int returnCredit) { }
+        //クレジット残高を表示　更新？？
+        private void CreditCharge()
+        {
+
+        }
 
     }
 }

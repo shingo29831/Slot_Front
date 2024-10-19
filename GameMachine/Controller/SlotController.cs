@@ -12,6 +12,10 @@ namespace GameMachine
 
         //止まっているリールの数でボタンのカウントを初期化
         private int btnCount = 3;
+        //スタートしていないときにボタンを押されないようにする
+        private Boolean StartFlag = false;
+        //マックスベットを押した後にレバーの動作をオンにするためのフラグ
+        private Boolean MaxbetFlag = false;
 
         public SlotController()
         {
@@ -36,19 +40,20 @@ namespace GameMachine
 
         private void stopBtns_Click(object sender, EventArgs e)
         {
-            if (sender == btnstop1){ 
+            if (sender == btnstop1 && StartFlag == true){ 
                 slotView.StopLeftReel(); 
                 slotView.leftbtnChange();
                 btnCount++;
                 btnstop1.Enabled = false;
-            }else if (sender == btnstop2)
+            }else if (sender == btnstop2 && StartFlag == true)
             { 
                 slotView.StopCenterReel(); 
                 slotView.centerbtnChange();
                 btnCount++;
                 btnstop2.Enabled = false;
             }
-            else if (sender == btnstop3){ 
+            else if (sender == btnstop3 && StartFlag == true)
+            { 
                 slotView.StopRightReel(); 
                 slotView.rightbtnChange();
                 btnCount++;
@@ -60,11 +65,12 @@ namespace GameMachine
         //レバーが押されると回転スタート
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (btnCount == 3)
+            if (btnCount == 3 && MaxbetFlag)
             {
                 btnstop1.Enabled = true;
                 btnstop2.Enabled = true;
                 btnstop3.Enabled = true;
+                StartFlag = true;
 
                 slotView.Start();
                 slotView.Changereset();
@@ -90,6 +96,8 @@ namespace GameMachine
         private void MaxBet_Click(object sender, EventArgs e)
         {
             slotView.betChenge();
+            MaxbetFlag = true;
+
         }
 
         private void MaxBet_MouseUp(object sender, MouseEventArgs e)

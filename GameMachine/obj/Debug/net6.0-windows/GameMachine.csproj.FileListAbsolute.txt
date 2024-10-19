@@ -90,3 +90,4 @@ C:\Users\user\OneDrive\デスクトップ\Front_Hayashi\GameMachine\obj\Debug\ne
 C:\Users\user\OneDrive\デスクトップ\Front_Hayashi\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\OneDrive\デスクトップ\Front_Hayashi\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
 C:\Users\user\OneDrive\デスクトップ\Front_Hayashi\GameMachine\obj\Debug\net6.0-windows\GameMachine.Form1.resources
+C:\Users\tarakku\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.ResultController.resources
