@@ -206,12 +206,12 @@ namespace GameMachine
         public void rightbtnChange() { PChange[3].Image = Properties.Resources.RightButtonON; }
         public void maxbetChengeUp() { PChange[5].Image = Properties.Resources.MAXBETOFF; }
         public void maxbetChengeDown() { PChange[5].Image = Properties.Resources.MAXBETON; }
-        public void betChenge()
-        {
-            PChange[6].Image = Properties.Resources.OneON;
-            PChange[7].Image = Properties.Resources.TwoON;
-            PChange[8].Image = Properties.Resources.ThreeON;
-        }
+        public void betFirstON(){PChange[6].Image = Properties.Resources.OneON;}
+        public void betFirstOFF() { PChange[6].Image = Properties.Resources.OneOFF; }
+        public void betSecondON() { PChange[7].Image = Properties.Resources.TwoON; }
+        public void betSecondOFF() { PChange[7].Image = Properties.Resources.TwoOFF; }
+        public void betThirdON() { PChange[8].Image = Properties.Resources.ThreeON; }
+        public void betThirdOFF() { PChange[8].Image = Properties.Resources.ThreeOFF; }
         public void Changereset()
         {
             PChange[1].Image = Properties.Resources.LeftButtonOFF;
