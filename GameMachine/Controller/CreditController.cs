@@ -22,7 +22,9 @@ namespace GameMachine
         }
         private void CreditDisplay_Load(object sender, EventArgs e)
         {
-
+            creditTxb.Enabled = false;
+            countTxb.Enabled = false;
+            payoutTxb.Enabled = false; 
         }
         //クレジット残高を表示　更新？？
         private void CreditCharge()

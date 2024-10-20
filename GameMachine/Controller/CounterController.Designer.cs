@@ -159,6 +159,7 @@
             Controls.Add(pictureBox1);
             Name = "CounterController";
             Size = new Size(1920, 1080);
+            Load += CounterController_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panel1.ResumeLayout(false);
