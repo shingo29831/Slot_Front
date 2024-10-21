@@ -20,14 +20,14 @@ namespace GameMachine
         private bool rightReelStop = false;
 
         // リールのシンボル配置を保持する配列
-        public static Symbols[] leftOrder;
-        public static Symbols[] centerOrder;
-        public static Symbols[] rightOrder;
+        private static Symbols[] leftOrder;
+        private static Symbols[] centerOrder;
+        private static Symbols[] rightOrder;
 
         // リールの現在位置（シンボルのインデックスを保持）
-        public int leftcount = 0;
-        public int centercount = 0;
-        public int rightcount = 0;
+        private int leftcount = 0;
+        private int centercount = 0;
+        private int rightcount = 0;
 
         // 各リールに対応する PictureBox 配列
         private PictureBox[] leftReel;
