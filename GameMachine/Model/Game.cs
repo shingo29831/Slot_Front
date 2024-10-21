@@ -21,6 +21,7 @@ public class Game
 
     static sbyte bonusReturn = 0;
     static bool nextBonusFlag = false;
+    static bool inBonus = false;
     static bool bonusFlag = false;
 
     static sbyte[] dispSymbol = new sbyte[3];
@@ -41,10 +42,11 @@ public class Game
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    public static Roles nowRole = Roles.REPLAY; //テスト前はNONE
+    private static Roles nowRole = Roles.REPLAY; //テスト前はNONE
+    private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
-
+    private static readonly Roles[] ROLES_ARRAY = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
     private static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
     private static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
     public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
@@ -61,6 +63,9 @@ public class Game
         lowerToLower = 8, //左下から右下
         lowerToUpper = 16, //左下から右上
     }
+
+    public static Roles GetNowRole() { return nowRole; }
+
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
     private static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
@@ -169,73 +174,77 @@ public class Game
     }
 
 
-    //ボーナス抽選開始後実行する"ボーナス抽選関数" bonusProbabilityに設定された確率に合わせて抽選する
-    private static bool BonusLottery()
+    //ボーナス抽選開始後実行する"ボーナス抽選関数" 役ごとのrolesBonusProbability配列に設定された確率に合わせて抽選する
+    public static bool BonusLottery()
     {
+
         Random rnd = new Random();
-        sbyte rndnum = (sbyte)rnd.Next(1, 101);  //1以上101未満の値がランダムに出力
-        if (rndnum <= Setting.getBonusProbability())
+        byte rndNum = (byte)rnd.Next(0, 100);  //0以上100未満の値がランダムに出力
+        byte sumProbability = 0;
+
+        foreach (Roles role in ROLES_ARRAY)
         {
-            return true;
+            sumProbability += GetRoleBonusProbability(role);
+            if (rndNum < Setting.GetRoleBonusProbability(role) && role == nowRole)
+            {
+                return true;
+            }
+            if(role == nowRole) { break; }
         }
+        
         return false;
     }
 
 
-    //ボーナス抽選当選後実行するレギュラーボーナスまたはビックボーナスを決定する
-    private static Roles SelectBonusLottery()
+    //ボーナス抽選当選後実行するビックボーナスまたはレギュラーボーナスを決定する
+    //決定はSetting.bigProbabilityを元に決定
+    public static void SelectBonusLottery()
     {
-        Roles bonus = Roles.NONE;
         Random rnd = new Random();
-        sbyte regularProbabilityWeight = Setting.getBonusesProbabilityWeight(0);
-        sbyte bigProbabilityWeight = Setting.getBonusesProbabilityWeight(1);
-        sbyte sumWeight = (sbyte)(regularProbabilityWeight + bigProbabilityWeight);
-        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
+        byte bigProbability = Setting.GetBigProbability();
 
-        if(regularProbabilityWeight <= rndnum)
+        byte rndNum = (byte)rnd.Next(0, 100);  //0以上99以下の値がランダムに出力
+
+        if (rndNum < bigProbability )
         {
-            bonus = Roles.REGULAR;
-        }else if(regularProbabilityWeight > rndnum && sumWeight <= rndnum) 
+            nowBonus = Roles.BIG;
+        }else if(rndNum >= bigProbability)
         {
-            bonus = Roles.BIG;
+            nowBonus = Roles.REGULAR;
         }
+    }
 
-        return bonus;
+    public static Roles GetNowBonus()
+    {
+        return nowBonus;
     }
 
 
     //役の抽選の関数　ボーナス以外の役が当選する
-    private static sbyte HitRoleLottery()
+    public static void HitRolesLottery()
     {
 
-        sbyte role = 0;
-        sbyte sumWeight = 0;
-        sbyte lotteryRange = 6;
-
-
-        for (sbyte i = 0; i <= lotteryRange; i++)
-        {
-            sumWeight += Setting.getRoleWeight(i);
-        }
+        nowRole = Roles.NONE;
+        int sumWeight = 0;
+        int totalWeight = GetTotalWeight();
 
         Random rnd = new Random();
-        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight + 1);
-        sumWeight = 0;
-        sbyte tmp = 0;
-        for (sbyte i = 0; i <= lotteryRange; i++)
+        int rndNum = rnd.Next(0, totalWeight); //0～totalWeight-1の乱数
+
+        foreach (Roles role in ROLES_ARRAY)
         {
-            tmp = sumWeight;
-            sumWeight += Setting.getRoleWeight(i);
-
-
-            if (tmp < rndnum && rndnum <= sumWeight)
+            sumWeight += GetRoleWeight(role);
+            if(rndNum < sumWeight)
             {
-                role = i;
+                nowRole = role;
+                break;
             }
         }
+    }
 
-
-        return role;
+    public static Roles GetNowRoles()
+    {
+        return nowRole;
     }
 
 
