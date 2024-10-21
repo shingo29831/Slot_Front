@@ -398,6 +398,10 @@ public class Game
 
         Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
 
+        //リーチ目用で使用
+        Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
+        Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
+
         switch (nowRole)
         {
             case Roles.BELL:
@@ -449,6 +453,8 @@ public class Game
                 break;
 
 
+
+
             case Roles.REGULAR:
                 if (reachSymbols.HasFlag(Symbols.BAR))
                 {
@@ -458,9 +464,20 @@ public class Game
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.BAR;
                 }
-                if (reachSymbols.HasFlag(Symbols.REACH))
+                //77BAR or BAR77用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.SEVEN) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールに7が来ていた時
                 {
-                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN);
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
+                }
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからSEVENとBARを消す
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.SEVEN | Symbols.BAR );
+                }
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.BAR) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールにBARが来ていた時
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN); //7とBARを除外用ビットフラグから消す
                 }
                 break;
 
@@ -472,12 +489,11 @@ public class Game
                 }
                 if (reachSymbols.HasFlag(Symbols.SEVEN))
                 {
-                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
+                    exclusionSymbols = reachSymbols & ~(Symbols.SEVEN | Symbols.BAR);
+
                 }
 
-                Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
-                Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
-
+                //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからBARを消す
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.BAR;

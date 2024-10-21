@@ -44,10 +44,10 @@ namespace GameMachine
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //–{”Ô‚Í–ñ35‚Å‰ñ‚·
         {
-
-            if (stopReelCount == 0)
+            int cnt = 0;
+            if (cnt==0)
             {
                 
                 lblArray.Text = "ROLE:" +  RoleChangeToName(GetNowRole()) ;
@@ -55,11 +55,18 @@ namespace GameMachine
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
+                cnt++;
             }
             if(stopReelCount == 3)
             {
                 ResetReelsMoving();
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
+                leftPosition = NONE;
+                centerPosition = NONE;
+                rightPosition = NONE;
+                timer1.Enabled = true;
             }
+            
 
         }
 
