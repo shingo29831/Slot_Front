@@ -46,53 +46,11 @@ namespace GameMachine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int[] roles = { 0, 0, 0, 0, 0, 0};
-            int big = 0;
-            int reg = 0;
-            int inBonus = 0;
-            int notBonus = 0;
-            lblArray.Text = "";
-            for (int i = 0;i < 1000000;i++)
-            {
-                Game.BonusLottery();
-                if (BonusLottery())
-                {
-                    inBonus++;
-                }
-                else
-                {
-                    notBonus++;
-                }
-
-                switch (GetNowRole())
-                {
-                    case Roles.BELL: roles[0] += 1; break;
-                    case Roles.REPLAY: roles[1] += 1; break;
-                    case Roles.WATERMELON: roles[2] += 1; break;
-                    case Roles.WEAK_CHERRY: roles[3] += 1; break;
-                    case Roles.STRONG_CHERRY: roles[4] += 1; break;
-                    case Roles.VERY_STRONG_CHERRY: roles[5] += 1; break;
-
-                }
-                Game.SelectBonusLottery();
-                if (GetNowBonus() == Roles.BIG)
-                {
-                    big++;
-                }else if (GetNowBonus() == Roles.REGULAR)
-                {
-                    reg++;
-                }
-            }
-            for(int i = 0;i < roles.Length;i++)
-            {
-                lblArray.Text += i.ToString() + ": " + roles[i].ToString() + " , ";
-            }
-            lblArray.Text += "InBonus: " + inBonus + " , NotBonus: " + notBonus;
 
             if (stopReelCount == 0)
             {
                 
-                //lblArray.Text = "ROLE:" +  RoleChangeToName(GetNowRole()) ;
+                lblArray.Text = "ROLE:" +  RoleChangeToName(GetNowRole()) ;
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;

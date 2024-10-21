@@ -42,7 +42,7 @@ public class Game
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    private static Roles nowRole = Roles.WATERMELON; //テスト前はNONE
+    private static Roles nowRole = Roles.BIG; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
@@ -564,7 +564,7 @@ public class Game
                     return GetSymbolsAccordingRole();
                 }
                 break;
-            case 2:
+            case 2: //ここがおそらく違う
                 if (GetPositionsToHit().HasFlag(position))
                 {
                     return GetSymbolsCanArcheveReachRole();
@@ -1123,8 +1123,6 @@ public class Game
         
         Lines reachLine = Lines.NONE;
         
-
-
         foreach (Lines line in LINES_ARRAY)
         {
             if (GetIsReachRoleLine(line))
@@ -1136,22 +1134,22 @@ public class Game
         return reachLine;
     }
 
-
+    //リーチのLinesであるか否かを取得する
     private static bool GetIsReachRoleLine(Lines line)
     {
         Reels movingReel = GetLastMovingReel();
         Reels[] stopedReelArray = { Reels.NONE, Reels.NONE };
-        sbyte element = 0;
+        sbyte index = 0;
         foreach (Reels reel in REELS_ARRAY)
         {
             if (reel != movingReel && movingReel != Reels.NONE)
             {
-                stopedReelArray[element] = reel;
-                element++;
+                stopedReelArray[index] = reel;
+                index++;
             }
         }
         
-        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line))
+        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line)) //当選した役が揃うLineか＆Lineが、止まっているリールのポジションから上がる候補のLine上にあるか　
         {
             return true;
         }
