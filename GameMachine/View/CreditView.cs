@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameMachine.View
 {
-    class SlotLampView
+    class CreditView
     {
     }
 }

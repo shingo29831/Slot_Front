@@ -27,6 +27,11 @@ namespace GameMachine
             BetweenBonusTbx.Enabled = false;
         }
 
+        private void CounterController_Load(object sender, EventArgs e)
+        {
+
+        }
+
         //メソッド
         /*public switchBigBonusDisplay()
         {

@@ -38,27 +38,36 @@
             // 
             // creditTxb
             // 
+            creditTxb.Font = new Font("Yu Gothic UI Semibold", 48F, FontStyle.Bold, GraphicsUnit.Point);
             creditTxb.Location = new Point(350, 25);
             creditTxb.Multiline = true;
             creditTxb.Name = "creditTxb";
             creditTxb.Size = new Size(150, 100);
             creditTxb.TabIndex = 0;
+            creditTxb.Text = "0";
+            creditTxb.TextAlign = HorizontalAlignment.Right;
             // 
             // countTxb
             // 
+            countTxb.Font = new Font("Yu Gothic UI Semibold", 48F, FontStyle.Bold, GraphicsUnit.Point);
             countTxb.Location = new Point(550, 25);
             countTxb.Multiline = true;
             countTxb.Name = "countTxb";
             countTxb.Size = new Size(200, 100);
             countTxb.TabIndex = 1;
+            countTxb.Text = "0";
+            countTxb.TextAlign = HorizontalAlignment.Right;
             // 
             // payoutTxb
             // 
+            payoutTxb.Font = new Font("Yu Gothic UI Semibold", 48F, FontStyle.Bold, GraphicsUnit.Point);
             payoutTxb.Location = new Point(800, 25);
             payoutTxb.Multiline = true;
             payoutTxb.Name = "payoutTxb";
             payoutTxb.Size = new Size(150, 100);
             payoutTxb.TabIndex = 2;
+            payoutTxb.Text = "0";
+            payoutTxb.TextAlign = HorizontalAlignment.Right;
             // 
             // label1
             // 

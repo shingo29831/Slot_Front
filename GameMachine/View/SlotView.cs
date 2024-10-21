@@ -20,14 +20,14 @@ namespace GameMachine
         private bool rightReelStop = false;
 
         // リールのシンボル配置を保持する配列
-        public static Symbols[] leftOrder;
-        public static Symbols[] centerOrder;
-        public static Symbols[] rightOrder;
+        private static Symbols[] leftOrder;
+        private static Symbols[] centerOrder;
+        private static Symbols[] rightOrder;
 
         // リールの現在位置（シンボルのインデックスを保持）
-        public int leftcount = 0;
-        public int centercount = 0;
-        public int rightcount = 0;
+        private int leftcount = 0;
+        private int centercount = 0;
+        private int rightcount = 0;
 
         // 各リールに対応する PictureBox 配列
         private PictureBox[] leftReel;
@@ -187,10 +187,7 @@ namespace GameMachine
         // リールの画像を更新する（シンボル順序に従って画像を変更）
         private void UpdateImage(PictureBox reel, ref int count, Symbols[] order)
         {
-            // 現在表示されている画像と次の画像が同じ場合は更新しない
-            if (reel.Image == symbolImages[order[count]])
-                return;
-
+            // シンボル画像が辞書に存在する場合
             if (symbolImages.ContainsKey(order[count]))
             {
                 reel.Image = symbolImages[order[count]]; // 新しい画像を設定
@@ -206,12 +203,12 @@ namespace GameMachine
         public void rightbtnChange() { PChange[3].Image = Properties.Resources.RightButtonON; }
         public void maxbetChengeUp() { PChange[5].Image = Properties.Resources.MAXBETOFF; }
         public void maxbetChengeDown() { PChange[5].Image = Properties.Resources.MAXBETON; }
-        public void betChenge()
-        {
-            PChange[6].Image = Properties.Resources.OneON;
-            PChange[7].Image = Properties.Resources.TwoON;
-            PChange[8].Image = Properties.Resources.ThreeON;
-        }
+        public void betFirstON(){PChange[6].Image = Properties.Resources.OneON;}
+        public void betFirstOFF() { PChange[6].Image = Properties.Resources.OneOFF; }
+        public void betSecondON() { PChange[7].Image = Properties.Resources.TwoON; }
+        public void betSecondOFF() { PChange[7].Image = Properties.Resources.TwoOFF; }
+        public void betThirdON() { PChange[8].Image = Properties.Resources.ThreeON; }
+        public void betThirdOFF() { PChange[8].Image = Properties.Resources.ThreeOFF; }
         public void Changereset()
         {
             PChange[1].Image = Properties.Resources.LeftButtonOFF;

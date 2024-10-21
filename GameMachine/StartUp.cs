@@ -53,7 +53,7 @@ namespace GameMachine
             SetControlProperties(counterDisplay, new Size(1920, 1080), new Point(0, 0)); // カウンター表示
             SetControlProperties(userSelectionScreen, new Size(1275, 700), new Point(325, 200)); // ユーザー選択
             SetControlProperties(userGameScreen, new Size(1275, 875), new Point(325, 200)); // スロットゲーム
-            SetControlProperties(accountLinkingScreen, new Size(1275, 875), new Point(325, 200)); // アカウントリンク
+            SetControlProperties(accountLinkingScreen, new Size(1275, 700), new Point(325, 200)); // アカウントリンク
             SetControlProperties(creditDisplay, new Size(1275, 149), new Point(325, 930)); // クレジット表示
         }
 
@@ -99,6 +99,8 @@ namespace GameMachine
         public void ShowAccountLinkingScreen()
         {
             ShowUserControl(accountLinkingScreen); // アカウントリンク画面を表示
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            creditDisplay.BringToFront();    // クレジット表示を前面に移動
         }
 
         private void StartUp_KeyDown(object sender, KeyEventArgs e)
