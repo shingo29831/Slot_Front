@@ -28,8 +28,8 @@ public class Setting
     private static int[] rolesWeight = { 70, 75, 30, 50, 5, 1 }; //x/1000の確率
     //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
     private static int[] rolesWeightInBonus = { 0, 0, 50, 75, 8, 2 };
-    private static byte[] rolesBonusProbability = { 0, 0, 11, 11, 25 }; //x/100の確率(x%)
-    //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
+    private static byte[] rolesBonusProbability = { 0, 0, 10, 10, 25 }; //x/100の確率(x%)
+    //ベル,リプレイ,スイカ,弱チェリー,強チェリーの順で入れること
 
     private static readonly byte[] rolesReturn = { 9, 0, 9, 2, 2, 2 }; //通常時(ボーナスではない)の払い出し枚数
         //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること

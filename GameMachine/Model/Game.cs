@@ -42,7 +42,7 @@ public class Game
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    private static Roles nowRole = Roles.REPLAY; //テスト前はNONE
+    private static Roles nowRole = Roles.WATERMELON; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
@@ -65,6 +65,7 @@ public class Game
     }
 
     public static Roles GetNowRole() { return nowRole; }
+    public static bool GetInBonus() { return  inBonus; }
 
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入

@@ -49,10 +49,21 @@ namespace GameMachine
             int[] roles = { 0, 0, 0, 0, 0, 0};
             int big = 0;
             int reg = 0;
+            int inBonus = 0;
+            int notBonus = 0;
             lblArray.Text = "";
             for (int i = 0;i < 1000000;i++)
             {
-                Game.HitRolesLottery();
+                Game.BonusLottery();
+                if (BonusLottery())
+                {
+                    inBonus++;
+                }
+                else
+                {
+                    notBonus++;
+                }
+
                 switch (GetNowRole())
                 {
                     case Roles.BELL: roles[0] += 1; break;
@@ -76,7 +87,7 @@ namespace GameMachine
             {
                 lblArray.Text += i.ToString() + ": " + roles[i].ToString() + " , ";
             }
-            lblArray.Text += "BIG: " + big + " , REG: " + reg;
+            lblArray.Text += "InBonus: " + inBonus + " , NotBonus: " + notBonus;
 
             if (stopReelCount == 0)
             {
