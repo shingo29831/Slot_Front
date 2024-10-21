@@ -315,14 +315,16 @@ public class Game
         //nowReelPositionの5つ先まで止まるため5を代入
         for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
         {
-            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
+            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition); //現在位置から4～0の位置
             bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
-            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition))
+            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition)) //役が揃うシンボルが来るか
             {
                 reelPosition = searchReelPosition;
                 isFindedReelPosition = true;
             }
-            if(isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
+
+
+            if (isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
@@ -407,16 +409,33 @@ public class Game
             case Roles.BELL:
                 //リーチのビットフラグからベルのフラグを消している
                 exclusionSymbols = reachSymbols & ~Symbols.BELL;
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.REPLAY:
                 exclusionSymbols = reachSymbols & ~Symbols.REPLAY;
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.WATERMELON:
                 exclusionSymbols = reachSymbols & ~Symbols.WATERMELON;
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
@@ -428,6 +447,11 @@ public class Game
                 if (selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
                 {
                     exclusionSymbols = reachSymbols;
+                }
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -445,11 +469,22 @@ public class Game
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                 }
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.VERY_STRONG_CHERRY:
                 exclusionSymbols = reachSymbols & ~Symbols.CHERRY; //配置的に強チェリーになっても良いためどこにチェリーがきても良い
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
@@ -532,6 +567,12 @@ public class Game
         Symbols middleAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.MIDDLE);
         Symbols bottomAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.BOTTOM);
 
+        if(nowRole == Roles.VERY_STRONG_CHERRY)
+        {
+            topAchieveRoleSymbols = Symbols.NONE;
+            bottomAchieveRoleSymbols |= Symbols.NONE;
+        }
+
         Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };
         sbyte cnt = 0;
         foreach (Symbols achieveRoleSymbols in achieveRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
@@ -548,7 +589,6 @@ public class Game
 
         return false;
     }
-
 
 
     //Positionsのところにいれることが可能なシンボルを返す
