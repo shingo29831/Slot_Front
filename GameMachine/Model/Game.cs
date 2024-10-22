@@ -298,6 +298,34 @@ public class Game
     }
 
 
+    public static Roles GetEstablishedRole() { return Roles.NONE; }
+
+
+    //どのシンボルが当選しているか取得する
+    public static Symbols GetEstablishedSymbols()
+    {
+        Symbols establishedSymbols = Symbols.NONE;
+        foreach (Lines line in LINES_ARRAY)
+        {
+            Positions leftReelPosition = GetPositionsForLines(Reels.LEFT,line);
+            Positions centerReelPosition = GetPositionsForLines(Reels.CENTER, line);
+            Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
+            if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
+            {
+                
+            }
+
+            if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
+            {
+
+            }
+        }
+
+        return Symbols.NONE;
+    }
+
+
+
     //選択したリールの次のリールポジションを返す
     public static sbyte GetReelPosition(Reels selectReel)
     {
@@ -1520,6 +1548,12 @@ public class Game
 
         return movingReels;
     }
+    
+
+
+
+
+
     
 
 }
