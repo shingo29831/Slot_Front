@@ -1,10 +1,10 @@
 ﻿using System;
 using static Constants;
-using static Model.Setting;
+using static GameMachine.Model.Setting; 
 
 
 //このクラスはゲームの内部処理を担当する
-namespace Model;
+namespace GameMachine.Model;
 
 
 
@@ -80,7 +80,7 @@ public class Game
 
 
     //リールを一つずつ移動させる　移動先が決定されている場合はリールのポジションを代入なければ NONE:-1 を代入
-    public static void UpReelPosition(Reels selectReel,sbyte destinationPosition)
+    public static void UpReelPosition(in Reels selectReel,sbyte destinationPosition)
     {
         switch (selectReel)
         {
@@ -112,7 +112,7 @@ public class Game
 
 
     //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
-    public static sbyte GetNowReelPosition(Reels selectReel)
+    public static sbyte GetNowReelPosition(in Reels selectReel)
     {
         sbyte nowPosition = NONE;
         switch(selectReel)
@@ -132,7 +132,7 @@ public class Game
 
 
     //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
-    public static sbyte GetSymbolForPosition(Reels selectReel,Positions position)
+    public static sbyte GetSymbolForPosition(in Reels selectReel,Positions position)
     {
         sbyte reelPosition = NONE;
         sbyte nowReelPosition = GetNowReelPosition (selectReel);
@@ -156,7 +156,7 @@ public class Game
 
 
     //選択されたリールに表示されている全てのシンボルのビットフラグを取得する
-    private static Symbols GetNowReelSymbols(Reels selectReel)
+    private static Symbols GetNowReelSymbols(in Reels selectReel)
     {
         Symbols nowReelSymbols = Symbols.NONE;
         Symbols[] reelOrder = GetReelOrder(selectReel);
@@ -244,7 +244,7 @@ public class Game
 
 
     //リールのシンボルの並びをReels.LEFT,Reels.CENTER,Reels.RIGHTで選択し取得する
-    public static Symbols[] GetReelOrder(Reels selectReel) 
+    public static Symbols[] GetReelOrder(in Reels selectReel) 
     {
         Symbols[] reelOrder = {Symbols.NONE };
         switch (selectReel)
@@ -271,7 +271,7 @@ public class Game
 
 
     //どのリールが動いてるか代入する
-    public static void SetReelMoving(Reels selectReel, bool isMoving)
+    public static void SetReelMoving(in Reels selectReel,in bool isMoving)
     {
         switch(selectReel)
         {
@@ -312,12 +312,12 @@ public class Game
             Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
             if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
             {
-                
+                return GetSymbolForLine(Reels.LEFT, line);
             }
 
             if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
             {
-
+                
             }
         }
 
@@ -327,7 +327,7 @@ public class Game
 
 
     //選択したリールの次のリールポジションを返す
-    public static sbyte GetReelPosition(Reels selectReel)
+    public static sbyte GetReelPosition(in Reels selectReel)
     {
         sbyte reelPosition = NONE;
 
@@ -366,7 +366,7 @@ public class Game
 
     //選択したリールの位置が除外か否かを返す
     //getIsExclusion(リールの選択,リールの位置)
-    private static bool GetIsExclusion(Reels selectReel, sbyte reelPosition)
+    private static bool GetIsExclusion(in Reels selectReel, sbyte reelPosition)
     {
 
         Symbols[] reelOrder = GetReelOrder(selectReel);
@@ -415,7 +415,7 @@ public class Game
 
 
     //除外するシンボルをビットフラグで返す　positionにはTOP,MIDDLE,BOTTOMが入る
-    private static Symbols GetExclusionSymbolsForPosition(Reels selectReel, Positions position)
+    private static Symbols GetExclusionSymbolsForPosition(in Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
@@ -580,7 +580,7 @@ public class Game
 
 
     //役を達成できるか否か返す
-    private static bool GetIsAchieveRole(Reels selectReel,sbyte reelPosition)
+    private static bool GetIsAchieveRole(in Reels selectReel,sbyte reelPosition)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
@@ -617,7 +617,7 @@ public class Game
     //一つ目は役を達成できるシンボルを返す
     //二つ目は候補のライン上のシンボルを返す
     //三つ目はリーチ上の役を成立できるシンボルを返す
-    private static Symbols GetAchieveRoleSymbolsForPosition(Reels selectReel, Positions position)
+    private static Symbols GetAchieveRoleSymbolsForPosition(in Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
@@ -642,7 +642,7 @@ public class Game
                     return GetSymbolsAccordingRole();
                 }
                 break;
-            case 2: //ここがおそらく違う
+            case 2: 
                 if (GetPositionsToHit().HasFlag(position))
                 {
                     return GetSymbolsCanArcheveReachRole();
@@ -673,7 +673,7 @@ public class Game
     }
 
 
-    private static bool GetIsReachRole(Reels selectReel,sbyte reelPosition)
+    private static bool GetIsReachRole(in Reels selectReel,sbyte reelPosition)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
@@ -701,7 +701,7 @@ public class Game
     }
 
     //リーチ役が成立するシンボルを返す
-    private static Symbols GetReachRoleSymbolsForPosition(Reels selectReel, Positions position)
+    private static Symbols GetReachRoleSymbolsForPosition(in Reels selectReel, Positions position)
     {
         Symbols reachRoleSymbols = Symbols.NONE;
 
@@ -722,7 +722,7 @@ public class Game
     }
 
     //リーチ目の条件となるシンボルを返す
-    private static Symbols GetSymbolForReachRoleLine(Reels selectReel,Lines line)
+    private static Symbols GetSymbolForReachRoleLine(in Reels selectReel,Lines line)
     {
         Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) &~GetMovingReels();
 
@@ -763,7 +763,7 @@ public class Game
 
 
     //役が成立できない時に、除外範囲ではない最も近いリールの位置を代入する
-    private static sbyte GetReelPositionForRoleFailure(Reels selectReel)
+    private static sbyte GetReelPositionForRoleFailure(in Reels selectReel)
     {
         sbyte reelPosition = GetNowReelPosition(selectReel);
         for (sbyte gapNowReelPosition = 0; gapNowReelPosition < 5; gapNowReelPosition++) //reelPositionがNONEだった時に最も近い代入可能な位置をいれる
@@ -780,7 +780,7 @@ public class Game
 
 
     //現在のリールの位置からの差を返す 探索位置がNONEだった場合はNONEを返す
-    private static sbyte CalcGapNowReelPosition(Reels selectReel, sbyte reelSearchPosition)
+    private static sbyte CalcGapNowReelPosition(in Reels selectReel, sbyte reelSearchPosition)
     {
         sbyte gap = 0;
         sbyte reelPosition = GetNowReelPosition(selectReel);
@@ -930,7 +930,7 @@ public class Game
     //選択したポジションに入れることが可能で、現在のポジションに最も近い役を成立させるシンボルの位置を取得
     //除外範囲は含まない
     //TOPを選択した場合、止める基準地点のBOTTOMではなくTOPの位置で返すため注意
-    private static sbyte GetStopCandidateForPosition(Reels selectReel, Positions position)
+    private static sbyte GetStopCandidateForPosition(in Reels selectReel, Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         sbyte nowReelPosition = GetNowReelPosition(selectReel);
@@ -986,7 +986,7 @@ public class Game
 
     //当選した役をリーチにさせる、選択したリールのPositionsをビットフラグで返す
     //ない場合とリールが2つ以上止まっている時はNONEで返す
-    private static Positions GetPositionsToReach(Reels selectReel)
+    private static Positions GetPositionsToReach(in Reels selectReel)
     {
         if(stopReelCount >= 2)
         {
@@ -1004,7 +1004,7 @@ public class Game
 
     //選択したリール上でLines上のPositionsを返す
     //ラインを第二引数にいれる
-    private static Positions GetPositionsForLines(Reels selectReel, Lines candidateLines)
+    private static Positions GetPositionsForLines(in Reels selectReel, Lines candidateLines)
     {
         Positions candidatePositions = Positions.NONE;
 
@@ -1089,7 +1089,7 @@ public class Game
 
 
     //選択したリールから役を成立させる候補のラインを返す
-    private static Lines GetCandidateLines(Reels selectReel)
+    private static Lines GetCandidateLines(in Reels selectReel)
     {
         if(selectReel == Reels.NONE)
         {
@@ -1313,7 +1313,7 @@ public class Game
 
 
     //選択したリールとライン上にあるシンボルを返す
-    private static Symbols GetSymbolForLine(Reels selectReel,Lines line)
+    private static Symbols GetSymbolForLine(in Reels selectReel,Lines line)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel); 
         Positions searchPosition = GetPositionsForLines(selectReel, line);
@@ -1334,7 +1334,7 @@ public class Game
 
     //選択したリールのPositionsを元に、リーチのシンボルを返す
     //なければNONE
-    private static Symbols GetReachSymbolsForPosition(Reels selectReel,Positions searchPosition)
+    private static Symbols GetReachSymbolsForPosition(in Reels selectReel,Positions searchPosition)
     {
         Symbols reachSymbols = Symbols.NONE;
 
@@ -1398,7 +1398,7 @@ public class Game
 
 
     //入ったら当選するシンボルを指定したLinesを元に取得する
-    private static Symbols GetReachSymbolForLine(Reels selectReel , Lines line )
+    private static Symbols GetReachSymbolForLine(in Reels selectReel , Lines line )
     {
 
         Symbols reachSymbol = Symbols.NONE; //リーチになっているシンボルが入る,OR演算で複数代入可能

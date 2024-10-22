@@ -1,7 +1,7 @@
 using System;
-using static Model.Setting;
+using static GameMachine.Model.Setting;
 using static Constants;
-using static Model.Game;
+using static GameMachine.Model.Game;
 using System.Collections;
 using Model;
 
@@ -75,7 +75,7 @@ namespace GameMachine
 
             //timer1.Enabled=true;
 
-            Game.HitRolesLottery();
+            HitRolesLottery();
             lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
             Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
             Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };

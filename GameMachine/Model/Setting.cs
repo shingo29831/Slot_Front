@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static Constants;
 
-namespace Model;
+namespace GameMachine.Model;
 
 
 public class Setting
