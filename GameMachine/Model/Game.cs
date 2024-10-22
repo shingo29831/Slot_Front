@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Security.AccessControl;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using static Constants;
 using static Model.Setting;
 
@@ -13,14 +10,12 @@ namespace Model;
 
 public class Game
 {
-    private static String value = "";
-
     static bool leftReelbtn = false;
     static bool centerReelbtn = false;
     static bool rightReelbtn = false;
 
-    static sbyte bonusReturn = 0;
     static bool nextBonusFlag = false;
+    static bool inBonus = false;
     static bool bonusFlag = false;
 
     static sbyte[] dispSymbol = new sbyte[3];
@@ -33,18 +28,19 @@ public class Game
 
 
     static sbyte nowLeftReel = 0;
-    static sbyte nowCenterReel = 6;
-    static sbyte nowRightReel = 6;
+    static sbyte nowCenterReel = 0;
+    static sbyte nowRightReel = 0;
 
     public static bool leftReelMoving = true;
-    public static bool centerReelMoving = true; //テストでfalse
-    public static bool rightReelMoving = true; //テストでfalse
+    public static bool centerReelMoving = true; //テスト前:true
+    public static bool rightReelMoving = true; //テスト前:true
 
 
-    public static Roles nowRole = Roles.VERY_STRONG_CHERRY; //テスト前はNONE
+    private static Roles nowRole = Roles.REGULAR; //テスト前はNONE
+    private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
-
+    private static readonly Roles[] ROLES_ARRAY = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
     private static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
     private static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
     public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
@@ -61,6 +57,10 @@ public class Game
         lowerToLower = 8, //左下から右下
         lowerToUpper = 16, //左下から右上
     }
+
+    public static Roles GetNowRole() { return nowRole; }
+    public static bool GetInBonus() { return  inBonus; }
+
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
     private static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
@@ -169,73 +169,77 @@ public class Game
     }
 
 
-    //ボーナス抽選開始後実行する"ボーナス抽選関数" bonusProbabilityに設定された確率に合わせて抽選する
-    private static bool BonusLottery()
+    //ボーナス抽選開始後実行する"ボーナス抽選関数" 役ごとのrolesBonusProbability配列に設定された確率に合わせて抽選する
+    public static bool BonusLottery()
     {
+
         Random rnd = new Random();
-        sbyte rndnum = (sbyte)rnd.Next(1, 101);  //1以上101未満の値がランダムに出力
-        if (rndnum <= Setting.getBonusProbability())
+        byte rndNum = (byte)rnd.Next(0, 100);  //0以上100未満の値がランダムに出力
+        byte sumProbability = 0;
+
+        foreach (Roles role in ROLES_ARRAY)
         {
-            return true;
+            sumProbability += GetRoleBonusProbability(role);
+            if (rndNum < Setting.GetRoleBonusProbability(role) && role == nowRole)
+            {
+                return true;
+            }
+            if(role == nowRole) { break; }
         }
+        
         return false;
     }
 
 
-    //ボーナス抽選当選後実行するレギュラーボーナスまたはビックボーナスを決定する
-    private static Roles SelectBonusLottery()
+    //ボーナス抽選当選後実行するビックボーナスまたはレギュラーボーナスを決定する
+    //決定はSetting.bigProbabilityを元に決定
+    public static void SelectBonusLottery()
     {
-        Roles bonus = Roles.NONE;
         Random rnd = new Random();
-        sbyte regularProbabilityWeight = Setting.getBonusesProbabilityWeight(0);
-        sbyte bigProbabilityWeight = Setting.getBonusesProbabilityWeight(1);
-        sbyte sumWeight = (sbyte)(regularProbabilityWeight + bigProbabilityWeight);
-        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight+1);  //1以上sumWeight以下の値がランダムに出力
+        byte bigProbability = Setting.GetBigProbability();
 
-        if(regularProbabilityWeight <= rndnum)
+        byte rndNum = (byte)rnd.Next(0, 100);  //0以上99以下の値がランダムに出力
+
+        if (rndNum < bigProbability )
         {
-            bonus = Roles.REGULAR;
-        }else if(regularProbabilityWeight > rndnum && sumWeight <= rndnum) 
+            nowBonus = Roles.BIG;
+        }else if(rndNum >= bigProbability)
         {
-            bonus = Roles.BIG;
+            nowBonus = Roles.REGULAR;
         }
+    }
 
-        return bonus;
+    public static Roles GetNowBonus()
+    {
+        return nowBonus;
     }
 
 
     //役の抽選の関数　ボーナス以外の役が当選する
-    private static sbyte HitRoleLottery()
+    public static void HitRolesLottery()
     {
 
-        sbyte role = 0;
-        sbyte sumWeight = 0;
-        sbyte lotteryRange = 6;
-
-
-        for (sbyte i = 0; i <= lotteryRange; i++)
-        {
-            sumWeight += Setting.getRoleWeight(i);
-        }
+        nowRole = Roles.NONE;
+        int sumWeight = 0;
+        int totalWeight = GetTotalWeight();
 
         Random rnd = new Random();
-        sbyte rndnum = (sbyte)rnd.Next(1, sumWeight + 1);
-        sumWeight = 0;
-        sbyte tmp = 0;
-        for (sbyte i = 0; i <= lotteryRange; i++)
+        int rndNum = rnd.Next(0, totalWeight); //0～totalWeight-1の乱数
+
+        foreach (Roles role in ROLES_ARRAY)
         {
-            tmp = sumWeight;
-            sumWeight += Setting.getRoleWeight(i);
-
-
-            if (tmp < rndnum && rndnum <= sumWeight)
+            sumWeight += GetRoleWeight(role);
+            if(rndNum < sumWeight)
             {
-                role = i;
+                nowRole = role;
+                break;
             }
         }
+    }
 
-
-        return role;
+    public static Roles GetNowRoles()
+    {
+        return nowRole;
     }
 
 
@@ -305,14 +309,16 @@ public class Game
         //nowReelPositionの5つ先まで止まるため5を代入
         for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
         {
-            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition);
+            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition); //現在位置から4～0の位置
             bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
-            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition))
+            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition)) //役が揃うシンボルが来るか
             {
                 reelPosition = searchReelPosition;
                 isFindedReelPosition = true;
             }
-            if(isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
+
+
+            if (isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false) //リーチ目になるか、また次の位置が決まったか
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
@@ -343,8 +349,8 @@ public class Game
 
         sbyte searchPosition = reelPosition;
 
-
-        for (sbyte i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
+        //左リールで、かつチェリーシンボルがボーナス当選中以外のとき
+        for (sbyte i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false && (~(Roles.BIG | Roles.REGULAR)).HasFlag(nowRole) ; i++) //
         {
             if (reelOrder[searchPosition] == Symbols.CHERRY)
             {
@@ -388,21 +394,42 @@ public class Game
 
         Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
 
+        //リーチ目用で使用
+        Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
+        Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
+
         switch (nowRole)
         {
             case Roles.BELL:
                 //リーチのビットフラグからベルのフラグを消している
                 exclusionSymbols = reachSymbols & ~Symbols.BELL;
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.REPLAY:
                 exclusionSymbols = reachSymbols & ~Symbols.REPLAY;
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.WATERMELON:
                 exclusionSymbols = reachSymbols & ~Symbols.WATERMELON;
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
@@ -414,6 +441,11 @@ public class Game
                 if (selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
                 {
                     exclusionSymbols = reachSymbols;
+                }
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -431,12 +463,25 @@ public class Game
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                 }
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
 
 
             case Roles.VERY_STRONG_CHERRY:
                 exclusionSymbols = reachSymbols & ~Symbols.CHERRY; //配置的に強チェリーになっても良いためどこにチェリーがきても良い
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                }
                 break;
+
+
 
 
             case Roles.REGULAR:
@@ -448,9 +493,20 @@ public class Game
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.BAR;
                 }
-                if (reachSymbols.HasFlag(Symbols.REACH))
+                //77BAR or BAR77用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.SEVEN) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールに7が来ていた時
                 {
-                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN);
+                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
+                }
+
+                //リーチ目用処理
+                if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからSEVENとBARを消す
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.SEVEN | Symbols.BAR );
+                }
+                if (reachSymbols.HasFlag(Symbols.REACH) && centerSymbols.HasFlag(Symbols.BAR) && centerReelMoving == false) //リーチ目が出そうな時に中央リールが停止状態で中央リールにBARが来ていた時
+                {
+                    exclusionSymbols = reachSymbols & ~(Symbols.BAR | Symbols.SEVEN); //7とBARを除外用ビットフラグから消す
                 }
                 break;
 
@@ -462,12 +518,11 @@ public class Game
                 }
                 if (reachSymbols.HasFlag(Symbols.SEVEN))
                 {
-                    exclusionSymbols = reachSymbols & ~Symbols.SEVEN;
+                    exclusionSymbols = reachSymbols & ~(Symbols.SEVEN | Symbols.BAR);
+
                 }
 
-                Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
-                Symbols centerSymbols = GetNowReelSymbols(Reels.CENTER);
-
+                //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時でに中央リールのシンボルを選択する時は除外用ビットフラグからBARを消す
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.BAR;
@@ -506,6 +561,12 @@ public class Game
         Symbols middleAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.MIDDLE);
         Symbols bottomAchieveRoleSymbols = GetAchieveRoleSymbolsForPosition(selectReel, Positions.BOTTOM);
 
+        if(nowRole == Roles.VERY_STRONG_CHERRY)
+        {
+            topAchieveRoleSymbols = Symbols.NONE;
+            bottomAchieveRoleSymbols = Symbols.NONE;
+        }
+
         Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };
         sbyte cnt = 0;
         foreach (Symbols achieveRoleSymbols in achieveRoleSymbolsForReel) //除外するシンボルをBOTTOM～TOPの順で代入
@@ -522,7 +583,6 @@ public class Game
 
         return false;
     }
-
 
 
     //Positionsのところにいれることが可能なシンボルを返す
@@ -554,7 +614,7 @@ public class Game
                     return GetSymbolsAccordingRole();
                 }
                 break;
-            case 2:
+            case 2: //ここがおそらく違う
                 if (GetPositionsToHit().HasFlag(position))
                 {
                     return GetSymbolsCanArcheveReachRole();
@@ -1113,8 +1173,6 @@ public class Game
         
         Lines reachLine = Lines.NONE;
         
-
-
         foreach (Lines line in LINES_ARRAY)
         {
             if (GetIsReachRoleLine(line))
@@ -1126,22 +1184,22 @@ public class Game
         return reachLine;
     }
 
-
+    //リーチのLinesであるか否かを取得する
     private static bool GetIsReachRoleLine(Lines line)
     {
         Reels movingReel = GetLastMovingReel();
         Reels[] stopedReelArray = { Reels.NONE, Reels.NONE };
-        sbyte element = 0;
+        sbyte index = 0;
         foreach (Reels reel in REELS_ARRAY)
         {
             if (reel != movingReel && movingReel != Reels.NONE)
             {
-                stopedReelArray[element] = reel;
-                element++;
+                stopedReelArray[index] = reel;
+                index++;
             }
         }
         
-        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line))
+        if (GetLinesAccordingRole().HasFlag(line) && GetCandidateLines(stopedReelArray[0]).HasFlag(line) && GetCandidateLines(stopedReelArray[1]).HasFlag(line)) //当選した役が揃うLineか＆Lineが、止まっているリールのポジションから上がる候補のLine上にあるか　
         {
             return true;
         }

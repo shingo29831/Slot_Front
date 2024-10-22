@@ -3,7 +3,7 @@ using static Model.Setting;
 using static Constants;
 using static Model.Game;
 using System.Collections;
-
+using Model;
 
 namespace GameMachine
 {
@@ -32,8 +32,8 @@ namespace GameMachine
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            makeTableID();
-            txtbox1.Text = getTableID();
+            MakeTableID();
+            txtbox1.Text = GetTableID();
 
 
             dispReelsSymbols(Reels.LEFT);
@@ -44,21 +44,28 @@ namespace GameMachine
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //–{”Ô‚Í–ñ35‚Å‰ñ‚·
         {
-            if (stopReelCount == 0)
+            int cnt = 0;
+            if (cnt == 0)
             {
-                lblArray.Text = "ROLE:" + RoleChangeToName(nowRole);
+
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
+                leftPosition = NONE;
+                centerPosition = NONE;
+                rightPosition = NONE;
+                timer1.Enabled = true;
+                cnt++;
+            }
+            if (stopReelCount == 3)
+            {
+                ResetReelsMoving();
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
             }
-            if(stopReelCount == 3)
-            {
-                ResetReelsMoving();
-            }
-
 
 
         }
@@ -68,33 +75,34 @@ namespace GameMachine
 
             //timer1.Enabled=true;
 
-
+            Game.HitRolesLottery();
+            lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
             Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
             Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT }; 
+            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
             lblArray.Text = "GetReachPositions:";
             sbyte cnt = 0;
 
 
-            for(sbyte gap = 0; gap <= 4 ; gap++)
+            for (sbyte gap = 0; gap <= 4; gap++)
             {
                 //sbyte reelPosition = CalcReelPosition(nowLeftReel, gap);
                 //lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
                 cnt++;
             }
 
-            dispReelsSymbols(Reels.LEFT);
-            dispReelsSymbols(Reels.CENTER);
-            dispReelsSymbols(Reels.RIGHT);
+            //dispReelsSymbols(Reels.LEFT);
+            //dispReelsSymbols(Reels.CENTER);
+            //dispReelsSymbols(Reels.RIGHT);
 
             //UpReelPosition(Reels.RIGHT, rightPosition);
 
 
 
-            UpReelPosition(Reels.LEFT, rightPosition);
+            //UpReelPosition(Reels.LEFT, rightPosition);
             if (1 == 20)
             {
-                UpReelPosition(Reels.CENTER, centerPosition);
+                //UpReelPosition(Reels.CENTER, centerPosition);
             }
         }
 
@@ -259,8 +267,9 @@ namespace GameMachine
         {
             if (leftReelMoving)
             {
-                sbyte position = GetReelPosition(Reels.LEFT);
+
                 lblArray.Text += " Žn:" + GetNowReelPosition(Reels.LEFT).ToString();
+                sbyte position = GetReelPosition(Reels.LEFT);
                 leftPosition = position;
                 SetReelMoving(Reels.LEFT, false);
 
