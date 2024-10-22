@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Security.AccessControl;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using static Constants;
 using static Model.Setting;
 
@@ -13,13 +10,10 @@ namespace Model;
 
 public class Game
 {
-    private static String value = "";
-
     static bool leftReelbtn = false;
     static bool centerReelbtn = false;
     static bool rightReelbtn = false;
 
-    static sbyte bonusReturn = 0;
     static bool nextBonusFlag = false;
     static bool inBonus = false;
     static bool bonusFlag = false;
