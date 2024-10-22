@@ -32,11 +32,11 @@ public class Game
     static sbyte nowRightReel = 0;
 
     public static bool leftReelMoving = true;
-    public static bool centerReelMoving = true; //テストでfalse
-    public static bool rightReelMoving = true; //テストでfalse
+    public static bool centerReelMoving = true; //テスト前:true
+    public static bool rightReelMoving = true; //テスト前:true
 
 
-    private static Roles nowRole = Roles.VERY_STRONG_CHERRY; //テスト前はNONE
+    private static Roles nowRole = Roles.REGULAR; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
@@ -349,8 +349,8 @@ public class Game
 
         sbyte searchPosition = reelPosition;
 
-
-        for (sbyte i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false; i++) //
+        //左リールで、かつチェリーシンボルがボーナス当選中以外のとき
+        for (sbyte i = 0; i < 3 && selectReel == Reels.LEFT && GetSymbolsAccordingRole().HasFlag(Symbols.CHERRY) == false && (~(Roles.BIG | Roles.REGULAR)).HasFlag(nowRole) ; i++) //
         {
             if (reelOrder[searchPosition] == Symbols.CHERRY)
             {
