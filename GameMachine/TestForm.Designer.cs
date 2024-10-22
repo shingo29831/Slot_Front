@@ -51,18 +51,16 @@
             // 
             // txtbox1
             // 
-            txtbox1.Location = new Point(38, 9);
-            txtbox1.Margin = new Padding(3, 2, 3, 2);
+            txtbox1.Location = new Point(43, 12);
             txtbox1.Name = "txtbox1";
-            txtbox1.Size = new Size(255, 23);
+            txtbox1.Size = new Size(291, 27);
             txtbox1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(538, 244);
-            button1.Margin = new Padding(3, 2, 3, 2);
+            button1.Location = new Point(615, 325);
             button1.Name = "button1";
-            button1.Size = new Size(82, 22);
+            button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
@@ -70,15 +68,14 @@
             // 
             // timer1
             // 
-            timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
             // leftReelTop
             // 
             leftReelTop.BackColor = Color.White;
-            leftReelTop.Location = new Point(106, 65);
+            leftReelTop.Location = new Point(121, 87);
             leftReelTop.Name = "leftReelTop";
-            leftReelTop.Size = new Size(105, 38);
+            leftReelTop.Size = new Size(120, 51);
             leftReelTop.TabIndex = 2;
             leftReelTop.Text = "NONE";
             leftReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -86,9 +83,9 @@
             // centerReelTop
             // 
             centerReelTop.BackColor = Color.White;
-            centerReelTop.Location = new Point(268, 65);
+            centerReelTop.Location = new Point(306, 87);
             centerReelTop.Name = "centerReelTop";
-            centerReelTop.Size = new Size(105, 38);
+            centerReelTop.Size = new Size(120, 51);
             centerReelTop.TabIndex = 3;
             centerReelTop.Text = "NONE";
             centerReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -96,9 +93,9 @@
             // rightReelTop
             // 
             rightReelTop.BackColor = Color.White;
-            rightReelTop.Location = new Point(415, 65);
+            rightReelTop.Location = new Point(474, 87);
             rightReelTop.Name = "rightReelTop";
-            rightReelTop.Size = new Size(105, 38);
+            rightReelTop.Size = new Size(120, 51);
             rightReelTop.TabIndex = 4;
             rightReelTop.Text = "NONE";
             rightReelTop.TextAlign = ContentAlignment.MiddleCenter;
@@ -106,9 +103,9 @@
             // leftReelMid
             // 
             leftReelMid.BackColor = Color.White;
-            leftReelMid.Location = new Point(106, 134);
+            leftReelMid.Location = new Point(121, 179);
             leftReelMid.Name = "leftReelMid";
-            leftReelMid.Size = new Size(105, 38);
+            leftReelMid.Size = new Size(120, 51);
             leftReelMid.TabIndex = 5;
             leftReelMid.Text = "NONE";
             leftReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -116,9 +113,9 @@
             // centerReelMid
             // 
             centerReelMid.BackColor = Color.White;
-            centerReelMid.Location = new Point(268, 134);
+            centerReelMid.Location = new Point(306, 179);
             centerReelMid.Name = "centerReelMid";
-            centerReelMid.Size = new Size(105, 38);
+            centerReelMid.Size = new Size(120, 51);
             centerReelMid.TabIndex = 6;
             centerReelMid.Text = "NONE";
             centerReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -126,9 +123,9 @@
             // rightReelMid
             // 
             rightReelMid.BackColor = Color.White;
-            rightReelMid.Location = new Point(415, 134);
+            rightReelMid.Location = new Point(474, 179);
             rightReelMid.Name = "rightReelMid";
-            rightReelMid.Size = new Size(105, 38);
+            rightReelMid.Size = new Size(120, 51);
             rightReelMid.TabIndex = 7;
             rightReelMid.Text = "NONE";
             rightReelMid.TextAlign = ContentAlignment.MiddleCenter;
@@ -136,9 +133,9 @@
             // leftReelBot
             // 
             leftReelBot.BackColor = Color.White;
-            leftReelBot.Location = new Point(106, 194);
+            leftReelBot.Location = new Point(121, 259);
             leftReelBot.Name = "leftReelBot";
-            leftReelBot.Size = new Size(105, 38);
+            leftReelBot.Size = new Size(120, 51);
             leftReelBot.TabIndex = 8;
             leftReelBot.Text = "NONE";
             leftReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -146,9 +143,9 @@
             // centerReelBot
             // 
             centerReelBot.BackColor = Color.White;
-            centerReelBot.Location = new Point(268, 194);
+            centerReelBot.Location = new Point(306, 259);
             centerReelBot.Name = "centerReelBot";
-            centerReelBot.Size = new Size(105, 38);
+            centerReelBot.Size = new Size(120, 51);
             centerReelBot.TabIndex = 9;
             centerReelBot.Text = "NONE";
             centerReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -156,9 +153,9 @@
             // rightReelBot
             // 
             rightReelBot.BackColor = Color.White;
-            rightReelBot.Location = new Point(415, 194);
+            rightReelBot.Location = new Point(474, 259);
             rightReelBot.Name = "rightReelBot";
-            rightReelBot.Size = new Size(105, 38);
+            rightReelBot.Size = new Size(120, 51);
             rightReelBot.TabIndex = 10;
             rightReelBot.Text = "NONE";
             rightReelBot.TextAlign = ContentAlignment.MiddleCenter;
@@ -166,18 +163,17 @@
             // lblArray
             // 
             lblArray.BackColor = Color.White;
-            lblArray.Location = new Point(68, 34);
+            lblArray.Location = new Point(78, 45);
             lblArray.Name = "lblArray";
-            lblArray.Size = new Size(603, 19);
+            lblArray.Size = new Size(689, 25);
             lblArray.TabIndex = 11;
             lblArray.Text = "NONE";
             // 
             // button2
             // 
-            button2.Location = new Point(538, 186);
-            button2.Margin = new Padding(3, 2, 3, 2);
+            button2.Location = new Point(615, 248);
             button2.Name = "button2";
-            button2.Size = new Size(82, 22);
+            button2.Size = new Size(94, 29);
             button2.TabIndex = 12;
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = true;
@@ -186,10 +182,9 @@
             // leftStop
             // 
             leftStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
-            leftStop.Location = new Point(106, 254);
-            leftStop.Margin = new Padding(3, 2, 3, 2);
+            leftStop.Location = new Point(121, 339);
             leftStop.Name = "leftStop";
-            leftStop.Size = new Size(46, 38);
+            leftStop.Size = new Size(53, 51);
             leftStop.TabIndex = 13;
             leftStop.Text = "STOP";
             leftStop.UseVisualStyleBackColor = true;
@@ -197,8 +192,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(248, 254);
-            button4.Margin = new Padding(3, 2, 3, 2);
+            button4.Location = new Point(283, 339);
             button4.Name = "button4";
             button4.Size = new Size(0, 0);
             button4.TabIndex = 14;
@@ -208,10 +202,9 @@
             // centerStop
             // 
             centerStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
-            centerStop.Location = new Point(266, 254);
-            centerStop.Margin = new Padding(3, 2, 3, 2);
+            centerStop.Location = new Point(304, 339);
             centerStop.Name = "centerStop";
-            centerStop.Size = new Size(46, 38);
+            centerStop.Size = new Size(53, 51);
             centerStop.TabIndex = 15;
             centerStop.Text = "STOP";
             centerStop.UseVisualStyleBackColor = true;
@@ -220,10 +213,9 @@
             // rightStop
             // 
             rightStop.Font = new Font("UD デジタル 教科書体 NK-B", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
-            rightStop.Location = new Point(413, 254);
-            rightStop.Margin = new Padding(3, 2, 3, 2);
+            rightStop.Location = new Point(472, 339);
             rightStop.Name = "rightStop";
-            rightStop.Size = new Size(46, 38);
+            rightStop.Size = new Size(53, 51);
             rightStop.TabIndex = 16;
             rightStop.Text = "STOP";
             rightStop.UseVisualStyleBackColor = true;
@@ -231,9 +223,9 @@
             // 
             // TestForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 338);
+            ClientSize = new Size(800, 451);
             Controls.Add(rightStop);
             Controls.Add(centerStop);
             Controls.Add(button4);
@@ -251,7 +243,6 @@
             Controls.Add(leftReelTop);
             Controls.Add(button1);
             Controls.Add(txtbox1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "TestForm";
             Text = "Form1";
             Load += Form1_Load;

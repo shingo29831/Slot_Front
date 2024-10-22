@@ -122,7 +122,7 @@ public class Setting
 
 
     //台設定（台の確率）を変えるメソッド
-    public static void WeightingProbabilityes(sbyte expected) //重み付け 変更必要
+    public static void WeightingProbabilityes(sbyte expected) //重み付け
     {
         switch (expected)
         {

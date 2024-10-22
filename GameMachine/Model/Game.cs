@@ -34,15 +34,15 @@ public class Game
 
 
     static sbyte nowLeftReel = 0;
-    static sbyte nowCenterReel = 6;
-    static sbyte nowRightReel = 6;
+    static sbyte nowCenterReel = 0;
+    static sbyte nowRightReel = 0;
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = true; //テストでfalse
     public static bool rightReelMoving = true; //テストでfalse
 
 
-    private static Roles nowRole = Roles.BIG; //テスト前はNONE
+    private static Roles nowRole = Roles.VERY_STRONG_CHERRY; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
@@ -324,7 +324,7 @@ public class Game
             }
 
 
-            if (isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false)
+            if (isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false) //リーチ目になるか、また次の位置が決まったか
             {
                 reelPosition = searchReelPosition;
                 isFindedProxyReelPosition = true;
@@ -570,7 +570,7 @@ public class Game
         if(nowRole == Roles.VERY_STRONG_CHERRY)
         {
             topAchieveRoleSymbols = Symbols.NONE;
-            bottomAchieveRoleSymbols |= Symbols.NONE;
+            bottomAchieveRoleSymbols = Symbols.NONE;
         }
 
         Symbols[] achieveRoleSymbolsForReel = { bottomAchieveRoleSymbols, middleAchieveRoleSymbols, topAchieveRoleSymbols };

@@ -47,17 +47,17 @@ namespace GameMachine
         private void button1_Click(object sender, EventArgs e) //–{”Ô‚Í–ñ35‚Å‰ñ‚·
         {
             int cnt = 0;
-            if (cnt==0)
+            if (cnt == 0)
             {
-                
-                lblArray.Text = "ROLE:" +  RoleChangeToName(GetNowRole()) ;
+
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
                 cnt++;
             }
-            if(stopReelCount == 3)
+            if (stopReelCount == 3)
             {
                 ResetReelsMoving();
                 lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
@@ -66,7 +66,7 @@ namespace GameMachine
                 rightPosition = NONE;
                 timer1.Enabled = true;
             }
-            
+
 
         }
 
@@ -79,12 +79,12 @@ namespace GameMachine
             lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
             Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
             Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT }; 
+            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
             lblArray.Text = "GetReachPositions:";
             sbyte cnt = 0;
 
 
-            for(sbyte gap = 0; gap <= 4 ; gap++)
+            for (sbyte gap = 0; gap <= 4; gap++)
             {
                 //sbyte reelPosition = CalcReelPosition(nowLeftReel, gap);
                 //lblArray.Text += cnt.ToString() + ":" + GetIsExclusion(Reels.LEFT, reelPosition).ToString() + " , ";
@@ -267,8 +267,9 @@ namespace GameMachine
         {
             if (leftReelMoving)
             {
-                sbyte position = GetReelPosition(Reels.LEFT);
+
                 lblArray.Text += " Žn:" + GetNowReelPosition(Reels.LEFT).ToString();
+                sbyte position = GetReelPosition(Reels.LEFT);
                 leftPosition = position;
                 SetReelMoving(Reels.LEFT, false);
 
