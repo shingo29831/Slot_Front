@@ -16,6 +16,8 @@ namespace GameMachine
         private Boolean StartFlag = false;
         //マックスベットを押した後にレバーの動作をオンにするためのフラグ
         private Boolean MaxbetFlag = false;
+        //ボーナス管理用フラグ
+        private Boolean BonusFlag = true;
 
         public SlotController()
         {
@@ -44,36 +46,12 @@ namespace GameMachine
                 slotView.StopLeftReel(); 
                 slotView.leftbtnChange();
                 btnCount++;
-                switch (btnCount)
-                {
-                    case 1:
-                        slotView.betThirdOFF();
-                        break;
-                    case 2:
-                        slotView.betSecondOFF();
-                        break;
-                    case 3:
-                        slotView.betFirstOFF();
-                        break;
-                }
                 btnstop1.Enabled = false;
             }else if (sender == btnstop2 && StartFlag == true)
             { 
                 slotView.StopCenterReel(); 
                 slotView.centerbtnChange();
                 btnCount++;
-                switch (btnCount)
-                {
-                    case 1:
-                        slotView.betThirdOFF();
-                        break;
-                    case 2:
-                        slotView.betSecondOFF();
-                        break;
-                    case 3:
-                        slotView.betFirstOFF();
-                        break;
-                }
                 btnstop2.Enabled = false;
             }
             else if (sender == btnstop3 && StartFlag == true)
@@ -81,19 +59,13 @@ namespace GameMachine
                 slotView.StopRightReel(); 
                 slotView.rightbtnChange();
                 btnCount++;
-                switch (btnCount)
-                {
-                    case 1:
-                        slotView.betThirdOFF();
-                        break;
-                    case 2:
-                        slotView.betSecondOFF();
-                        break;
-                    case 3:
-                        slotView.betFirstOFF();
-                        break;
-                }
                 btnstop3.Enabled = false;
+            }
+
+            if(btnCount == 3)
+            {
+                slotView.betOff();
+                MaxbetFlag = false;
             }
             
         }
@@ -131,9 +103,7 @@ namespace GameMachine
         //MAXBET
         private void MaxBet_Click(object sender, EventArgs e)
         {
-            slotView.betFirstON();
-            slotView.betSecondON();
-            slotView.betThirdON();
+            slotView.betOn(BonusFlag);
             MaxbetFlag = true;
 
         }
@@ -146,6 +116,10 @@ namespace GameMachine
         private void MaxBet_MouseDown(object sender, MouseEventArgs e)
         {
             slotView.maxbetChengeDown();
+        }
+        public void setBonusFlag(bool flag)
+        {
+            BonusFlag = flag;
         }
     }
 }
