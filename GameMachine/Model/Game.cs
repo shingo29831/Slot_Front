@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using static Constants;
 using static GameMachine.Model.Setting; 
 
@@ -16,10 +17,10 @@ public class Game
 
     static bool nextBonusFlag = false;
     static bool inBonus = false;
-    static bool bonusFlag = false;
+    static bool hitBonusFlag = false;
 
     static sbyte[] dispSymbol = new sbyte[3];
-    public static sbyte stopReelCount = 0; //テスト前0
+    public static sbyte StopReelCount { get; set; } = 0; //テスト前0
 
 
     static Symbols[] leftReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
@@ -38,6 +39,8 @@ public class Game
 
     private static Roles nowRole = Roles.REGULAR; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
+
+    public static Roles establishedRole { get; set; } = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
     private static readonly Roles[] ROLES_ARRAY = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
@@ -62,6 +65,8 @@ public class Game
     public static Roles GetNowRole() { return nowRole; }
     
     public static bool GetInBonus() { return  inBonus; }
+
+    public static Roles GetNowBonus() { return nowBonus; }
 
     //現在ポジションをセットする
     public static void SetNowReelPosition(in Reels selectReel,sbyte position)
@@ -152,8 +157,8 @@ public class Game
     
 
 
-    //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
-    public static sbyte GetSymbolForPosition(in Reels selectReel,Positions position)
+    //リールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
+    public static sbyte GetSymbolForReelPosition(in Reels selectReel,Positions position)
     {
         sbyte reelPosition = NONE;
         sbyte nowReelPosition = GetNowReelPosition (selectReel);
@@ -168,7 +173,7 @@ public class Game
                 break;
 
             case Positions.BOTTOM:
-                reelPosition = nowReelPosition;
+                reelPosition = CalcReelPosition(nowReelPosition, 0);
                 break;
         }
 
@@ -182,9 +187,9 @@ public class Game
         Symbols nowReelSymbols = Symbols.NONE;
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
-        nowReelSymbols = reelOrder[GetSymbolForPosition(selectReel,Positions.TOP)];
-        nowReelSymbols |= reelOrder[GetSymbolForPosition(selectReel, Positions.MIDDLE)];
-        nowReelSymbols |= reelOrder[GetSymbolForPosition(selectReel, Positions.BOTTOM)];
+        nowReelSymbols = reelOrder[GetSymbolForReelPosition(selectReel,Positions.TOP)];
+        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.MIDDLE)];
+        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.BOTTOM)];
 
         return nowReelSymbols;
     }
@@ -230,10 +235,7 @@ public class Game
         }
     }
 
-    public static Roles GetNowBonus()
-    {
-        return nowBonus;
-    }
+    
 
 
     //役の抽選の関数　ボーナス以外の役が当選する
@@ -258,10 +260,6 @@ public class Game
         }
     }
 
-    public static Roles GetNowRoles()
-    {
-        return nowRole;
-    }
 
 
     //リールのシンボルの並びをReels.LEFT,Reels.CENTER,Reels.RIGHTで選択し取得する
@@ -306,7 +304,12 @@ public class Game
                 rightReelMoving = isMoving;
                 break;
         }
-        stopReelCount++;
+        if (isMoving == false)
+        {
+            StopReelCount++;
+        }
+
+        
     }
 
     //リールを全て動いている判定にする
@@ -315,34 +318,90 @@ public class Game
         SetReelMoving(Reels.LEFT,true);
         SetReelMoving(Reels.CENTER,true);
         SetReelMoving(Reels.RIGHT,true);
-        stopReelCount = 0;
+        StopReelCount = 0;
     }
 
 
-    public static Roles GetEstablishedRole() { return Roles.NONE; }
 
-
-    //どのシンボルが当選しているか取得する
-    public static Symbols GetEstablishedSymbols()
+    //どの役が当選しているか取得する
+    public static Roles GetEstablishedRoles()
     {
-        Symbols establishedSymbols = Symbols.NONE;
         foreach (Lines line in LINES_ARRAY)
         {
             Positions leftReelPosition = GetPositionsForLines(Reels.LEFT,line);
             Positions centerReelPosition = GetPositionsForLines(Reels.CENTER, line);
             Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
-            if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
+            byte sevenNum = 0;
+            bool hasBar = false;
+            if (GetSymbolForLine(Reels.LEFT, line).HasFlag( GetSymbolForLine(Reels.CENTER, line) | GetSymbolForLine(Reels.RIGHT, line)))
             {
-                return GetSymbolForLine(Reels.LEFT, line);
+                Symbols symbols = GetSymbolForLine(Reels.LEFT, line);
+                establishedRole = GetRoleEstablishedBySymbols(symbols, line);
+                return establishedRole;
+            }
+            foreach(Reels reel in REELS_ARRAY)
+            {
+                if(GetSymbolForLine(reel, line).HasFlag(Symbols.SEVEN)){
+                    sevenNum++;
+                }
+                if (GetSymbolForLine(reel, line).HasFlag(Symbols.BAR)){
+                    hasBar = true;
+                }
             }
 
-            if ((GetSymbolForLine(Reels.LEFT, line) | GetSymbolForLine(Reels.CENTER, line)) == GetSymbolForLine(Reels.RIGHT, line))
+            if (sevenNum == 2 && hasBar)
             {
-                
+                establishedRole = Roles.REGULAR;
+                return Roles.REGULAR;
+            }
+
+        }
+        foreach(Positions position in POSITIONS_ARRAY)
+        {
+            if(GetSymbolForPosition(Reels.LEFT,position) == Symbols.CHERRY && !((Roles.BIG | Roles.REGULAR).HasFlag(nowRole)))
+            {
+                establishedRole = Roles.WEAK_CHERRY;
+                return Roles.WEAK_CHERRY;
             }
         }
 
-        return Symbols.NONE;
+        establishedRole = Roles.NONE;
+        return Roles.NONE;
+    }
+
+
+    public static Roles GetRoleEstablishedBySymbols(Symbols symbols , Lines line)
+    {
+        switch (symbols)
+        {
+            case Symbols.BELL:
+                return Roles.BELL;
+            case Symbols.REPLAY:
+                return Roles.REPLAY;
+            case Symbols.WATERMELON:
+                return Roles.WATERMELON;
+            case Symbols.CHERRY:
+                if(line == Lines.middleToMiddle)
+                {
+                    return Roles.VERY_STRONG_CHERRY;
+                }
+                return Roles.STRONG_CHERRY;
+            case Symbols.BAR:
+            case Symbols.SEVEN:
+                return Roles.BIG;
+            default:
+                return Roles.NONE;
+
+        }
+
+    }
+
+    public static Symbols GetSymbolForPosition(in Reels selectReel,Positions position)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+        
+        sbyte reelPosition = GetSymbolForReelPosition(selectReel,position);
+        return reelOrder[reelPosition];
     }
 
 
@@ -534,6 +593,7 @@ public class Game
 
 
             case Roles.REGULAR:
+                exclusionSymbols = reachSymbols & ~(Symbols.SEVEN | Symbols.BAR);
                 if (reachSymbols.HasFlag(Symbols.BAR))
                 {
                     exclusionSymbols = reachSymbols & ~Symbols.SEVEN; //除外用ビットフラグからSEVENフラグを消す BARを揃えるとBBになるため注意
@@ -644,7 +704,7 @@ public class Game
         Symbols exclusionSymbols = Symbols.NONE;
         
         Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) & GetMovingReels();
-        switch (stopReelCount)
+        switch (StopReelCount)
         {
             case 0:
                 return GetSymbolsAccordingRole();
@@ -686,7 +746,7 @@ public class Game
     {
         Symbols[] reelOrder = GetReelOrder(selectStopReel);
         Positions stopReelBarPosition = GetPositionsForLines(selectStopReel,GetCandidateLines()) ;
-        if(selectStopReel != Reels.CENTER && reelOrder[GetSymbolForPosition(selectStopReel,stopReelBarPosition)] == Symbols.BAR)
+        if(selectStopReel != Reels.CENTER && reelOrder[GetSymbolForReelPosition(selectStopReel,stopReelBarPosition)] == Symbols.BAR)
         {
             return true;
         }
@@ -747,31 +807,31 @@ public class Game
     {
         Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) &~GetMovingReels();
 
-        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER,line) == Symbols.BAR)
+        if (StopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER,line) == Symbols.BAR)
         {
             return Symbols.SEVEN|Symbols.BAR;
         }
-        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER, line) == Symbols.SEVEN)
+        if (StopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.REACH && GetSymbolForLine(Reels.CENTER, line) == Symbols.SEVEN)
         {
             return Symbols.NONE;
         }
-        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.BAR)
+        if (StopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.BAR)
         {
             return Symbols.SEVEN;
         }
-        if (stopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.SEVEN)
+        if (StopReelCount == 2 && stopReels.HasFlag(Reels.CENTER) && GetReachSymbolForLine(selectReel, line) == Symbols.SEVEN)
         {
             return Symbols.NONE;
         }
-        if (stopReelCount == 2 && selectReel == Reels.CENTER && GetReachSymbolForLine(selectReel,line) == Symbols.REACH)
+        if (StopReelCount == 2 && selectReel == Reels.CENTER && GetReachSymbolForLine(selectReel,line) == Symbols.REACH)
         {
             return Symbols.BAR;
         }
-        if (stopReelCount == 2 && selectReel == Reels.CENTER && (Symbols.SEVEN|Symbols.BAR).HasFlag(GetReachSymbolForLine(selectReel, line)) ) //停止リールが2つで中リールの時リーチなっていないシンボルを返す
+        if (StopReelCount == 2 && selectReel == Reels.CENTER && (Symbols.SEVEN|Symbols.BAR).HasFlag(GetReachSymbolForLine(selectReel, line)) ) //停止リールが2つで中リールの時リーチなっていないシンボルを返す
         {
             return (Symbols.SEVEN|Symbols.BAR) &~GetReachSymbolForLine(selectReel, line);
         }
-        if (stopReelCount == 1 && (Roles.BIG|Roles.REGULAR).HasFlag(nowRole)) //停止リールが1つでnowRoleがBIGかREGの時
+        if (StopReelCount == 1 && (Roles.BIG|Roles.REGULAR).HasFlag(nowRole)) //停止リールが1つでnowRoleがBIGかREGの時
         {
             return Symbols.SEVEN | Symbols.BAR;
         }
@@ -841,7 +901,7 @@ public class Game
     private static Symbols GetSymbolsCanAchieveRoleForPosition(Positions searchPosition)
     {
         //停止リールが2よりすくない場合は役を成立させれるシンボルをそのまま返す　それ以上の時はリーチを揃えるシンボルを返す
-        if(stopReelCount < 2)
+        if(StopReelCount < 2)
         {
             return GetSymbolsAccordingRole();
         }
@@ -994,7 +1054,7 @@ public class Game
 
     private static Positions GetPositionsToHit()
     {
-        if(stopReelCount < 2)
+        if(StopReelCount < 2)
         {
             return Positions.NONE;
         }
@@ -1009,7 +1069,7 @@ public class Game
     //ない場合とリールが2つ以上止まっている時はNONEで返す
     private static Positions GetPositionsToReach(in Reels selectReel)
     {
-        if(stopReelCount >= 2)
+        if(StopReelCount >= 2)
         {
             return Positions.NONE;
         }
@@ -1197,10 +1257,10 @@ public class Game
         return reachCandidateLines;
     }
 
-    //リーチに候補のラインを返す
+    //リーチの候補のラインを返す
     private static Lines GetCandidateLines()
     {
-        if (stopReelCount != 1)
+        if (StopReelCount != 1)
         {
             return Lines.NONE;
         }
@@ -1334,11 +1394,11 @@ public class Game
 
 
     //選択したリールとライン上にあるシンボルを返す
-    private static Symbols GetSymbolForLine(in Reels selectReel,Lines line)
+    public static Symbols GetSymbolForLine(in Reels selectReel,Lines line)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel); 
         Positions searchPosition = GetPositionsForLines(selectReel, line);
-        return reelOrder[GetSymbolForPosition(selectReel, searchPosition)];
+        return reelOrder[GetSymbolForReelPosition(selectReel, searchPosition)];
 
     }
 
@@ -1538,7 +1598,7 @@ public class Game
 
     private static Reels GetLastMovingReel()
     {
-        if(stopReelCount < 2)
+        if(StopReelCount < 2)
         {
             return Reels.NONE;
         }
