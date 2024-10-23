@@ -3,12 +3,18 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Timers;
 using static Constants;
+using GameMachine.View;
 
 namespace GameMachine
 {
     public partial class SlotController : UserControl
     {
         private SlotView slotView;
+        private SlotViewLamp slotViewLamp;
+
+        //テスト用
+        //ランプのパターンを切り替え
+        private int patternCount = 1;
 
         //止まっているリールの数でボタンのカウントを初期化
         private int btnCount = 3;
@@ -32,6 +38,8 @@ namespace GameMachine
 
             // SlotView のインスタンスを作成
             slotView = new SlotView(leftReels, centerReels, rightReels, pictureChange);
+            slotViewLamp = new SlotViewLamp(FlowerLeft, FlowerRight);
+            lampBlinking();
         }
 
         private void UserGameScreen_Load(object sender, EventArgs e)
@@ -42,32 +50,34 @@ namespace GameMachine
 
         private void stopBtns_Click(object sender, EventArgs e)
         {
-            if (sender == btnstop1 && StartFlag == true){ 
-                slotView.StopLeftReel(); 
+            if (sender == btnstop1 && StartFlag == true)
+            {
+                slotView.StopLeftReel();
                 slotView.leftbtnChange();
                 btnCount++;
                 btnstop1.Enabled = false;
-            }else if (sender == btnstop2 && StartFlag == true)
-            { 
-                slotView.StopCenterReel(); 
+            }
+            else if (sender == btnstop2 && StartFlag == true)
+            {
+                slotView.StopCenterReel();
                 slotView.centerbtnChange();
                 btnCount++;
                 btnstop2.Enabled = false;
             }
             else if (sender == btnstop3 && StartFlag == true)
-            { 
-                slotView.StopRightReel(); 
+            {
+                slotView.StopRightReel();
                 slotView.rightbtnChange();
                 btnCount++;
                 btnstop3.Enabled = false;
             }
 
-            if(btnCount == 3)
+            if (btnCount == 3)
             {
                 slotView.betOff();
                 MaxbetFlag = false;
             }
-            
+
         }
 
         //レバーが押されると回転スタート
@@ -85,7 +95,7 @@ namespace GameMachine
 
                 btnCount = 0;
             }
-            
+
         }
 
         //レバーが上がったら画像を切り替える
@@ -121,5 +131,54 @@ namespace GameMachine
         {
             BonusFlag = flag;
         }
+
+        private void patternSwitchBtn_Click(object sender, EventArgs e)
+        {
+            if (patternCount == 5)
+            {
+                patternCount = 0;
+            }
+            patternCount++;
+            lampBlinking();
+
+        }
+
+        //テスト用　いつかは別のものに置き換える予定
+        private void lampBlinking()
+        {
+            switch (patternCount)
+            {
+                case 1:
+                    //点灯
+                    slotViewLamp.StopLampFlash();
+                    slotViewLamp.BothFlowerLamp();
+                    break;
+                case 2:
+                    //右だけ点滅
+                    slotViewLamp.StopLampFlash();
+                    slotViewLamp.RightFlowerLamp();
+                    break;
+                case 3:
+                    //左だけ点滅
+                    slotViewLamp.StopLampFlash();
+                    slotViewLamp.LeftFlowerLamp();
+                    break;
+                case 4:
+                    //低速点滅
+                    slotViewLamp.StopLampFlash();
+                    slotViewLamp.StartLampFlashSlow();
+                    break;
+                case 5:
+                    //高速点滅
+                    slotViewLamp.StopLampFlash();
+                    slotViewLamp.StartLampFlashFast();
+                    break;
+            }
+
+            //低速から高速点滅
+
+            //パネル点灯
+        }
+
     }
 }

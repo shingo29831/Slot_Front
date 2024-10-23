@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\OneDrive\\デスクトップ\\Slot_Front\\GameMachine\\GameMachine.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "projectName": "GameMachine",
-      "projectPath": "C:\\Users\\user\\OneDrive\\デスクトップ\\Slot_Front\\GameMachine\\GameMachine.csproj",
+      "projectPath": "C:\\Users\\user\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\OneDrive\\デスクトップ\\Slot_Front\\GameMachine\\obj\\",
+      "outputPath": "C:\\Users\\user\\Source\\Repos\\Slot_Front\\GameMachine\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -64,7 +64,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
       }
     }
   }
