@@ -208,8 +208,28 @@ public class Game
         return reelPosition;
     }
 
+    //指定した位置で取得する
+    public static sbyte GetSymbolForReelPosition(in Reels selectReel, Positions position , sbyte reelPosition)
+    {
+        switch (position)
+        {
+            case Positions.TOP:
+                reelPosition = CalcReelPosition(reelPosition, 2);
+                break;
 
-    
+            case Positions.MIDDLE:
+                reelPosition = CalcReelPosition(reelPosition, 1);
+                break;
+
+            case Positions.BOTTOM:
+                reelPosition = CalcReelPosition(reelPosition, 0);
+                break;
+        }
+
+        return reelPosition;
+    }
+
+
 
 
     //ボーナス抽選開始後実行する"ボーナス抽選関数" 役ごとのrolesBonusProbability配列に設定された確率に合わせて抽選する
@@ -313,7 +333,7 @@ public class Game
             Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
             byte sevenNum = 0;
             bool hasBar = false;
-            if (GetSymbolForLine(Reels.LEFT, line).HasFlag(GetSymbolForLine(Reels.CENTER, line) | GetSymbolForLine(Reels.RIGHT, line)))
+            if (GetSymbolForLine(Reels.LEFT, line, nextLeftReel).HasFlag(GetSymbolForLine(Reels.CENTER, line ,nextCenterReel) | GetSymbolForLine(Reels.RIGHT, line, nextRightReel)))
             {
                 Symbols symbols = GetSymbolForLine(Reels.LEFT, line);
                 establishedRole = GetRoleEstablishedBySymbols(symbols, line);
@@ -1530,6 +1550,13 @@ public class Game
         Symbols[] reelOrder = GetReelOrder(selectReel); 
         Positions searchPosition = GetPositionsForLines(selectReel, line);
         return reelOrder[GetSymbolForReelPosition(selectReel, searchPosition)];
+
+    }
+    private static Symbols GetSymbolForLine(in Reels selectReel, Lines line, sbyte reelPosition)
+    {
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+        Positions searchPosition = GetPositionsForLines(selectReel, line);
+        return reelOrder[GetSymbolForReelPosition(selectReel, searchPosition, reelPosition)];
 
     }
 

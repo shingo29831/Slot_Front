@@ -340,7 +340,7 @@ namespace GameMachine
                     {
 
                         lblArray.Text += " Žn:" + GetNowReelPosition(Reels.LEFT).ToString();
-                        sbyte position = GetReelPosition(Reels.LEFT);
+                        sbyte position = GetNextReelPosition(Reels.LEFT);
                         leftPosition = position;
                         SetReelMoving(Reels.LEFT, false);
 
@@ -352,7 +352,7 @@ namespace GameMachine
                     if (centerReelMoving)
                     {
                         lblArray.Text += " Žn:" + GetNowReelPosition(Reels.CENTER).ToString();
-                        sbyte position = GetReelPosition(Reels.CENTER);
+                        sbyte position = GetNextReelPosition(Reels.CENTER);
                         centerPosition = position;
                         SetReelMoving(Reels.CENTER, false);
 
@@ -363,7 +363,7 @@ namespace GameMachine
                     if (rightReelMoving)
                     {
                         lblArray.Text += " Žn:" + GetNowReelPosition(Reels.RIGHT).ToString();
-                        sbyte position = GetReelPosition(Reels.RIGHT);
+                        sbyte position = GetNextReelPosition(Reels.RIGHT);
                         
                         rightPosition = position;
                         SetReelMoving(Reels.RIGHT, false);
