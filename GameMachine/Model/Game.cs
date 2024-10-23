@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Policy;
 using static Constants;
 using static GameMachine.Model.Setting; 
 
@@ -62,6 +63,42 @@ public class Game
     public static bool GetInBonus() { return  inBonus; }
 
 
+    public static void SetNowReelPosition(in Reels selectReel,sbyte position)
+    {
+        switch (selectReel)
+        {
+            case Reels.LEFT:
+                nowLeftReel = position;
+                break;
+            case Reels.CENTER:
+                nowCenterReel = position;
+                break;
+            case Reels.RIGHT:
+                nowRightReel = position;
+                break;
+        }
+    }
+
+    //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
+    public static sbyte GetNowReelPosition(in Reels selectReel)
+    {
+        sbyte nowPosition = NONE;
+        switch (selectReel)
+        {
+            case Reels.LEFT:
+                return nowLeftReel;
+
+            case Reels.CENTER:
+                return nowCenterReel;
+
+            case Reels.RIGHT:
+                return nowRightReel;
+
+        }
+        return nowPosition;
+    }
+
+
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
     private static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
     {
@@ -111,24 +148,7 @@ public class Game
     }
 
 
-    //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
-    public static sbyte GetNowReelPosition(in Reels selectReel)
-    {
-        sbyte nowPosition = NONE;
-        switch(selectReel)
-        {
-            case Reels.LEFT:
-                return nowLeftReel;
-
-            case Reels.CENTER:
-                return nowCenterReel;
-
-            case Reels.RIGHT:
-                return nowRightReel;
-
-        }
-        return nowPosition;
-    }
+    
 
 
     //表示するリールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
