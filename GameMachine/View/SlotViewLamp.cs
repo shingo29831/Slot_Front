@@ -16,7 +16,11 @@ namespace GameMachine.View
         private System.Timers.Timer flashTimer;
 
         // ランプの状態をトグルするためのフラグ
-        private bool isLampOn = false;
+        private bool isLampOn = false;      // 両方点滅時のトグルフラグ
+        private bool isLeftLampOn = true;   // 片方点滅時のトグルフラグ
+
+        // 点滅モードフラグ
+        private bool isBothFlashing = false;  // 両方点滅か片方ずつかを判定するフラグ
 
         public SlotViewLamp(PictureBox flowerLeft, PictureBox flowerRight)
         {
@@ -24,7 +28,7 @@ namespace GameMachine.View
             FlowerRight = flowerRight;
 
             // タイマーの初期化
-            flashTimer = new System.Timers.Timer(500);  // 500ミリ秒間隔（0.5秒ごとに点滅）
+            flashTimer = new System.Timers.Timer(500);  // 500ミリ秒間隔
             flashTimer.Elapsed += flashTimerTick;      // イベントハンドラを追加
             flashTimer.AutoReset = true;               // タイマーが繰り返し発生するよう設定
         }
@@ -32,40 +36,75 @@ namespace GameMachine.View
         // 点滅動作
         private void flashTimerTick(object sender, ElapsedEventArgs e)
         {
-            // ランプの状態をトグル
-            if (isLampOn)
+            if (isBothFlashing)
             {
-                LampOff();  // 両方消灯
+                // 両方点滅
+                if (isLampOn)
+                {
+                    LampOff();  // 両方消灯
+                }
+                else
+                {
+                    BothFlowerLamp();  // 両方点灯
+                }
+
+                isLampOn = !isLampOn;
             }
             else
             {
-                BothFlowerLamp();  // 両方点灯
-            }
+                // 片方ずつ点滅
+                if (isLeftLampOn)
+                {
+                    LeftFlowerLamp();  // 左だけ点灯
+                    RightFlowerLampOff();  // 右は消灯
+                }
+                else
+                {
+                    RightFlowerLamp();  // 右だけ点灯
+                    LeftFlowerLampOff();  // 左は消灯
+                }
 
-            // ランプの状態を切り替え
-            isLampOn = !isLampOn;
+                isLeftLampOn = !isLeftLampOn;
+            }
         }
 
-        // ランプを点滅させる
-        //両方点滅低速
+        // 両方ランプを点滅させる（低速）
         public void StartLampFlashSlow()
         {
             flashTimer.Interval = 500;
+            isBothFlashing = true;  // 両方点滅モード
             flashTimer.Start();
         }
-        //両方高速点滅
+
+        // 両方ランプを高速点滅させる
         public void StartLampFlashFast()
         {
             flashTimer.Interval = 200;
+            isBothFlashing = true;  // 両方点滅モード
+            flashTimer.Start();
+        }
+
+        // 片方ずつランプを点滅させる（低速）
+        public void StartAlternatingLampFlashSlow()
+        {
+            flashTimer.Interval = 500;
+            isBothFlashing = false;  // 片方ずつ点滅モード
+            flashTimer.Start();
+        }
+
+        // 片方ずつランプを高速点滅させる
+        public void StartAlternatingLampFlashFast()
+        {
+            flashTimer.Interval = 200;
+            isBothFlashing = false;  // 片方ずつ点滅モード
             flashTimer.Start();
         }
 
         // ランプの点滅を停止
-        //両方点滅停止
         public void StopLampFlash()
         {
             flashTimer.Stop();
-            LampOff();  // ランプを消灯して終了
+            LampOff();  // 両方消灯して終了
         }
 
         //消灯処理
@@ -77,6 +116,9 @@ namespace GameMachine.View
         //左だけ点灯
         public void LeftFlowerLamp() { FlowerLeft.Image = Properties.Resources.FlowerON; FlowerRight.Image = Properties.Resources.FlowerOFF; }
 
+        public void RightFlowerLampOff() { FlowerRight.Image = Properties.Resources.FlowerOFF; }
+
+        public void LeftFlowerLampOff() { FlowerLeft.Image = Properties.Resources.FlowerOFF; }
 
     }
 }

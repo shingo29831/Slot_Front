@@ -134,7 +134,7 @@ namespace GameMachine
 
         private void patternSwitchBtn_Click(object sender, EventArgs e)
         {
-            if (patternCount == 5)
+            if (patternCount == 6)
             {
                 patternCount = 0;
             }
@@ -172,6 +172,10 @@ namespace GameMachine
                     //高速点滅
                     slotViewLamp.StopLampFlash();
                     slotViewLamp.StartLampFlashFast();
+                    break;
+                case 6:
+                    //片方ずつ点滅
+                    slotViewLamp.StartAlternatingLampFlashSlow();
                     break;
             }
 
