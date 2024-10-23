@@ -55,9 +55,9 @@ namespace GameMachine
             rightReel = right;
 
             // リールの回転順序を設定（シンボルの配列）
-            leftOrder = ReelOrder.leftReelOrder;
-            centerOrder = ReelOrder.centerReelOrder;
-            rightOrder = ReelOrder.rightReelOrder;
+            leftOrder = ReelOrder.LEFT_REEL_ORDER;
+            centerOrder = ReelOrder.CENTER_REEL_ORDER;
+            rightOrder = ReelOrder.RIGHT_REEL_ORDER;
 
             // レバーやボタンの PictureBox 配列を設定
             PChange = pictureChange;
