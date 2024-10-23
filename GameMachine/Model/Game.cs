@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using static Constants;
 using static GameMachine.Model.Setting; 
 
@@ -28,9 +27,9 @@ public class Game
     static Symbols[] rightReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
 
 
-    static sbyte nowLeftReel = 0;
-    static sbyte nowCenterReel = 0;
-    static sbyte nowRightReel = 0;
+    public static sbyte nowLeftReel { get; set; } = 0;
+    public static sbyte nowCenterReel { get; set; } = 0;
+    public static sbyte nowRightReel { get; set; } = 0;
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = true; //テスト前:true
@@ -59,10 +58,12 @@ public class Game
         lowerToUpper = 16, //左下から右上
     }
 
+    public static void SetNowRole(Roles role) { nowRole = role; }
     public static Roles GetNowRole() { return nowRole; }
+    
     public static bool GetInBonus() { return  inBonus; }
 
-
+    //現在ポジションをセットする
     public static void SetNowReelPosition(in Reels selectReel,sbyte position)
     {
         switch (selectReel)
