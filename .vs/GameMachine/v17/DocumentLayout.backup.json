@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -43,32 +47,19 @@
         },
         {
           "DockedWidth": 19,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Constants.cs",
-              "DocumentMoniker": "C:\\Users\\Shingo\\Desktop\\GameMachine\\Constants.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\Desktop\\GameMachine\\Constants.cs",
-              "ToolTip": "C:\\Users\\Shingo\\Desktop\\GameMachine\\Constants.cs",
-              "RelativeToolTip": "..\\..\\..\\Desktop\\GameMachine\\Constants.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAbAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Program.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
+              "RelativeToolTip": "GameMachine\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvw0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:29:05.201Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Game.cs",
-              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
-              "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
-              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
-              "RelativeToolTip": "GameMachine\\Model\\Game.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:28:22.756Z",
+              "WhenOpened": "2024-10-23T09:49:23.653Z",
               "EditorCaption": ""
             },
             {
@@ -100,8 +91,40 @@
               "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "Constants.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\Desktop\\GameMachine\\Constants.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Desktop\\GameMachine\\Constants.cs",
+              "ToolTip": "C:\\Users\\Shingo\\Desktop\\GameMachine\\Constants.cs",
+              "RelativeToolTip": "..\\..\\..\\Desktop\\GameMachine\\Constants.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T09:29:05.201Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeToolTip": "GameMachine\\Model\\Game.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T09:28:22.756Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "SlotView.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\View\\SlotView.cs",
               "RelativeDocumentMoniker": "GameMachine\\View\\SlotView.cs",
@@ -109,12 +132,11 @@
               "RelativeToolTip": "GameMachine\\View\\SlotView.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAAAAADkAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:26:42.79Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T09:26:42.79Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CounterController.Designer.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CounterController.Designer.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\CounterController.Designer.cs",
@@ -125,29 +147,21 @@
               "WhenOpened": "2024-10-22T18:55:31.914Z"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Constants.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Constants.cs",
               "RelativeDocumentMoniker": "GameMachine\\Constants.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Constants.cs",
               "RelativeToolTip": "GameMachine\\Constants.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-23T09:28:15.41Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
               "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
