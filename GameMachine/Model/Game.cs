@@ -11,9 +11,7 @@ namespace GameMachine.Model;
 
 public class Game
 {
-    static bool leftReelbtn = false;
-    static bool centerReelbtn = false;
-    static bool rightReelbtn = false;
+    static int hasCoin = 0;
 
     static bool nextBonusFlag = false;
     static bool inBonus = false;
@@ -28,9 +26,14 @@ public class Game
     static Symbols[] rightReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
 
 
-    public static sbyte nowLeftReel { get; set; } = 0;
-    public static sbyte nowCenterReel { get; set; } = 0;
-    public static sbyte nowRightReel { get; set; } = 0;
+    public static sbyte nowLeftReel = 0;
+    public static sbyte nowCenterReel = 0;
+    public static sbyte nowRightReel = 0;
+
+
+    public static sbyte nextLeftReel = 0;
+    public static sbyte nextCenterReel = 0; 
+    public static sbyte nextRightReel = 0; 
 
     public static bool leftReelMoving = true;
     public static bool centerReelMoving = true; //テスト前:true
@@ -61,8 +64,14 @@ public class Game
         lowerToUpper = 16, //左下から右上
     }
 
+    //
+    //
+    //
+    //クラス外から使用可能なメソッドここから
+
     public static void SetNowRole(Roles role) { nowRole = role; }
     public static Roles GetNowRole() { return nowRole; }
+    public static Roles GetEstablishedRole () {return establishedRole;}
     
     public static bool GetInBonus() { return  inBonus; }
 
@@ -88,7 +97,6 @@ public class Game
     //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
     public static sbyte GetNowReelPosition(in Reels selectReel)
     {
-        sbyte nowPosition = NONE;
         switch (selectReel)
         {
             case Reels.LEFT:
@@ -101,12 +109,32 @@ public class Game
                 return nowRightReel;
 
         }
-        return nowPosition;
+        return 0;
+    }
+
+
+    //リールの次のポジションを取得する
+    public static sbyte GetNextReelPosition(in Reels selectReel)
+    {
+        SetNextReelPosition(selectReel); //次の位置を代入
+        switch (selectReel)
+        {
+            case Reels.LEFT:
+                return nextLeftReel;
+
+            case Reels.CENTER:
+                return nextCenterReel;
+
+            case Reels.RIGHT:
+                return nextRightReel;
+
+        }
+        return 0;
     }
 
 
     //リールの現在の位置をオーバフローさせないように計算する 第一引数に移動前,第二引数に移動数を代入
-    private static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
+    public static sbyte CalcReelPosition(sbyte reelPosition,sbyte move)
     {
         reelPosition += move;
         if (reelPosition < 0)
@@ -157,7 +185,7 @@ public class Game
     
 
 
-    //リールの位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
+    //リールの現在位置を取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHTとTOP,MIDDLE,BOTTOM
     public static sbyte GetSymbolForReelPosition(in Reels selectReel,Positions position)
     {
         sbyte reelPosition = NONE;
@@ -181,22 +209,12 @@ public class Game
     }
 
 
-    //選択されたリールに表示されている全てのシンボルのビットフラグを取得する
-    private static Symbols GetNowReelSymbols(in Reels selectReel)
-    {
-        Symbols nowReelSymbols = Symbols.NONE;
-        Symbols[] reelOrder = GetReelOrder(selectReel);
-
-        nowReelSymbols = reelOrder[GetSymbolForReelPosition(selectReel,Positions.TOP)];
-        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.MIDDLE)];
-        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.BOTTOM)];
-
-        return nowReelSymbols;
-    }
+    
 
 
     //ボーナス抽選開始後実行する"ボーナス抽選関数" 役ごとのrolesBonusProbability配列に設定された確率に合わせて抽選する
-    public static bool BonusLottery()
+    //ボーナス抽選だけでボーナスにはまだ突入させない
+    private static void BonusLottery()
     {
 
         Random rnd = new Random();
@@ -205,21 +223,30 @@ public class Game
 
         foreach (Roles role in ROLES_ARRAY)
         {
+            if((Roles.BIG | Roles.REGULAR).HasFlag(role)) //役がBIGとREGはボーナス抽選しない
+            {
+                break;
+            }
             sumProbability += GetRoleBonusProbability(role);
+            if (rndNum < Setting.GetRoleBonusProbability(role) && role == nowRole && inBonus) //ボーナス突入済みだった場合は次のボーナスフラグを上げる
+            {
+                nextBonusFlag = true;
+            }
+
             if (rndNum < Setting.GetRoleBonusProbability(role) && role == nowRole)
             {
-                return true;
+                hitBonusFlag = true;
+                SelectBonusLottery();
             }
-            if(role == nowRole) { break; }
+            if(role == nowRole) { break; } //現在の役が来たら繰り返し終了
         }
         
-        return false;
     }
 
 
-    //ボーナス抽選当選後実行するビックボーナスまたはレギュラーボーナスを決定する
+    //ボーナス抽選当選後、実行するビックボーナスまたはレギュラーボーナスを決定する
     //決定はSetting.bigProbabilityを元に決定
-    public static void SelectBonusLottery()
+    private static void SelectBonusLottery()
     {
         Random rnd = new Random();
         byte bigProbability = Setting.GetBigProbability();
@@ -238,7 +265,7 @@ public class Game
     
 
 
-    //役の抽選の関数　ボーナス以外の役が当選する
+    //役の抽選の関数
     public static void HitRolesLottery()
     {
 
@@ -258,14 +285,140 @@ public class Game
                 break;
             }
         }
+
+        if (nextBonusFlag && !inBonus) //ボーナスから出て次のボーナスフラグがたっているとき
+        {
+            nextBonusFlag = false;
+            hitBonusFlag = true;
+        }
+
+        //ボーナス以外の役が揃わない時、ボーナスがあたったフラグがあったら役をボーナスにする
+        if (nowRole == Roles.NONE && hitBonusFlag) 
+        {
+            nowRole = nowBonus;
+        }
+    }
+
+
+
+    //どの役が当選しているか設定する
+    //次のポジションを元にセットするように変更する//////////////////////////////////////////
+    private static void SetEstablishedRoles()
+    {
+        establishedRole = Roles.NONE;
+        foreach (Lines line in LINES_ARRAY)
+        {
+            Positions leftReelPosition = GetPositionsForLines(Reels.LEFT, line);
+            Positions centerReelPosition = GetPositionsForLines(Reels.CENTER, line);
+            Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
+            byte sevenNum = 0;
+            bool hasBar = false;
+            if (GetSymbolForLine(Reels.LEFT, line).HasFlag(GetSymbolForLine(Reels.CENTER, line) | GetSymbolForLine(Reels.RIGHT, line)))
+            {
+                Symbols symbols = GetSymbolForLine(Reels.LEFT, line);
+                establishedRole = GetRoleEstablishedBySymbols(symbols, line);
+            }
+            foreach (Reels reel in REELS_ARRAY)
+            {
+                if (GetSymbolForLine(reel, line).HasFlag(Symbols.SEVEN))
+                {
+                    sevenNum++;
+                }
+                if (GetSymbolForLine(reel, line).HasFlag(Symbols.BAR))
+                {
+                    hasBar = true;
+                }
+            }
+
+            if (sevenNum == 2 && hasBar)
+            {
+                establishedRole = Roles.REGULAR;
+                hitBonusFlag = false; //ボーナスがあたったフラグを下げてボーナスに突入させる
+                inBonus = true;
+            }
+
+        }
+        foreach (Positions position in POSITIONS_ARRAY)
+        {
+            if (GetSymbolForPosition(Reels.LEFT, position) == Symbols.CHERRY && !((Roles.BIG | Roles.REGULAR).HasFlag(nowRole)) && (Roles.STRONG_CHERRY | Roles.VERY_STRONG_CHERRY).HasFlag(establishedRole))
+            {
+                establishedRole = Roles.WEAK_CHERRY;
+            }
+        }
+        BonusLottery(); //ボーナス抽選を行う
+        CalcCoinReturned();
+    }
+
+
+
+
+
+
+    //選択したリールの次のリールポジションを返す
+    private static sbyte GetReelPosition(in Reels selectReel)
+    {
+        sbyte reelPosition = NONE;
+
+        sbyte nowReelposition = GetNowReelPosition(selectReel);
+        bool isFindedReelPosition = false;
+        bool isFindedProxyReelPosition = false;
+        //nowReelPositionの5つ先まで止まるため5を代入
+        for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
+        {
+            sbyte searchReelPosition = CalcReelPosition(nowReelposition, gapNowReelPosition); //現在位置から4～0の位置
+            bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
+            if (isExclusion == false && GetIsAchieveRole(selectReel, searchReelPosition)) //役が揃うシンボルが来るか
+            {
+                reelPosition = searchReelPosition;
+                isFindedReelPosition = true;
+            }
+
+
+            if (isExclusion == false && GetIsReachRole(selectReel, searchReelPosition) && isFindedReelPosition == false) //リーチ目になるか、また次の位置が決まったか
+            {
+                reelPosition = searchReelPosition;
+                isFindedProxyReelPosition = true;
+            }
+            if (isExclusion == false && (isFindedReelPosition | isFindedProxyReelPosition) == false)
+            {
+                reelPosition = searchReelPosition;
+            }
+
+        }
+
+
+        return reelPosition;
+    }
+
+    //リールの次のリール位置を決める、その後に役揃い判定を行う
+    private static void SetNextReelPosition(in Reels selectReel)
+    {
+        switch (selectReel)
+        {
+            case Reels.LEFT:
+                nextLeftReel = GetReelPosition(Reels.LEFT);
+                break;
+            case Reels.CENTER:
+                nextCenterReel = GetReelPosition(Reels.CENTER);
+                break;
+            case Reels.RIGHT:
+                nextRightReel = GetReelPosition(Reels.RIGHT);
+                break;
+        }
+
+        if(StopReelCount == 3)
+        {
+            SetEstablishedRoles();
+        }
+        
     }
 
 
 
     //リールのシンボルの並びをReels.LEFT,Reels.CENTER,Reels.RIGHTで選択し取得する
-    public static Symbols[] GetReelOrder(in Reels selectReel) 
+    public static Symbols[] GetReelOrder(in Reels selectReel)
     {
-        Symbols[] reelOrder = {Symbols.NONE };
+        Symbols[] reelOrder = { Symbols.NONE };
         switch (selectReel)
         {
             case Reels.LEFT:
@@ -281,23 +434,23 @@ public class Game
             case Reels.RIGHT:
                 reelOrder = ReelOrder.RIGHT_REEL_ORDER;
                 break;
-            
+
         }
         return reelOrder;
     }
 
-   
+
 
 
     //どのリールが動いてるか代入する
-    public static void SetReelMoving(in Reels selectReel,in bool isMoving)
+    public static void SetReelMoving(in Reels selectReel, in bool isMoving)
     {
-        switch(selectReel)
+        switch (selectReel)
         {
             case Reels.LEFT:
                 leftReelMoving = isMoving;
                 break;
-            case Reels.CENTER: 
+            case Reels.CENTER:
                 centerReelMoving = isMoving;
                 break;
             case Reels.RIGHT:
@@ -309,68 +462,76 @@ public class Game
             StopReelCount++;
         }
 
-        
+
     }
+
+
+
 
     //リールを全て動いている判定にする
     public static void ResetReelsMoving()
     {
-        SetReelMoving(Reels.LEFT,true);
-        SetReelMoving(Reels.CENTER,true);
-        SetReelMoving(Reels.RIGHT,true);
+        SetReelMoving(Reels.LEFT, true);
+        SetReelMoving(Reels.CENTER, true);
+        SetReelMoving(Reels.RIGHT, true);
         StopReelCount = 0;
     }
 
 
 
-    //どの役が当選しているか取得する
-    public static Roles GetEstablishedRoles()
+
+
+
+
+    //クラス外からアクセス可能なメソッドここまで
+    //
+    //
+    //
+
+
+    //払い出しコイン枚数を持ちコインに加える
+    private static void CalcCoinReturned()
     {
-        foreach (Lines line in LINES_ARRAY)
+        if(inBonus && (Roles.BIG | Roles.REGULAR).HasFlag( establishedRole))
         {
-            Positions leftReelPosition = GetPositionsForLines(Reels.LEFT,line);
-            Positions centerReelPosition = GetPositionsForLines(Reels.CENTER, line);
-            Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
-            byte sevenNum = 0;
-            bool hasBar = false;
-            if (GetSymbolForLine(Reels.LEFT, line).HasFlag( GetSymbolForLine(Reels.CENTER, line) | GetSymbolForLine(Reels.RIGHT, line)))
-            {
-                Symbols symbols = GetSymbolForLine(Reels.LEFT, line);
-                establishedRole = GetRoleEstablishedBySymbols(symbols, line);
-                return establishedRole;
-            }
-            foreach(Reels reel in REELS_ARRAY)
-            {
-                if(GetSymbolForLine(reel, line).HasFlag(Symbols.SEVEN)){
-                    sevenNum++;
-                }
-                if (GetSymbolForLine(reel, line).HasFlag(Symbols.BAR)){
-                    hasBar = true;
-                }
-            }
-
-            if (sevenNum == 2 && hasBar)
-            {
-                establishedRole = Roles.REGULAR;
-                return Roles.REGULAR;
-            }
-
+            hasCoin += 15;
         }
-        foreach(Positions position in POSITIONS_ARRAY)
+        if(inBonus == false)
         {
-            if(GetSymbolForPosition(Reels.LEFT,position) == Symbols.CHERRY && !((Roles.BIG | Roles.REGULAR).HasFlag(nowRole)))
-            {
-                establishedRole = Roles.WEAK_CHERRY;
-                return Roles.WEAK_CHERRY;
-            }
+            hasCoin += Setting.GetRoleReturn(establishedRole);
         }
-
-        establishedRole = Roles.NONE;
-        return Roles.NONE;
+        
     }
 
 
-    public static Roles GetRoleEstablishedBySymbols(Symbols symbols , Lines line)
+
+
+
+    //選択されたリールに表示されている全てのシンボルのビットフラグを取得する
+    private static Symbols GetNowReelSymbols(in Reels selectReel)
+    {
+        Symbols nowReelSymbols = Symbols.NONE;
+        Symbols[] reelOrder = GetReelOrder(selectReel);
+
+        nowReelSymbols = reelOrder[GetSymbolForReelPosition(selectReel, Positions.TOP)];
+        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.MIDDLE)];
+        nowReelSymbols |= reelOrder[GetSymbolForReelPosition(selectReel, Positions.BOTTOM)];
+
+        return nowReelSymbols;
+    }
+
+
+
+   
+
+    
+
+
+
+    
+
+    //一種のシンボルで成立する役を返す
+    private static Roles GetRoleEstablishedBySymbols(Symbols symbols , Lines line)
     {
         switch (symbols)
         {
@@ -388,6 +549,8 @@ public class Game
                 return Roles.STRONG_CHERRY;
             case Symbols.BAR:
             case Symbols.SEVEN:
+                hitBonusFlag = false; //ボーナスがあたったフラグを下げてボーナスに突入させる
+                inBonus = true;
                 return Roles.BIG;
             default:
                 return Roles.NONE;
@@ -396,7 +559,9 @@ public class Game
 
     }
 
-    public static Symbols GetSymbolForPosition(in Reels selectReel,Positions position)
+
+    //リールのPositionsからシンボルを取得する
+    private static Symbols GetSymbolForPosition(in Reels selectReel,Positions position)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         
@@ -406,41 +571,7 @@ public class Game
 
 
 
-    //選択したリールの次のリールポジションを返す
-    public static sbyte GetReelPosition(in Reels selectReel)
-    {
-        sbyte reelPosition = NONE;
-
-        sbyte nowReelposition = GetNowReelPosition(selectReel);
-        bool isFindedReelPosition = false;
-        bool isFindedProxyReelPosition = false;
-        //nowReelPositionの5つ先まで止まるため5を代入
-        for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
-        {
-            sbyte searchReelPosition = CalcReelPosition(nowReelposition,gapNowReelPosition); //現在位置から4～0の位置
-            bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
-            if (isExclusion == false && GetIsAchieveRole(selectReel,searchReelPosition)) //役が揃うシンボルが来るか
-            {
-                reelPosition = searchReelPosition;
-                isFindedReelPosition = true;
-            }
-
-
-            if (isExclusion == false && GetIsReachRole(selectReel,searchReelPosition) && isFindedReelPosition == false) //リーチ目になるか、また次の位置が決まったか
-            {
-                reelPosition = searchReelPosition;
-                isFindedProxyReelPosition = true;
-            }
-            if(isExclusion == false && (isFindedReelPosition | isFindedProxyReelPosition) == false)
-            {
-                reelPosition = searchReelPosition;
-            }
-
-        }
-
-
-        return reelPosition;
-    }
+    
 
 
 
@@ -1394,7 +1525,7 @@ public class Game
 
 
     //選択したリールとライン上にあるシンボルを返す
-    public static Symbols GetSymbolForLine(in Reels selectReel,Lines line)
+    private static Symbols GetSymbolForLine(in Reels selectReel,Lines line)
     {
         Symbols[] reelOrder = GetReelOrder(selectReel); 
         Positions searchPosition = GetPositionsForLines(selectReel, line);

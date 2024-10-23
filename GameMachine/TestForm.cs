@@ -318,8 +318,7 @@ namespace GameMachine
 
             if(fcnt == 10)
             {
-                GetEstablishedRoles();
-                lblArray.Text += "  Role:" + RoleChangeToName(establishedRole) ;
+                
                 fcnt=20;
             }else if(fcnt < 10 && StopReelCount == 3)
             {
@@ -373,6 +372,11 @@ namespace GameMachine
                         lblArray.Text += " •Ô:" + rightPosition.ToString();
                     }
                     break;
+            }
+
+            if(StopReelCount == 3)
+            {
+                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole());
             }
 
                 

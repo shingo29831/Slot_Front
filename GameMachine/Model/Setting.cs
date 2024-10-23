@@ -25,13 +25,13 @@ public class Setting
     private static byte regProbability = (byte)(100 - bigProbability);
     private static readonly Roles[] roles = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
     private static readonly int totalWeight = 1000;
-    private static int[] rolesWeight = { 70, 75, 30, 50, 5, 1 }; //x/1000の確率
+    private static int[] rolesWeight = { 70, 75, 30, 50, 5, 1 ,0 ,0}; //x/1000の確率
     //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
-    private static int[] rolesWeightInBonus = { 0, 0, 50, 75, 8, 2 };
-    private static byte[] rolesBonusProbability = { 0, 0, 10, 10, 25 }; //x/100の確率(x%)
-    //ベル,リプレイ,スイカ,弱チェリー,強チェリーの順で入れること
+    private static int[] rolesWeightInBonus = { 0, 0, 50, 75, 8, 2 ,0 ,0};
+    private static byte[] rolesBonusProbability = { 0, 0, 10, 10, 25, 100}; //x/100の確率(x%)
+    //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
 
-    private static readonly byte[] rolesReturn = { 9, 0, 9, 2, 2, 2 }; //通常時(ボーナスではない)の払い出し枚数
+    private static readonly byte[] rolesReturn = { 9, 0, 9, 2, 2, 2 ,0 ,0 }; //通常時(ボーナスではない)の払い出し枚数
         //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
     private static readonly byte inBonusReturn = 15; //通常時(ボーナスではない)の払い出し枚数
         //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
@@ -45,6 +45,11 @@ public class Setting
     public static int[] GetRolesWeight()
     {
         return rolesWeight;
+    }
+
+    public static byte GetRoleReturn(Roles role)
+    {
+        return rolesReturn[RolesToIndex(role)];
     }
 
     public static void SetUserID(String userID) { Setting.userID = userID; }
@@ -218,6 +223,8 @@ public class Setting
             case Roles.WEAK_CHERRY: return 3;
             case Roles.STRONG_CHERRY: return 4;
             case Roles.VERY_STRONG_CHERRY: return 5;
+            case Roles.REGULAR: return 6;
+            case Roles.BIG: return 7;
         }
         return 0;
     }
