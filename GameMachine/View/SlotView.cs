@@ -86,6 +86,8 @@ namespace GameMachine
         // 各リールの停止メソッド（ボタン押下時に呼ばれる）—非同期処理を使って停止
         public async Task StopLeftReel()
         {
+            ReelStatus(leftcount, "LeftReel");
+
             // 左リールが指定位置に停止するまでループ
             while (true)
             {
@@ -100,6 +102,8 @@ namespace GameMachine
 
         public async Task StopCenterReel()
         {
+            ReelStatus(centercount, "CenterReel");
+
             // 中央リールが指定位置に停止するまでループ
             while (true)
             {
@@ -114,6 +118,8 @@ namespace GameMachine
 
         public async Task StopRightReel()
         {
+            ReelStatus(rightcount, "RightReel");
+
             // 右リールが指定位置に停止するまでループ
             while (true)
             {
@@ -124,6 +130,12 @@ namespace GameMachine
                 }//元々のずらし処理削除
                 await Task.Delay(16);  // 非同期で16ミリ秒待機
             }
+        }
+
+        //各リールの現在位置をモデルに送信するメソッド
+        public void ReelStatus(int reelPosition , String reelname)
+        {
+
         }
 
         // リールに初期画像を設定するメソッド
