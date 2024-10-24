@@ -15,6 +15,7 @@ namespace GameMachine
         //テスト用
         //ランプのパターンを切り替え
         private int patternCount = 1;
+        private bool Bonus = false;
 
         //止まっているリールの数でボタンのカウントを初期化
         private int btnCount = 3;
@@ -75,6 +76,8 @@ namespace GameMachine
             if (btnCount == 3)
             {
                 slotView.betOff();
+                //追加
+                Bonus = Model.Game.GetInBonus();
                 MaxbetFlag = false;
             }
 
@@ -115,6 +118,7 @@ namespace GameMachine
         {
             slotView.betOn(BonusFlag);
             MaxbetFlag = true;
+            lampBlinking();
 
         }
 
@@ -139,13 +143,14 @@ namespace GameMachine
                 patternCount = 0;
             }
             patternCount++;
-            lampBlinking();
+            
 
         }
 
         //テスト用　いつかは別のものに置き換える予定
         private void lampBlinking()
         {
+            if()
             switch (patternCount)
             {
                 case 1:
