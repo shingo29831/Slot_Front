@@ -18,9 +18,13 @@ namespace GameMachine
         sbyte bonusState = NONE;
 
         sbyte role = NONE;
-        sbyte leftPosition = NONE;
-        sbyte centerPosition = NONE;
-        sbyte rightPosition = NONE;
+        static sbyte leftPosition = 0;
+        static sbyte centerPosition = 0;
+        static sbyte rightPosition = 0;
+
+        static sbyte leftNextPosition = NONE;
+        static sbyte centerNextPosition = NONE;
+        static sbyte rightNextPosition = NONE;
 
         sbyte stopBtnCount = 0;
 
@@ -46,26 +50,21 @@ namespace GameMachine
         int icnt = 0;
         private void button1_Click(object sender, EventArgs e) //本番は約35で回す
         {
-            
-            if (icnt == 0)
-            {
 
-                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-                leftPosition = NONE;
-                centerPosition = NONE;
-                rightPosition = NONE;
-                timer1.Enabled = true;
-                icnt++;
-            }
+
             if (StopReelCount == 3)
             {
+                SetNextReelPosition(Reels.LEFT, NONE);
+                SetNextReelPosition(Reels.CENTER, NONE);
+                SetNextReelPosition(Reels.RIGHT, NONE);
+
                 ResetReelsMoving();
                 lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
                 leftPosition = NONE;
                 centerPosition = NONE;
                 rightPosition = NONE;
                 timer1.Enabled = true;
-                fcnt=0;
+                fcnt = 0;
                 icnt = 0;
             }
             switch (icnt)
@@ -81,9 +80,21 @@ namespace GameMachine
                 case 3:
                     PushStopReelPosition(Reels.RIGHT);
                     icnt++;
+                    
                     break;
             }
-            
+
+            if (icnt == 0)
+            {
+
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
+                leftPosition = NONE;
+                centerPosition = NONE;
+                rightPosition = NONE;
+                timer1.Enabled = true;
+                icnt++;
+            }
+
 
         }
 
@@ -121,6 +132,70 @@ namespace GameMachine
             {
                 //UpReelPosition(Reels.CENTER, centerPosition);
             }
+        }
+
+        private static void SetNextReelPosition(in Reels selectReel, sbyte reelPosition)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    leftNextPosition = reelPosition;
+                    break;
+                case Reels.CENTER:
+                    centerNextPosition = reelPosition;
+                    break;
+                case Reels.RIGHT:
+                    rightNextPosition = reelPosition;
+                    break;
+            }
+        }
+
+
+        private static sbyte GetNextReelPosition(in Reels selectReel)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    return leftNextPosition;
+                case Reels.CENTER:
+                    return centerNextPosition;
+                case Reels.RIGHT:
+                    return rightNextPosition;
+            }
+            return 0;
+        }
+
+
+
+        private static void SetReelPosition(in Reels selectReel, sbyte reelPosition)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    leftPosition = reelPosition;
+                    break;
+                case Reels.CENTER:
+                    centerPosition = reelPosition;
+                    break;
+                case Reels.RIGHT:
+                    rightPosition = reelPosition;
+                    break;
+            }
+        }
+
+
+        private static sbyte GetReelPosition(in Reels selectReel)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    return leftPosition;
+                case Reels.CENTER:
+                    return centerPosition;
+                case Reels.RIGHT:
+                    return rightPosition;
+            }
+            return 0;
         }
 
 
@@ -255,27 +330,24 @@ namespace GameMachine
         //定数で選択
         private void dispReelsSymbols(Reels selectReel)
         {
-            Symbols[] leftReelOrder = GetReelOrder(Reels.LEFT);
-            Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
-            Symbols[] rightReelOrder = GetReelOrder(Reels.RIGHT);
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    leftReelBot.Text = SymbolChangeToName(leftReelOrder[GetSymbolForReelPosition(Reels.LEFT, Positions.BOTTOM)]);
-                    leftReelMid.Text = SymbolChangeToName(leftReelOrder[GetSymbolForReelPosition(Reels.LEFT, Positions.MIDDLE)]);
-                    leftReelTop.Text = SymbolChangeToName(leftReelOrder[GetSymbolForReelPosition(Reels.LEFT, Positions.TOP)]);
+                    leftReelBot.Text = SymbolChangeToName(GetSymbol(Reels.LEFT, Positions.BOTTOM));
+                    leftReelMid.Text = SymbolChangeToName(GetSymbol(Reels.LEFT, Positions.MIDDLE));
+                    leftReelTop.Text = SymbolChangeToName(GetSymbol(Reels.LEFT, Positions.TOP));
                     break;
 
                 case Reels.CENTER:
-                    centerReelBot.Text = SymbolChangeToName(centerReelOrder[GetSymbolForReelPosition(Reels.CENTER, Positions.BOTTOM)]);
-                    centerReelMid.Text = SymbolChangeToName(centerReelOrder[GetSymbolForReelPosition(Reels.CENTER, Positions.MIDDLE)]);
-                    centerReelTop.Text = SymbolChangeToName(centerReelOrder[GetSymbolForReelPosition(Reels.CENTER, Positions.TOP)]);
+                    centerReelBot.Text = SymbolChangeToName(GetSymbol(Reels.CENTER, Positions.BOTTOM));
+                    centerReelMid.Text = SymbolChangeToName(GetSymbol(Reels.CENTER, Positions.MIDDLE));
+                    centerReelTop.Text = SymbolChangeToName(GetSymbol(Reels.CENTER, Positions.TOP));
                     break;
 
                 case Reels.RIGHT:
-                    rightReelBot.Text = SymbolChangeToName(rightReelOrder[GetSymbolForReelPosition(Reels.RIGHT, Positions.BOTTOM)]);
-                    rightReelMid.Text = SymbolChangeToName(rightReelOrder[GetSymbolForReelPosition(Reels.RIGHT, Positions.MIDDLE)]);
-                    rightReelTop.Text = SymbolChangeToName(rightReelOrder[GetSymbolForReelPosition(Reels.RIGHT, Positions.TOP)]);
+                    rightReelBot.Text = SymbolChangeToName(GetSymbol(Reels.RIGHT, Positions.BOTTOM));
+                    rightReelMid.Text = SymbolChangeToName(GetSymbol(Reels.RIGHT, Positions.MIDDLE));
+                    rightReelTop.Text = SymbolChangeToName(GetSymbol(Reels.RIGHT, Positions.TOP));
                     break;
             }
         }
@@ -311,83 +383,115 @@ namespace GameMachine
             dispReelsSymbols(Reels.RIGHT);
 
 
-            UpReelPosition(Reels.LEFT, leftPosition);
-            UpReelPosition(Reels.CENTER, centerPosition);
-            UpReelPosition(Reels.RIGHT, rightPosition);
+            UpReelPosition(Reels.LEFT, leftNextPosition);
+            UpReelPosition(Reels.CENTER, centerNextPosition);
+            UpReelPosition(Reels.RIGHT, rightNextPosition);
 
 
-            if(fcnt == 10)
+            if (fcnt == 10)
             {
-                
-                fcnt=20;
-            }else if(fcnt < 10 && StopReelCount == 3)
+
+                fcnt = 20;
+            }
+            else if (fcnt < 10 && StopReelCount == 3)
             {
                 fcnt++;
             }
 
-            
+
 
         }
 
         private void PushStopReelPosition(Reels selectReel)
         {
+            sbyte reelPosition = GetReelPosition(selectReel);
+            SetNowReelPosition(selectReel, reelPosition);
+            lblArray.Text += " 始:" + reelPosition.ToString();
+            sbyte nextReelPosition = CalcNextReelPosition(selectReel);
+            SetNextReelPosition(selectReel, nextReelPosition);
+            SetReelMoving(selectReel, false);
+            lblArray.Text += " 返:" + GetNextReelPosition(selectReel).ToString();
 
+
+            if (StopReelCount == 3)
+            {
+                HitEstablishedRoles();
+                String leftValue = "";
+                String centerValue = "";
+                String rightValue = "";
+                foreach (Lines line in LINES_ARRAY)
+                {
+                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, nextLeftReel));
+                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, nextCenterReel));
+                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, nextRightReel));
+                }
+                MessageBox.Show(GetNextReelPosition(Reels.LEFT).ToString()+" , "
+                    + GetNextReelPosition(Reels.CENTER).ToString()+" , " 
+                    + GetNextReelPosition(Reels.RIGHT).ToString()) ;
+                MessageBox.Show(leftValue+"\n"+centerValue+"\n"+rightValue);
+
+
+                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole());
+            }
+
+
+
+
+
+
+        }
+
+        private static Symbols GetSymbol(Reels selectReel, Positions position)
+        {
+            Symbols[] reelOrder = GetReelOrder(selectReel);
+            sbyte reelPosition = GetReelPosition(selectReel);
+            sbyte gap = 0;
+            switch (position)
+            {
+                case Positions.TOP:
+                    gap = 2;
+                    break;
+                case Positions.MIDDLE:
+                    gap = 1;
+                    break;
+                case Positions.BOTTOM:
+                    gap = 0;
+                    break;
+            }
+
+            return reelOrder[CalcReelPosition(reelPosition, gap)];
+        }
+
+
+        //リールを一つずつ上げる、第二引数まで上げるがNONEの場合は無限に上げる
+        private static void UpReelPosition(Reels selectReel, sbyte destinationPosition)
+        {
 
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    if (leftReelMoving)
+                    if (leftPosition != destinationPosition || destinationPosition == NONE)
                     {
-
-                        lblArray.Text += " 始:" + GetNowReelPosition(Reels.LEFT).ToString();
-                        sbyte position = GetNextReelPosition(Reels.LEFT);
-                        leftPosition = position;
-                        SetReelMoving(Reels.LEFT, false);
-
-                        lblArray.Text += " 返:" + leftPosition.ToString();
-
+                        leftPosition = CalcReelPosition(leftPosition, 1);
                     }
+
                     break;
                 case Reels.CENTER:
-                    if (centerReelMoving)
+                    if (centerPosition != destinationPosition || destinationPosition == NONE)
                     {
-                        lblArray.Text += " 始:" + GetNowReelPosition(Reels.CENTER).ToString();
-                        sbyte position = GetNextReelPosition(Reels.CENTER);
-                        centerPosition = position;
-                        SetReelMoving(Reels.CENTER, false);
-
-                        lblArray.Text += " 返:" + centerPosition.ToString();
+                        centerPosition = CalcReelPosition(centerPosition, 1);
                     }
+
                     break;
                 case Reels.RIGHT:
-                    if (rightReelMoving)
+                    if (rightPosition != destinationPosition || destinationPosition == NONE)
                     {
-                        lblArray.Text += " 始:" + GetNowReelPosition(Reels.RIGHT).ToString();
-                        sbyte position = GetNextReelPosition(Reels.RIGHT);
-                        
-                        rightPosition = position;
-                        SetReelMoving(Reels.RIGHT, false);
-
-
-                        lblArray.Text += " 返:" + rightPosition.ToString();
+                        rightPosition = CalcReelPosition(rightPosition, 1);
                     }
+
                     break;
             }
-
-            if(StopReelCount == 3)
-            {
-                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole());
-            }
-
-                
-            
-
-            
-
         }
-
-
-
 
 
 
