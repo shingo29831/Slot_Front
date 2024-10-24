@@ -123,15 +123,12 @@ public class Game
         {
             case Reels.LEFT:
                 return nowLeftReel;
-                break;
 
             case Reels.CENTER:
                 return nowCenterReel;
-                break;
 
             case Reels.RIGHT:
                 return nowRightReel;
-                break;
         }
         MessageBox.Show("nowPo" + nowPosition.ToString());
         return nowPosition;
@@ -626,16 +623,13 @@ public class Game
     {
         Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
-        Lines searchLines = Lines.NONE;
         
-        Positions searchPositions = Positions.NONE;
         Reels stopReels = (Reels.LEFT|Reels.CENTER|Reels.RIGHT) & GetMovingReels();
 
         switch (stopReelCount)
         {
             case 0:
                 return GetSymbolsAccordingRole();
-                break;
             case 1:
                 if (selectReel == Reels.CENTER && nowRole == Roles.REGULAR && GetPositionsToReach(selectReel).HasFlag(position)) //中リールでレギュラー役が来た時、リーチにさせれるpositionだった時
                 {
@@ -734,7 +728,6 @@ public class Game
     //リーチ役が成立するシンボルを返す
     public static Symbols GetReachRoleSymbolsForPosition(Reels selectReel, Positions position)
     {
-        Positions searchPositions = Positions.NONE;
         Symbols reachRoleSymbols = Symbols.NONE;
 
         foreach(Lines line in LINES_ARRAY)
