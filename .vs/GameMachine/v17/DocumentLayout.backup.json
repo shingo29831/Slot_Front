@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\countercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\countercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\view\\slotview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -55,7 +55,7 @@
         },
         {
           "DockedWidth": 19,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -87,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CounterController.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CounterController.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\CounterController.cs",
@@ -99,13 +99,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Setting.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Setting.cs",
               "RelativeDocumentMoniker": "GameMachine\\Model\\Setting.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Setting.cs",
               "RelativeToolTip": "GameMachine\\Model\\Setting.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAIA6wCgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAApwCgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-23T21:49:01.769Z",
               "EditorCaption": ""
@@ -136,15 +136,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Game.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
               "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
               "RelativeToolTip": "GameMachine\\Model\\Game.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAIwBIAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAFYCAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:28:22.756Z"
+              "WhenOpened": "2024-10-23T09:28:22.756Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
