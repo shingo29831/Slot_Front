@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Timers;  // System.Timers を使用
 using static Constants;
 using System.Security.Cryptography.X509Certificates;
+using GameMachine.Model;
 
 namespace GameMachine
 {
@@ -28,6 +29,7 @@ namespace GameMachine
         private int leftcount = 0;
         private int centercount = 0;
         private int rightcount = 0;
+        private int stopcount = 0;
 
         // 各リールに対応する PictureBox 配列
         private PictureBox[] leftReel;
@@ -86,12 +88,13 @@ namespace GameMachine
         // 各リールの停止メソッド（ボタン押下時に呼ばれる）—非同期処理を使って停止
         public async Task StopLeftReel()
         {
-            ReelStatus(leftcount, "LeftReel");
+            //モデルに現在位置を送信　指定された停止位置が入った戻り値を代入 動作を確認する方法がない（泣）　たぶんできてるはず
+            stopcount = (int)Game.OnPushedStopBtn(Reels.LEFT, (sbyte)(leftcount-1));
 
             // 左リールが指定位置に停止するまでループ
             while (true)
             {
-                if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550)
+                if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550 && leftcount == stopcount)
                 {
                     leftReelStop = true;  // 停止フラグを設定               
                     break;
@@ -102,12 +105,13 @@ namespace GameMachine
 
         public async Task StopCenterReel()
         {
-            ReelStatus(centercount, "CenterReel");
+            //モデルに現在位置を送信　指定された停止位置が入った戻り値を代入
+            stopcount = (int)Game.OnPushedStopBtn(Reels.CENTER, (sbyte)(centercount-1));
 
             // 中央リールが指定位置に停止するまでループ
             while (true)
             {
-                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550)
+                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550 && centercount == stopcount)
                 {
                     centerReelStop = true;  // 停止フラグを設定
                     break;
@@ -118,12 +122,13 @@ namespace GameMachine
 
         public async Task StopRightReel()
         {
-            ReelStatus(rightcount, "RightReel");
+            //モデルに現在位置を送信　指定された停止位置が入った戻り値を代入
+            stopcount = (int)Game.OnPushedStopBtn(Reels.RIGHT, (sbyte)(rightcount - 1));
 
             // 右リールが指定位置に停止するまでループ
             while (true)
             {
-                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550)
+                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550 && rightcount == stopcount)
                 {
                     rightReelStop = true;  // 停止フラグを設定
                     break;
@@ -132,11 +137,7 @@ namespace GameMachine
             }
         }
 
-        //各リールの現在位置をモデルに送信するメソッド
-        public void ReelStatus(int reelPosition , String reelname)
-        {
 
-        }
 
         // リールに初期画像を設定するメソッド
         private void SetReelImages(PictureBox[] reel, Symbols[] order, int standardorder)
