@@ -27,7 +27,7 @@ namespace GameMachine
             payoutTxb.Enabled = false; 
         }
         //クレジット残高を表示　更新？？
-        private void CreditCharge()
+        private void CreditUpdate()
         {
 
         }

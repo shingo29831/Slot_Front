@@ -57,6 +57,7 @@
             panel3 = new Panel();
             RpB1 = new PictureBox();
             panel5 = new Panel();
+            patternSwitchBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -232,6 +233,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Location = new Point(0, 575);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1275, 175);
@@ -343,11 +345,22 @@
             panel5.Size = new Size(175, 50);
             panel5.TabIndex = 36;
             // 
+            // patternSwitchBtn
+            // 
+            patternSwitchBtn.Location = new Point(1050, 341);
+            patternSwitchBtn.Name = "patternSwitchBtn";
+            patternSwitchBtn.Size = new Size(124, 25);
+            patternSwitchBtn.TabIndex = 44;
+            patternSwitchBtn.Text = "パターン切り替え";
+            patternSwitchBtn.UseVisualStyleBackColor = true;
+            patternSwitchBtn.Click += patternSwitchBtn_Click;
+            // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(patternSwitchBtn);
             Controls.Add(panel5);
             Controls.Add(panel3);
             Controls.Add(Bet1);
@@ -436,5 +449,6 @@
         private Panel panel3;
         private PictureBox RpB1;
         private Panel panel5;
+        private Button patternSwitchBtn;
     }
 }
