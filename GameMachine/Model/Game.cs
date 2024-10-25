@@ -13,22 +13,13 @@ namespace GameMachine.Model;
 
 public class Game
 {
-    static TestForm t = new TestForm();
-    static int lcnt = 0;
-
     static int hasCoin = 0;
 
     static bool nextBonusFlag = false;
     static bool inBonus = false;
     static bool hitBonusFlag = false;
 
-    static sbyte[] dispSymbol = new sbyte[3];
     public static sbyte StopReelCount { get; set; } = 0; //テスト前0
-
-
-    static Symbols[] leftReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
-    static Symbols[] centerReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
-    static Symbols[] rightReel = { Symbols.NONE, Symbols.NONE, Symbols.NONE };
 
 
     private static sbyte nowLeftReel = 0;
@@ -48,14 +39,14 @@ public class Game
     private static Roles nowRole = Roles.REGULAR; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
-    public static Roles establishedRole { get; set; } = Roles.NONE;
+    public static Roles establishedRole = Roles.NONE;
 
     private static readonly Symbols[] SYMBOLS_ARRAY = { Symbols.BELL, Symbols.REPLAY, Symbols.WATERMELON, Symbols.CHERRY, Symbols.BAR, Symbols.SEVEN, Symbols.REACH};
     private static readonly Roles[] ROLES_ARRAY = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
     private static readonly Positions[] POSITIONS_ARRAY = { Positions.BOTTOM, Positions.MIDDLE, Positions.TOP};
     private static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
     public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-    private static readonly sbyte NOT = -1;
+    private static readonly Roles allRoles = Roles.BELL | Roles.REPLAY | Roles.WATERMELON | Roles.WEAK_CHERRY | Roles.STRONG_CHERRY | Roles.VERY_STRONG_CHERRY;
 
 
     //左リールを基準にし、upperToLowerは左上から右下
@@ -304,9 +295,6 @@ public class Game
         establishedRole = Roles.NONE;
         foreach (Lines line in LINES_ARRAY)
         {
-            Positions leftReelPosition = GetPositionsForLines(Reels.LEFT, line);
-            Positions centerReelPosition = GetPositionsForLines(Reels.CENTER, line);
-            Positions rightReelPosition = GetPositionsForLines(Reels.RIGHT, line);
             byte sevenNum = 0;
             bool hasBar = false;
             if (GetSymbolForLine(Reels.LEFT, line, nextLeftReel).HasFlag(GetSymbolForLine(Reels.CENTER, line ,nextCenterReel) | GetSymbolForLine(Reels.RIGHT, line, nextRightReel)))
@@ -523,15 +511,16 @@ public class Game
     //払い出しコイン枚数を持ちコインに加える
     public static void CalcCoinReturned()
     {
-        if(inBonus && !(establishedRole.HasFlag(Roles.NONE)) )
+        if(inBonus && establishedRole != Roles.NONE )
         {
             hasCoin += 15;
         }
-        if(inBonus == false && !(establishedRole.HasFlag(Roles.NONE)))
+        else if(!inBonus && establishedRole != Roles.NONE )
         {
-            hasCoin += Setting.GetRoleReturn(establishedRole);
+            hasCoin += GetRoleReturn(establishedRole);
         }
         
+
     }
 
 
@@ -679,13 +668,11 @@ public class Game
     //除外するシンボルをビットフラグで返す　positionにはTOP,MIDDLE,BOTTOMが入る
     private static Symbols GetExclusionSymbolsForPosition(in Reels selectReel, Positions position)
     {
-        Symbols[] reelOrder = GetReelOrder(selectReel);
         Symbols exclusionSymbols = Symbols.NONE;
 
         Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(position);
 
         //リーチ目用で使用
-        Symbols[] centerReelOrder = GetReelOrder(Reels.CENTER);
         Symbols centerSymbols = GetNextReelSymbols(Reels.CENTER);
 
         switch (nowRole)
@@ -1051,53 +1038,7 @@ public class Game
         return gap;
     }
 
-    //現在の役を成立させれるシンボルであるかboolで返す
-    //停止リールが2つで役を成立させるリーチの時はPositionsを元にそのリーチを達成できる時のみtrue
-    private static bool GetIsCanAchieveRoleForSymbols(Symbols searchSymbols,Positions searchPosition)
-    {
 
-        foreach(Symbols symbol in SYMBOLS_ARRAY) //全てのシンボルのビットフラグを順に代入
-        {
-            //searchSymbolsのビットフラグがnowRoleを達成できるリーチなシンボルか
-            if (searchSymbols.HasFlag(symbol) && GetSymbolsCanArcheveReachRole().HasFlag(symbol)) //symbolがsearchSymbolで役を成立させれるシンボルの時は実行
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //役を成立させれるシンボルを返す
-    //停止リールが2の時はリーチを揃えるシンボルを返す
-    private static Symbols GetSymbolsCanAchieveRoleForPosition(Positions searchPosition)
-    {
-        //停止リールが2よりすくない場合は役を成立させれるシンボルをそのまま返す　それ以上の時はリーチを揃えるシンボルを返す
-        if(StopReelCount < 2)
-        {
-            return GetSymbolsAccordingRole();
-        }
-
-        Symbols reachSymbols = GetReachSymbolsForMovingReelsPosition(searchPosition);
-        Symbols canAchieveRoleSymbols = Symbols.NONE;
-        Symbols[] candidateSymbolArray = { Symbols.NONE, Symbols.NONE };
-        sbyte element = 0;
-        foreach (Symbols symbol in SYMBOLS_ARRAY) //全てのシンボルのビットフラグを順に代入
-        {
-            //searchSymbolsのビットフラグがnowRoleを達成できるシンボルであり、リーチのシンボルに含まれる時
-            if (GetSymbolsAccordingRole().HasFlag(symbol) && reachSymbols.HasFlag(symbol))
-            {
-                candidateSymbolArray[element] = symbol;
-                element++;
-            }
-        }
-
-
-
-
-
-        return canAchieveRoleSymbols;
-    }
 
 
 
