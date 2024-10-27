@@ -3,44 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\testform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\testform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|C:\\Users\\umeda\\source\\repos\\Slot_Front\\gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|C:\\Users\\umeda\\source\\repos\\Slot_Front\\gamemachine\\testform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\testform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|C:\\Users\\umeda\\source\\repos\\Slot_Front\\gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\slotcontroller.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\gamemachine.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\gamemachine.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|C:\\Users\\umeda\\source\\repos\\Slot_Front\\gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\umeda\\source\\repos\\slot_front\\gamemachine\\controller\\creditcontroller.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -68,7 +76,7 @@
         },
         {
           "DockedWidth": 19,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -83,71 +91,12 @@
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
-              "RelativeDocumentMoniker": "GameMachine\\Program.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
-              "RelativeToolTip": "GameMachine\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T12:45:56.008Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "StartUp.cs",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
-              "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
-              "RelativeToolTip": "GameMachine\\StartUp.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T12:45:54.206Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
-              "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "RelativeToolTip": "GameMachine\\StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T12:45:48.955Z",
-              "EditorCaption": " [\u30C7\u30B6\u30A4\u30F3]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SlotController.cs",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
-              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
-              "RelativeToolTip": "GameMachine\\Controller\\SlotController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T12:41:36.928Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
-              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "RelativeToolTip": "GameMachine\\Controller\\SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T12:41:25.263Z",
-              "EditorCaption": " [\u30C7\u30B6\u30A4\u30F3]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "CreditController.cs [\u30C7\u30B6\u30A4\u30F3]",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CreditController.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\CreditController.cs",
@@ -159,20 +108,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "CreditController.cs",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CreditController.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\CreditController.cs",
               "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CreditController.cs",
               "RelativeToolTip": "GameMachine\\Controller\\CreditController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwB8AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T11:30:20.55Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "CreditController.Designer.cs",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\CreditController.Designer.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\CreditController.Designer.cs",
@@ -185,33 +134,125 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Game.cs",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
               "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
               "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
               "RelativeToolTip": "GameMachine\\Model\\Game.cs",
-              "ViewState": "AgIAAJ4AAAAAAAAAAAAewHwAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T06:30:37.855Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
+              "Title": "SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "RelativeToolTip": "GameMachine\\Controller\\SlotController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T12:41:25.263Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SlotController.cs",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\SlotController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAWwDoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T12:41:36.928Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TestForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs",
+              "RelativeDocumentMoniker": "GameMachine\\TestForm.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs [Design]",
+              "RelativeToolTip": "GameMachine\\TestForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T06:26:36.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "TestForm.cs",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs",
               "RelativeDocumentMoniker": "GameMachine\\TestForm.cs",
               "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs",
               "RelativeToolTip": "GameMachine\\TestForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC8BAAAAAAAAAAAmwGYBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T06:27:07.412Z",
+              "WhenOpened": "2024-10-27T06:27:07.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Program.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Program.cs",
+              "RelativeToolTip": "GameMachine\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T12:45:56.008Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SlotController.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.Designer.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.Designer.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.Designer.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\SlotController.Designer.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAqwLgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T13:30:39.335Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GameMachine",
+              "DocumentMoniker": "C:\\Users\\umeda\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+              "RelativeDocumentMoniker": "GameMachine\\GameMachine.csproj",
+              "ToolTip": "C:\\Users\\umeda\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+              "RelativeToolTip": "GameMachine\\GameMachine.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-27T13:19:07.599Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
+              "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "RelativeToolTip": "GameMachine\\StartUp.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T12:45:48.955Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "StartUp.cs",
+              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
+              "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
+              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
+              "RelativeToolTip": "GameMachine\\StartUp.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAgwE0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T12:45:54.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "TestForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.Designer.cs",
               "RelativeDocumentMoniker": "GameMachine\\TestForm.Designer.cs",
@@ -219,20 +260,7 @@
               "RelativeToolTip": "GameMachine\\TestForm.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T06:27:39.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TestForm.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "DocumentMoniker": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs",
-              "RelativeDocumentMoniker": "GameMachine\\TestForm.cs",
-              "ToolTip": "C:\\Users\\umeda\\source\\repos\\Slot_Front\\GameMachine\\TestForm.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "RelativeToolTip": "GameMachine\\TestForm.cs [\u30C7\u30B6\u30A4\u30F3]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T06:26:36.838Z",
-              "EditorCaption": " [\u30C7\u30B6\u30A4\u30F3]"
+              "WhenOpened": "2024-10-27T06:27:39.177Z"
             }
           ]
         }
