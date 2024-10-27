@@ -13,6 +13,13 @@ namespace GameMachine.Model;
 
 public class Game
 {
+    //test用
+    public static Symbols testVari1 = Symbols.NONE;
+    public static Symbols testVari2 = Symbols.NONE;
+    public static Symbols testVari3 = Symbols.NONE;
+
+
+
     static int hasCoin = 0;
     static int increasedCoin = 0;
 
@@ -23,9 +30,9 @@ public class Game
     public static sbyte StopReelCount { get; set; } = 0; //テスト前0
 
 
-    private static sbyte nowLeftReel = 0;
-    private static sbyte nowCenterReel = 0;
-    private static sbyte nowRightReel = 0;
+    private static sbyte nowLeftReel = 14;
+    private static sbyte nowCenterReel = 15;
+    private static sbyte nowRightReel = 9;
 
 
     private static sbyte nextLeftReel = 0;
@@ -667,10 +674,15 @@ public class Game
 
         //弱チェリー回避ここまで
 
+
+        //test用
+        testVari1 = 0;
+
         //ここからシンボルの除外
         Symbols topExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.TOP);
         Symbols middleExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.MIDDLE);
         Symbols bottomExclusionSymbols = GetExclusionSymbolsForPosition(selectReel, Positions.BOTTOM);
+
 
         Symbols[] exclusionSymbolsForReel = { bottomExclusionSymbols, middleExclusionSymbols, topExclusionSymbols };
 
@@ -681,6 +693,7 @@ public class Game
             {
                 if (exclusionSymbols.HasFlag(symbol) && reelOrder[CalcReelPosition(reelPosition, gap)] == symbol) //除外するシンボルで判定しているか && 除外するシンボルであるか 
                 {
+                    testVari1 |= exclusionSymbols;
                     return true;
                 }
             }
@@ -851,9 +864,9 @@ public class Game
                 exclusionSymbols = reachSymbols;
                 if (reachSymbols.HasFlag(Symbols.REACH)) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = reachSymbols | (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols |= Symbols.SEVEN | Symbols.BAR;
                 }
-                
+
                 break;
         }
 
@@ -1701,7 +1714,7 @@ public class Game
 
         if(lineSymbols.HasFlag(Symbols.BAR) && lineSymbols.HasFlag(Symbols.SEVEN)) //リーチ目になりそうな状態 
         {
-            reachSymbol = Symbols.REACH; //REGが来た場合、優先で7を入れること BIGがきた場合は7以外を揃えること
+            //reachSymbol = Symbols.REACH; //REGが来た場合、優先で7を入れること BIGがきた場合は7以外を揃えること
         }
 
 

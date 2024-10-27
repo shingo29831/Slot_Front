@@ -18,9 +18,9 @@ namespace GameMachine
         sbyte bonusState = NONE;
 
         sbyte role = NONE;
-        static sbyte leftPosition = 0;
-        static sbyte centerPosition = 0;
-        static sbyte rightPosition = 0;
+        static sbyte leftPosition = 14;
+        static sbyte centerPosition = 15;
+        static sbyte rightPosition = 9;
 
         static sbyte leftNextPosition = NONE;
         static sbyte centerNextPosition = NONE;
@@ -55,7 +55,7 @@ namespace GameMachine
         {
 
             PlayProcess();
-            timer1.Enabled = true;
+            //timer1.Enabled = true;
 
 
         }
@@ -320,7 +320,7 @@ namespace GameMachine
         private void timer1_Tick(object sender, EventArgs e)
         {
             tcnt++;
-            if (tcnt % 4 == 0 && tcnt < 13)
+            if (tcnt % 4 == 0 && tcnt < 13   & false)
             {
                 PlayProcess();
             }
@@ -501,10 +501,12 @@ namespace GameMachine
         {
             Roles nowRole = GetNowRole();
             Roles establishedRole = GetEstablishedRole();
-            if ( !(nowRole == Roles.NONE && establishedRole == Roles.NONE) && !(nowRole == establishedRole  || establishedRole == Roles.NONE ) )
+            if ( !(nowRole == Roles.NONE && establishedRole == Roles.NONE) && (!(nowRole == establishedRole  || establishedRole == Roles.NONE ) 
+                && !((nowRole == Roles.VERY_STRONG_CHERRY || nowRole == Roles.STRONG_CHERRY) && establishedRole == Roles.WEAK_CHERRY)))
             {
                 tcnt = 0;
                 timer1.Enabled = false;
+                MessageBox.Show(testVari1.ToString());
             }
         }
 
