@@ -115,5 +115,12 @@ namespace GameMachine
                 }
             }
         }
+
+        public void ShowCreditDisp()
+        {
+            creditDisplay.ShowCredit();
+            creditDisplay.ShowBonusCount();
+            creditDisplay.ShowPayOut();
+        }
     }
 }

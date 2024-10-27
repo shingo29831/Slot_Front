@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using static GameMachine.Model.Game;
+using static GameMachine.Model.Setting;
 
 namespace GameMachine
 {
@@ -15,6 +9,9 @@ namespace GameMachine
         private int remaingCredit;
         private int returnBonusCredit;
         private int returnCredit;
+        private int payout = 0;
+        private int bonusCount = 0;
+        private int credit = 0;
 
         public CreditController()
         {
@@ -26,11 +23,44 @@ namespace GameMachine
             countTxb.Enabled = false;
             payoutTxb.Enabled = false; 
         }
-        //クレジット残高を表示　更新？？
-        private void CreditCharge()
+
+        public void ShowCredit()
+        {
+            creditTxb.Text = GetHasCoin().ToString();
+        }
+
+        public void ShowBonusCount()
+        {
+            if (GetInBonus())
+            {
+                countTxb.Text = GetIncreasedCoin().ToString();
+            }
+            else
+            {
+                countTxb.Text = "0";
+            }
+            
+        }
+
+        public void ShowPayOut()
+        {
+            payoutTxb.Text = GetRoleReturn(GetEstablishedRole()).ToString();
+        }
+
+
+        private void SetPayOut()
         {
 
         }
 
+        private void SetBonusCount()
+        {
+            bonusCount = GetIncreasedCoin();
+        }
+
+        private void SetCredit() 
+        {
+            credit = GetHasCoin();
+        }
     }
 }
