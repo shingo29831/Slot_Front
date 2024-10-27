@@ -1,9 +1,6 @@
-using System;
-using static GameMachine.Model.Setting;
 using static Constants;
 using static GameMachine.Model.Game;
-using System.Collections;
-using Model;
+using static GameMachine.Model.Setting;
 
 namespace GameMachine
 {
@@ -17,9 +14,9 @@ namespace GameMachine
         sbyte bonusState = NONE;
 
         sbyte role = NONE;
-        static sbyte leftPosition = 0;
-        static sbyte centerPosition = 0;
-        static sbyte rightPosition = 0;
+        static sbyte leftPosition = 14;
+        static sbyte centerPosition = 15;
+        static sbyte rightPosition = 9;
 
         static sbyte leftNextPosition = NONE;
         static sbyte centerNextPosition = NONE;
@@ -29,7 +26,7 @@ namespace GameMachine
 
         String uniqueID = "";
 
-
+        bool stopAndResult = false;
         int lcnt = 0;
         public TestForm()
         {
@@ -53,64 +50,19 @@ namespace GameMachine
         private void button1_Click(object sender, EventArgs e) //–{”Ô‚Í–ñ35‚Å‰ñ‚·
         {
 
-
-            if (StopReelCount == 3)
-            {
-                CalcCoinCollection();
-                SetEstablishedRole(Roles.NONE);
-                HitRolesLottery();
-                BonusLottery();
-                SetNextReelPosition(Reels.LEFT, NONE);
-                SetNextReelPosition(Reels.CENTER, NONE);
-                SetNextReelPosition(Reels.RIGHT, NONE);
-
-                ResetReelsMoving();
-                lblArray.Text =  "Coin:" + GetHasCoin().ToString() + "  ROLE:" + RoleChangeToName(GetNowRole()) + " Bonus:" + RoleChangeToName(GetNowBonus());
-                timer1.Enabled = true;
-                fcnt = 0;
-                icnt = 0;
-            }
-            
-            switch (icnt)
-            {
-                case 1:
-                    PushStopReelPosition(Reels.LEFT);
-                    break;
-                case 2:
-                    PushStopReelPosition(Reels.CENTER);
-                    break;
-                case 3:
-                    PushStopReelPosition(Reels.RIGHT);
-                    break;
-            }
-            if (icnt > -1)
-            {
-                
-                icnt++;
-            }
-
-            if (icnt == -1)
-            {
-                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-                timer1.Enabled = true;
-                icnt++;
-            }
-
+            PlayProcess();
+            timer1.Enabled = true;
+            stopAndResult = false;
 
         }
 
+
+        
         private void button2_Click(object sender, EventArgs e)
         {
+            
+            stopAndResult = true;
 
-            //timer1.Enabled=true;
-
-            HitRolesLottery();
-            lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-            Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
-            Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
-            lblArray.Text = "GetReachPositions:";
-            sbyte cnt = 0;
         }
 
         private static void SetNextReelPosition(in Reels selectReel, sbyte reelPosition)
@@ -179,7 +131,7 @@ namespace GameMachine
 
 
 
-        public String RoleChangeToName(Roles role)
+        public static String RoleChangeToName(Roles role)
         {
             String value = "";
             switch (role)
@@ -354,28 +306,28 @@ namespace GameMachine
         }
 
 
-        int fcnt = 0;
+        int tcnt = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            dispReelsSymbols(Reels.LEFT);
-            dispReelsSymbols(Reels.CENTER);
-            dispReelsSymbols(Reels.RIGHT);
-
-
-            UpReelPosition(Reels.LEFT, leftNextPosition);
-            UpReelPosition(Reels.CENTER, centerNextPosition);
-            UpReelPosition(Reels.RIGHT, rightNextPosition);
-
-
-            if (fcnt == 10)
+            tcnt++;
+            if (tcnt % 4 == 0 && tcnt < 13)
             {
-
-                fcnt = 20;
-            }
-            else if (fcnt < 10 && StopReelCount == 3)
+                PlayProcess();
+            }else if (tcnt == 13 && stopAndResult)
             {
-                fcnt++;
+                StopAndResult();
+                tcnt = 0;
+                timer1.Enabled = false;
             }
+            else if (tcnt == 13 )
+            {
+                PlayProcess();
+                tcnt = 0;
+            }
+            ShowDisplay();
+            UpReel();
+
+
 
 
 
@@ -386,8 +338,8 @@ namespace GameMachine
             sbyte reelPosition = GetReelPosition(selectReel);
             SetNowReelPosition(selectReel, reelPosition);
             lblArray.Text += " Žn:" + reelPosition.ToString();
-            sbyte nextReelPosition = CalcNextReelPosition(selectReel); 
-            SetNextReelPosition(selectReel, nextReelPosition); 
+            sbyte nextReelPosition = CalcNextReelPosition(selectReel);
+            SetNextReelPosition(selectReel, nextReelPosition);
             SetReelMoving(selectReel, false);
             lblArray.Text += " •Ô:" + GetModelNextReelPosition(selectReel).ToString();
 
@@ -398,19 +350,17 @@ namespace GameMachine
                 String rightValue = "";
                 foreach (Lines line in LINES_ARRAY)
                 {
-                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetModelNextReelPosition(Reels.LEFT) ));
-                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetModelNextReelPosition(Reels.CENTER) ));
-                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetModelNextReelPosition(Reels.RIGHT) ));
+                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetModelNextReelPosition(Reels.LEFT)));
+                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetModelNextReelPosition(Reels.CENTER)));
+                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetModelNextReelPosition(Reels.RIGHT)));
                 }
                 HitEstablishedRoles();
                 CalcCoinReturned();
-                //MessageBox.Show(GetModelNextReelPosition(Reels.LEFT).ToString()+" , "
-                //    + GetModelNextReelPosition(Reels.CENTER).ToString()+" , " 
-                //    + GetModelNextReelPosition(Reels.RIGHT).ToString()) ;
-                //MessageBox.Show(leftValue+"\n"+centerValue+"\n"+rightValue);
+                SwichingBonus();
 
 
-                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" +GetHasCoin().ToString();
+                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" + GetHasCoin().ToString();
+                RoleInspection();
             }
 
 
@@ -470,11 +420,90 @@ namespace GameMachine
 
                     break;
             }
+
+
         }
 
 
+        private void PlayProcess()
+        {
+            if (StopReelCount == 3)
+            {
+                CalcCoinCollection();
+                SetEstablishedRole(Roles.NONE);
+                HitRolesLottery();
+                BonusLottery();
+                SetNextReelPosition(Reels.LEFT, NONE);
+                SetNextReelPosition(Reels.CENTER, NONE);
+                SetNextReelPosition(Reels.RIGHT, NONE);
+
+                ResetReelsMoving();
+                lblArray.Text = "Coin:" + GetHasCoin().ToString() + "  ROLE:" + RoleChangeToName(GetNowRole()) + " Bonus:" + RoleChangeToName(GetNowBonus());
+                timer1.Enabled = true;
+                icnt = 0;
+            }
+
+            switch (icnt)
+            {
+                case 1:
+                    PushStopReelPosition(Reels.LEFT);
+                    break;
+                case 2:
+                    PushStopReelPosition(Reels.CENTER);
+                    break;
+                case 3:
+                    PushStopReelPosition(Reels.RIGHT);
+                    break;
+            }
+            if (icnt > -1)
+            {
+
+                icnt++;
+            }
+
+            if (icnt == -1)
+            {
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
+                timer1.Enabled = true;
+                icnt++;
+            }
+        }
 
 
+        private void RoleInspection()
+        {
+            Roles nowRole = GetNowRole();
+            Roles establishedRole = GetEstablishedRole();
+            if (!(nowRole == Roles.NONE && establishedRole == Roles.NONE) && (!(nowRole == establishedRole || establishedRole == Roles.NONE)
+                && !((nowRole == Roles.VERY_STRONG_CHERRY || nowRole == Roles.STRONG_CHERRY) && establishedRole == Roles.WEAK_CHERRY)))
+            {
+                tcnt = 0;
+                timer1.Enabled = false;
+            }
+        }
+
+
+        private void StopAndResult()
+        {
+            MessageBox.Show(tcnt.ToString());
+            tcnt = 0;
+            timer1.Enabled = false;
+            
+        }
+
+        private void ShowDisplay()
+        {
+            dispReelsSymbols(Reels.LEFT);
+            dispReelsSymbols(Reels.CENTER);
+            dispReelsSymbols(Reels.RIGHT);
+        }
+
+        private void UpReel()
+        { 
+            UpReelPosition(Reels.LEFT, leftNextPosition);
+            UpReelPosition(Reels.CENTER, centerNextPosition);
+            UpReelPosition(Reels.RIGHT, rightNextPosition);
+        }
 
     }
 }

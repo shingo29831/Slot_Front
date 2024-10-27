@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Model;
 
 public class Counter
@@ -9,12 +8,13 @@ public class Counter
 	private static int regularBonusCount = 0;
 	private static int betweenBonus = 0;
 
-	public static void BigBonusCountup(){ bigBonusCount++; }
+	public static void UpBigBonusCount(){ bigBonusCount++; }
 
-	public static void RegularBonusCountup(){ regularBonusCount++; }
+	public static void UpRegularBonusCount(){ regularBonusCount++; }
 
-	public static void BetweenBonusup() { betweenBonus++; }
+	public static void UpBetweenBonusCount() { betweenBonus++; }
 
+	//
 
 	public static int GetBigBonusCount() { return bigBonusCount; }
 
@@ -22,6 +22,8 @@ public class Counter
 
 	public static int GetBetweenBonusCount() { return betweenBonus; }
 
+
+	//集計リセット
 
 	public static void ResetBigBonusCount() { bigBonusCount = 0; }
 

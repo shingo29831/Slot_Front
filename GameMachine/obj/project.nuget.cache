@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "bv+9VXYhcD8=",
+  "dgSpecHash": "S2eywcoDFQ8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\umeda\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\umeda\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.35\\microsoft.windowsdesktop.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\umeda\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.35\\microsoft.netcore.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\umeda\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.35\\microsoft.aspnetcore.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\umeda\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.35\\microsoft.netcore.app.host.win-x64.6.0.35.nupkg.sha512"
+  ],
   "logs": []
 }
