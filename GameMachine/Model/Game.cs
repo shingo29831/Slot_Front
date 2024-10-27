@@ -15,6 +15,7 @@ public class Game
 {
     static int hasCoin = 0;
     static int increasedCoin = 0;
+    static int lastBonusCount = 0;
 
     static bool nextBonusFlag = false;
     static bool inBonus = false;
@@ -48,7 +49,7 @@ public class Game
     private static readonly Reels[] REELS_ARRAY = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
     public static readonly Lines[] LINES_ARRAY = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
     private static readonly Roles allRoles = Roles.BELL | Roles.REPLAY | Roles.WATERMELON | Roles.WEAK_CHERRY | Roles.STRONG_CHERRY | Roles.VERY_STRONG_CHERRY;
-
+    
 
     //左リールを基準にし、upperToLowerは左上から右下
     public enum Lines : sbyte
@@ -76,6 +77,8 @@ public class Game
     public static Roles GetNowBonus() { return nowBonus; }
 
     public static int GetHasCoin() {  return hasCoin; }
+
+    public static int GetIncreasedCoin() {  return increasedCoin; }
 
     //現在ポジションをセットする
     public static void SetNowReelPosition(in Reels selectReel,sbyte position)
@@ -119,6 +122,7 @@ public class Game
         if(establishedRole == Roles.BIG | establishedRole == Roles.REGULAR)
         {
             nowBonus = establishedRole;
+            increasedCoin = 0;
             inBonus = true;
             hitBonusFlag = false;
         }
@@ -135,6 +139,7 @@ public class Game
         {
             nextBonusFlag = false;
             inBonus = true;
+            increasedCoin = 0;
             nowBonus = Roles.BIG;
         }
     }
@@ -541,6 +546,7 @@ public class Game
         {
             hasCoin += 15;
             increasedCoin += 15;
+            lastBonusCount += 15;
         }
         else if(!inBonus && establishedRole != Roles.NONE )
         {
