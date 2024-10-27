@@ -1,10 +1,6 @@
-using System;
-using static GameMachine.Model.Setting;
 using static Constants;
 using static GameMachine.Model.Game;
-using System.Collections;
-using Model;
-using System.Drawing.Text;
+using static GameMachine.Model.Setting;
 
 namespace GameMachine
 {
@@ -30,7 +26,7 @@ namespace GameMachine
 
         String uniqueID = "";
 
-
+        bool stopAndResult = false;
         int lcnt = 0;
         public TestForm()
         {
@@ -55,23 +51,18 @@ namespace GameMachine
         {
 
             PlayProcess();
-            //timer1.Enabled = true;
-
+            timer1.Enabled = true;
+            stopAndResult = false;
 
         }
 
+
+        
         private void button2_Click(object sender, EventArgs e)
         {
+            
+            stopAndResult = true;
 
-            //timer1.Enabled=true;
-
-            HitRolesLottery();
-            lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-            Positions[] positions = { Positions.TOP, Positions.MIDDLE, Positions.BOTTOM };
-            Lines[] lines = { Lines.upperToLower, Lines.upperToUpper, Lines.middleToMiddle, Lines.lowerToLower, Lines.lowerToUpper };
-            Reels[] reels = { Reels.LEFT, Reels.CENTER, Reels.RIGHT };
-            lblArray.Text = "GetReachPositions:";
-            sbyte cnt = 0;
         }
 
         private static void SetNextReelPosition(in Reels selectReel, sbyte reelPosition)
@@ -315,41 +306,28 @@ namespace GameMachine
         }
 
 
-        int fcnt = 0;
         int tcnt = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
             tcnt++;
-            if (tcnt % 4 == 0 && tcnt < 13   & false)
+            if (tcnt % 4 == 0 && tcnt < 13)
             {
                 PlayProcess();
+            }else if (tcnt == 13 && stopAndResult)
+            {
+                StopAndResult();
+                tcnt = 0;
+                timer1.Enabled = false;
             }
-            else if (tcnt >= 13)
+            else if (tcnt == 13 )
             {
                 PlayProcess();
                 tcnt = 0;
             }
+            ShowDisplay();
+            UpReel();
 
 
-            dispReelsSymbols(Reels.LEFT);
-            dispReelsSymbols(Reels.CENTER);
-            dispReelsSymbols(Reels.RIGHT);
-
-
-            UpReelPosition(Reels.LEFT, leftNextPosition);
-            UpReelPosition(Reels.CENTER, centerNextPosition);
-            UpReelPosition(Reels.RIGHT, rightNextPosition);
-
-
-            if (fcnt == 10)
-            {
-
-                fcnt = 20;
-            }
-            else if (fcnt < 10 && StopReelCount == 3)
-            {
-                fcnt++;
-            }
 
 
 
@@ -379,10 +357,6 @@ namespace GameMachine
                 HitEstablishedRoles();
                 CalcCoinReturned();
                 SwichingBonus();
-                //MessageBox.Show(GetModelNextReelPosition(Reels.LEFT).ToString()+" , "
-                //    + GetModelNextReelPosition(Reels.CENTER).ToString()+" , " 
-                //    + GetModelNextReelPosition(Reels.RIGHT).ToString()) ;
-                //MessageBox.Show(leftValue+"\n"+centerValue+"\n"+rightValue);
 
 
                 lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" + GetHasCoin().ToString();
@@ -466,7 +440,6 @@ namespace GameMachine
                 ResetReelsMoving();
                 lblArray.Text = "Coin:" + GetHasCoin().ToString() + "  ROLE:" + RoleChangeToName(GetNowRole()) + " Bonus:" + RoleChangeToName(GetNowBonus());
                 timer1.Enabled = true;
-                fcnt = 0;
                 icnt = 0;
             }
 
@@ -491,7 +464,7 @@ namespace GameMachine
             if (icnt == -1)
             {
                 lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-                //timer1.Enabled = true;
+                timer1.Enabled = true;
                 icnt++;
             }
         }
@@ -501,16 +474,36 @@ namespace GameMachine
         {
             Roles nowRole = GetNowRole();
             Roles establishedRole = GetEstablishedRole();
-            if ( !(nowRole == Roles.NONE && establishedRole == Roles.NONE) && (!(nowRole == establishedRole  || establishedRole == Roles.NONE ) 
+            if (!(nowRole == Roles.NONE && establishedRole == Roles.NONE) && (!(nowRole == establishedRole || establishedRole == Roles.NONE)
                 && !((nowRole == Roles.VERY_STRONG_CHERRY || nowRole == Roles.STRONG_CHERRY) && establishedRole == Roles.WEAK_CHERRY)))
             {
                 tcnt = 0;
                 timer1.Enabled = false;
-                MessageBox.Show(testVari1.ToString());
             }
         }
 
 
+        private void StopAndResult()
+        {
+            MessageBox.Show(tcnt.ToString());
+            tcnt = 0;
+            timer1.Enabled = false;
+            
+        }
+
+        private void ShowDisplay()
+        {
+            dispReelsSymbols(Reels.LEFT);
+            dispReelsSymbols(Reels.CENTER);
+            dispReelsSymbols(Reels.RIGHT);
+        }
+
+        private void UpReel()
+        { 
+            UpReelPosition(Reels.LEFT, leftNextPosition);
+            UpReelPosition(Reels.CENTER, centerNextPosition);
+            UpReelPosition(Reels.RIGHT, rightNextPosition);
+        }
 
     }
 }
