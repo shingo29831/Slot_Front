@@ -356,7 +356,7 @@ namespace GameMachine
                 }
                 HitEstablishedRoles();
                 CalcCoinReturned();
-                SwichingBonus();
+                SwitchingBonus();
 
 
                 lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" + GetHasCoin().ToString();

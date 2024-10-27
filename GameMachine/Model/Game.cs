@@ -113,7 +113,7 @@ public class Game
     }
 
     //ボーナスの状態を変更させる、
-    public static void SwichingBonus()
+    public static void SwitchingBonus()
     {
         //揃ったボーナス役ごとにボーナスに突入させる
         if(establishedRole == Roles.BIG | establishedRole == Roles.REGULAR)
