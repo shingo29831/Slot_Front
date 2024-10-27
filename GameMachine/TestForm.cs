@@ -4,6 +4,7 @@ using static Constants;
 using static GameMachine.Model.Game;
 using System.Collections;
 using Model;
+using System.Drawing.Text;
 
 namespace GameMachine
 {
@@ -53,48 +54,8 @@ namespace GameMachine
         private void button1_Click(object sender, EventArgs e) //–{”Ô‚Í–ñ35‚Å‰ñ‚·
         {
 
-
-            if (StopReelCount == 3)
-            {
-                CalcCoinCollection();
-                SetEstablishedRole(Roles.NONE);
-                HitRolesLottery();
-                BonusLottery();
-                SetNextReelPosition(Reels.LEFT, NONE);
-                SetNextReelPosition(Reels.CENTER, NONE);
-                SetNextReelPosition(Reels.RIGHT, NONE);
-
-                ResetReelsMoving();
-                lblArray.Text =  "Coin:" + GetHasCoin().ToString() + "  ROLE:" + RoleChangeToName(GetNowRole()) + " Bonus:" + RoleChangeToName(GetNowBonus());
-                timer1.Enabled = true;
-                fcnt = 0;
-                icnt = 0;
-            }
-            
-            switch (icnt)
-            {
-                case 1:
-                    PushStopReelPosition(Reels.LEFT);
-                    break;
-                case 2:
-                    PushStopReelPosition(Reels.CENTER);
-                    break;
-                case 3:
-                    PushStopReelPosition(Reels.RIGHT);
-                    break;
-            }
-            if (icnt > -1)
-            {
-                
-                icnt++;
-            }
-
-            if (icnt == -1)
-            {
-                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
-                timer1.Enabled = true;
-                icnt++;
-            }
+            PlayProcess();
+            timer1.Enabled = true;
 
 
         }
@@ -179,7 +140,7 @@ namespace GameMachine
 
 
 
-        public String RoleChangeToName(Roles role)
+        public static String RoleChangeToName(Roles role)
         {
             String value = "";
             switch (role)
@@ -355,8 +316,21 @@ namespace GameMachine
 
 
         int fcnt = 0;
+        int tcnt = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            tcnt++;
+            if (tcnt % 4 == 0 && tcnt < 13)
+            {
+                PlayProcess();
+            }
+            else if (tcnt >= 13)
+            {
+                PlayProcess();
+                tcnt = 0;
+            }
+
+
             dispReelsSymbols(Reels.LEFT);
             dispReelsSymbols(Reels.CENTER);
             dispReelsSymbols(Reels.RIGHT);
@@ -386,8 +360,8 @@ namespace GameMachine
             sbyte reelPosition = GetReelPosition(selectReel);
             SetNowReelPosition(selectReel, reelPosition);
             lblArray.Text += " Žn:" + reelPosition.ToString();
-            sbyte nextReelPosition = CalcNextReelPosition(selectReel); 
-            SetNextReelPosition(selectReel, nextReelPosition); 
+            sbyte nextReelPosition = CalcNextReelPosition(selectReel);
+            SetNextReelPosition(selectReel, nextReelPosition);
             SetReelMoving(selectReel, false);
             lblArray.Text += " •Ô:" + GetModelNextReelPosition(selectReel).ToString();
 
@@ -398,19 +372,21 @@ namespace GameMachine
                 String rightValue = "";
                 foreach (Lines line in LINES_ARRAY)
                 {
-                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetModelNextReelPosition(Reels.LEFT) ));
-                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetModelNextReelPosition(Reels.CENTER) ));
-                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetModelNextReelPosition(Reels.RIGHT) ));
+                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetModelNextReelPosition(Reels.LEFT)));
+                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetModelNextReelPosition(Reels.CENTER)));
+                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetModelNextReelPosition(Reels.RIGHT)));
                 }
                 HitEstablishedRoles();
                 CalcCoinReturned();
+                SwichingBonus();
                 //MessageBox.Show(GetModelNextReelPosition(Reels.LEFT).ToString()+" , "
                 //    + GetModelNextReelPosition(Reels.CENTER).ToString()+" , " 
                 //    + GetModelNextReelPosition(Reels.RIGHT).ToString()) ;
                 //MessageBox.Show(leftValue+"\n"+centerValue+"\n"+rightValue);
 
 
-                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" +GetHasCoin().ToString();
+                lblArray.Text += "  Role:" + RoleChangeToName(GetEstablishedRole()) + "  Coin:" + GetHasCoin().ToString();
+                RoleInspection();
             }
 
 
@@ -470,9 +446,67 @@ namespace GameMachine
 
                     break;
             }
+
+
         }
 
 
+        private void PlayProcess()
+        {
+            if (StopReelCount == 3)
+            {
+                CalcCoinCollection();
+                SetEstablishedRole(Roles.NONE);
+                HitRolesLottery();
+                BonusLottery();
+                SetNextReelPosition(Reels.LEFT, NONE);
+                SetNextReelPosition(Reels.CENTER, NONE);
+                SetNextReelPosition(Reels.RIGHT, NONE);
+
+                ResetReelsMoving();
+                lblArray.Text = "Coin:" + GetHasCoin().ToString() + "  ROLE:" + RoleChangeToName(GetNowRole()) + " Bonus:" + RoleChangeToName(GetNowBonus());
+                timer1.Enabled = true;
+                fcnt = 0;
+                icnt = 0;
+            }
+
+            switch (icnt)
+            {
+                case 1:
+                    PushStopReelPosition(Reels.LEFT);
+                    break;
+                case 2:
+                    PushStopReelPosition(Reels.CENTER);
+                    break;
+                case 3:
+                    PushStopReelPosition(Reels.RIGHT);
+                    break;
+            }
+            if (icnt > -1)
+            {
+
+                icnt++;
+            }
+
+            if (icnt == -1)
+            {
+                lblArray.Text = "ROLE:" + RoleChangeToName(GetNowRole());
+                //timer1.Enabled = true;
+                icnt++;
+            }
+        }
+
+
+        private void RoleInspection()
+        {
+            Roles nowRole = GetNowRole();
+            Roles establishedRole = GetEstablishedRole();
+            if ( !(nowRole == Roles.NONE && establishedRole == Roles.NONE) && !(nowRole == establishedRole  || establishedRole == Roles.NONE ) )
+            {
+                tcnt = 0;
+                timer1.Enabled = false;
+            }
+        }
 
 
 

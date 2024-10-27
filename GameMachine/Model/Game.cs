@@ -14,6 +14,7 @@ namespace GameMachine.Model;
 public class Game
 {
     static int hasCoin = 0;
+    static int increasedCoin = 0;
 
     static bool nextBonusFlag = false;
     static bool inBonus = false;
@@ -36,7 +37,7 @@ public class Game
     private static bool rightReelMoving = true; //テスト前:true
 
 
-    private static Roles nowRole = Roles.REGULAR; //テスト前はNONE
+    private static Roles nowRole = Roles.NONE; //テスト前はNONE
     private static Roles nowBonus = Roles.NONE;
 
     public static Roles establishedRole = Roles.NONE;
@@ -110,6 +111,34 @@ public class Game
         }
         return 0;
     }
+
+    //ボーナスの状態を変更させる、
+    public static void SwichingBonus()
+    {
+        //揃ったボーナス役ごとにボーナスに突入させる
+        if(establishedRole == Roles.BIG | establishedRole == Roles.REGULAR)
+        {
+            nowBonus = establishedRole;
+            inBonus = true;
+            hitBonusFlag = false;
+        }
+
+        //現在のボーナスごとの終了条件を達成した時にボーナスを終了させる
+        if ((nowBonus == Roles.BIG && increasedCoin >= 150) || (nowBonus == Roles.REGULAR && increasedCoin >= 75))
+        {
+            inBonus = false;
+            nowBonus = Roles.NONE;
+        }
+
+        //次のボーナスフラグがたっている時に次のボーナスに再突入させる
+        if(nextBonusFlag && inBonus == false)
+        {
+            nextBonusFlag = false;
+            inBonus = true;
+            nowBonus = Roles.BIG;
+        }
+    }
+
 
     public static sbyte OnPushedStopBtn(in Reels selectReel,sbyte nowReelPosition)
     {
@@ -227,7 +256,7 @@ public class Game
 
         foreach (Roles role in ROLES_ARRAY)
         {
-            if((Roles.BIG | Roles.REGULAR).HasFlag(role)) //役がBIGとREGはボーナス抽選しない
+            if(role == Roles.BIG | role == Roles.REGULAR | hitBonusFlag) //役がBIGとREGとボーナスフラグが既にたっていたらボーナス抽選しない
             {
                 break;
             }
@@ -274,10 +303,9 @@ public class Game
             }
         }
 
-        if (nextBonusFlag && !inBonus) //ボーナスから出て次のボーナスフラグがたっているとき
+        if (inBonus)
         {
-            nextBonusFlag = false;
-            hitBonusFlag = true;
+            nowRole = Roles.BELL;
         }
 
         //ボーナス以外の役が揃わない時、ボーナスがあたったフラグがあったら役をボーナスにする
@@ -320,8 +348,6 @@ public class Game
             if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
             {
                 establishedRole = Roles.REGULAR;
-                hitBonusFlag = false; //ボーナスがあたったフラグを下げてボーナスに突入させる
-                inBonus = true;
             }
 
         }
@@ -514,6 +540,7 @@ public class Game
         if(inBonus && establishedRole != Roles.NONE )
         {
             hasCoin += 15;
+            increasedCoin += 15;
         }
         else if(!inBonus && establishedRole != Roles.NONE )
         {
@@ -568,7 +595,6 @@ public class Game
             case Symbols.BAR:
             case Symbols.SEVEN:
                 hitBonusFlag = false; //ボーナスがあたったフラグを下げてボーナスに突入させる
-                inBonus = true;
                 return Roles.BIG;
             default:
                 return Roles.NONE;
@@ -684,7 +710,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -695,7 +721,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -705,7 +731,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -722,7 +748,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -743,7 +769,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -754,7 +780,7 @@ public class Game
                 //リーチ目用処理
                 if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
                 {
-                    exclusionSymbols = exclusionSymbols & (Symbols.SEVEN | Symbols.BAR);
+                    exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                 }
                 break;
 
@@ -823,6 +849,11 @@ public class Game
 
             case Roles.NONE:
                 exclusionSymbols = reachSymbols;
+                if (reachSymbols.HasFlag(Symbols.REACH)) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
+                {
+                    exclusionSymbols = reachSymbols | (Symbols.SEVEN | Symbols.BAR);
+                }
+                
                 break;
         }
 
