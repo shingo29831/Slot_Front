@@ -141,7 +141,8 @@ C:\Users\Shingo\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\Gam
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
-C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
+C:\Users\tarakku\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.exe
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.deps.json
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\GameMachine.runtimeconfig.json

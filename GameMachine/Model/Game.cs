@@ -13,7 +13,7 @@ namespace GameMachine.Model;
 
 public class Game
 {
-    static int hasCoin = 0;
+    static int hasCoin = 100; //テスト前0
     static int increasedCoin = 0;
     static int lastBonusCount = 0;
 
@@ -157,7 +157,7 @@ public class Game
     }
 
     //リールの次のポジションを取得する
-    public static sbyte GetModelNextReelPosition(in Reels selectReel)
+    public static sbyte GetNextReelPosition(in Reels selectReel)
     {
         switch (selectReel)
         {
@@ -203,7 +203,7 @@ public class Game
     public static sbyte GetReelPositionForPosition(in Reels selectReel,Positions position)
     {
         sbyte reelPosition = NONE;
-        sbyte NextReelPosition = GetModelNextReelPosition (selectReel);
+        sbyte NextReelPosition = GetNextReelPosition (selectReel);
         switch (position)
         {
             case Positions.TOP:
@@ -335,7 +335,7 @@ public class Game
             }
             foreach (Reels reel in REELS_ARRAY)
             {
-                sbyte nextReelPosition = GetModelNextReelPosition(reel);
+                sbyte nextReelPosition = GetNextReelPosition(reel);
                 
                 if (GetSymbolForLine(reel, line, nextReelPosition).HasFlag(Symbols.SEVEN))
                 {
@@ -356,7 +356,7 @@ public class Game
         }
         foreach (Positions position in POSITIONS_ARRAY)
         {
-            sbyte nextReelPosition = GetModelNextReelPosition(Reels.LEFT);
+            sbyte nextReelPosition = GetNextReelPosition(Reels.LEFT);
             if (GetSymbolForPosition(Reels.LEFT, position, nextReelPosition) == Symbols.CHERRY && !((Roles.BIG | Roles.REGULAR).HasFlag(nowRole)) && (Roles.STRONG_CHERRY | Roles.VERY_STRONG_CHERRY).HasFlag(establishedRole))
             {
                 establishedRole = Roles.WEAK_CHERRY;
@@ -564,9 +564,9 @@ public class Game
         Symbols nextReelSymbols = Symbols.NONE;
         Symbols[] reelOrder = GetReelOrder(selectReel);
 
-        nextReelSymbols = reelOrder[GetReelPositionForPosition(selectReel, Positions.TOP,GetModelNextReelPosition(selectReel))];
-        nextReelSymbols |= reelOrder[GetReelPositionForPosition(selectReel, Positions.MIDDLE, GetModelNextReelPosition(selectReel))];
-        nextReelSymbols |= reelOrder[GetReelPositionForPosition(selectReel, Positions.BOTTOM, GetModelNextReelPosition(selectReel))];
+        nextReelSymbols = reelOrder[GetReelPositionForPosition(selectReel, Positions.TOP,GetNextReelPosition(selectReel))];
+        nextReelSymbols |= reelOrder[GetReelPositionForPosition(selectReel, Positions.MIDDLE, GetNextReelPosition(selectReel))];
+        nextReelSymbols |= reelOrder[GetReelPositionForPosition(selectReel, Positions.BOTTOM, GetNextReelPosition(selectReel))];
 
         return nextReelSymbols;
     }
@@ -1294,7 +1294,7 @@ public class Game
         }
 
         Symbols[] nextStopReelOrder = GetReelOrder(selectReel);
-        sbyte nextStopReelPosition = GetModelNextReelPosition(selectReel);
+        sbyte nextStopReelPosition = GetNextReelPosition(selectReel);
         Positions stopReelSymbolPositions = Positions.NONE;
 
 

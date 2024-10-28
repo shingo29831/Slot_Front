@@ -3,243 +3,222 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Timers;  // System.Timers を使用
+using System.Timers;
 using static Constants;
-using System.Security.Cryptography.X509Certificates;
+using GameMachine.Model;
 
 namespace GameMachine
 {
     public class SlotView
     {
-        // 高精度タイマー（リールの回転速度を制御する）
-        private System.Timers.Timer reelTimer;
+        private readonly System.Timers.Timer reelTimer;
+        private bool leftReelStop, centerReelStop, rightReelStop;
+        private static Symbols[] leftOrder, centerOrder, rightOrder;
+        private static sbyte leftCount, centerCount, rightCount;
+        private readonly PictureBox[] leftReel, centerReel, rightReel, PChange;
+        private readonly Dictionary<Symbols, Bitmap> symbolImages;
+        private SlotController slotController;
+        //定数
+        private const int AMOUNT_OF_MOVEMENT = 25, SWITCHING_POINT = 550, INTERVAL = 16;
 
-        // 各リールの停止フラグ
-        private bool leftReelStop = false;
-        private bool centerReelStop = false;
-        private bool rightReelStop = false;
-
-        // リールのシンボル配置を保持する配列
-        private static Symbols[] leftOrder;
-        private static Symbols[] centerOrder;
-        private static Symbols[] rightOrder;
-
-        // リールの現在位置（シンボルのインデックスを保持）
-        private int leftcount = 0;
-        private int centercount = 0;
-        private int rightcount = 0;
-
-        // 各リールに対応する PictureBox 配列
-        private PictureBox[] leftReel;
-        private PictureBox[] centerReel;
-        private PictureBox[] rightReel;
-
-        // 画面上のレバーやボタンの画像を保持する PictureBox 配列
-        private PictureBox[] PChange;
-
-        // 列挙型 Symbols をキーとしたシンボル画像辞書（各シンボルに対応する画像を設定）
-        private Dictionary<Symbols, Image> symbolImages;
-
-        // コンストラクタ：リール回転に必要な要素を初期化
         public SlotView(PictureBox[] left, PictureBox[] center, PictureBox[] right, PictureBox[] pictureChange)
         {
-            // タイマーの初期化
-            reelTimer = new System.Timers.Timer(16);  // 16ミリ秒の間隔でタイマーを設定
-            reelTimer.Elapsed += ReelTimerTick;        // イベントハンドラを追加
-            reelTimer.AutoReset = true;                // タイマーが繰り返し発生するよう設定
-            reelTimer.Interval = 16;                   // 再度設定（念のため）
+            reelTimer = new System.Timers.Timer(INTERVAL) { AutoReset = true };
+            reelTimer.Elapsed += ReelTimerTick;
 
-            // 各リール用の PictureBox 配列を設定
             leftReel = left;
             centerReel = center;
             rightReel = right;
+            PChange = pictureChange;
 
-            // リールの回転順序を設定（シンボルの配列）
             leftOrder = ReelOrder.LEFT_REEL_ORDER;
             centerOrder = ReelOrder.CENTER_REEL_ORDER;
             rightOrder = ReelOrder.RIGHT_REEL_ORDER;
 
-            // レバーやボタンの PictureBox 配列を設定
-            PChange = pictureChange;
-
-            // 各シンボルに対応する画像を設定する辞書を初期化
-            symbolImages = new Dictionary<Symbols, Image>
+            symbolImages = new Dictionary<Symbols, Bitmap>
             {
-                { Symbols.BELL, Properties.Resources.bell },
-                { Symbols.REPLAY, Properties.Resources.REPLAY },
-                { Symbols.WATERMELON, Properties.Resources.watermelon },
-                { Symbols.CHERRY, Properties.Resources.cherry },
-                { Symbols.SEVEN, Properties.Resources.seven },
-                { Symbols.BAR, Properties.Resources.bar }
-            };   
+                { Symbols.BELL, new Bitmap(Properties.Resources.bell) },
+                { Symbols.REPLAY, new Bitmap(Properties.Resources.REPLAY) },
+                { Symbols.WATERMELON, new Bitmap(Properties.Resources.watermelon) },
+                { Symbols.CHERRY, new Bitmap(Properties.Resources.cherry) },
+                { Symbols.SEVEN, new Bitmap(Properties.Resources.seven) },
+                { Symbols.BAR, new Bitmap(Properties.Resources.bar) }
+            };
         }
 
-        // タイマーのスタートメソッド（リールの回転開始）
         public void Start()
         {
-            reelTimer.Start();          // タイマーをスタート
-            leftReelStop = false;      // 左リールの停止フラグをリセット
-            centerReelStop = false;    // 中央リールの停止フラグをリセット
-            rightReelStop = false;     // 右リールの停止フラグをリセット
+            reelTimer.Start();
+            leftReelStop = centerReelStop = rightReelStop = false;
         }
 
-        // 各リールの停止メソッド（ボタン押下時に呼ばれる）—非同期処理を使って停止
-        public async Task StopLeftReel()
+        //ストップ処理
+        public async Task StopLeftReel(sbyte stopcount)
         {
-            ReelStatus(leftcount, "LeftReel");
-
-            // 左リールが指定位置に停止するまでループ
+            // 座標300〜500に存在する要素数を取得
+            
             while (true)
             {
-                if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550)
+                int countInRange = CountElementsInRange(leftReel);
+                if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550 && (sbyte)leftReel[countInRange].Tag == stopcount)
                 {
-                    leftReelStop = true;  // 停止フラグを設定               
-                    break;
-                }  
-                await Task.Delay(16);  // 非同期で16ミリ秒待機（UIフリーズを防ぐ）
-            }
-        }
-
-        public async Task StopCenterReel()
-        {
-            ReelStatus(centercount, "CenterReel");
-
-            // 中央リールが指定位置に停止するまでループ
-            while (true)
-            {
-                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550)
-                {
-                    centerReelStop = true;  // 停止フラグを設定
+                    leftReelStop = true;
                     break;
                 }
-                await Task.Delay(16);  // 非同期で16ミリ秒待機
+                await Task.Delay(INTERVAL);
             }
         }
 
-        public async Task StopRightReel()
+        public async Task StopCenterReel(sbyte stopcount)
         {
-            ReelStatus(rightcount, "RightReel");
-
-            // 右リールが指定位置に停止するまでループ
+            // 座標300〜500に存在する要素数を取得
+            
             while (true)
             {
-                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550)
+                int countInRange = CountElementsInRange(centerReel);
+                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550 && (sbyte)centerReel[countInRange].Tag == stopcount)
                 {
-                    rightReelStop = true;  // 停止フラグを設定
+                    centerReelStop = true;
                     break;
-                }//元々のずらし処理削除
-                await Task.Delay(16);  // 非同期で16ミリ秒待機
+                }
+                await Task.Delay(INTERVAL);
             }
         }
 
-        //各リールの現在位置をモデルに送信するメソッド
-        public void ReelStatus(int reelPosition , String reelname)
+        public async Task StopRightReel(sbyte stopcount)
         {
-
+            // 座標300〜500に存在する要素数を取得
+            
+            while (true)
+            {
+                int countInRange = CountElementsInRange(rightReel);
+                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550 && (sbyte)rightReel[countInRange].Tag == stopcount)
+                {
+                    rightReelStop = true;
+                    break;
+                }
+                await Task.Delay(INTERVAL);
+            }
         }
 
-        // リールに初期画像を設定するメソッド
-        private void SetReelImages(PictureBox[] reel, Symbols[] order, int standardorder)
+        private int CountElementsInRange(PictureBox[] reel)
         {
-            standardorder--;  // 指定された基準インデックスを調整（0ベースに変更）
+            return reel.Count(item => item.Top >= 350 && item.Top <= 525);
+        }
 
-            // 各リール画像に対応するシンボルを設定
+        public sbyte GetCurrentPosition(Reels reelname)
+        {
+            if (Reels.LEFT == reelname)
+            {
+                return (sbyte)leftReel[(sbyte)CountElementsInRange(leftReel)].Tag;
+            }
+            if (Reels.CENTER == reelname)
+            {
+                return (sbyte)centerReel[(sbyte)CountElementsInRange(centerReel)].Tag;
+            }
+            if (Reels.RIGHT == reelname)
+            {
+                return (sbyte)rightReel[(sbyte)CountElementsInRange(rightReel)].Tag;
+            }
+            else
+            {
+                return 0;
+            }        
+        }
+
+        //
+        ////初期設定////
+        //
+
+        public void InitialPictureSet(sbyte standardOrderLeft, sbyte standardOrderCenter, sbyte standardOrderRight)
+        {
+            leftCount = standardOrderLeft;
+            centerCount = standardOrderCenter;
+            rightCount = standardOrderRight;
+
+            InitialSetReelImages(leftReel, leftOrder, leftCount);
+            InitialSetReelImages(centerReel, centerOrder, centerCount);
+            InitialSetReelImages(rightReel, rightOrder, rightCount);
+        }
+
+        //画像切り替え
+        private void InitialSetReelImages(PictureBox[] reel, Symbols[] order, int startIndex)
+        {
+            startIndex--;
             for (int i = 0; i < reel.Length; i++)
             {
-                if (symbolImages.ContainsKey(order[standardorder]))
-                {
-                    reel[i].Image = symbolImages[order[standardorder]];
-                    standardorder = (standardorder + 1) % order.Length;  // 循環
-                }
+                reel[i].Image = symbolImages[order[startIndex]];
+                startIndex = (startIndex + 1) % order.Length;
             }
         }
 
-        // ゲーム開始時の初期画像設定
-        public void initialPictureSet(int standardOrderLeft, int standardOrderCenter, int standardOrderRight)
-        {
-            leftcount = standardOrderLeft;
-            centercount = standardOrderCenter;
-            rightcount = standardOrderRight;
+        //
+        ////初期設定ここまで////
+        //
 
-            SetReelImages(leftReel, leftOrder, leftcount);       // 左リールの画像設定
-            SetReelImages(centerReel, centerOrder, centercount); // 中央リールの画像設定
-            SetReelImages(rightReel, rightOrder, rightcount);    // 右リールの画像設定
-        }
-
-        // タイマーイベントハンドラ（16msごとに呼ばれる）
         private async void ReelTimerTick(object sender, ElapsedEventArgs e)
         {
-            // UI スレッドで実行するために Invoke を使用
             if (leftReel[0].InvokeRequired)
             {
                 leftReel[0].Invoke(new Action(() =>
                 {
-                    if (!leftReelStop) { MoveReel(leftReel, ref leftcount, leftOrder); }         // 左リールの回転処理
-                    if (!centerReelStop) { MoveReel(centerReel, ref centercount, centerOrder); } // 中央リールの回転処理
-                    if (!rightReelStop) { MoveReel(rightReel, ref rightcount, rightOrder); }    // 右リールの回転処理
+                    if (!leftReelStop) MoveReel(leftReel, ref leftCount, leftOrder);
+                    if (!centerReelStop) MoveReel(centerReel, ref centerCount, centerOrder);
+                    if (!rightReelStop) MoveReel(rightReel, ref rightCount, rightOrder);
                 }));
             }
-            await Task.Delay(16); // 必要に応じて非同期処理を追加
+            await Task.Delay(16);
         }
 
-        // リールを動かす（各リールの回転アニメーション処理）
-        private void MoveReel(PictureBox[] reels, ref int count, Symbols[] order)
+        private void MoveReel(PictureBox[] reels, ref sbyte count, Symbols[] order)
         {
             foreach (var reel in reels)
             {
-                reel.Top += 25;  // リールの速度を調整
-                if (reel.Top > 550)  // リールが画面外に出たら位置をリセット
+                reel.Top += AMOUNT_OF_MOVEMENT;
+                if (reel.Top > SWITCHING_POINT)
                 {
-                    UpdateImage(reel, ref count, order); // 画像を次のシンボルに更新
+                    UpdateImage(reel, ref count, order);
                     reel.Top = -reel.Height;
                 }
             }
         }
 
-        // リールの画像を更新する（シンボル順序に従って画像を変更）
-        private void UpdateImage(PictureBox reel, ref int count, Symbols[] order)
+        // レバー、ボタン、シンボルの画像管理
+
+        private void UpdateImage(PictureBox reel, ref sbyte count, Symbols[] order)
         {
-            // シンボル画像が辞書に存在する場合
-            if (symbolImages.ContainsKey(order[count]))
-            {
-                reel.Image = symbolImages[order[count]]; // 新しい画像を設定
-                count = (count + 1) % order.Length;      // インデックスを循環
-            }
+            reel.Image = symbolImages[order[count]];
+            count = (sbyte)((count + 1) % order.Length);
+            reel.Tag = count;
         }
 
-        // レバー・ボタンの画像変更（操作時のボタン画像を変更）
-        public void leverUp() { PChange[0].Image = Properties.Resources.LeverOFF; }
-        public void leverDown() { PChange[0].Image = Properties.Resources.LeverON; }
-        public void leftbtnChange() { PChange[1].Image = Properties.Resources.LeftButtonON; }
-        public void centerbtnChange() { PChange[2].Image = Properties.Resources.CenterButtonON; }
-        public void rightbtnChange() { PChange[3].Image = Properties.Resources.RightButtonON; }
-        public void maxbetChengeUp() { PChange[5].Image = Properties.Resources.MAXBETOFF; }
-        public void maxbetChengeDown() { PChange[5].Image = Properties.Resources.MAXBETON; }
-        public void betOn(bool BonusFlag)
+        public void LeverUp() => PChange[0].Image = new Bitmap(Properties.Resources.LeverOFF);
+        public void LeverDown() => PChange[0].Image = new Bitmap(Properties.Resources.LeverON);
+        public void LeftBtnChange() => PChange[1].Image = new Bitmap(Properties.Resources.LeftButtonON);
+        public void CenterBtnChange() => PChange[2].Image = new Bitmap(Properties.Resources.CenterButtonON);
+        public void RightBtnChange() => PChange[3].Image = new Bitmap(Properties.Resources.RightButtonON);
+        public void MaxBetChangeUp() => PChange[5].Image = new Bitmap(Properties.Resources.MAXBETOFF);
+        public void MaxBetChangeDown() => PChange[5].Image = new Bitmap(Properties.Resources.MAXBETON);
+
+        public void BetOn(bool isBonus)
         {
-            if (BonusFlag)
-            {
-                PChange[6].Image = Properties.Resources.OneON;
-                PChange[7].Image = Properties.Resources.TwoON;
-            }
-            else
-            {
-                PChange[6].Image = Properties.Resources.OneON;
-                PChange[7].Image = Properties.Resources.TwoON;
-                PChange[8].Image = Properties.Resources.ThreeON;
-            }
+            PChange[6].Image = new Bitmap(Properties.Resources.OneON);
+            PChange[7].Image = new Bitmap(Properties.Resources.TwoON);
+            PChange[8].Image = isBonus ? null : new Bitmap(Properties.Resources.ThreeON);
         }
-        public void betOff()
+
+        public void BetOff()
         {
-            PChange[6].Image = Properties.Resources.OneOFF;
-            PChange[7].Image = Properties.Resources.TwoOFF;
-            PChange[8].Image = Properties.Resources.ThreeOFF;
+            PChange[6].Image = new Bitmap(Properties.Resources.OneOFF);
+            PChange[7].Image = new Bitmap(Properties.Resources.TwoOFF);
+            PChange[8].Image = new Bitmap(Properties.Resources.ThreeOFF);
         }
-        public void Changereset()
+
+        public void ResetChange()
         {
-            PChange[1].Image = Properties.Resources.LeftButtonOFF;
-            PChange[2].Image = Properties.Resources.CenterButtonOFF;
-            PChange[3].Image = Properties.Resources.RightButtonOFF;
+            PChange[1].Image = new Bitmap(Properties.Resources.LeftButtonOFF);
+            PChange[2].Image = new Bitmap(Properties.Resources.CenterButtonOFF);
+            PChange[3].Image = new Bitmap(Properties.Resources.RightButtonOFF);
         }
     }
 }

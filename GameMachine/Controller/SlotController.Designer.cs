@@ -38,11 +38,11 @@
             LpB4 = new PictureBox();
             CpB4 = new PictureBox();
             RpB4 = new PictureBox();
-            btnstop3 = new PictureBox();
-            btnstop2 = new PictureBox();
+            RightStopBtn = new PictureBox();
+            CenterStopBtn = new PictureBox();
             MaxBet = new PictureBox();
-            btnStart = new PictureBox();
-            btnstop1 = new PictureBox();
+            startLever = new PictureBox();
+            LeftStopBtn = new PictureBox();
             pictureBox1 = new PictureBox();
             panel4 = new Panel();
             panel6 = new Panel();
@@ -57,7 +57,12 @@
             panel3 = new Panel();
             RpB1 = new PictureBox();
             panel5 = new Panel();
-            patternSwitchBtn = new Button();
+            LeftCurrentPositionLabel = new Label();
+            CenterCurrentPositionLabel = new Label();
+            RightCurrentPositionLabel = new Label();
+            LeftStopPositionLabel = new Label();
+            CenterStopPositionLabel = new Label();
+            RightStopPositionLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -68,11 +73,11 @@
             ((System.ComponentModel.ISupportInitialize)LpB4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RpB4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)RightStopBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CenterStopBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MaxBet).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnStart).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)startLever).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)LeftStopBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FlowerLeft).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FlowerRight).BeginInit();
@@ -173,27 +178,27 @@
             RpB4.TabIndex = 30;
             RpB4.TabStop = false;
             // 
-            // btnstop3
+            // RightStopBtn
             // 
-            btnstop3.Image = Properties.Resources.RightButtonOFF;
-            btnstop3.Location = new Point(750, 575);
-            btnstop3.Name = "btnstop3";
-            btnstop3.Size = new Size(175, 150);
-            btnstop3.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnstop3.TabIndex = 18;
-            btnstop3.TabStop = false;
-            btnstop3.Click += stopBtns_Click;
+            RightStopBtn.Image = Properties.Resources.RightButtonOFF;
+            RightStopBtn.Location = new Point(750, 575);
+            RightStopBtn.Name = "RightStopBtn";
+            RightStopBtn.Size = new Size(175, 150);
+            RightStopBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            RightStopBtn.TabIndex = 18;
+            RightStopBtn.TabStop = false;
+            RightStopBtn.Click += stopBtns_Click;
             // 
-            // btnstop2
+            // CenterStopBtn
             // 
-            btnstop2.Image = Properties.Resources.CenterButtonOFF;
-            btnstop2.Location = new Point(575, 575);
-            btnstop2.Name = "btnstop2";
-            btnstop2.Size = new Size(175, 150);
-            btnstop2.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnstop2.TabIndex = 17;
-            btnstop2.TabStop = false;
-            btnstop2.Click += stopBtns_Click;
+            CenterStopBtn.Image = Properties.Resources.CenterButtonOFF;
+            CenterStopBtn.Location = new Point(575, 575);
+            CenterStopBtn.Name = "CenterStopBtn";
+            CenterStopBtn.Size = new Size(175, 150);
+            CenterStopBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            CenterStopBtn.TabIndex = 17;
+            CenterStopBtn.TabStop = false;
+            CenterStopBtn.Click += stopBtns_Click;
             // 
             // MaxBet
             // 
@@ -207,29 +212,29 @@
             MaxBet.MouseDown += MaxBet_MouseDown;
             MaxBet.MouseUp += MaxBet_MouseUp;
             // 
-            // btnStart
+            // startLever
             // 
-            btnStart.Image = Properties.Resources.LeverOFF;
-            btnStart.Location = new Point(225, 575);
-            btnStart.Name = "btnStart";
-            btnStart.Size = new Size(125, 150);
-            btnStart.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnStart.TabIndex = 15;
-            btnStart.TabStop = false;
-            btnStart.Click += btnStart_Click;
-            btnStart.MouseDown += btnStart_MouseDown;
-            btnStart.MouseUp += btnStart_MouseUp;
+            startLever.Image = Properties.Resources.LeverOFF;
+            startLever.Location = new Point(225, 575);
+            startLever.Name = "startLever";
+            startLever.Size = new Size(125, 150);
+            startLever.SizeMode = PictureBoxSizeMode.StretchImage;
+            startLever.TabIndex = 15;
+            startLever.TabStop = false;
+            startLever.Click += startLever_Click;
+            startLever.MouseDown += startLever_MouseDown;
+            startLever.MouseUp += startLever_MouseUp;
             // 
-            // btnstop1
+            // LeftStopBtn
             // 
-            btnstop1.Image = Properties.Resources.LeftButtonOFF;
-            btnstop1.Location = new Point(400, 575);
-            btnstop1.Name = "btnstop1";
-            btnstop1.Size = new Size(175, 150);
-            btnstop1.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnstop1.TabIndex = 16;
-            btnstop1.TabStop = false;
-            btnstop1.Click += stopBtns_Click;
+            LeftStopBtn.Image = Properties.Resources.LeftButtonOFF;
+            LeftStopBtn.Location = new Point(400, 575);
+            LeftStopBtn.Name = "LeftStopBtn";
+            LeftStopBtn.Size = new Size(175, 150);
+            LeftStopBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            LeftStopBtn.TabIndex = 16;
+            LeftStopBtn.TabStop = false;
+            LeftStopBtn.Click += stopBtns_Click;
             // 
             // pictureBox1
             // 
@@ -345,22 +350,71 @@
             panel5.Size = new Size(175, 50);
             panel5.TabIndex = 36;
             // 
-            // patternSwitchBtn
+            // LeftCurrentPositionLabel
             // 
-            patternSwitchBtn.Location = new Point(1050, 341);
-            patternSwitchBtn.Name = "patternSwitchBtn";
-            patternSwitchBtn.Size = new Size(124, 25);
-            patternSwitchBtn.TabIndex = 44;
-            patternSwitchBtn.Text = "パターン切り替え";
-            patternSwitchBtn.UseVisualStyleBackColor = true;
-            patternSwitchBtn.Click += patternSwitchBtn_Click;
+            LeftCurrentPositionLabel.Location = new Point(1050, 425);
+            LeftCurrentPositionLabel.Name = "LeftCurrentPositionLabel";
+            LeftCurrentPositionLabel.Size = new Size(25, 25);
+            LeftCurrentPositionLabel.TabIndex = 45;
+            LeftCurrentPositionLabel.Text = "0";
+            LeftCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // CenterCurrentPositionLabel
+            // 
+            CenterCurrentPositionLabel.Location = new Point(1100, 425);
+            CenterCurrentPositionLabel.Name = "CenterCurrentPositionLabel";
+            CenterCurrentPositionLabel.Size = new Size(25, 25);
+            CenterCurrentPositionLabel.TabIndex = 46;
+            CenterCurrentPositionLabel.Text = "0";
+            CenterCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // RightCurrentPositionLabel
+            // 
+            RightCurrentPositionLabel.Location = new Point(1150, 425);
+            RightCurrentPositionLabel.Name = "RightCurrentPositionLabel";
+            RightCurrentPositionLabel.Size = new Size(25, 25);
+            RightCurrentPositionLabel.TabIndex = 47;
+            RightCurrentPositionLabel.Text = "0";
+            RightCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // LeftStopPositionLabel
+            // 
+            LeftStopPositionLabel.Location = new Point(1050, 475);
+            LeftStopPositionLabel.Name = "LeftStopPositionLabel";
+            LeftStopPositionLabel.Size = new Size(25, 25);
+            LeftStopPositionLabel.TabIndex = 48;
+            LeftStopPositionLabel.Text = "0";
+            LeftStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // CenterStopPositionLabel
+            // 
+            CenterStopPositionLabel.Location = new Point(1100, 475);
+            CenterStopPositionLabel.Name = "CenterStopPositionLabel";
+            CenterStopPositionLabel.Size = new Size(25, 25);
+            CenterStopPositionLabel.TabIndex = 49;
+            CenterStopPositionLabel.Text = "0";
+            CenterStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // RightStopPositionLabel
+            // 
+            RightStopPositionLabel.Location = new Point(1150, 475);
+            RightStopPositionLabel.Name = "RightStopPositionLabel";
+            RightStopPositionLabel.Size = new Size(25, 25);
+            RightStopPositionLabel.TabIndex = 50;
+            RightStopPositionLabel.Text = "0";
+            RightStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(patternSwitchBtn);
+            Controls.Add(RightStopPositionLabel);
+            Controls.Add(CenterStopPositionLabel);
+            Controls.Add(LeftStopPositionLabel);
+            Controls.Add(RightCurrentPositionLabel);
+            Controls.Add(CenterCurrentPositionLabel);
+            Controls.Add(LeftCurrentPositionLabel);
             Controls.Add(panel5);
             Controls.Add(panel3);
             Controls.Add(Bet1);
@@ -368,15 +422,15 @@
             Controls.Add(Bet3);
             Controls.Add(FlowerRight);
             Controls.Add(FlowerLeft);
-            Controls.Add(btnstop1);
+            Controls.Add(LeftStopBtn);
             Controls.Add(panel4);
             Controls.Add(panel6);
             Controls.Add(panel7);
             Controls.Add(panel8);
-            Controls.Add(btnStart);
+            Controls.Add(startLever);
             Controls.Add(MaxBet);
-            Controls.Add(btnstop2);
-            Controls.Add(btnstop3);
+            Controls.Add(CenterStopBtn);
+            Controls.Add(RightStopBtn);
             Controls.Add(pictureBox1);
             Controls.Add(RpB4);
             Controls.Add(CpB4);
@@ -391,7 +445,7 @@
             Controls.Add(RpB1);
             Controls.Add(LpB1);
             Name = "SlotController";
-            Size = new Size(1275, 875);
+            Size = new Size(1260, 860);
             Load += UserGameScreen_Load;
             ((System.ComponentModel.ISupportInitialize)CpB1).EndInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).EndInit();
@@ -403,11 +457,11 @@
             ((System.ComponentModel.ISupportInitialize)LpB4).EndInit();
             ((System.ComponentModel.ISupportInitialize)CpB4).EndInit();
             ((System.ComponentModel.ISupportInitialize)RpB4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)RightStopBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CenterStopBtn).EndInit();
             ((System.ComponentModel.ISupportInitialize)MaxBet).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnStart).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnstop1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)startLever).EndInit();
+            ((System.ComponentModel.ISupportInitialize)LeftStopBtn).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)FlowerLeft).EndInit();
             ((System.ComponentModel.ISupportInitialize)FlowerRight).EndInit();
@@ -430,11 +484,11 @@
         private PictureBox LpB4;
         private PictureBox CpB4;
         private PictureBox RpB4;
-        private PictureBox btnstop3;
-        private PictureBox btnstop2;
+        private PictureBox RightStopBtn;
+        private PictureBox CenterStopBtn;
         private PictureBox MaxBet;
-        private PictureBox btnStart;
-        private PictureBox btnstop1;
+        private PictureBox startLever;
+        private PictureBox LeftStopBtn;
         private PictureBox pictureBox1;
         private Panel panel4;
         private Panel panel6;
@@ -449,6 +503,11 @@
         private Panel panel3;
         private PictureBox RpB1;
         private Panel panel5;
-        private Button patternSwitchBtn;
+        private Label LeftCurrentPositionLabel;
+        private Label CenterCurrentPositionLabel;
+        private Label RightCurrentPositionLabel;
+        private Label LeftStopPositionLabel;
+        private Label CenterStopPositionLabel;
+        private Label RightStopPositionLabel;
     }
 }

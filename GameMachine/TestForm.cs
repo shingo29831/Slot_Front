@@ -82,7 +82,7 @@ namespace GameMachine
         }
 
 
-        private static sbyte GetNextReelPosition(in Reels selectReel)
+        private static sbyte GetFormNextReelPosition(in Reels selectReel)
         {
             switch (selectReel)
             {
@@ -341,7 +341,7 @@ namespace GameMachine
             sbyte nextReelPosition = CalcNextReelPosition(selectReel);
             SetNextReelPosition(selectReel, nextReelPosition);
             SetReelMoving(selectReel, false);
-            lblArray.Text += " 返:" + GetModelNextReelPosition(selectReel).ToString();
+            lblArray.Text += " 返:" + GetNextReelPosition(selectReel).ToString();
 
             if (StopReelCount == 3)
             {
@@ -350,9 +350,9 @@ namespace GameMachine
                 String rightValue = "";
                 foreach (Lines line in LINES_ARRAY)
                 {
-                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetModelNextReelPosition(Reels.LEFT)));
-                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetModelNextReelPosition(Reels.CENTER)));
-                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetModelNextReelPosition(Reels.RIGHT)));
+                    leftValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.LEFT, line, GetNextReelPosition(Reels.LEFT)));
+                    centerValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.CENTER, line, GetNextReelPosition(Reels.CENTER)));
+                    rightValue += " " + SymbolChangeToName(GetSymbolForLine(Reels.RIGHT, line, GetNextReelPosition(Reels.RIGHT)));
                 }
                 HitEstablishedRoles();
                 CalcCoinReturned();
@@ -505,5 +505,30 @@ namespace GameMachine
             UpReelPosition(Reels.RIGHT, rightNextPosition);
         }
 
+        //マックスベットが押された時の処理
+        private void OnPushedMaxBet()
+        {
+            CalcCoinCollection(); //コイン回収
+            SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
+            HitRolesLottery(); //役の抽選
+            BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
+            ResetReelsMoving(); //全てのリールを動いているフラグにする
+        }
+
+        //ストップボタンが押された時の処理
+        private void OnPushedStopBtn(Reels selectReel,in sbyte reelPosition)
+        {
+            SetNowReelPosition(selectReel, reelPosition); //現在のリールの位置を設定
+            CalcNextReelPosition(selectReel); //現在のリールの位置を元に計算　こいつの返り値を代入してViewに反映すること
+            SetReelMoving(selectReel, false); //選択したリールを停止
+
+            //三つ目のリールが停止した時
+            if(StopReelCount == 3)
+            {
+                HitEstablishedRoles(); //達成された役を探索
+                CalcCoinReturned(); //達成された役を元にコインを還元
+                SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using GameMachine.InitialSettingView;
+using GameMachine.View;
 using System;
 using System.Windows.Forms;
 
@@ -11,6 +12,7 @@ namespace GameMachine
         private AccountLinkingController accountLinkingScreen; // アカウントリンク画面のコントローラー
         private CounterController counterDisplay;        // カウンター表示コントローラー
         private CreditController creditDisplay;          // クレジット表示コントローラー
+        private CreditView creditView;
 
         public StartUp()
         {
@@ -34,9 +36,11 @@ namespace GameMachine
             //ユーザーコントロール インスタンス
             counterDisplay = new CounterController();        // カウンター表示画面
             userSelectionScreen = new SelectionController(); // ユーザー選択画面
-            userGameScreen = new SlotController();           // スロットゲーム画面
+
             accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面
             creditDisplay = new CreditController();          // クレジット表示画面
+            creditView = new CreditView(creditDisplay); //ビューインスタンス
+            userGameScreen = new SlotController(creditView);           // スロットゲーム画面
 
             // 各ユーザーコントロールの初期サイズと位置を設定
             InitializeControlSettings();
@@ -114,13 +118,6 @@ namespace GameMachine
                     this.Close(); // アプリケーションを終了
                 }
             }
-        }
-
-        public void ShowCreditDisp()
-        {
-            creditDisplay.ShowCredit();
-            creditDisplay.ShowBonusCount();
-            creditDisplay.ShowPayOut();
         }
     }
 }

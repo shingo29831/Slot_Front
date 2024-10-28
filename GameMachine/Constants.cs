@@ -11,7 +11,7 @@ public static class Constants
         public static readonly Symbols[] RIGHT_REEL_ORDER = { REPLAY, CHERRY, BELL, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, BAR, SEVEN, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL, WATERMELON, CHERRY, REPLAY, BELL };
     }
 
-    public enum Symbols : byte
+    public enum Symbols : sbyte
     {
         NONE = 0,
         BELL = 1,
