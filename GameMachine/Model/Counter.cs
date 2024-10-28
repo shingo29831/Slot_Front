@@ -1,40 +1,65 @@
 ﻿using System;
+using static Constants;
 
-namespace Model;
-
-public class Counter
+namespace GameMachine.Model
 {
-	private static int bigBonusCount = 0;
-	private static int regularBonusCount = 0;
-	private static int betweenBonus = 0;
-
-	public static void UpBigBonusCount(){ bigBonusCount++; }
-
-	public static void UpRegularBonusCount(){ regularBonusCount++; }
-
-	public static void UpBetweenBonusCount() { betweenBonus++; }
-
-	//
-
-	public static int GetBigBonusCount() { return bigBonusCount; }
-
-	public static int GetRegularBonusCount() {return regularBonusCount; }
-
-	public static int GetBetweenBonusCount() { return betweenBonus; }
 
 
-	//集計リセット
-
-	public static void ResetBigBonusCount() { bigBonusCount = 0; }
-
-	public static void ResetRegularBonusCount() { regularBonusCount = 0; }
-	
-	public static void ResetBetweenBonusCount() { betweenBonus = 0; }
-
-	public static void ResetCounter()
+	public class Counter
 	{
-		ResetBigBonusCount();
-		ResetRegularBonusCount();
-		ResetBetweenBonusCount();
+		private static int bigCount = 0;
+		private static int regCount = 0;
+		private static int betweenBonusCount = 0;
+
+        //カウントアップ
+        public static void CountUpCounterData(Roles establishedRole)
+		{
+			switch (establishedRole)
+			{
+				case Roles.BIG:
+					CountUpBigCnt();
+					break;
+
+				case Roles.REGULAR:
+					CountUpRegCnt();
+					break;
+
+				default:
+					CountUpBetweenBonusCnt();
+                    break;
+
+            }
+		}
+
+		public static void CountUpBigCnt() { bigCount++; ResetBetweenBonusCnt(); } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
+
+		public static void CountUpRegCnt() { regCount++; ResetBetweenBonusCnt(); } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
+
+        public static void CountUpBetweenBonusCnt() { betweenBonusCount++; }
+
+		//取得
+
+		public static int GetBigCnt() { return bigCount; }
+
+		public static int GetRegCnt() { return regCount; }
+
+		public static int GetBetweenBonusCnt() { return betweenBonusCount; }
+
+
+		//集計リセット
+
+		public static void ResetBigCnt() { bigCount = 0; }
+
+		public static void ResetRegCnt() { regCount = 0; }
+
+		public static void ResetBetweenBonusCnt() { betweenBonusCount = 0; }
+
+		public static void ResetCounter()
+		{
+			ResetBigCnt();
+			ResetRegCnt();
+			ResetBetweenBonusCnt();
+		}
 	}
+
 }

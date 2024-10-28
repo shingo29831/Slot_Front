@@ -22,8 +22,8 @@ namespace GameMachine
         {
             InitializeComponent();
             // フォームのロード時にテキストボックスを無効に設定
-            BigBonusTxb.Enabled = false;
-            RegularBonusTxb.Enabled = false;
+            BigCounterTxb.Enabled = false;
+            RegularCounterTxb.Enabled = false;
             BetweenBonusTbx.Enabled = false;
         }
 
@@ -32,19 +32,7 @@ namespace GameMachine
 
         }
 
-        //メソッド
-        /*public switchBigBonusDisplay()
-        {
-
-        }
-        public switchRegularBonusDisplay()
-        {
-
-        }
-        public switchBetweenBonusDisplay()
-        {
-
-        }*/
+        
     }
 }
 
