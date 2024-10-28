@@ -13,7 +13,8 @@ namespace GameMachine
         private SlotView slotView;
         private SlotViewLamp slotViewLamp;
 
-        CreditView creditView;
+        private CreditView creditView;
+        private CounterView counterView;
 
         public static sbyte stopLeftCount, stopCenterCount, stopRightCount;
 
@@ -30,13 +31,14 @@ namespace GameMachine
         private static Roles establishedRole = Roles.NONE;
 
 
-        public SlotController(CreditView creditView)
+        public SlotController(CreditView creditView, CounterView counterView)
         {
             InitializeComponent();
             InitializeSlotView();
             InitializeSlotViewLamp();
 
             this.creditView = creditView;
+            this.counterView = counterView;
         }
 
         private void InitializeSlotView()
@@ -233,7 +235,9 @@ namespace GameMachine
                 }
                 maxBetFlag = false;
 
-                if(Game.GetEstablishedRole() == Roles.REPLAY)
+                Counter.CountUpCounterData(establishedRole);
+                counterView.SwitchCounterUpdate(); //集計の表示を更新
+                if(establishedRole == Roles.REPLAY)
                 {
                     OnPushedMaxBet();
                 }

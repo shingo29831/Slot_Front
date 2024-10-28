@@ -5,14 +5,26 @@ using System.Windows.Forms;
 
 namespace GameMachine
 {
-    public partial class StartUp : Form
+    public partial  class StartUp : Form
     {
-        private SelectionController userSelectionScreen; // ユーザー選択画面のコントローラー
-        private SlotController userGameScreen;           // スロットゲーム画面のコントローラー
-        private AccountLinkingController accountLinkingScreen; // アカウントリンク画面のコントローラー
-        private CounterController counterDisplay;        // カウンター表示コントローラー
-        private CreditController creditDisplay;          // クレジット表示コントローラー
-        private CreditView creditView;
+        private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
+        
+        private static AccountLinkingController accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面のコントローラー
+
+
+
+        
+
+
+        //集計（カウンター）画面
+        private static CounterController counterDisplay = new CounterController();        // カウンター表示コントローラー
+        private static CounterView counterView = new CounterView(counterDisplay);
+
+
+        //スロット画面（クレジット画面とカウンターViewも付加）
+        private static CreditController creditDisplay = new CreditController();          // クレジット表示コントローラー
+        private static CreditView creditView = new CreditView(creditDisplay);
+        private static SlotController userGameScreen = new SlotController(creditView,counterView);         // スロットゲーム画面のコントローラー
 
         public StartUp()
         {
@@ -34,13 +46,18 @@ namespace GameMachine
         private void StartUp_Load(object sender, EventArgs e)
         {
             //ユーザーコントロール インスタンス
-            counterDisplay = new CounterController();        // カウンター表示画面
-            userSelectionScreen = new SelectionController(); // ユーザー選択画面
+            //counterDisplay = new CounterController();        // カウンター表示画面
+            //userSelectionScreen = new SelectionController(); // ユーザー選択画面
+            //accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面
+            //creditDisplay = new CreditController();          // クレジット表示画面
+            //userGameScreen = new SlotController(creditView);           // スロットゲーム画面
 
-            accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面
-            creditDisplay = new CreditController();          // クレジット表示画面
-            creditView = new CreditView(creditDisplay); //ビューインスタンス
-            userGameScreen = new SlotController(creditView);           // スロットゲーム画面
+
+
+            //creditView = new CreditView(creditDisplay); //ビューインスタンス
+            //counterView = new CounterView(counterDisplay);
+
+
 
             // 各ユーザーコントロールの初期サイズと位置を設定
             InitializeControlSettings();
@@ -49,6 +66,8 @@ namespace GameMachine
             // 初期画面表示メソッド  //
             ///////////////////////////
             ShowUserSelectionScreen();
+
+            counterView.SwitchCounterUpdate();
         }
 
         private void InitializeControlSettings()

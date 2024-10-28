@@ -32,8 +32,8 @@
             pictureBox2 = new PictureBox();
             panel1 = new Panel();
             BetweenBonusTbx = new TextBox();
-            RegularBonusTxb = new TextBox();
-            BigBonusTxb = new TextBox();
+            RegularCounterTxb = new TextBox();
+            BigCounterTxb = new TextBox();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
@@ -68,8 +68,8 @@
             // 
             panel1.BackColor = SystemColors.ActiveBorder;
             panel1.Controls.Add(BetweenBonusTbx);
-            panel1.Controls.Add(RegularBonusTxb);
-            panel1.Controls.Add(BigBonusTxb);
+            panel1.Controls.Add(RegularCounterTxb);
+            panel1.Controls.Add(BigCounterTxb);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -89,27 +89,27 @@
             BetweenBonusTbx.Text = "000";
             BetweenBonusTbx.TextAlign = HorizontalAlignment.Center;
             // 
-            // RegularBonusTxb
+            // RegularCounterTxb
             // 
-            RegularBonusTxb.Font = new Font("Yu Gothic UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            RegularBonusTxb.Location = new Point(450, 50);
-            RegularBonusTxb.Multiline = true;
-            RegularBonusTxb.Name = "RegularBonusTxb";
-            RegularBonusTxb.Size = new Size(175, 100);
-            RegularBonusTxb.TabIndex = 11;
-            RegularBonusTxb.Text = "000";
-            RegularBonusTxb.TextAlign = HorizontalAlignment.Center;
+            RegularCounterTxb.Font = new Font("Yu Gothic UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
+            RegularCounterTxb.Location = new Point(450, 50);
+            RegularCounterTxb.Multiline = true;
+            RegularCounterTxb.Name = "RegularCounterTxb";
+            RegularCounterTxb.Size = new Size(175, 100);
+            RegularCounterTxb.TabIndex = 11;
+            RegularCounterTxb.Text = "000";
+            RegularCounterTxb.TextAlign = HorizontalAlignment.Center;
             // 
-            // BigBonusTxb
+            // BigCounterTxb
             // 
-            BigBonusTxb.Font = new Font("Yu Gothic UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            BigBonusTxb.Location = new Point(100, 50);
-            BigBonusTxb.Multiline = true;
-            BigBonusTxb.Name = "BigBonusTxb";
-            BigBonusTxb.Size = new Size(200, 100);
-            BigBonusTxb.TabIndex = 10;
-            BigBonusTxb.Text = "000";
-            BigBonusTxb.TextAlign = HorizontalAlignment.Center;
+            BigCounterTxb.Font = new Font("Yu Gothic UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
+            BigCounterTxb.Location = new Point(100, 50);
+            BigCounterTxb.Multiline = true;
+            BigCounterTxb.Name = "BigCounterTxb";
+            BigCounterTxb.Size = new Size(200, 100);
+            BigCounterTxb.TabIndex = 10;
+            BigCounterTxb.Text = "000";
+            BigCounterTxb.TextAlign = HorizontalAlignment.Center;
             // 
             // label3
             // 
@@ -173,11 +173,11 @@
         private PictureBox pictureBox2;
         private Panel panel1;
         private Panel panel2;
-        private TextBox BetweenBonusTbx;
-        private TextBox RegularBonusTxb;
-        private TextBox BigBonusTxb;
         private Label label3;
         private Label label2;
         private Label label1;
+        public TextBox BigCounterTxb;
+        public TextBox BetweenBonusTbx;
+        public TextBox RegularCounterTxb;
     }
 }
