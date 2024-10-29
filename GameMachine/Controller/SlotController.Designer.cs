@@ -474,22 +474,22 @@
         }
 
         #endregion
-        private PictureBox CpB1;
-        private PictureBox CpB2;
-        private PictureBox CpB3;
-        private PictureBox RpB2;
-        private PictureBox RpB3;
-        private PictureBox LpB2;
-        private PictureBox LpB3;
-        private PictureBox LpB4;
-        private PictureBox CpB4;
-        private PictureBox RpB4;
-        private PictureBox RightStopBtn;
-        private PictureBox CenterStopBtn;
-        private PictureBox MaxBet;
-        private PictureBox startLever;
-        private PictureBox LeftStopBtn;
-        private PictureBox pictureBox1;
+        public PictureBox CpB1;
+        public PictureBox CpB2;
+        public PictureBox CpB3;
+        public PictureBox RpB2;
+        public PictureBox RpB3;
+        public PictureBox LpB2;
+        public PictureBox LpB3;
+        public PictureBox LpB4;
+        public PictureBox CpB4;
+        public PictureBox RpB4;
+        public PictureBox RightStopBtn;
+        public PictureBox CenterStopBtn;
+        public PictureBox MaxBet;
+        public PictureBox startLever;
+        public PictureBox LeftStopBtn;
+        public PictureBox pictureBox1;
         private Panel panel4;
         private Panel panel6;
         private Panel panel7;
@@ -499,9 +499,9 @@
         private PictureBox Bet3;
         private PictureBox Bet2;
         private PictureBox Bet1;
-        private PictureBox LpB1;
+        public PictureBox LpB1;
         private Panel panel3;
-        private PictureBox RpB1;
+        public PictureBox RpB1;
         private Panel panel5;
         private Label LeftCurrentPositionLabel;
         private Label CenterCurrentPositionLabel;

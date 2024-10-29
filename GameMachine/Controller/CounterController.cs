@@ -13,9 +13,7 @@ namespace GameMachine
     public partial class CounterController : UserControl
     {
         //変数宣言
-        private int BigBounusCount = 0;
-        private int RegularBounusCount = 0;
-        private int BetweenBounusCount = 0;
+
 
 
         public CounterController()
