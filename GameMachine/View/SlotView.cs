@@ -15,7 +15,7 @@ namespace GameMachine
         private bool leftReelStop, centerReelStop, rightReelStop;
         private static Symbols[] leftOrder, centerOrder, rightOrder;
         private static sbyte leftReelPosition, centerReelPosition, rightReelPosition;
-        private  PictureBox[] leftReelContainers, centerReelContainers, rightReelContainers, PChange;
+        private readonly PictureBox[] leftReelContainers, centerReelContainers, rightReelContainers, PChange;
         private readonly Dictionary<Symbols, Bitmap> symbolImages;
         private SlotController slotController;
         //定数
@@ -25,15 +25,17 @@ namespace GameMachine
         private static sbyte centerStopReelPosition = 0;
         private static sbyte rightStopReelPosition = 0;
 
-        public SlotView(PictureBox[] left, PictureBox[] center, PictureBox[] right, PictureBox[] pictureChange)
+        public SlotView(SlotController slotController)
         {
             reelTimer = new System.Timers.Timer(INTERVAL) { AutoReset = true };
             reelTimer.Elapsed += ReelTimerTick;
 
-            leftReelContainers = left;
-            centerReelContainers = center;
-            rightReelContainers = right;
-            PChange = pictureChange;
+            this.slotController = slotController;
+
+            this.leftReelContainers = slotController.leftReels;
+            this.centerReelContainers = slotController.centerReels;
+            this.rightReelContainers = slotController.rightReels;
+            this.PChange = slotController.pictureButtons;
 
             leftOrder = ReelOrder.LEFT_REEL_ORDER;
             centerOrder = ReelOrder.CENTER_REEL_ORDER;
@@ -135,20 +137,37 @@ namespace GameMachine
         //
 
         //async
-        private void ReelTimerTick(object sender, ElapsedEventArgs e)
+        private async void ReelTimerTick(object sender, ElapsedEventArgs e)
         {
-            if (!leftReelStop) MoveReel(Reels.LEFT, ref leftReelPosition);
-            if (!centerReelStop) MoveReel(Reels.CENTER, ref centerReelPosition);
-            if (!rightReelStop) MoveReel(Reels.RIGHT, ref rightReelPosition);
-
-            
+            //if (leftReelContainers[0].InvokeRequired)
+            //{
+                leftReelContainers[0].Invoke(new Action(() =>
+                {
+                    if (!leftReelStop) MoveReel(Reels.LEFT, ref leftReelPosition, leftReelContainers);
+                }));
+            //}
+            if (centerReelContainers[0].InvokeRequired)
+            {
+                centerReelContainers[0].Invoke(new Action(() =>
+                {
+                    if (!centerReelStop) MoveReel(Reels.CENTER, ref centerReelPosition, centerReelContainers);
+                }));
+            }
+            if (rightReelContainers[0].InvokeRequired)
+            {
+                rightReelContainers[0].Invoke(new Action(() =>
+                {
+                    if (!rightReelStop) MoveReel(Reels.RIGHT, ref rightReelPosition, rightReelContainers);
+                }));
+            }
+            await Task.Delay(0);
         }
 
 
         //画像の遷移
         private void MoveReel(Reels selectReel, ref sbyte reelPosition)
         {
-            PictureBox[] symbolContainers = leftReelContainers;
+            var symbolContainers = leftReelContainers;
             Symbols[] order = new Symbols[21];
             bool stopFlag = false;
             
@@ -198,6 +217,72 @@ namespace GameMachine
                     break;
             }
         }
+
+
+
+        private async void MoveReel(Reels selectReel, ref sbyte reelPosition) { 
+            slotView.LeftBtnChange();
+
+            slotView.CenterBtnChange();
+            slotView.RightBtnChange();
+            slotView.LeftBtnChange();
+            slotView.CenterBtnChange();
+            slotView.RightBtnChange();
+            slotView.LeftBtnChange();
+            slotView.CenterBtnChange();
+            slotView.RightBtnChange();
+            PictureBox[] symbolContainers
+            //var symbolContainers = leftReelContainers;
+            Symbols[] order = new Symbols[21];
+            bool stopFlag = false;
+
+
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    //symbolContainers = leftReelContainers;
+                    order = leftOrder;
+                    break;
+                case Reels.CENTER:
+                    //symbolContainers = centerReelContainers;
+                    order = centerOrder;
+                    break;
+                case Reels.RIGHT:
+                    //symbolContainers = rightReelContainers;
+                    order = rightOrder;
+                    break;
+            }
+            foreach (var symbolContainer in symbolContainers)
+            {
+                if (symbolContainer.Tag == (object)GetStopReelPosition(selectReel) && symbolContainer.Top == 375)
+                {
+                    return;
+                }
+                symbolContainer.Top += AMOUNT_OF_MOVEMENT; //シンボルの画像位置を移動
+                
+                if (symbolContainer.Top > SWITCHING_POINT)
+                {
+                    UpdateImage(symbolContainer, ref reelPosition, order); //次のシンボルの画像に代入、またTagに要素番号を代入
+                    symbolContainer.Top = -symbolContainer.Height; //textBoxの位置を上に移動
+                }
+            }
+
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    leftReelStop = true;
+                    break;
+                case Reels.CENTER:
+                    centerReelStop = true;
+                    break;
+                case Reels.RIGHT:
+                    rightReelStop = true;
+                    break;
+            }
+            await ;
+        }
+
+
 
         // レバー、ボタン、シンボルの画像管理
 

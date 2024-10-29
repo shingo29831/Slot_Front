@@ -30,6 +30,12 @@ namespace GameMachine
         private static bool maxBetFlag = false;
         private static Roles establishedRole = Roles.NONE;
 
+        public PictureBox[] leftReels = new PictureBox[4];
+        public PictureBox[] centerReels = new PictureBox[4];
+        public PictureBox[] rightReels = new PictureBox[4];
+        public PictureBox[] pictureButtons = new PictureBox[9];
+
+        private Control mainForm;
 
         public SlotController(CreditView creditView, CounterView counterView)
         {
@@ -39,16 +45,41 @@ namespace GameMachine
 
             this.creditView = creditView;
             this.counterView = counterView;
+
         }
 
-        private void InitializeSlotView()
+        public void SlotViewLoad(SlotView slotView)
         {
-            PictureBox[] leftReels = { LpB1, LpB2, LpB3, LpB4 };
-            PictureBox[] centerReels = { CpB1, CpB2, CpB3, CpB4 };
-            PictureBox[] rightReels = { RpB1, RpB2, RpB3, RpB4 };
-            PictureBox[] pictureButtons = { startLever, LeftStopBtn, CenterStopBtn, RightStopBtn, RightStopBtn, MaxBet, Bet1, Bet2, Bet3 };
+            this.slotView = slotView;
+        }
 
-            slotView = new SlotView(leftReels, centerReels, rightReels, pictureButtons);
+        public void InitializeSlotView()
+        {
+            leftReels[0] = LpB1;
+            leftReels[1] = LpB2;
+            leftReels[2] = LpB3;
+            leftReels[3] = LpB4;
+
+            centerReels[0] = CpB1;
+            centerReels[1] = CpB2;
+            centerReels[2] = CpB3;
+            centerReels[3] = CpB4;
+
+            rightReels[0] = RpB1;
+            rightReels[1] = RpB2;
+            rightReels[2] = RpB3;
+            rightReels[3] = RpB4;
+
+            pictureButtons[0] = startLever; 
+            pictureButtons[1] = LeftStopBtn; 
+            pictureButtons[2] = CenterStopBtn; 
+            pictureButtons[3] = RightStopBtn;
+            pictureButtons[4] = RightStopBtn; 
+            pictureButtons[5] = MaxBet;
+            pictureButtons[6] = Bet1; 
+            pictureButtons[7] = Bet2;
+            pictureButtons[8] = Bet3 ;
+
         }
 
         private void InitializeSlotViewLamp()
@@ -58,16 +89,21 @@ namespace GameMachine
 
         private void UserGameScreen_Load(object sender, EventArgs e)
         {
-            slotView.InitialPictureSet(1, 3, 20); // 初期シンボル表示位置
+            mainForm = this.Parent as StartUp;
+
+
+            
             creditView.ShowCreditDisp();
 
-            slotView.LeftBtnChange();
-            slotView.CenterBtnChange();
-            slotView.RightBtnChange();
 
             LeftStopBtn.Enabled = false;
             CenterStopBtn.Enabled = false;
             RightStopBtn.Enabled = false;
+        }
+
+        private void GameReelLoad(Control slotView)
+        {
+
         }
 
         //停止処理

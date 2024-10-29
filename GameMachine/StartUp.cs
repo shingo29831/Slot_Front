@@ -23,8 +23,9 @@ namespace GameMachine
 
         //スロット画面（クレジット画面とカウンターViewも付加）
         private static CreditController creditDisplay = new CreditController();          // クレジット表示コントローラー
-        private static CreditView creditView = new CreditView(creditDisplay);
-        private static SlotController userGameScreen = new SlotController(creditView,counterView);         // スロットゲーム画面のコントローラー
+        public static CreditView creditView = new CreditView(creditDisplay);
+        private static SlotController userGameScreen = new SlotController(creditView,counterView);       // スロットゲーム画面のコントローラー
+        public static SlotView slotView = new SlotView(userGameScreen);
 
         public StartUp()
         {
@@ -41,10 +42,15 @@ namespace GameMachine
 
             // キーイベントの設定
             this.KeyDown += new KeyEventHandler(StartUp_KeyDown);
+
+
+            slotView = new SlotView(userGameScreen);
         }
 
         private void StartUp_Load(object sender, EventArgs e)
         {
+            
+
             //ユーザーコントロール インスタンス
             //counterDisplay = new CounterController();        // カウンター表示画面
             //userSelectionScreen = new SelectionController(); // ユーザー選択画面
@@ -117,6 +123,14 @@ namespace GameMachine
             counterDisplay.Visible = true;      // カウンター表示を有効化
             creditDisplay.Visible = true;    // クレジット表示を有効にする
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
+
+            userGameScreen.SlotViewLoad(slotView); //slotViewを渡す
+            slotView.InitialPictureSet(1, 3, 20); // 初期シンボル表示位置
+
+            //たぶん表示
+            slotView.LeftBtnChange();
+            slotView.CenterBtnChange();
+            slotView.RightBtnChange();
         }
 
         public void ShowAccountLinkingScreen()
@@ -125,6 +139,8 @@ namespace GameMachine
             counterDisplay.Visible = true;      // カウンター表示を有効化
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
         }
+
+
 
         private void StartUp_KeyDown(object sender, KeyEventArgs e)
         {
