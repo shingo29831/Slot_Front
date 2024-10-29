@@ -14,21 +14,25 @@ namespace GameMachine
         private readonly System.Timers.Timer reelTimer;
         private bool leftReelStop, centerReelStop, rightReelStop;
         private static Symbols[] leftOrder, centerOrder, rightOrder;
-        private static sbyte leftCount, centerCount, rightCount;
-        private readonly PictureBox[] leftReel, centerReel, rightReel, PChange;
+        private static sbyte leftReelPosition, centerReelPosition, rightReelPosition;
+        private  PictureBox[] leftReelContainers, centerReelContainers, rightReelContainers, PChange;
         private readonly Dictionary<Symbols, Bitmap> symbolImages;
         private SlotController slotController;
         //定数
-        private const int AMOUNT_OF_MOVEMENT = 25, SWITCHING_POINT = 550, INTERVAL = 16;
+        private readonly int AMOUNT_OF_MOVEMENT = 25, SWITCHING_POINT = 550, INTERVAL = 16;
+
+        private static sbyte leftStopReelPosition = 0;
+        private static sbyte centerStopReelPosition = 0;
+        private static sbyte rightStopReelPosition = 0;
 
         public SlotView(PictureBox[] left, PictureBox[] center, PictureBox[] right, PictureBox[] pictureChange)
         {
             reelTimer = new System.Timers.Timer(INTERVAL) { AutoReset = true };
             reelTimer.Elapsed += ReelTimerTick;
 
-            leftReel = left;
-            centerReel = center;
-            rightReel = right;
+            leftReelContainers = left;
+            centerReelContainers = center;
+            rightReelContainers = right;
             PChange = pictureChange;
 
             leftOrder = ReelOrder.LEFT_REEL_ORDER;
@@ -46,6 +50,7 @@ namespace GameMachine
             };
         }
 
+        //リールを動かす
         public void Start()
         {
             reelTimer.Start();
@@ -53,55 +58,28 @@ namespace GameMachine
         }
 
         //ストップ処理
-        public async Task StopLeftReel(sbyte stopcount)
+        public void StopLeftReel(sbyte stopreelPosition)
         {
-            // 座標300〜500に存在する要素数を取得
+            SetStopReelPosition(Reels.LEFT, stopreelPosition);
             
-            while (true)
-            {
-                int countInRange = CountElementsInRange(leftReel);
-                if (leftReel[0].Top == 25 || leftReel[0].Top == 200 || leftReel[0].Top == 375 || leftReel[0].Top == 550 && (sbyte)leftReel[countInRange].Tag == stopcount)
-                {
-                    leftReelStop = true;
-                    break;
-                }
-                await Task.Delay(INTERVAL);
-            }
         }
 
-        public async Task StopCenterReel(sbyte stopcount)
+        public void StopCenterReel(sbyte stopreelPosition)
         {
-            // 座標300〜500に存在する要素数を取得
+            SetStopReelPosition(Reels.CENTER,stopreelPosition);
             
-            while (true)
-            {
-                int countInRange = CountElementsInRange(centerReel);
-                if (centerReel[0].Top == 25 || centerReel[0].Top == 200 || centerReel[0].Top == 375 || centerReel[0].Top == 550 && (sbyte)centerReel[countInRange].Tag == stopcount)
-                {
-                    centerReelStop = true;
-                    break;
-                }
-                await Task.Delay(INTERVAL);
-            }
         }
 
-        public async Task StopRightReel(sbyte stopcount)
+        //async
+        public void StopRightReel(sbyte stopreelPosition)
         {
             // 座標300〜500に存在する要素数を取得
+
+            SetStopReelPosition(Reels.RIGHT, stopreelPosition);
             
-            while (true)
-            {
-                int countInRange = CountElementsInRange(rightReel);
-                if (rightReel[0].Top == 25 || rightReel[0].Top == 200 || rightReel[0].Top == 375 || rightReel[0].Top == 550 && (sbyte)rightReel[countInRange].Tag == stopcount)
-                {
-                    rightReelStop = true;
-                    break;
-                }
-                await Task.Delay(INTERVAL);
-            }
         }
 
-        private int CountElementsInRange(PictureBox[] reel)
+        private int ReelPositionElementsInRange(PictureBox[] reel)
         {
             return reel.Count(item => item.Top >= 350 && item.Top <= 525);
         }
@@ -110,20 +88,20 @@ namespace GameMachine
         {
             if (Reels.LEFT == reelname)
             {
-                return (sbyte)leftReel[(sbyte)CountElementsInRange(leftReel)].Tag;
+                return (sbyte)leftReelContainers[(sbyte)ReelPositionElementsInRange(leftReelContainers)].Tag;
             }
             if (Reels.CENTER == reelname)
             {
-                return (sbyte)centerReel[(sbyte)CountElementsInRange(centerReel)].Tag;
+                return (sbyte)centerReelContainers[(sbyte)ReelPositionElementsInRange(centerReelContainers)].Tag;
             }
             if (Reels.RIGHT == reelname)
             {
-                return (sbyte)rightReel[(sbyte)CountElementsInRange(rightReel)].Tag;
+                return (sbyte)rightReelContainers[(sbyte)ReelPositionElementsInRange(rightReelContainers)].Tag;
             }
             else
             {
                 return 0;
-            }        
+            }
         }
 
         //
@@ -132,13 +110,13 @@ namespace GameMachine
 
         public void InitialPictureSet(sbyte standardOrderLeft, sbyte standardOrderCenter, sbyte standardOrderRight)
         {
-            leftCount = standardOrderLeft;
-            centerCount = standardOrderCenter;
-            rightCount = standardOrderRight;
+            leftReelPosition = standardOrderLeft;
+            centerReelPosition = standardOrderCenter;
+            rightReelPosition = standardOrderRight;
 
-            InitialSetReelImages(leftReel, leftOrder, leftCount);
-            InitialSetReelImages(centerReel, centerOrder, centerCount);
-            InitialSetReelImages(rightReel, rightOrder, rightCount);
+            InitialSetReelImages(leftReelContainers, leftOrder, leftReelPosition);
+            InitialSetReelImages(centerReelContainers, centerOrder, centerReelPosition);
+            InitialSetReelImages(rightReelContainers, rightOrder, rightReelPosition);
         }
 
         //画像切り替え
@@ -156,40 +134,78 @@ namespace GameMachine
         ////初期設定ここまで////
         //
 
-        private async void ReelTimerTick(object sender, ElapsedEventArgs e)
+        //async
+        private void ReelTimerTick(object sender, ElapsedEventArgs e)
         {
-            if (leftReel[0].InvokeRequired)
-            {
-                leftReel[0].Invoke(new Action(() =>
-                {
-                    if (!leftReelStop) MoveReel(leftReel, ref leftCount, leftOrder);
-                    if (!centerReelStop) MoveReel(centerReel, ref centerCount, centerOrder);
-                    if (!rightReelStop) MoveReel(rightReel, ref rightCount, rightOrder);
-                }));
-            }
-            await Task.Delay(16);
+            if (!leftReelStop) MoveReel(Reels.LEFT, ref leftReelPosition);
+            if (!centerReelStop) MoveReel(Reels.CENTER, ref centerReelPosition);
+            if (!rightReelStop) MoveReel(Reels.RIGHT, ref rightReelPosition);
+
+            
         }
 
-        private void MoveReel(PictureBox[] reels, ref sbyte count, Symbols[] order)
+
+        //画像の遷移
+        private void MoveReel(Reels selectReel, ref sbyte reelPosition)
         {
-            foreach (var reel in reels)
+            PictureBox[] symbolContainers = leftReelContainers;
+            Symbols[] order = new Symbols[21];
+            bool stopFlag = false;
+            
+
+            switch (selectReel)
             {
-                reel.Top += AMOUNT_OF_MOVEMENT;
-                if (reel.Top > SWITCHING_POINT)
+                case Reels.LEFT:
+                    symbolContainers = leftReelContainers;
+                    order = leftOrder;
+                    break;
+                case Reels.CENTER:
+                    symbolContainers = centerReelContainers;
+                    order = centerOrder;
+                    break;
+                case Reels.RIGHT:
+                    symbolContainers = rightReelContainers;
+                    order = rightOrder;
+                    break;
+            }
+            foreach (var symbolContainer in symbolContainers)
+            {
+                if (symbolContainer.Tag == (object)GetStopReelPosition(selectReel) && symbolContainer.Top == 375)
                 {
-                    UpdateImage(reel, ref count, order);
-                    reel.Top = -reel.Height;
+
+                    return;
                 }
+
+                symbolContainer.Top += AMOUNT_OF_MOVEMENT; //シンボルの画像位置を移動
+
+                if (symbolContainer.Top > SWITCHING_POINT)
+                {
+                    UpdateImage(symbolContainer, ref reelPosition, order); //次のシンボルの画像に代入またTagに要素番号を代入
+                    symbolContainer.Top = -symbolContainer.Height; //textBoxの位置を上に移動
+                }
+            }
+            
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    leftReelStop = true;
+                    break;
+                case Reels.CENTER:
+                    centerReelStop = true;
+                    break;
+                case Reels.RIGHT:
+                    rightReelStop = true;
+                    break;
             }
         }
 
         // レバー、ボタン、シンボルの画像管理
 
-        private void UpdateImage(PictureBox reel, ref sbyte count, Symbols[] order)
+        private void UpdateImage(PictureBox symbolContainer, ref sbyte reelPosition, Symbols[] order)
         {
-            reel.Image = symbolImages[order[count]];
-            count = (sbyte)((count + 1) % order.Length);
-            reel.Tag = count;
+            symbolContainer.Image = symbolImages[order[reelPosition]];
+            reelPosition = (sbyte)((reelPosition + 1) % order.Length);
+            symbolContainer.Tag = reelPosition;
         }
 
         public void LeverUp() => PChange[0].Image = new Bitmap(Properties.Resources.LeverOFF);
@@ -219,6 +235,66 @@ namespace GameMachine
             PChange[1].Image = new Bitmap(Properties.Resources.LeftButtonOFF);
             PChange[2].Image = new Bitmap(Properties.Resources.CenterButtonOFF);
             PChange[3].Image = new Bitmap(Properties.Resources.RightButtonOFF);
+        }
+
+
+        private sbyte GetStopReelPosition(Reels selectReel)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    return leftStopReelPosition;
+                case Reels.CENTER:
+                    return centerStopReelPosition;
+                case Reels.RIGHT:
+                    return rightStopReelPosition;
+            }
+            return 0;
+        }
+
+        private void SetStopReelPosition(Reels selectReel, sbyte reelPosition)
+        {
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    leftStopReelPosition = reelPosition;
+                    break;
+                case Reels.CENTER:
+                    centerStopReelPosition = reelPosition;
+                    break;
+                case Reels.RIGHT:
+                    rightStopReelPosition = reelPosition;
+                    break;
+            }
+        }
+        
+        public sbyte GetReelPosition(Reels selectReel)
+        {
+            PictureBox[] symbolContainers = new PictureBox[4];
+            switch (selectReel)
+            {
+                case Reels.LEFT:
+                    symbolContainers = leftReelContainers;
+                 
+                    break;
+                case Reels.CENTER:
+                    symbolContainers = centerReelContainers;
+                  
+                    break;
+                case Reels.RIGHT:
+                    symbolContainers = rightReelContainers;
+                   
+                    break;
+            }
+            foreach (var symbolContainer in symbolContainers)
+            {
+
+                if (symbolContainer.Top <= 200 && symbolContainer.Top > 375 )
+                {
+                    return (sbyte)symbolContainer.Tag;
+                }
+            }
+            return 0;
         }
     }
 }

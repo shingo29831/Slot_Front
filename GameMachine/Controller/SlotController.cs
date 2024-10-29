@@ -75,18 +75,18 @@ namespace GameMachine
         {
             if (sender == LeftStopBtn && startFlag == true)
             {
-                sbyte reelPosition = Game.CalcReelPosition((sbyte)(slotView.GetCurrentPosition(Reels.LEFT)), -1);
+                sbyte reelPosition = slotView.GetReelPosition(Reels.LEFT);
                 OnPushedStopBtn(Reels.LEFT, reelPosition); 
             }
             else if (sender == CenterStopBtn && startFlag == true)
             {
-                sbyte reelPosition = Game.CalcReelPosition((sbyte)(slotView.GetCurrentPosition(Reels.CENTER)),-1);
+                sbyte reelPosition = slotView.GetReelPosition(Reels.CENTER);
                 OnPushedStopBtn(Reels.CENTER,reelPosition); 
 
             }
             else if (sender == RightStopBtn && startFlag == true)
             {
-                sbyte reelPosition = Game.CalcReelPosition((sbyte)(slotView.GetCurrentPosition(Reels.RIGHT)), -1);
+                sbyte reelPosition = slotView.GetReelPosition(Reels.RIGHT);
                 OnPushedStopBtn(Reels.RIGHT, reelPosition); 
 
             }
@@ -192,19 +192,19 @@ namespace GameMachine
                 case Reels.LEFT:
                     if(LeftStopBtn.Enabled == false)
                     {
-                        LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
+                        //LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
                     }
                     break;
                 case Reels.CENTER:
                     if (CenterStopBtn.Enabled)
                     {
-                        CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
+                        //CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
                     }
                     break;
                 case Reels.RIGHT:
                     if (RightStopBtn.Enabled)
                     {
-                        RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
+                        //RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
                     }
                     break;
 
@@ -248,7 +248,7 @@ namespace GameMachine
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
+                    //LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
                     LeftStopPositionLabel.Text = stopCount.ToString();
                     slotView.StopLeftReel(stopCount);
                     slotView.LeftBtnChange();
@@ -257,7 +257,7 @@ namespace GameMachine
 
 
                 case Reels.CENTER:
-                    CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
+                    //CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
                     CenterStopPositionLabel.Text = stopCount.ToString();
                     slotView.StopCenterReel(stopCount);
                     slotView.CenterBtnChange();
@@ -266,7 +266,7 @@ namespace GameMachine
 
 
                 case Reels.RIGHT:
-                    RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
+                    //RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
                     RightStopPositionLabel.Text = stopCount.ToString();
                     slotView.StopRightReel(stopCount);
                     slotView.RightBtnChange();
