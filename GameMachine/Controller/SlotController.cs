@@ -25,9 +25,6 @@ namespace GameMachine
         private static sbyte btnCount = 3;
         private static bool startFlag = false;
         private static bool maxBetFlag = false;
-        private static bool leftStopBtnEnabled = false;
-        private static bool centerStopBtnEnabled = false;
-        private static bool rightStopBtnEnabled = false;
         private static bool stopBtnEnabled = false;
         private static Roles establishedRole = Roles.NONE;
 
@@ -85,10 +82,10 @@ namespace GameMachine
             pictureButtons[8] = Bet3 ;
 
 
-            reelTimer.Elapsed += async (sender, args) =>
-            {
-                await ReelTimerTick();
-            };
+            //reelTimer.Elapsed += async (sender, args) =>
+            //{
+            //    await ReelTimerTick();
+            //};
         }
 
         private void InitializeSlotViewLamp()
@@ -110,17 +107,6 @@ namespace GameMachine
             RightStopBtn.Enabled = false;
         }
 
-        private async Task ReelTimerTick()//object sender, ElapsedEventArgs e)
-        {
-            this.Invoke((MethodInvoker)(() => slotView.UpdateReel()));
-
-        }
-
-
-        private void GameReelLoad(Control slotView)
-        {
-
-        }
 
         //停止処理
         private void stopBtns_Click(object sender, EventArgs e)
@@ -157,9 +143,7 @@ namespace GameMachine
             LeftStopBtn.Enabled = true;
             CenterStopBtn.Enabled = true;
             RightStopBtn.Enabled = true;
-            leftStopBtnEnabled = true;
-            centerStopBtnEnabled = true;
-            rightStopBtnEnabled = true;
+
             stopBtnEnabled = true;
         }
 
@@ -171,7 +155,6 @@ namespace GameMachine
             slotView.MovingReel();
             startFlag = true;
             stopBtnEnabled = true;
-            reelTimer.Start();
             slotView.Start();
             slotView.ResetChange();
             btnCount = 0;
@@ -179,21 +162,9 @@ namespace GameMachine
 
         public void Stop()
         {
-            reelTimer.Stop();
+
         }
 
-        //全てのストップボタンが動いているかどうか
-        private bool AllStopBtnEnabled()
-        {
-            if (LeftStopBtn.Enabled && CenterStopBtn.Enabled && RightStopBtn.Enabled)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
 
         //いずれかのストップボタンが動いているかどうか
@@ -217,6 +188,10 @@ namespace GameMachine
             if(maxBetFlag == false && establishedRole != Roles.REPLAY){
                 OnPushedMaxBet();
             }
+            if(establishedRole == Roles.REPLAY)
+            {
+                slotView.MaxBetChangeDown();
+            }
         }
 
         private void MaxBet_MouseUp(object sender, MouseEventArgs e) => slotView.MaxBetChangeUp();
@@ -229,10 +204,8 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
-            ShowTextBox();
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
-            establishedRole = Game.GetEstablishedRole();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
             {
                 maxBetFlag = true;
@@ -248,6 +221,13 @@ namespace GameMachine
             
         }
 
+        public void SetDownMaxBetFlag()
+        {
+            maxBetFlag = false;
+        }
+
+
+
         //ストップボタンが押された時の処理
         private void OnPushedStopBtn(Reels selectReel)
         {
@@ -258,7 +238,6 @@ namespace GameMachine
                     if(LeftStopBtn.Enabled)
                     {
                         LeftStopBtn.Enabled = false;
-                        leftStopBtnEnabled = false;
                         stopBtnEnabled = false;
                         //LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
                     }
@@ -267,7 +246,6 @@ namespace GameMachine
                     if (CenterStopBtn.Enabled)
                     {
                         CenterStopBtn.Enabled = false;
-                        centerStopBtnEnabled = false;
                         stopBtnEnabled = false;
                         //CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
                     }
@@ -276,7 +254,6 @@ namespace GameMachine
                     if (RightStopBtn.Enabled)
                     {
                         RightStopBtn.Enabled = false;
-                        rightStopBtnEnabled = false;
                         stopBtnEnabled = false;
                         //RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
                     }
@@ -295,7 +272,9 @@ namespace GameMachine
             //三つ目のリールが停止した時
             if (btnCount == 3)
             {
+                slotView.MaxBetChangeUp();
                 Game.HitEstablishedRoles(); //達成された役を探索
+                establishedRole = Game.GetEstablishedRole();
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
 
@@ -303,13 +282,13 @@ namespace GameMachine
 
 
                 slotView.BetOff();
-                maxBetFlag = false;
 
                 Counter.CountUpCounterData(establishedRole);
                 counterView.SwitchCounterUpdate(); //集計の表示を更新
                 if(establishedRole == Roles.REPLAY)
                 {
                     OnPushedMaxBet();
+                    slotView.MaxBetChangeDown();
                 }
             }
 
@@ -384,13 +363,13 @@ namespace GameMachine
 
 
         //test
-        private void ShowTextBox()
-        {
-            MessageBox.Show("達成した役" + Game.GetEstablishedRole().ToString()
-                    + "\n  LEFFT:" + SymbolChangeToName(Constants.ReelOrder.LEFT_REEL_ORDER[Game.GetNextReelPosition(Reels.LEFT)]) + "," + Game.GetNextReelPosition(Reels.LEFT)
-                    + "\n  CENTER:" + SymbolChangeToName(Constants.ReelOrder.CENTER_REEL_ORDER[Game.GetNextReelPosition(Reels.CENTER)]) + "," + Game.GetNextReelPosition(Reels.CENTER)
-                    + "\n  RIGHT:" + SymbolChangeToName(Constants.ReelOrder.RIGHT_REEL_ORDER[Game.GetNextReelPosition(Reels.RIGHT)]) + "," + Game.GetNextReelPosition(Reels.RIGHT));
-        }
+        //private void ShowTextBox()
+        //{
+        //    MessageBox.Show("達成した役" + Game.GetEstablishedRole().ToString()
+        //            + "\n  LEFFT:" + SymbolChangeToName(Constants.ReelOrder.LEFT_REEL_ORDER[Game.GetNextReelPosition(Reels.LEFT)]) + "," + Game.GetNextReelPosition(Reels.LEFT)
+        //            + "\n  CENTER:" + SymbolChangeToName(Constants.ReelOrder.CENTER_REEL_ORDER[Game.GetNextReelPosition(Reels.CENTER)]) + "," + Game.GetNextReelPosition(Reels.CENTER)
+        //            + "\n  RIGHT:" + SymbolChangeToName(Constants.ReelOrder.RIGHT_REEL_ORDER[Game.GetNextReelPosition(Reels.RIGHT)]) + "," + Game.GetNextReelPosition(Reels.RIGHT));
+        //}
 
         //test
         private String SymbolChangeToName(Symbols symbol)

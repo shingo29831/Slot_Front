@@ -52,50 +52,33 @@ namespace GameMachine
                 { Symbols.SEVEN, new Bitmap(Properties.Resources.seven) },
                 { Symbols.BAR, new Bitmap(Properties.Resources.bar) }
             };
-            //reelTimer = new System.Timers.Timer { Interval = INTERVAL, AutoReset = true };
-            //reelTimer.Elapsed += async (sender, args) =>
-            //{
-            //    await ReelTimerTick();
-            //};
+
+            reelTimer.Elapsed += (sender, args) =>
+            {
+                ReelTimerTick();
+            };
         }
 
-        public Control GetSlotViewDisplay()
-        {
-            return slotController;
-        }
 
         //リールを動かす
         public void Start()
         {
+            reelTimer.Start();
             leftReelStop = centerReelStop = rightReelStop = false;
         }
 
 
 
-        //private int ReelPositionElementsInRange(PictureBox[] reel)
-        //{
-        //    return reel.Count(item => item.Top >= 350 && item.Top <= 525);
-        //}
+        public bool AllStopReel()
+        {
+            if(leftReelStop && centerReelStop && rightReelStop)
+            {
+                return true;
+            }
+            return false;
+        }
 
-        //public sbyte GetCurrentPosition(Reels reelname)
-        //{
-        //    if (Reels.LEFT == reelname)
-        //    {
-        //        return (sbyte)leftReelContainers[(sbyte)ReelPositionElementsInRange(leftReelContainers)].Tag;
-        //    }
-        //    if (Reels.CENTER == reelname)
-        //    {
-        //        return (sbyte)centerReelContainers[(sbyte)ReelPositionElementsInRange(centerReelContainers)].Tag;
-        //    }
-        //    if (Reels.RIGHT == reelname)
-        //    {
-        //        return (sbyte)rightReelContainers[(sbyte)ReelPositionElementsInRange(rightReelContainers)].Tag;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
-        //}
+        
 
         //
         ////初期設定////
@@ -128,22 +111,14 @@ namespace GameMachine
         ////初期設定ここまで////
         //
 
-        //async
-        private void asyncMove()
-        {
-            reelTimer = new System.Timers.Timer { Interval = INTERVAL, AutoReset = true };
-            reelTimer.Elapsed += async (sender, args) =>
-            {
-                ReelTimerTick();
-            };
-        }
-
+        //定期動作させる処理
         private void ReelTimerTick()
         {
             slotController.Invoke((MethodInvoker)(() => UpdateReel()));
            
         }
 
+        //リールを動いている判定にする
         public void MovingReel()
         {
             leftReelStop = false;
@@ -166,7 +141,8 @@ namespace GameMachine
             }
             else
             {
-                slotController.Stop();
+                reelTimer.Stop();
+                slotController.SetDownMaxBetFlag();
             }
             stopReels();
             
@@ -367,48 +343,7 @@ namespace GameMachine
                     rightStopReelPosition = reelPosition;
                     break;
             }
-            //switch (selectReel)
-            //{
-            //    case Reels.LEFT:
-            //        leftReelStop = true;
-            //        break;
-            //    case Reels.CENTER:
-            //        centerReelStop = true;
-            //        break;
-            //    case Reels.RIGHT:
-            //        rightReelStop = true;
-            //        break;
-            //}
         }
-        
-        //現在リールが設定されている位置を取得
-        //public sbyte GetReelPosition(Reels selectReel)
-        //{
-        //    PictureBox[] symbolContainers = new PictureBox[4];
-        //    switch (selectReel)
-        //    {
-        //        case Reels.LEFT:
-        //            symbolContainers = slotController.leftReelContainers;
-                 
-        //            break;
-        //        case Reels.CENTER:
-        //            symbolContainers = slotController.centerReelContainers;
-                  
-        //            break;
-        //        case Reels.RIGHT:
-        //            symbolContainers = slotController.rightReelContainers;
-                   
-        //            break;
-        //    }
-        //    foreach (var symbolContainer in symbolContainers)
-        //    {
 
-        //        if (symbolContainer.Top <= 200 && symbolContainer.Top > 375 )
-        //        {
-        //            return (sbyte)symbolContainer.Tag;
-        //        }
-        //    }
-        //    return 0;
-        //}
     }
 }
