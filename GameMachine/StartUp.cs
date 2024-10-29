@@ -2,6 +2,7 @@ using GameMachine.InitialSettingView;
 using GameMachine.View;
 using System;
 using System.Windows.Forms;
+using static Constants;
 
 namespace GameMachine
 {
@@ -127,10 +128,10 @@ namespace GameMachine
             userGameScreen.SlotViewLoad(slotView); //slotViewを渡す
             slotView.InitialPictureSet(1, 3, 20); // 初期シンボル表示位置
 
-            //たぶん表示
-            slotView.LeftBtnChange();
-            slotView.CenterBtnChange();
-            slotView.RightBtnChange();
+            //ボタン表示切り替え
+            slotView.BtnChange(Reels.LEFT);
+            slotView.BtnChange(Reels.CENTER);
+            slotView.BtnChange(Reels.RIGHT);
         }
 
         public void ShowAccountLinkingScreen()

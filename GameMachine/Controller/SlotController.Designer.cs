@@ -484,12 +484,12 @@
         public PictureBox LpB4;
         public PictureBox CpB4;
         public PictureBox RpB4;
-        private PictureBox RightStopBtn;
-        private PictureBox CenterStopBtn;
-        private PictureBox MaxBet;
-        private PictureBox startLever;
-        private PictureBox LeftStopBtn;
-        private PictureBox pictureBox1;
+        public PictureBox RightStopBtn;
+        public PictureBox CenterStopBtn;
+        public PictureBox MaxBet;
+        public PictureBox startLever;
+        public PictureBox LeftStopBtn;
+        public PictureBox pictureBox1;
         private Panel panel4;
         private Panel panel6;
         private Panel panel7;
