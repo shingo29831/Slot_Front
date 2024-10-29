@@ -9,7 +9,9 @@ namespace GameMachine.Model
 	{
 		private static int bigCount = 0;
 		private static int regCount = 0;
-		private static int betweenBonusCount = 0;
+		private static int betweenBonusCount = 100;
+		private static bool isGetOutBonus = false;
+		private static bool isGetInBonus = false;
 
         //カウントアップ
         public static void CountUpCounterData(Roles establishedRole)
@@ -18,22 +20,33 @@ namespace GameMachine.Model
 			{
 				case Roles.BIG:
 					CountUpBigCnt();
+					isGetInBonus = true;
 					break;
 
 				case Roles.REGULAR:
 					CountUpRegCnt();
+					isGetOutBonus = true;
 					break;
 
 				default:
-					CountUpBetweenBonusCnt();
+					if (Game.GetInBonus() == false && isGetInBonus)
+					{
+						isGetInBonus = false;
+						isGetOutBonus = true;
+                        ResetBetweenBonusCnt();
+                    }
+					else if(Game.GetInBonus() == false)
+					{
+						CountUpBetweenBonusCnt();
+					}
                     break;
 
             }
 		}
 
-		public static void CountUpBigCnt() { bigCount++; ResetBetweenBonusCnt(); } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
+		public static void CountUpBigCnt() { bigCount++; } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
 
-		public static void CountUpRegCnt() { regCount++; ResetBetweenBonusCnt(); } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
+		public static void CountUpRegCnt() { regCount++; } //ボーナスカウントを増やす時ボーナス間のカウンターを0にする
 
         public static void CountUpBetweenBonusCnt() { betweenBonusCount++; }
 

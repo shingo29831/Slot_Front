@@ -20,7 +20,7 @@ namespace GameMachine.Model
 
         static bool nextBonusFlag = false;
         static bool inBonus = false;
-        static bool hitBonusFlag = false;
+        static bool hitBonusFlag = true; //test前false
 
         public static sbyte StopReelCount { get; set; } = 0; //テスト前0
 
@@ -40,7 +40,7 @@ namespace GameMachine.Model
 
 
         private static Roles nowRole = Roles.NONE; //テスト前はNONE
-        private static Roles nowBonus = Roles.NONE;
+        private static Roles nowBonus = Roles.BIG;
 
         public static Roles establishedRole = Roles.NONE;
 

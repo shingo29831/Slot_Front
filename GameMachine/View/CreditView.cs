@@ -52,7 +52,11 @@ namespace GameMachine.View
         public void ShowPayOut()
         {
             Roles establishedRole = Game.GetEstablishedRole();
-            if(establishedRole != Roles.NONE)
+            if (Game.GetInBonus() && establishedRole != Roles.NONE)
+            {
+                creditDisplay.payoutTxb.Text = "15";
+            }
+            else if(establishedRole != Roles.NONE)
             {
                 creditDisplay.payoutTxb.Text = Setting.GetRoleReturn(Game.GetEstablishedRole()).ToString();
             }
