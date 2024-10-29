@@ -169,7 +169,7 @@ namespace GameMachine
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             establishedRole = Game.GetEstablishedRole();
-            if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole != Roles.REPLAY) && AnyStopBtnEnabled() == false)
+            if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
             {
                 maxBetFlag = true;
                 slotView.BetOn(false);
