@@ -131,8 +131,12 @@ namespace GameMachine
 
         private void startLever_Click(object sender, EventArgs e)
         {
-            if (maxBetFlag && AnyStopBtnEnabled() == false)
+            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
             {
+                Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
+                Game.HitRolesLottery(); //役の抽選
+                Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
+                Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 EnableStopButtons();
                 StartReels();
             }
@@ -185,7 +189,8 @@ namespace GameMachine
 
         private void MaxBet_Click(object sender, EventArgs e)
         {
-            if(maxBetFlag == false && establishedRole != Roles.REPLAY){
+            leelTags();
+            if (maxBetFlag == false && establishedRole != Roles.REPLAY){
                 OnPushedMaxBet();
             }
             if(establishedRole == Roles.REPLAY)
@@ -204,6 +209,8 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
+            
+            ShowTextBox();
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
@@ -211,10 +218,10 @@ namespace GameMachine
                 maxBetFlag = true;
                 slotView.BetOn(false);
                 Game.CalcCoinCollection(); //コイン回収
-                Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
-                Game.HitRolesLottery(); //役の抽選
-                Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
-                Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
+                //Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
+                //Game.HitRolesLottery(); //役の抽選
+                //Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
+                //Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 creditView.ShowCreditDisp();
             }
 
@@ -265,6 +272,7 @@ namespace GameMachine
 
             btnCount++;
             sbyte reelPosition = slotView.GetBottomReelPosition(selectReel);
+           //MessageBox.Show("reelposition"+ slotView.GetBottomReelPosition(selectReel).ToString());
             Game.SetNowReelPosition(selectReel, reelPosition); //現在のリールの位置を設定
             sbyte stopReelPosition = Game.CalcNextReelPosition(selectReel); //現在のリールの位置を元に計算　こいつの返り値を代入してViewに反映すること);
             slotView.SetStopReelPosition(selectReel,stopReelPosition);
@@ -298,7 +306,7 @@ namespace GameMachine
             {
                 case Reels.LEFT:
                     LeftStopPositionLabel.Text = stopReelPosition.ToString();
-                    slotView.SetStopReelPosition(selectReel, stopReelPosition);
+                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     LeftStopBtn.Enabled = false;
                     break;
@@ -306,7 +314,7 @@ namespace GameMachine
 
                 case Reels.CENTER:
                     CenterStopPositionLabel.Text = stopReelPosition.ToString();
-                    slotView.SetStopReelPosition(selectReel, stopReelPosition);
+                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     CenterStopBtn.Enabled = false;
                     break;
@@ -314,7 +322,7 @@ namespace GameMachine
 
                 case Reels.RIGHT:
                     RightStopPositionLabel.Text = stopReelPosition.ToString();
-                    slotView.SetStopReelPosition(selectReel, stopReelPosition);
+                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     RightStopBtn.Enabled = false;
                     break;
@@ -363,13 +371,13 @@ namespace GameMachine
 
 
         //test
-        //private void ShowTextBox()
-        //{
-        //    MessageBox.Show("達成した役" + Game.GetEstablishedRole().ToString()
-        //            + "\n  LEFFT:" + SymbolChangeToName(Constants.ReelOrder.LEFT_REEL_ORDER[Game.GetNextReelPosition(Reels.LEFT)]) + "," + Game.GetNextReelPosition(Reels.LEFT)
-        //            + "\n  CENTER:" + SymbolChangeToName(Constants.ReelOrder.CENTER_REEL_ORDER[Game.GetNextReelPosition(Reels.CENTER)]) + "," + Game.GetNextReelPosition(Reels.CENTER)
-        //            + "\n  RIGHT:" + SymbolChangeToName(Constants.ReelOrder.RIGHT_REEL_ORDER[Game.GetNextReelPosition(Reels.RIGHT)]) + "," + Game.GetNextReelPosition(Reels.RIGHT));
-        //}
+        private void ShowTextBox()
+        {
+           //MessageBox.Show("達成した役" + Game.GetEstablishedRole().ToString()
+                    //+ "\n  LEFFT:" + SymbolChangeToName(Constants.ReelOrder.LEFT_REEL_ORDER[Game.GetNextReelPosition(Reels.LEFT)]) + "," + Game.GetNextReelPosition(Reels.LEFT)
+                    //+ "\n  CENTER:" + SymbolChangeToName(Constants.ReelOrder.CENTER_REEL_ORDER[Game.GetNextReelPosition(Reels.CENTER)]) + "," + Game.GetNextReelPosition(Reels.CENTER)
+                    //+ "\n  RIGHT:" + SymbolChangeToName(Constants.ReelOrder.RIGHT_REEL_ORDER[Game.GetNextReelPosition(Reels.RIGHT)]) + "," + Game.GetNextReelPosition(Reels.RIGHT));
+        }
 
         //test
         private String SymbolChangeToName(Symbols symbol)
@@ -403,6 +411,24 @@ namespace GameMachine
                     break;
             }
             return value;
+        }
+
+        private void leelTags()
+        {
+            String valu = "";
+            foreach(PictureBox container in leftReelContainers)
+            {
+                 valu += container.Name + ":" + container.Tag.ToString() + " , ";
+            }
+            foreach (PictureBox container in centerReelContainers)
+            {
+                valu += container.Name + ":" + container.Tag.ToString() + " , ";
+            }
+            foreach (PictureBox container in rightReelContainers)
+            {
+                valu += container.Name + ":" + container.Tag.ToString() + " , ";
+            }
+           //MessageBox.Show(valu);
         }
     }
 }
