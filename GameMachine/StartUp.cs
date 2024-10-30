@@ -1,3 +1,4 @@
+using GameMachine.Controller;
 using GameMachine.InitialSettingView;
 using GameMachine.View;
 using System;
@@ -14,7 +15,7 @@ namespace GameMachine
 
 
 
-        
+        private static ResultController resultScreen = new ResultController();
 
 
         //集計（カウンター）画面
@@ -85,6 +86,7 @@ namespace GameMachine
             SetControlProperties(userGameScreen, new Size(1275, 875), new Point(325, 200)); // スロットゲーム
             SetControlProperties(accountLinkingScreen, new Size(1275, 700), new Point(325, 200)); // アカウントリンク
             SetControlProperties(creditDisplay, new Size(1275, 149), new Point(325, 930)); // クレジット表示
+            SetControlProperties(resultScreen, new Size(1275, 730), new Point(325, 200)); // クレジット表示
         }
 
         private void SetControlProperties(Control control, Size size, Point location)
@@ -139,6 +141,17 @@ namespace GameMachine
             ShowUserControl(accountLinkingScreen); // アカウントリンク画面を表示
             counterDisplay.Visible = true;      // カウンター表示を有効化
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
+        }
+
+        public void ShowResultScreen()
+        {
+            ShowUserControl(resultScreen);
+            userGameScreen.Visible = false;
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            creditDisplay.Visible = true;    // クレジット表示を有効にする
+            creditDisplay.BringToFront();    // クレジット表示を前面に移動
+            
+            resultScreen.BringToFront();
         }
 
 

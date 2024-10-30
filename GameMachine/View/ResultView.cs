@@ -30,6 +30,8 @@ namespace GameMachine.View
         public void ResultPictureSwitching(byte SetValue)
         {
             ResultPicture.Image = ResultPictureData[SetValue];
+            ResultPicture.Invalidate(); // 画面の再描画を強制する
+            ResultPicture.Refresh();
         }
     }
 }

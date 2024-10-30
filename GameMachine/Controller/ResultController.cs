@@ -1,4 +1,5 @@
-﻿using GameMachine.View;
+﻿using GameMachine.Model;
+using GameMachine.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,11 @@ namespace GameMachine.Controller
 {
     public partial class ResultController : UserControl
     {
+
         private ResultView resultView;
+        private byte SetValue = 5;
+
+
         private sbyte EndResultCount = 0;
         public ResultController()
         {
@@ -28,14 +33,18 @@ namespace GameMachine.Controller
             label2.Parent = ResultPictureBox;
             label2.BackColor = Color.Transparent;
 
-            EndResultDisplayTimer.Enabled = false;
+            EndResultDisplayTimer.Enabled = true;
+            resultView.ResultPictureSwitching(SetValue);
         }
         //ボーナスが終了して呼び出される
         public void ResultsDisplay()
         {
-            byte SetValue = 1;//ここはモデルから値をもらうよ
-            resultView.ResultPictureSwitching(SetValue);
-            EndResultDisplayTimer.Enabled = true;
+            var mainForm = this.Parent as StartUp;
+            if (mainForm != null)
+            {
+                mainForm.ShowResultScreen();
+            }
+            
         }
 
         private void EndResultDisplayTimer_Tick(object sender, EventArgs e)
@@ -43,7 +52,14 @@ namespace GameMachine.Controller
             EndResultCount++;
             if (EndResultCount == 7)
             {
+                EndResultCount = 0;
+                EndResultDisplayTimer.Enabled = true;
                 //スクリーン切り替え
+                var mainForm = this.Parent as StartUp;
+                if (mainForm != null)
+                {
+                    mainForm.ShowUserGameScreen();
+                }
             }
         }
     }

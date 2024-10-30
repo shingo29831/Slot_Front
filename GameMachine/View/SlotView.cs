@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Timers;
 using static Constants;
 using GameMachine.Model;
+using GameMachine.Controller;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace GameMachine
 {
@@ -17,6 +19,8 @@ namespace GameMachine
         private static sbyte leftReelPosition, centerReelPosition, rightReelPosition;
         private readonly Dictionary<Symbols, Bitmap> symbolImages;
         private readonly SlotController slotController;
+        private readonly ResultController resultController;
+        bool previousBonusState = false; // 初期状態をボーナス外と仮定
         //定数
         private static readonly int AMOUNT_OF_MOVEMENT = 25, SWITCHING_POINT = 550, INTERVAL = 16;
 
@@ -32,7 +36,7 @@ namespace GameMachine
 
             this.slotController = slotController;
 
-
+            this.resultController = new ResultController(); // インスタンス化を追加
 
             //this.leftReelContainers = slotController.leftReels;
             //this.centerReelContainers = slotController.centerReels;
@@ -343,6 +347,20 @@ namespace GameMachine
                     rightStopReelPosition = reelPosition;
                     break;
             }
+        }
+
+        public void Result()
+        {
+            resultController.ResultsDisplay();
+            /*bool currentBonusState = Game.GetInBonus();
+
+            // ボーナスが終了したときのみリザルト画面を表示
+            if (previousBonusState && !currentBonusState)
+            {
+                resultController.ResultsDisplay();
+            }
+
+            previousBonusState = currentBonusState; //状態を更新*/
         }
 
     }

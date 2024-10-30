@@ -40,8 +40,9 @@
             // 
             ResultPictureBox.Image = Properties.Resources.AmusementPark_1;
             ResultPictureBox.Location = new Point(0, 0);
+            ResultPictureBox.Margin = new Padding(0);
             ResultPictureBox.Name = "ResultPictureBox";
-            ResultPictureBox.Size = new Size(1260, 860);
+            ResultPictureBox.Size = new Size(1275, 725);
             ResultPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             ResultPictureBox.TabIndex = 0;
             ResultPictureBox.TabStop = false;
@@ -70,6 +71,7 @@
             // 
             // EndResultDisplayTimer
             // 
+            EndResultDisplayTimer.Interval = 1000;
             EndResultDisplayTimer.Tick += EndResultDisplayTimer_Tick;
             // 
             // ResultController
