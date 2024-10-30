@@ -28,84 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Label label1;
-            Label label2;
-            pictureBox1 = new PictureBox();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            components = new System.ComponentModel.Container();
+            ResultPictureBox = new PictureBox();
             label1 = new Label();
             label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            EndResultDisplayTimer = new System.Windows.Forms.Timer(components);
+            ((System.ComponentModel.ISupportInitialize)ResultPictureBox).BeginInit();
             SuspendLayout();
+            // 
+            // ResultPictureBox
+            // 
+            ResultPictureBox.Image = Properties.Resources.AmusementPark_1;
+            ResultPictureBox.Location = new Point(0, 0);
+            ResultPictureBox.Name = "ResultPictureBox";
+            ResultPictureBox.Size = new Size(1260, 860);
+            ResultPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            ResultPictureBox.TabIndex = 0;
+            ResultPictureBox.TabStop = false;
             // 
             // label1
             // 
-            label1.Font = new Font("NSimSun", 48F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic UI Semibold", 72F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(1081, 237);
+            label1.Location = new Point(715, 224);
             label1.Name = "label1";
-            label1.Size = new Size(236, 67);
-            label1.TabIndex = 3;
-            label1.Text = "GET";
-            label1.UseMnemonic = false;
+            label1.Size = new Size(338, 128);
+            label1.TabIndex = 1;
+            label1.Text = "TOTAL";
             // 
             // label2
             // 
-            label2.Font = new Font("NSimSun", 48F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            label2.AutoSize = true;
+            label2.Font = new Font("Yu Gothic UI Semibold", 72F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(1081, 628);
+            label2.Location = new Point(846, 352);
             label2.Name = "label2";
-            label2.Size = new Size(236, 67);
-            label2.TabIndex = 4;
-            label2.Text = "TOTAL";
-            label2.UseMnemonic = false;
+            label2.Size = new Size(372, 128);
+            label2.TabIndex = 2;
+            label2.Text = "000000";
             // 
-            // pictureBox1
+            // EndResultDisplayTimer
             // 
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1023, 927);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(1340, 193);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(458, 146);
-            textBox1.TabIndex = 1;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(1340, 589);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(458, 146);
-            textBox2.TabIndex = 2;
+            EndResultDisplayTimer.Tick += EndResultDisplayTimer_Tick;
             // 
             // ResultController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.Transparent;
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(pictureBox1);
+            Controls.Add(ResultPictureBox);
             ForeColor = SystemColors.ActiveBorder;
             Name = "ResultController";
-            Size = new Size(1920, 930);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Size = new Size(1260, 860);
+            Load += ResultController_Load;
+            ((System.ComponentModel.ISupportInitialize)ResultPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private PictureBox pictureBox1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private PictureBox ResultPictureBox;
+        private Label label1;
+        private Label label2;
+        private System.Windows.Forms.Timer EndResultDisplayTimer;
     }
 }
