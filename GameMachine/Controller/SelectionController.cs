@@ -23,7 +23,7 @@ namespace GameMachine
             var mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
-                mainForm.ShowAccountLinkingScreen();
+                mainForm.ShowAccountLinkingScreen();    //アカウントリンク画面表示
             }
         }
 
@@ -33,7 +33,7 @@ namespace GameMachine
             var mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
-                mainForm.ShowUserGameScreen();
+                mainForm.ShowWaitLinkScreen();          //待機画面表示
             }
         }
 

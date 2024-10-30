@@ -1,3 +1,4 @@
+using GameMachine.Controller;
 using GameMachine.InitialSettingView;
 using GameMachine.View;
 using System;
@@ -11,7 +12,7 @@ namespace GameMachine
         
         private static AccountLinkingController accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面のコントローラー
 
-
+        private static WaitLinkController waitLinkScreen = new WaitLinkController(); //待機画面のコントローラー
 
         
 
@@ -78,6 +79,7 @@ namespace GameMachine
             SetControlProperties(userGameScreen, new Size(1275, 875), new Point(325, 200)); // スロットゲーム
             SetControlProperties(accountLinkingScreen, new Size(1275, 700), new Point(325, 200)); // アカウントリンク
             SetControlProperties(creditDisplay, new Size(1275, 149), new Point(325, 930)); // クレジット表示
+            SetControlProperties(waitLinkScreen, new Size(1275, 875), new Point(325, 200));//待機画面
         }
 
         private void SetControlProperties(Control control, Size size, Point location)
@@ -124,6 +126,14 @@ namespace GameMachine
             ShowUserControl(accountLinkingScreen); // アカウントリンク画面を表示
             counterDisplay.Visible = true;      // カウンター表示を有効化
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
+        }
+
+        public void ShowWaitLinkScreen()
+        {
+            ShowUserControl(waitLinkScreen);    //待機画面表示
+            counterDisplay.Visible = true;      //カウンター画面表示
+            waitLinkScreen.BringToFront();      //待機画面を前面に移動
+            waitLinkScreen.WaitLink();          //待機処理開始
         }
 
         private void StartUp_KeyDown(object sender, KeyEventArgs e)
