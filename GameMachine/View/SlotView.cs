@@ -77,6 +77,7 @@ namespace GameMachine
         {
             if(leftReelStop && centerReelStop && rightReelStop)
             {
+                Result();
                 return true;
             }
             return false;
@@ -351,8 +352,8 @@ namespace GameMachine
 
         public void Result()
         {
-            resultController.ResultsDisplay();
-            /*bool currentBonusState = Game.GetInBonus();
+            //resultController.ResultsDisplay();
+            bool currentBonusState = Game.GetInBonus();
 
             // ボーナスが終了したときのみリザルト画面を表示
             if (previousBonusState && !currentBonusState)
@@ -360,7 +361,7 @@ namespace GameMachine
                 resultController.ResultsDisplay();
             }
 
-            previousBonusState = currentBonusState; //状態を更新*/
+            previousBonusState = currentBonusState; //状態を更新
         }
 
     }

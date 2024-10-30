@@ -58,7 +58,7 @@ namespace GameMachine.Controller
                 var mainForm = this.Parent as StartUp;
                 if (mainForm != null)
                 {
-                    mainForm.ShowUserGameScreen();
+                    mainForm.HideResultScreen();
                 }
             }
         }

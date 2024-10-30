@@ -146,15 +146,16 @@ namespace GameMachine
         public void ShowResultScreen()
         {
             ShowUserControl(resultScreen);
-            userGameScreen.Visible = false;
-            counterDisplay.Visible = true;      // カウンター表示を有効化
-            creditDisplay.Visible = true;    // クレジット表示を有効にする
-            creditDisplay.BringToFront();    // クレジット表示を前面に移動
-            
             resultScreen.BringToFront();
         }
 
-
+        public void HideResultScreen()
+        {
+            if (resultScreen != null)
+            {
+                resultScreen.Visible = false;
+            }
+        }
 
         private void StartUp_KeyDown(object sender, KeyEventArgs e)
         {

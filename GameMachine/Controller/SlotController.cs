@@ -280,12 +280,7 @@ namespace GameMachine
                 establishedRole = Game.GetEstablishedRole();
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
-                slotView.Result();//テストテストテストテストテストテストテストテストコード
-                var mainForm = this.Parent as StartUp;
-                if (mainForm != null)
-                {
-                    mainForm.ShowResultScreen();
-                }
+                //slotView.Result();//テストテストテストテストテストテストテストテストコード
                 creditView.ShowCreditDisp();
 
 
