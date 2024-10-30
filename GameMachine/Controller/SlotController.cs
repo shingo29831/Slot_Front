@@ -189,6 +189,7 @@ namespace GameMachine
 
         private void MaxBet_Click(object sender, EventArgs e)
         {
+            //debag();
             leelTags();
             if (maxBetFlag == false && establishedRole != Roles.REPLAY){
                 OnPushedMaxBet();
@@ -418,7 +419,7 @@ namespace GameMachine
             String valu = "";
             foreach(PictureBox container in leftReelContainers)
             {
-                 valu += container.Name + ":" + container.Tag.ToString() + " , ";
+                 valu += container.Name + ":" + container.Top.ToString() + " , ";
             }
             foreach (PictureBox container in centerReelContainers)
             {
@@ -428,7 +429,31 @@ namespace GameMachine
             {
                 valu += container.Name + ":" + container.Tag.ToString() + " , ";
             }
-           //MessageBox.Show(valu);
+            MessageBox.Show(valu);
+        }
+
+
+        public void debag()
+        {
+            MessageBox.Show(
+                slotView.GetReelCorrect(Reels.LEFT).ToString() + slotView.GetReelCorrect(Reels.CENTER).ToString() + slotView.GetReelCorrect(Reels.RIGHT).ToString() +
+            slotView.GetIsCorrect(leftReelContainers[0]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[0];
+            slotView.GetIsCorrect(leftReelContainers[1]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[1];
+            slotView.GetIsCorrect(leftReelContainers[2]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[2];
+            slotView.GetIsCorrect(leftReelContainers[3]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[3];
+
+
+            slotView.GetIsCorrect(centerReelContainers[0]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[0];
+            slotView.GetIsCorrect(centerReelContainers[1]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[1];
+            slotView.GetIsCorrect(centerReelContainers[2]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[2];
+            slotView.GetIsCorrect(centerReelContainers[3]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[3];
+
+            slotView.GetIsCorrect(rightReelContainers[0]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[0];
+            slotView.GetIsCorrect(rightReelContainers[1]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[1];
+            slotView.GetIsCorrect(rightReelContainers[2]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[2];
+            slotView.GetIsCorrect(rightReelContainers[3]).ToString()); // ; // =slotView.GetIsCorrect( rightReelContainers[3];
+
+
         }
     }
 }
