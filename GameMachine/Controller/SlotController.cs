@@ -76,9 +76,11 @@ namespace GameMachine
             {
                 case Keys.Z: // MAXBETボタン
                     MaxBet_Click(sender, e);
+                    slotView.MaxBetChangeDown();
                     break;
                 case Keys.X: // レバー
                     startLever_Click(sender, e);
+                    slotView.LeverDown();
                     break;
                 case Keys.V: // LEFTBUTTON
                     stopBtns_Click(LeftStopBtn, e);
@@ -94,7 +96,18 @@ namespace GameMachine
                     break;
             }
         }
-
+        private void SlotController_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Z: // MAXBETボタン
+                    slotView.MaxBetChangeUp();
+                    break;
+                case Keys.X: // レバー
+                    slotView.LeverUp();
+                    break;
+            }
+        }
         // スペースキーが押されたときの処理
         private void HandleSpaceBarPress()
         {
@@ -479,5 +492,7 @@ namespace GameMachine
             }
             return value;
         }
+
+        
     }
 }
