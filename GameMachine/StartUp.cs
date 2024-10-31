@@ -201,7 +201,6 @@ namespace GameMachine
 
             if (e.KeyCode == Keys.OemSemicolon)
             {
-                Thread.Sleep(200);
                 if (MessageBox.Show("ログアウトしますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     ShowWaitLogoutScreen();
