@@ -311,7 +311,7 @@ namespace GameMachine
                 slotView.BetOn(false);
                 Game.CalcCoinCollection(); //コイン回収
                 nextIf = true;
-                creditView.ShowCreditDisp();
+                
             }
             if (nextIf && firstIn && Game.GetInBonus())
             {
@@ -324,8 +324,12 @@ namespace GameMachine
                 Game.SetPreBonusCoin(0);
                 firstIn = true;
             }
+            if (nextIf)
+            {
+                creditView.ShowCreditDisp();
+            }
             nextIf = false;
-            creditView.ShowCreditDisp();
+
 
 
         }
