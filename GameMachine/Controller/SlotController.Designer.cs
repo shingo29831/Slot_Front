@@ -63,6 +63,11 @@
             LeftStopPositionLabel = new Label();
             CenterStopPositionLabel = new Label();
             RightStopPositionLabel = new Label();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -404,11 +409,71 @@
             RightStopPositionLabel.Text = "0";
             RightStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(181, 620);
+            label1.Name = "label1";
+            label1.Size = new Size(25, 30);
+            label1.TabIndex = 51;
+            label1.Text = "Z";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(356, 620);
+            label2.Name = "label2";
+            label2.Size = new Size(25, 30);
+            label2.TabIndex = 52;
+            label2.Text = "X";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Location = new Point(544, 682);
+            label3.Name = "label3";
+            label3.Size = new Size(26, 30);
+            label3.TabIndex = 53;
+            label3.Text = "V";
+            label3.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(719, 682);
+            label4.Name = "label4";
+            label4.Size = new Size(25, 30);
+            label4.TabIndex = 54;
+            label4.Text = "B";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Yu Gothic UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(860, 682);
+            label5.Name = "label5";
+            label5.Size = new Size(29, 30);
+            label5.TabIndex = 55;
+            label5.Text = "N";
+            label5.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(RightStopPositionLabel);
             Controls.Add(CenterStopPositionLabel);
             Controls.Add(LeftStopPositionLabel);
@@ -447,6 +512,7 @@
             Name = "SlotController";
             Size = new Size(1260, 860);
             Load += UserGameScreen_Load;
+            KeyDown += SlotController_KeyDown;
             ((System.ComponentModel.ISupportInitialize)CpB1).EndInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).EndInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).EndInit();
@@ -471,6 +537,7 @@
             ((System.ComponentModel.ISupportInitialize)LpB1).EndInit();
             ((System.ComponentModel.ISupportInitialize)RpB1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -509,5 +576,10 @@
         private Label LeftStopPositionLabel;
         private Label CenterStopPositionLabel;
         private Label RightStopPositionLabel;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
     }
 }
