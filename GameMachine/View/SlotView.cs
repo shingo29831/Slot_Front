@@ -8,21 +8,21 @@ using static Constants;
 using GameMachine.Model;
 using System.Reflection;
 
-namespace GameMachine
+namespace GameMachine.View
 {
     public class SlotView
     {
 
         private bool leftReelStop, centerReelStop, rightReelStop;
-        private Symbols[] leftOrder, centerOrder, rightOrder;
+        private readonly Symbols[] leftOrder, centerOrder, rightOrder;
         private static sbyte leftReelPosition, centerReelPosition, rightReelPosition;
         private readonly Dictionary<Symbols, Bitmap> symbolImages;
         private readonly SlotController slotController;
         //定数
-        private static readonly int AMOUNT_OF_MOVEMENT = 25, SWITCHING_POINT = 550, INTERVAL = 16;
+        private static readonly int SWITCHING_POINT = 550, INTERVAL = 16;//16;
         private static readonly int CONTAINER_INTERVAL = 175;
         private static readonly int GAP = 25;
-        private static readonly int MOVE = 40;//AMOUNT_OF_MOVEMENT;//(int)35;//45
+        private static readonly int MOVE = 35;
 
         private sbyte leftStopReelPosition = NONE;
         private sbyte centerStopReelPosition = NONE;
@@ -39,17 +39,11 @@ namespace GameMachine
         private System.Timers.Timer reelTimer = new System.Timers.Timer { Interval = INTERVAL, AutoReset = true };
         public SlotView(SlotController slotController)
         {
-            
-            //ReelTimerTick;
+           
 
             this.slotController = slotController;
 
 
-
-            //this.leftReelContainers = slotController.leftReels;
-            //this.centerReelContainers = slotController.centerReels;
-            //this.rightReelContainers = slotController.rightReels;
-            //this.slotController.pictureButtons = slotController.pictureButtons;
 
             leftOrder = ReelOrder.LEFT_REEL_ORDER;
             centerOrder = ReelOrder.CENTER_REEL_ORDER;
@@ -80,7 +74,7 @@ namespace GameMachine
         }
 
 
-
+        //全てのリールが停止しているか
         public bool AllStopReel()
         {
             if(leftReelStop && centerReelStop && rightReelStop)
@@ -110,8 +104,7 @@ namespace GameMachine
         //画像初期表示
         private void InitialSetReelImages(PictureBox[] reel, Symbols[] order, ref sbyte index)
         {
-            int position = 375;
-            //index = (sbyte)((index + 20) % order.Length);
+            int position = 375;;
             for (int i = 0; i < reel.Length; i++)
             {
 
@@ -157,10 +150,8 @@ namespace GameMachine
             rightStopReelPosition = NONE;
         }
 
-        int cnt = 0;
         public void UpdateReel()
         {
-            slotController.LeftCurrentPositionLabel.Text = GetLotteryPosition(slotController.leftReelContainers).ToString();
             if (!AllStopReel()  || !AllCorrect())
             {
 
@@ -182,17 +173,6 @@ namespace GameMachine
         {
             foreach (PictureBox symbol in slotController.leftReelContainers)
             {
-
-                //if ((sbyte)symbol.Tag == leftStopReelPosition && symbol.Top == 375 && !leftReelStop && GetReelCorrect(Reels.LEFT))
-                //{
-                    
-                    //MessageBox.Show("leftReelStop" + leftStopReelPosition.ToString());
-                    //slotController.SetStopBtnEnabled();
-                    //MessageBox.Show("leftReelStop" + symbol.Tag.ToString());
-                    //leftReelStop = true;
-
-                //}
-                //else 
                 if ((sbyte)symbol.Tag == leftStopReelPosition && (375 - symbol.Top <= MOVE && symbol.Top > 200))
                 {
                     leftNextMove = 375 - symbol.Top;
@@ -202,13 +182,6 @@ namespace GameMachine
 
             foreach (PictureBox symbol in slotController.centerReelContainers)
             {
-                //if ((sbyte)symbol.Tag == centerStopReelPosition && symbol.Top == 375 && !centerReelStop && GetReelCorrect(Reels.CENTER))
-                //{
-                    //slotController.SetStopBtnEnabled();
-                    //MessageBox.Show("centerReelStop" + symbol.Tag.ToString());
-                    //centerReelStop = true;
-                //}
-                //else 
                 if ((sbyte)symbol.Tag == centerStopReelPosition && (375 - symbol.Top <= MOVE && symbol.Top > 200))
                 {
                     centerNextMove = 375 - symbol.Top;
@@ -218,13 +191,6 @@ namespace GameMachine
 
             foreach (PictureBox symbol in slotController.rightReelContainers)
             {
-                //if ((sbyte)symbol.Tag == rightStopReelPosition && symbol.Top == 375 && !rightReelStop && GetReelCorrect(Reels.RIGHT))
-                //{
-                    //slotController.SetStopBtnEnabled();
-                    //MessageBox.Show("rightReelStop" + symbol.Tag.ToString());
-                    //rightReelStop = true;
-                //}
-                //else
                 if ((sbyte)symbol.Tag == rightStopReelPosition && (375 - symbol.Top <= MOVE && symbol.Top > 200))
                 {
                     rightNextMove = 375 - symbol.Top;
@@ -248,8 +214,6 @@ namespace GameMachine
         private void PreStopMoveReel(Reels selectReel)
         {
             PictureBox[] symbolContainers = new PictureBox[4];
-            sbyte reelPosition;
-            int nextMove;
 
             switch (selectReel)
             {
@@ -287,7 +251,6 @@ namespace GameMachine
 
         //画像遷移
         private void MoveReel(Reels selectReel, ref sbyte reelPosition ,PictureBox[] symbolContainers) { 
-            //var symbolContainers = leftReelContainers;
             Symbols[] order = new Symbols[21];
             bool stopFlag = false;
 
@@ -311,7 +274,7 @@ namespace GameMachine
             {
                 if (!stopFlag || !GetIsCorrect(symbolContainer))
                 {
-                    symbolContainer.Top += MOVE;//AMOUNT_OF_MOVEMENT; //シンボルの画像位置を移動
+                    symbolContainer.Top += MOVE; //シンボルの画像位置を移動
                 }
 
                 
@@ -329,7 +292,6 @@ namespace GameMachine
 
 
         //シンボルの画像切り替え
-
         private void UpdateImage(PictureBox symbolContainer, ref sbyte reelPosition, Symbols[] order)
         {
             reelPosition = (sbyte)(reelPosition % 21);
@@ -387,40 +349,6 @@ namespace GameMachine
         }
 
 
-
-        //停止位置を代入された値を取得する
-        private sbyte GetStopReelPosition(Reels selectReel)
-        {
-            switch (selectReel)
-            {
-                case Reels.LEFT:
-                    return leftStopReelPosition;
-                case Reels.CENTER:
-                    return centerStopReelPosition;
-                case Reels.RIGHT:
-                    return rightStopReelPosition;
-            }
-            return 0;
-        }
-
-        //最も上にあるコンテナの要素番号
-        public sbyte GetTopContainerIndex(PictureBox[] symbolContainers)
-        {
-            int minTop = 0;
-            int top = 0;
-            for (int i = 0; i < symbolContainers.Length; i++)
-            {
-                if (symbolContainers[i].Top > minTop)
-                {
-                    minTop = symbolContainers[i].Top;
-                    top = i;
-                }
-            }
-            top = (top + symbolContainers.Length - 1) % symbolContainers.Length;
-            return (sbyte)top;
-        }
-
-
         //上段にあるコンテナ
         public PictureBox GetTopContainer(PictureBox[] symbolContainers)
         {
@@ -472,35 +400,6 @@ namespace GameMachine
             }
             return bottom;
         }
-
-
-
-        //現在のリールの下段の位置を探索する
-        public sbyte GetBottomReelPosition(Reels selectReel)
-        {
-            PictureBox[] symbolContainers = new PictureBox[4];
-            switch (selectReel)
-            {
-                case Reels.LEFT:
-                    symbolContainers = slotController.leftReelContainers;
-                    break;
-                case Reels.CENTER:
-                    symbolContainers = slotController.centerReelContainers;
-                    break;
-                case Reels.RIGHT:
-                    symbolContainers = slotController.rightReelContainers;
-                    break;
-            }
-            for (int i = 0; i < symbolContainers.Length; i++)
-            {
-                if (symbolContainers[i].Top >= 200 - MOVE && symbolContainers[i].Top < 375 - MOVE)
-                {
-                    return (sbyte)symbolContainers[i].Tag;
-                }
-            }
-            return 0;
-        }
-
 
 
 

@@ -177,8 +177,6 @@ namespace GameMachine
 
         private void MaxBet_Click(object sender, EventArgs e)
         {
-            //debag();
-            //leelTags();
             if (maxBetFlag == false && establishedRole != Roles.REPLAY)
             {
                 OnPushedMaxBet();
@@ -189,7 +187,13 @@ namespace GameMachine
             }
         }
 
-        private void MaxBet_MouseUp(object sender, MouseEventArgs e) => slotView.MaxBetChangeUp();
+        private void MaxBet_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(establishedRole != Roles.REPLAY)
+            {
+                slotView.MaxBetChangeUp();
+            }
+        }
         private void MaxBet_MouseDown(object sender, MouseEventArgs e) => slotView.MaxBetChangeDown();
 
 
@@ -289,21 +293,18 @@ namespace GameMachine
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    LeftStopPositionLabel.Text = stopReelPosition.ToString();
                     slotView.BtnChange(selectReel);
                     LeftStopBtn.Enabled = false;
                     break;
 
 
                 case Reels.CENTER:
-                    CenterStopPositionLabel.Text = stopReelPosition.ToString();
                     slotView.BtnChange(selectReel);
                     CenterStopBtn.Enabled = false;
                     break;
 
 
                 case Reels.RIGHT:
-                    RightStopPositionLabel.Text = stopReelPosition.ToString();
                     slotView.BtnChange(selectReel);
                     RightStopBtn.Enabled = false;
                     break;
@@ -320,35 +321,6 @@ namespace GameMachine
         }
 
 
-
-
-
-        //テストコード
-        private void TriggerLampPattern()
-        {
-            slotViewLamp.StopLampFlash();
-            switch (patternCount)
-            {
-                case 1:
-                    slotViewLamp.BothFlowerLamp();
-                    break;
-                case 2:
-                    slotViewLamp.RightFlowerLamp();
-                    break;
-                case 3:
-                    slotViewLamp.LeftFlowerLamp();
-                    break;
-                case 4:
-                    slotViewLamp.StartLampFlashSlow();
-                    break;
-                case 5:
-                    slotViewLamp.StartLampFlashFast();
-                    break;
-                case 6:
-                    slotViewLamp.StartAlternatingLampFlashSlow();
-                    break;
-            }
-        }
 
 
     }

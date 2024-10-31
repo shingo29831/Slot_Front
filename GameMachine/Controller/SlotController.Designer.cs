@@ -57,12 +57,6 @@
             panel3 = new Panel();
             RpB1 = new PictureBox();
             panel5 = new Panel();
-            LeftCurrentPositionLabel = new Label();
-            CenterCurrentPositionLabel = new Label();
-            RightCurrentPositionLabel = new Label();
-            LeftStopPositionLabel = new Label();
-            CenterStopPositionLabel = new Label();
-            RightStopPositionLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -350,71 +344,11 @@
             panel5.Size = new Size(175, 50);
             panel5.TabIndex = 36;
             // 
-            // LeftCurrentPositionLabel
-            // 
-            LeftCurrentPositionLabel.Location = new Point(1050, 425);
-            LeftCurrentPositionLabel.Name = "LeftCurrentPositionLabel";
-            LeftCurrentPositionLabel.Size = new Size(25, 25);
-            LeftCurrentPositionLabel.TabIndex = 45;
-            LeftCurrentPositionLabel.Text = "0";
-            LeftCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // CenterCurrentPositionLabel
-            // 
-            CenterCurrentPositionLabel.Location = new Point(1100, 425);
-            CenterCurrentPositionLabel.Name = "CenterCurrentPositionLabel";
-            CenterCurrentPositionLabel.Size = new Size(25, 25);
-            CenterCurrentPositionLabel.TabIndex = 46;
-            CenterCurrentPositionLabel.Text = "0";
-            CenterCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // RightCurrentPositionLabel
-            // 
-            RightCurrentPositionLabel.Location = new Point(1150, 425);
-            RightCurrentPositionLabel.Name = "RightCurrentPositionLabel";
-            RightCurrentPositionLabel.Size = new Size(25, 25);
-            RightCurrentPositionLabel.TabIndex = 47;
-            RightCurrentPositionLabel.Text = "0";
-            RightCurrentPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // LeftStopPositionLabel
-            // 
-            LeftStopPositionLabel.Location = new Point(1050, 475);
-            LeftStopPositionLabel.Name = "LeftStopPositionLabel";
-            LeftStopPositionLabel.Size = new Size(25, 25);
-            LeftStopPositionLabel.TabIndex = 48;
-            LeftStopPositionLabel.Text = "0";
-            LeftStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // CenterStopPositionLabel
-            // 
-            CenterStopPositionLabel.Location = new Point(1100, 475);
-            CenterStopPositionLabel.Name = "CenterStopPositionLabel";
-            CenterStopPositionLabel.Size = new Size(25, 25);
-            CenterStopPositionLabel.TabIndex = 49;
-            CenterStopPositionLabel.Text = "0";
-            CenterStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // RightStopPositionLabel
-            // 
-            RightStopPositionLabel.Location = new Point(1150, 475);
-            RightStopPositionLabel.Name = "RightStopPositionLabel";
-            RightStopPositionLabel.Size = new Size(25, 25);
-            RightStopPositionLabel.TabIndex = 50;
-            RightStopPositionLabel.Text = "0";
-            RightStopPositionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(RightStopPositionLabel);
-            Controls.Add(CenterStopPositionLabel);
-            Controls.Add(LeftStopPositionLabel);
-            Controls.Add(RightCurrentPositionLabel);
-            Controls.Add(CenterCurrentPositionLabel);
-            Controls.Add(LeftCurrentPositionLabel);
             Controls.Add(panel5);
             Controls.Add(panel3);
             Controls.Add(Bet1);
@@ -503,11 +437,5 @@
         private Panel panel3;
         public PictureBox RpB1;
         private Panel panel5;
-        private Label LeftStopPositionLabel;
-        private Label CenterStopPositionLabel;
-        private Label RightStopPositionLabel;
-        public Label LeftCurrentPositionLabel;
-        public Label CenterCurrentPositionLabel;
-        public Label RightCurrentPositionLabel;
     }
 }
