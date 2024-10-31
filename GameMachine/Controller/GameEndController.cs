@@ -25,16 +25,18 @@ namespace GameMachine.Controller
 
         private void GameEndController_Load(object sender, EventArgs e)
         {
+            //残高
             Credit.Text = Game.GetHasCoin().ToString();
         }
 
+        
         private void EndButton_Click(object sender, EventArgs e)
         {
-            if (true)
+            if (true)//オンライン
             {
                 StartUp.ShowWaitLogoutScreen();
             }
-            else
+            else//オフライン
             {
                 var mainForm = this.Parent as StartUp;
                 if (mainForm != null)
@@ -45,6 +47,7 @@ namespace GameMachine.Controller
             
         }
 
+        //オンライン状態絵をセットする
         public void SetOnlineFlag(bool Flag)
         {
             OnLineFlag = Flag;
