@@ -12,11 +12,15 @@ using static GameMachine.Model.Game;
 
 namespace GameMachine.Controller
 {
+    
     public partial class GameEndController : UserControl
     {
+        private static StartUp StartUp;
+        private static bool OnLineFlag = false;
         public GameEndController()
         {
             InitializeComponent();
+            StartUp = new StartUp();
         }
 
         private void GameEndController_Load(object sender, EventArgs e)
@@ -26,11 +30,24 @@ namespace GameMachine.Controller
 
         private void EndButton_Click(object sender, EventArgs e)
         {
-            var mainForm = this.Parent as StartUp;
-            if (mainForm != null)
+            if (true)
             {
-                mainForm.ShowUserSelectionScreen();
+                StartUp.ShowWaitLogoutScreen();
             }
+            else
+            {
+                var mainForm = this.Parent as StartUp;
+                if (mainForm != null)
+                {
+                    mainForm.ShowUserSelectionScreen();
+                }
+            }
+            
+        }
+
+        public void SetOnlineFlag(bool Flag)
+        {
+            OnLineFlag = Flag;
         }
     }
 }

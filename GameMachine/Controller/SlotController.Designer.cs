@@ -447,6 +447,7 @@
             Size = new Size(1260, 860);
             Load += UserGameScreen_Load;
             KeyDown += SlotController_KeyDown;
+            KeyPress += SlotController_KeyPress;
             KeyUp += SlotController_KeyUp;
             ((System.ComponentModel.ISupportInitialize)CpB1).EndInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).EndInit();

@@ -49,6 +49,7 @@
             Margin = new Padding(0);
             Name = "WaitLogoutController";
             Size = new Size(1275, 700);
+            Load += WaitLogoutController_Load;
             ResumeLayout(false);
         }
 

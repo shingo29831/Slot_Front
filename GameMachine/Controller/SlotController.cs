@@ -32,6 +32,7 @@ namespace GameMachine
         private static bool startFlag = false;
         private static bool maxBetFlag = false;
         private static bool stopBtnEnabled = false;
+        private static bool isDialogShown = false;
         private static Roles establishedRole = Roles.NONE;
 
         public PictureBox[] leftReelContainers = new PictureBox[4];
@@ -99,13 +100,7 @@ namespace GameMachine
                 case Keys.Space: // スペースバー
                     HandleSpaceBarPress();
                     break;
-                case Keys.Escape: // エスケープキー
-                    var mainForm = this.Parent as StartUp;
-                    if (mainForm != null)
-                    {
-                        mainForm.ShowGameEndScreen();
-                    }
-                    break;
+                
             }
         }
 
@@ -118,6 +113,22 @@ namespace GameMachine
                     break;
                 case Keys.X: // レバー
                     slotView.LeverUp();
+                    break;
+                case Keys.Escape: // エスケープキー
+                    if (e.KeyCode == Keys.Escape && !isDialogShown)
+                    {
+                        isDialogShown = true;
+                        Thread.Sleep(200);
+                        if (MessageBox.Show("ゲーム終了しますか", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            var mainForm = this.Parent as StartUp;
+                            if (mainForm != null)
+                            {
+                                mainForm.ShowGameEndScreen();
+                            }
+                        }
+                        isDialogShown = false;
+                    }
                     break;
             }
         }
@@ -422,6 +433,9 @@ namespace GameMachine
             stopBtnEnabled = true;
         }
 
+        private void SlotController_KeyPress(object sender, KeyPressEventArgs e)
+        {
 
+        }
     }
 }

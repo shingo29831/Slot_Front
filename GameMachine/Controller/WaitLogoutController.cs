@@ -35,27 +35,32 @@ namespace GameMachine.Controller
                     mainForm.ShowUserSelectionScreen();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show("ログアウトに失敗しました。\nスタッフをお呼びください。", "Logout_Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if(mainForm != null)
+                if (mainForm != null)
                 {
                     mainForm.ShowUserSelectionScreen();
-                }              
+                }
             }
         }
 
-        async private void LogoutCheck()　
+        async private void LogoutCheck()
         {
             try
             {
                 //蟹江君のバックへの通信処理 成功時true 失敗時false をlogoutflgに入れる
                 await Task.Delay(1000);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw;
             }
+        }
+
+        private void WaitLogoutController_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

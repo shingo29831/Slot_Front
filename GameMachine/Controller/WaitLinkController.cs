@@ -22,7 +22,7 @@ namespace GameMachine.Controller
         {
             InitializeComponent();
         }
-
+        
         private void WaitLinkController_Load(object sender, EventArgs e)
         {
 
@@ -37,7 +37,7 @@ namespace GameMachine.Controller
             try
             {
                 //クレジットの値が更新されるまで無限回繰り返す
-                while (credit == -1) 
+                while (credit == -1)
                 {
                     CreditCheck();
                     await Task.Delay(1500);
@@ -52,16 +52,16 @@ namespace GameMachine.Controller
                     mainForm.ShowUserGameScreen();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //更新できなかった場合
                 MessageBox.Show("クレジットを追加できませんでした。\nスタッフをお呼びください。", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //ゲスト等選択画面に戻る
-                    if (mainForm != null)
+                if (mainForm != null)
                 {
                     mainForm.ShowUserSelectionScreen();
                 }
-            }              
+            }
         }
 
         //クレジットの値を取得
