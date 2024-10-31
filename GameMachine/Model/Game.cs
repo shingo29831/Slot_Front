@@ -20,7 +20,7 @@ namespace GameMachine.Model
 
         static bool nextBonusFlag = false;
         static bool inBonus = false;
-        static bool hitBonusFlag = false; //test前false
+        public static bool hitBonusFlag = false; //test前false
 
         public static sbyte StopReelCount { get; set; } = 0; //テスト前0
 
@@ -129,10 +129,11 @@ namespace GameMachine.Model
             }
 
             //現在のボーナスごとの終了条件を達成した時にボーナスを終了させる
-            if ((nowBonus == Roles.BIG && increasedCoin >= 150) || (nowBonus == Roles.REGULAR && increasedCoin >= 75))
+            if ((nowBonus == Roles.BIG && lastBonusCount >= 150) || (nowBonus == Roles.REGULAR && lastBonusCount >= 75))
             {
                 inBonus = false;
                 nowBonus = Roles.NONE;
+                lastBonusCount = 0;
             }
 
             //次のボーナスフラグがたっている時に次のボーナスに再突入させる
@@ -141,6 +142,10 @@ namespace GameMachine.Model
                 nextBonusFlag = false;
                 inBonus = true;
                 nowBonus = Roles.BIG;
+            }
+            else if(nextBonusFlag == false && inBonus == false)
+            {
+                increasedCoin = 0;
             }
         }
 
@@ -329,6 +334,7 @@ namespace GameMachine.Model
             foreach (Lines line in LINES_ARRAY)
             {
                 byte sevenNum = 0;
+                byte barNum = 0;
                 bool hasBar = false;
                 if (GetSymbolForLine(Reels.LEFT, line, nextLeftReel).HasFlag(GetSymbolForLine(Reels.CENTER, line, nextCenterReel) | GetSymbolForLine(Reels.RIGHT, line, nextRightReel)))
                 {
@@ -345,14 +351,19 @@ namespace GameMachine.Model
                     }
                     if (GetSymbolForLine(reel, line, nextReelPosition).HasFlag(Symbols.BAR))
                     {
+                        barNum++;
                         hasBar = true;
                     }
                 }
 
-
-                if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
+                if (barNum == 3)
+                {
+                    establishedRole = Roles.BIG;
+                }
+                else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
                 {
                     establishedRole = Roles.REGULAR;
+                    hitBonusFlag = false;
                 }
 
             }
@@ -503,7 +514,7 @@ namespace GameMachine.Model
 
         //ボーナス抽選当選後、実行するビックボーナスまたはレギュラーボーナスを決定する
         //決定はSetting.bigProbabilityを元に決定
-        private static void SelectBonusLottery()
+        public static void SelectBonusLottery()
         {
             Random rnd = new Random();
             byte bigProbability = Setting.GetBigProbability();
@@ -710,11 +721,16 @@ namespace GameMachine.Model
             //リーチ目用で使用
             Symbols centerSymbols = GetNextReelSymbols(Reels.CENTER);
 
+            //中段チェリー回避
+            if(nowRole != Roles.VERY_STRONG_CHERRY && position == Positions.MIDDLE){
+                exclusionSymbols = Symbols.CHERRY;
+            }
+
             switch (nowRole)
             {
                 case Roles.BELL:
                     //リーチのビットフラグからベルのフラグを消している
-                    exclusionSymbols = reachSymbols & ~Symbols.BELL;
+                    exclusionSymbols |= reachSymbols & ~Symbols.BELL;
 
                     //リーチ目用処理
                     if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
@@ -742,21 +758,22 @@ namespace GameMachine.Model
                     {
                         exclusionSymbols = exclusionSymbols | (Symbols.SEVEN | Symbols.BAR);
                     }
+           
                     break;
 
 
                 case Roles.WEAK_CHERRY:
                     if (selectReel == Reels.LEFT) //弱チェリーが当選した時、左リールでは除外用ビットフラグからチェリーを消す
                     {
-                        exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                        exclusionSymbols = exclusionSymbols | reachSymbols & ~Symbols.CHERRY;
                     }
                     if (selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
                     {
-                        exclusionSymbols = reachSymbols;
+                        exclusionSymbols = exclusionSymbols | reachSymbols;
                     }
-                    if (selectReel == Reels.LEFT && position == Positions.MIDDLE) //チェリーが当選した時、左リールにチェリーが来ないようにする
+                    if (selectReel == Reels.LEFT && position == Positions.MIDDLE) //弱チェリーが当選した時、左リール中段にチェリーが来ないようにする
                     {
-                        exclusionSymbols = reachSymbols;
+                        exclusionSymbols = exclusionSymbols | reachSymbols;
                     }
                     //リーチ目用処理
                     if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
@@ -769,15 +786,15 @@ namespace GameMachine.Model
                 case Roles.STRONG_CHERRY:
                     if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && (position == Positions.TOP || position == Positions.BOTTOM)) //左・右リールで上・下段の時、除外用ビットフラグのチェリーを下げる
                     {
-                        exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                        exclusionSymbols = exclusionSymbols | reachSymbols & ~Symbols.CHERRY;
                     }
                     if ((selectReel == Reels.LEFT || selectReel == Reels.RIGHT) && position == Positions.MIDDLE) //強チェリーが当選した時、左または右リールの中段にチェリーが来ないようにする
                     {
-                        exclusionSymbols = reachSymbols;
+                        exclusionSymbols = exclusionSymbols | reachSymbols;
                     }
                     if (selectReel == Reels.CENTER) //中央リールでは、どこにチェリーが来てもよい
                     {
-                        exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
+                        exclusionSymbols = exclusionSymbols | reachSymbols & ~Symbols.CHERRY;
                     }
                     //リーチ目用処理
                     if (reachSymbols.HasFlag(Symbols.REACH) && selectReel == Reels.CENTER) //リーチ目が出そうな時はSEVENとBARを除外シンボルフラグを建てる
@@ -971,12 +988,20 @@ namespace GameMachine.Model
         //(一つ目ののリール,二つ目のリールのPositions)
         private static bool GetIsStopBarForLines(Reels selectStopReel, Positions position)
         {
-            Symbols[] reelOrder = GetReelOrder(selectStopReel);
-            Positions stopReelBarPosition = GetPositionsForLines(selectStopReel, GetCandidateLines());
-            if (selectStopReel != Reels.CENTER && reelOrder[GetReelPositionForPosition(selectStopReel, stopReelBarPosition)] == Symbols.BAR)
+            try
             {
-                return true;
+                Symbols[] reelOrder = GetReelOrder(selectStopReel);
+                Positions stopReelBarPosition = GetPositionsForLines(selectStopReel, GetCandidateLines());
+                if (selectStopReel != Reels.CENTER && reelOrder[GetReelPositionForPosition(selectStopReel, stopReelBarPosition)] == Symbols.BAR)
+                {
+                    return true;
+                }
             }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
             return false;
         }
 

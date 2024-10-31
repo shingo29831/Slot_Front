@@ -25,7 +25,7 @@ namespace GameMachine
         private static readonly int SWITCHING_POINT = 550, INTERVAL = 16;//16;
         private static readonly int CONTAINER_INTERVAL = 175;
         private static readonly int GAP = 25;
-        private static readonly int MOVE = 35;
+        private static readonly int MOVE = 36;
 
         private sbyte leftStopReelPosition = NONE;
         private sbyte centerStopReelPosition = NONE;
@@ -126,7 +126,15 @@ namespace GameMachine
         //定期動作させる処理
         private void ReelTimerTick()
         {
-            slotController.Invoke((MethodInvoker)(() => UpdateReel()));
+            try
+            {
+                slotController.Invoke((MethodInvoker)(() => UpdateReel()));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("ゲームシステムにエラーが発生しました\nスタッフを呼んでください\n最終残高:" + Game.GetHasCoin());
+            }
+            
         }
 
         //リールを動いている判定にする

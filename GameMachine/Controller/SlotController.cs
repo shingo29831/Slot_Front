@@ -215,6 +215,11 @@ namespace GameMachine
                 Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
                 Game.HitRolesLottery(); //役の抽選
                 Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
+
+                //test
+                //Game.hitBonusFlag = true;
+                //Game.SelectBonusLottery();
+
                 Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 EnableStopButtons();
                 StartReels();
