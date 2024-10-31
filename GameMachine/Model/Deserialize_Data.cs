@@ -1,30 +1,38 @@
-class Deserialize_Data
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace Model;
+public class Deserialize_Data
 {
 	[JsonPropertyName("result")]
-	public string Result { get; set; }
+	public string? Result { get; set; }
 
 	[JsonPropertyName("message")]
-	public string Message { get; set; }
+	public string? Message { get; set; }
 
 	[JsonPropertyName("username")]
-	public string Username { get; set; }
+	public string? Username { get; set; }
 
 	[JsonPropertyName("password")]
-	public string Password { get; set; }
+	public string? Password { get; set; }
 
 	[JsonPropertyName("token")]
-	public string Token { get; set; }
+	public string? Token { get; set; }
 
 	[JsonPropertyName("table")]
-	public string Table { get; set; }
+	public string? Table { get; set; }
 
 	[JsonPropertyName("money")]
-	public string Money { get; set; }
+	public int? Money { get; set; }
 
 	[JsonPropertyName("key")]
-	public string Key { get; set; }
+	public string? Key { get; set; }
 
 	[JsonPropertyName("table_id")]
-	public string Table_id { get; set; }
+	public string? Table_id { get; set; }
 
 }
