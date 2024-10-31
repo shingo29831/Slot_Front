@@ -101,6 +101,7 @@ namespace GameMachine
             this.Controls.Add(control); // フォームに追加
         }
 
+
         private void ShowUserControl(Control controlToShow)
         {
             //表示処理
@@ -174,6 +175,12 @@ namespace GameMachine
             waitLogoutController.BringToFront();    //待機画面を前面に移動
             waitLogoutController.WaitLogout();      //待機処理開始
         }
+
+        public void ShowCreditDisp()
+        {
+            creditView.ShowCreditDisp();
+        }
+
 
         private void StartUp_KeyDown(object sender, KeyEventArgs e)
         {

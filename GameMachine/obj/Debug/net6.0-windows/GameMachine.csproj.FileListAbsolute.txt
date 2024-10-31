@@ -171,3 +171,5 @@ C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\
 C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLinkController.resources
 C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLogoutController.resources
 C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLinkController.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLogoutController.resources

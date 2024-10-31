@@ -44,7 +44,8 @@ namespace GameMachine.Controller
                     credit = 100;
                 }
                 //更新できた場合
-                //Game.IncreaseHasCoin(credit);
+                Game.IncreaseHasCoin(credit);
+                mainForm.ShowCreditDisp();
                 //ゲーム開始画面に行く
                 if (mainForm != null)
                 {

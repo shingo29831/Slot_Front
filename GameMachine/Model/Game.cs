@@ -77,6 +77,7 @@ namespace GameMachine.Model
 
         public static Roles GetNowBonus() { return nowBonus; }
 
+        public static void IncreaseHasCoin(int increase) { hasCoin += increase; }
         public static int GetHasCoin() { return hasCoin; }
 
         public static int GetIncreasedCoin() { return increasedCoin; }
