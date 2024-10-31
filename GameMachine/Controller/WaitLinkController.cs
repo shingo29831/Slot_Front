@@ -24,7 +24,7 @@ namespace GameMachine.Controller
         }
 
         private void WaitLinkController_Load(object sender, EventArgs e)
-        {            
+        {
 
         }
 
@@ -33,32 +33,33 @@ namespace GameMachine.Controller
         {
             var mainForm = this.Parent as StartUp;
 
-            //クレジットの値の更新と待機処理
-            for (int i = 0; i < 3 && credit == -1; i++)
+            try
             {
-                CreditCheck();
-                await Task.Delay(1500);                    
-            }
-            //Game.IncreaseHasCoin(credit);
-
-            //更新できなかった場合
-            if (credit == -1)
-            {
-                //ゲスト等選択画面に戻る
-                if (mainForm != null)
+                //クレジットの値が更新されるまで無限回繰り返す
+                while (credit == -1) 
                 {
-                    mainForm.ShowUserSelectionScreen();
+                    CreditCheck();
+                    await Task.Delay(1500);
+                    credit = 100;
                 }
-            }
-            //更新できた場合
-            else
-            {
+                //更新できた場合
+                //Game.IncreaseHasCoin(credit);
                 //ゲーム開始画面に行く
                 if (mainForm != null)
                 {
                     mainForm.ShowUserGameScreen();
                 }
             }
+            catch(Exception e)
+            {
+                //更新できなかった場合
+                MessageBox.Show("クレジットを追加できませんでした。\nスタッフをお呼びください。", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //ゲスト等選択画面に戻る
+                    if (mainForm != null)
+                {
+                    mainForm.ShowUserSelectionScreen();
+                }
+            }              
         }
 
         //クレジットの値を取得

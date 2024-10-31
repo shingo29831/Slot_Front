@@ -22,6 +22,9 @@
     <Compile Update="Controller\WaitLinkController.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Controller\WaitLogoutController.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="StartUp.cs">
       <SubType>Form</SubType>
     </Compile>
