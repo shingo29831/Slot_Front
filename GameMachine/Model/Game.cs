@@ -671,6 +671,8 @@ namespace GameMachine.Model
                 searchPosition = CalcReelPosition(searchPosition, 1);
             }
 
+
+
             //弱チェリー回避ここまで
 
 
@@ -749,6 +751,10 @@ namespace GameMachine.Model
                         exclusionSymbols = reachSymbols & ~Symbols.CHERRY;
                     }
                     if (selectReel == Reels.CENTER || selectReel == Reels.RIGHT) //弱チェリーが当選した時、中・右リールではリーチになった全てのシンボルをビットフラグに入れる
+                    {
+                        exclusionSymbols = reachSymbols;
+                    }
+                    if (selectReel == Reels.LEFT && position == Positions.MIDDLE) //チェリーが当選した時、左リールにチェリーが来ないようにする
                     {
                         exclusionSymbols = reachSymbols;
                     }
