@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj": {}
+    "C:\\Users\\sumik\\Desktop\\Slot_Front\\GameMachine\\GameMachine.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj": {
+    "C:\\Users\\sumik\\Desktop\\Slot_Front\\GameMachine\\GameMachine.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+        "projectUniqueName": "C:\\Users\\sumik\\Desktop\\Slot_Front\\GameMachine\\GameMachine.csproj",
         "projectName": "GameMachine",
-        "projectPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
-        "packagesPath": "C:\\Users\\Shingo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\obj\\",
+        "projectPath": "C:\\Users\\sumik\\Desktop\\Slot_Front\\GameMachine\\GameMachine.csproj",
+        "packagesPath": "C:\\Users\\sumik\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sumik\\Desktop\\Slot_Front\\GameMachine\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Shingo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sumik\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,11 +39,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -60,6 +55,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.26, 6.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.26, 6.0.26]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -68,7 +81,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -39,7 +39,23 @@ namespace GameMachine
 
         private void UserSelectionScren_Load(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void SettingCheck(object sender, KeyPressEventArgs e)
+        {
+            var mainForm = this.Parent as StartUp;
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                string s = textBox1.Text;
+                s = s.Replace(Environment.NewLine, "");
+                if (s.Equals("Setting"))
+                {
+
+                    mainForm.ShowSettingScreen();
+                }
+                textBox1.Clear();
+            }
         }
     }
 }

@@ -70,7 +70,7 @@
             label1.Font = new Font("Yu Gothic UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point);
             label1.Location = new Point(50, 100);
             label1.Name = "label1";
-            label1.Size = new Size(238, 50);
+            label1.Size = new Size(239, 50);
             label1.TabIndex = 0;
             label1.Text = "アカウントプレイ";
             // 
@@ -101,7 +101,7 @@
             label2.Font = new Font("Yu Gothic UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(75, 100);
             label2.Name = "label2";
-            label2.Size = new Size(185, 50);
+            label2.Size = new Size(186, 50);
             label2.TabIndex = 1;
             label2.Text = "ゲストプレイ";
             // 
@@ -111,7 +111,7 @@
             label3.Font = new Font("Yu Gothic UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point);
             label3.Location = new Point(425, 50);
             label3.Name = "label3";
-            label3.Size = new Size(413, 47);
+            label3.Size = new Size(414, 47);
             label3.TabIndex = 2;
             label3.Text = "プレイ方法を選択してください";
             // 
@@ -132,6 +132,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(150, 25);
             textBox1.TabIndex = 1;
+            textBox1.KeyPress += SettingCheck;
             // 
             // label4
             // 
@@ -143,7 +144,7 @@
             label4.TabIndex = 0;
             label4.Text = "コード：";
             // 
-            // UserSelectionScren
+            // SelectionController
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
@@ -151,7 +152,7 @@
             Controls.Add(label3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "UserSelectionScren";
+            Name = "SelectionController";
             Size = new Size(1275, 700);
             Load += UserSelectionScren_Load;
             panel1.ResumeLayout(false);
