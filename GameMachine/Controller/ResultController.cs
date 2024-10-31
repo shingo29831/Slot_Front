@@ -44,7 +44,7 @@ namespace GameMachine.Controller
             {
                 mainForm.ShowResultScreen();
             }
-            
+
         }
 
         private void EndResultDisplayTimer_Tick(object sender, EventArgs e)
@@ -61,6 +61,11 @@ namespace GameMachine.Controller
                     mainForm.HideResultScreen();
                 }
             }
+        }
+
+        private void ResultPictureBox_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

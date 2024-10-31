@@ -46,6 +46,7 @@
             ResultPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             ResultPictureBox.TabIndex = 0;
             ResultPictureBox.TabStop = false;
+            ResultPictureBox.Click += ResultPictureBox_Click;
             // 
             // label1
             // 

@@ -17,7 +17,9 @@ namespace GameMachine
 
         private static WaitLogoutController waitLogoutController = new WaitLogoutController(); //ログアウト待機画面のコントローラー
 
-        private static ResultController resultScreen = new ResultController();
+        private static ResultController resultScreen = new ResultController();//リザルト画面のコントローラー
+
+        private static GameEndController gameEndScreen = new GameEndController();//ゲーム終了画面
 
 
         //集計（カウンター）画面
@@ -91,6 +93,7 @@ namespace GameMachine
             SetControlProperties(resultScreen, new Size(1275, 730), new Point(325, 200)); // クレジット表示
             SetControlProperties(waitLinkScreen, new Size(1275, 875), new Point(325, 200));//待機画面
             SetControlProperties(waitLogoutController, new Size(1275, 875), new Point(325, 200));//ログアウト待ち画面
+            SetControlProperties(gameEndScreen, new Size(1275, 730), new Point(325, 200));//ゲーム終了画面
         }
 
         private void SetControlProperties(Control control, Size size, Point location)
@@ -161,6 +164,15 @@ namespace GameMachine
                 resultScreen.Visible = false;
             }
         }
+
+        public void ShowGameEndScreen()
+        {
+            ShowUserControl(gameEndScreen);
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            creditDisplay.Visible = true;    // クレジット表示を有効化
+            creditDisplay.BringToFront();    // クレジット表示を前面に移動
+        }
+
         public void ShowWaitLinkScreen()
         {
             ShowUserControl(waitLinkScreen);    //待機画面表示
@@ -189,15 +201,6 @@ namespace GameMachine
 
         private void StartUp_KeyUp(object sender, KeyEventArgs e)
         {
-            // Esc キーが押されたら終了確認のダイアログを表示
-            if (e.KeyCode == Keys.Escape)
-            {
-                DialogResult result = MessageBox.Show("アプリケーションを終了しますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close(); // アプリケーションを終了
-                }
-            }
 
             if (e.KeyCode == Keys.OemSemicolon)
             {

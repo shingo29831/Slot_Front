@@ -20,6 +20,8 @@ namespace GameMachine
 
         private ResultController resultController;
 
+        private GameEndController endController;
+
         public static sbyte stopLeftCount, stopCenterCount, stopRightCount;
 
         // ランプパターン
@@ -55,6 +57,8 @@ namespace GameMachine
 
             this.KeyDown += SlotController_KeyDown;
             this.PreviewKeyDown += SlotController_PreviewKeyDown;  // フォーカスを設定するためのイベント
+
+            this.endController = new GameEndController();
 
         }
 
@@ -95,8 +99,16 @@ namespace GameMachine
                 case Keys.Space: // スペースバー
                     HandleSpaceBarPress();
                     break;
+                case Keys.Escape: // エスケープキー
+                    var mainForm = this.Parent as StartUp;
+                    if (mainForm != null)
+                    {
+                        mainForm.ShowGameEndScreen();
+                    }
+                    break;
             }
         }
+
         private void SlotController_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
