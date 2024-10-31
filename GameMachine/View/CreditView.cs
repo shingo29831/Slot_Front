@@ -40,7 +40,7 @@ namespace GameMachine.View
         {
             if (Game.GetInBonus())
             {
-                creditDisplay.countTxb.Text = Game.GetIncreasedCoin().ToString();
+                creditDisplay.countTxb.Text = (Game.GetHasCoin() - Game.GetPreBonusCoin()) .ToString();
             }
             else
             {

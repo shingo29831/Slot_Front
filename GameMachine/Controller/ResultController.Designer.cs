@@ -92,10 +92,9 @@
         }
 
         #endregion
-
-        private PictureBox ResultPictureBox;
         private Label label1;
         private Label label2;
         private System.Windows.Forms.Timer EndResultDisplayTimer;
+        public PictureBox ResultPictureBox;
     }
 }

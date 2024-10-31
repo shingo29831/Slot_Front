@@ -15,15 +15,16 @@ namespace GameMachine.Controller
     public partial class ResultController : UserControl
     {
 
-        private ResultView resultView;
+        //private ResultView resultView;
         private byte SetValue = 5;
 
 
         private sbyte EndResultCount = 0;
+
+
         public ResultController()
         {
             InitializeComponent();
-            resultView = new ResultView(ResultPictureBox);
         }
 
         private void ResultController_Load(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace GameMachine.Controller
             label2.BackColor = Color.Transparent;
 
             EndResultDisplayTimer.Enabled = true;
-            resultView.ResultPictureSwitching(SetValue);
+            //resultView.ResultPictureSwitching(SetValue);
         }
         //ボーナスが終了して呼び出される
         public void ResultsDisplay()

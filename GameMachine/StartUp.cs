@@ -28,7 +28,8 @@ namespace GameMachine
         //スロット画面（クレジット画面とカウンターViewも付加）
         private static CreditController creditDisplay = new CreditController();          // クレジット表示コントローラー
         public static CreditView creditView = new CreditView(creditDisplay);
-        private static SlotController userGameScreen = new SlotController(creditView, counterView);       // スロットゲーム画面のコントローラー
+        public static ResultView resultView = new ResultView(resultScreen);
+        private static SlotController userGameScreen = new SlotController(creditView, counterView,resultView);       // スロットゲーム画面のコントローラー
         public static SlotView slotView = new SlotView(userGameScreen);
 
         public StartUp()

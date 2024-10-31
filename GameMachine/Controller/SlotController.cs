@@ -17,6 +17,7 @@ namespace GameMachine
 
         private CreditView creditView;
         private CounterView counterView;
+        public ResultView resultView;
 
         private ResultController resultController;
 
@@ -30,6 +31,8 @@ namespace GameMachine
         private static bool startFlag = false;
         private static bool maxBetFlag = false;
         private static bool stopBtnEnabled = false;
+        private static bool firstIn = true;
+        private static bool nextIf = false;
         private static Roles establishedRole = Roles.NONE;
 
         public PictureBox[] leftReelContainers = new PictureBox[4];
@@ -40,11 +43,14 @@ namespace GameMachine
         // スペースボタンの押下カウント
         private int spaceBarPressCount = 0;
 
+        private bool resultEnabled = false;
+
         private Control mainForm;
+        
 
         public System.Timers.Timer reelTimer = new System.Timers.Timer { Interval = 16, AutoReset = true };
 
-        public SlotController(CreditView creditView, CounterView counterView)
+        public SlotController(CreditView creditView, CounterView counterView, ResultView resultView)
         {
             InitializeComponent();
             InitializeSlotView();
@@ -52,10 +58,13 @@ namespace GameMachine
 
             this.creditView = creditView;
             this.counterView = counterView;
+            this.resultView = resultView;
+
 
             this.KeyDown += SlotController_KeyDown;
             this.PreviewKeyDown += SlotController_PreviewKeyDown;  // フォーカスを設定するためのイベント
 
+            
         }
 
         // コントロールにフォーカスを設定するためのイベント
@@ -217,8 +226,8 @@ namespace GameMachine
                 Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
 
                 //test
-                //Game.hitBonusFlag = true;
-                //Game.SelectBonusLottery();
+                Game.hitBonusFlag = true;
+                Game.SelectBonusLottery();
 
                 Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 EnableStopButtons();
@@ -293,7 +302,7 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
-
+            
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
@@ -301,8 +310,22 @@ namespace GameMachine
                 maxBetFlag = true;
                 slotView.BetOn(false);
                 Game.CalcCoinCollection(); //コイン回収
+                nextIf = true;
                 creditView.ShowCreditDisp();
             }
+            if (nextIf && firstIn && Game.GetInBonus())
+            {
+
+                firstIn = false;
+                Game.SetPreBonusCoin(Game.GetHasCoin());
+            }
+            if (nextIf && !Game.GetInBonus())
+            {
+                Game.SetPreBonusCoin(0);
+                firstIn = true;
+            }
+            nextIf = false;
+            creditView.ShowCreditDisp();
 
 
         }
@@ -364,6 +387,8 @@ namespace GameMachine
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
 
+                
+
                 creditView.ShowCreditDisp();
 
 
@@ -371,12 +396,15 @@ namespace GameMachine
 
                 Counter.CountUpCounterData(establishedRole);
                 counterView.SwitchCounterUpdate(); //集計の表示を更新
-                if (establishedRole == Roles.REPLAY)
-                {
-                    OnPushedMaxBet();
-                    slotView.MaxBetChangeDown();
-                }
+
+
             }
+            if (btnCount == 3 && establishedRole == Roles.REPLAY)
+            {
+                OnPushedMaxBet();
+                slotView.MaxBetChangeDown();
+            }
+            
 
 
 

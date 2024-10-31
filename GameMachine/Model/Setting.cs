@@ -23,7 +23,7 @@ namespace GameMachine.Model
 
         private static String pcID = "info";
         private static String userID = "";
-        private static sbyte expected = 0;
+        private static byte expected = 1;
         private static byte bigProbability = 30;//ボーナス当選後のBIGのx/100(x%)当選確率
         private static byte regProbability = (byte)(100 - bigProbability);
         private static readonly Roles[] roles = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
@@ -39,6 +39,14 @@ namespace GameMachine.Model
         private static readonly byte inBonusReturn = 15; //通常時(ボーナスではない)の払い出し枚数
                                                          //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
 
+        private static readonly byte[] imageProbability = { 55, 20, 10 , 8 , 5 , 2}; //台設定示唆リザルト画面確率
+
+
+        public static byte GetImageProbability(byte index)
+        {
+            return imageProbability[index];
+        }
+        
 
         public static int GetTotalWeight()
         {
@@ -54,6 +62,9 @@ namespace GameMachine.Model
         {
             return rolesReturn[RolesToIndex(role)];
         }
+        public static void SetExpected(byte expected) { Setting.expected = expected; }
+
+        public static byte GetExpected() { return Setting.expected; }
 
         public static void SetUserID(String userID) { Setting.userID = userID; }
         public static String GetUserID() { return Setting.userID; }

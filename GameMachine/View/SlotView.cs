@@ -8,6 +8,7 @@ using static Constants;
 using GameMachine.Model;
 using GameMachine.Controller;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using GameMachine.View;
 
 namespace GameMachine
 {
@@ -20,7 +21,6 @@ namespace GameMachine
         private readonly Dictionary<Symbols, Bitmap> symbolImages;
         private readonly SlotController slotController;
         private readonly ResultController resultController;
-        bool previousBonusState = false; // 初期状態をボーナス外と仮定
         //定数
         private static readonly int SWITCHING_POINT = 550, INTERVAL = 16;//16;
         private static readonly int CONTAINER_INTERVAL = 175;
@@ -79,9 +79,10 @@ namespace GameMachine
         //全てのリールが停止しているか
         public bool AllStopReel()
         {
+            
             if (leftReelStop && centerReelStop && rightReelStop)
             {
-                Result();
+                
                 return true;
             }
             return false;
@@ -483,19 +484,7 @@ namespace GameMachine
             return false;
         }
 
-        public void Result()
-        {
-            //resultController.ResultsDisplay();
-            bool currentBonusState = Game.GetInBonus();
-
-            // ボーナスが終了したときのみリザルト画面を表示
-            if (previousBonusState && !currentBonusState)
-            {
-                resultController.ResultsDisplay();
-            }
-
-            previousBonusState = currentBonusState; //状態を更新
-        }
+        
 
     }
 }

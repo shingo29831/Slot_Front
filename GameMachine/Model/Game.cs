@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 using static Constants;
@@ -17,6 +18,7 @@ namespace GameMachine.Model
         static int hasCoin = 100; //テスト前0
         static int increasedCoin = 0;
         static int lastBonusCount = 0;
+        static int preBonusCoin = 0;
 
         static bool nextBonusFlag = false;
         static bool inBonus = false;
@@ -68,17 +70,22 @@ namespace GameMachine.Model
         //
         //クラス外から使用可能なメソッドここから
 
-        public static void SetNowRole(Roles role) { nowRole = role; }
-        public static Roles GetNowRole() { return nowRole; }
-        public static void SetEstablishedRole(Roles role) { establishedRole = role; }
-        public static Roles GetEstablishedRole() { return establishedRole; }
+        public static void SetNowRole(Roles role) { Game.nowRole = role; }
+        public static Roles GetNowRole() { return Game.nowRole; }
+        public static void SetEstablishedRole(Roles role) { Game.establishedRole = role; }
+        public static Roles GetEstablishedRole() { return Game.establishedRole; }
 
-        public static bool GetInBonus() { return inBonus; }
+        public static bool GetInBonus() { return Game.inBonus; }
 
-        public static Roles GetNowBonus() { return nowBonus; }
+        public static Roles GetNowBonus() { return Game.nowBonus; }
 
-        public static void IncreaseHasCoin(int increase) { hasCoin += increase; }
-        public static int GetHasCoin() { return hasCoin; }
+        public static void IncreaseHasCoin(int increase) { Game.hasCoin += increase; }
+        public static int GetHasCoin() { return Game.hasCoin; }
+
+        public static bool SetHasCoin(int hasCoin) { Game.hasCoin = hasCoin; return true; }
+
+        public static void SetPreBonusCoin(int coin) { Game.preBonusCoin = coin; }
+        public static int GetPreBonusCoin() { return Game.preBonusCoin; }
 
         public static int GetIncreasedCoin() { return increasedCoin; }
 
@@ -98,6 +105,35 @@ namespace GameMachine.Model
                     break;
             }
         }
+
+
+
+
+        public static byte GetSuggestionImage(byte expected)
+        {
+            int totalWeight = 0;
+            for ( byte i = 0; i < expected ; i++)
+            {
+                totalWeight += GetImageProbability( i );
+            }
+            Random rnd = new Random();
+            int rndNum = rnd.Next(0, totalWeight);
+            int sumWeight = 0;
+            byte imageIndex = 0;
+            for (byte i = 0;i < expected; i++)
+            {
+                sumWeight += GetImageProbability( i );
+                if ( rndNum < sumWeight)
+                {
+                    imageIndex = i;
+                    break;
+                }
+            }
+            return (byte)(imageIndex + 1);
+
+        }
+
+
 
         //リールの今のポジションを取得する　引数に定数クラスのReels.LEFT,Reels.CENTER,Reels.RIGHT
         public static sbyte GetNowReelPosition(in Reels selectReel)
@@ -556,7 +592,7 @@ namespace GameMachine.Model
             if (inBonus && establishedRole != Roles.NONE)
             {
                 hasCoin += 15;
-                increasedCoin += 15;
+                increasedCoin += 13;
                 lastBonusCount += 15;
             }
             else if (!inBonus && establishedRole != Roles.NONE)
