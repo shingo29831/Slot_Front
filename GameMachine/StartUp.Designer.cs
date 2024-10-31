@@ -30,17 +30,16 @@
         {
             SuspendLayout();
             // 
-            // Form1
+            // StartUp
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1904, 1041);
             Name = "StartUp";
             Text = "StartUp";
             Load += StartUp_Load;
             KeyDown += StartUp_KeyDown;
+            KeyUp += StartUp_KeyUp;
             ResumeLayout(false);
-
         }
 
         #endregion

@@ -168,3 +168,6 @@ C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refi
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLinkController.resources
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLogoutController.resources
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.TestForm.resources
