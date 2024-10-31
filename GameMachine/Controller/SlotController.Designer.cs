@@ -503,11 +503,11 @@
         private Panel panel3;
         public PictureBox RpB1;
         private Panel panel5;
-        private Label LeftCurrentPositionLabel;
-        private Label CenterCurrentPositionLabel;
-        private Label RightCurrentPositionLabel;
         private Label LeftStopPositionLabel;
         private Label CenterStopPositionLabel;
         private Label RightStopPositionLabel;
+        public Label LeftCurrentPositionLabel;
+        public Label CenterCurrentPositionLabel;
+        public Label RightCurrentPositionLabel;
     }
 }

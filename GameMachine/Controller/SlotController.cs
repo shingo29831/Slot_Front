@@ -46,7 +46,7 @@ namespace GameMachine
             this.creditView = creditView;
             this.counterView = counterView;
 
-            
+
         }
 
         public void SlotViewLoad(SlotView slotView)
@@ -71,21 +71,16 @@ namespace GameMachine
             rightReelContainers[2] = RpB3;
             rightReelContainers[3] = RpB4;
 
-            pictureButtons[0] = startLever; 
-            pictureButtons[1] = LeftStopBtn; 
-            pictureButtons[2] = CenterStopBtn; 
+            pictureButtons[0] = startLever;
+            pictureButtons[1] = LeftStopBtn;
+            pictureButtons[2] = CenterStopBtn;
             pictureButtons[3] = RightStopBtn;
-            pictureButtons[4] = RightStopBtn; 
+            pictureButtons[4] = RightStopBtn;
             pictureButtons[5] = MaxBet;
-            pictureButtons[6] = Bet1; 
+            pictureButtons[6] = Bet1;
             pictureButtons[7] = Bet2;
-            pictureButtons[8] = Bet3 ;
+            pictureButtons[8] = Bet3;
 
-
-            //reelTimer.Elapsed += async (sender, args) =>
-            //{
-            //    await ReelTimerTick();
-            //};
         }
 
         private void InitializeSlotViewLamp()
@@ -97,8 +92,6 @@ namespace GameMachine
         {
             mainForm = this.Parent as StartUp;
 
-
-            
             creditView.ShowCreditDisp();
 
 
@@ -113,16 +106,16 @@ namespace GameMachine
         {
             if (sender == LeftStopBtn && startFlag == true && LeftStopBtn.Enabled && stopBtnEnabled)
             {
-                OnPushedStopBtn(Reels.LEFT); 
+                OnPushedStopBtn(Reels.LEFT);
             }
             else if (sender == CenterStopBtn && startFlag == true && CenterStopBtn.Enabled && stopBtnEnabled)
             {
-                OnPushedStopBtn(Reels.CENTER); 
+                OnPushedStopBtn(Reels.CENTER);
 
             }
             else if (sender == RightStopBtn && startFlag == true && RightStopBtn.Enabled && stopBtnEnabled)
             {
-                OnPushedStopBtn(Reels.RIGHT); 
+                OnPushedStopBtn(Reels.RIGHT);
 
             }
 
@@ -151,8 +144,8 @@ namespace GameMachine
             stopBtnEnabled = true;
         }
 
-       
-        
+
+
 
         private void StartReels()
         {
@@ -164,17 +157,12 @@ namespace GameMachine
             btnCount = 0;
         }
 
-        public void Stop()
-        {
-
-        }
-
 
 
         //いずれかのストップボタンが動いているかどうか
         private bool AnyStopBtnEnabled()
         {
-            if(LeftStopBtn.Enabled || CenterStopBtn.Enabled || RightStopBtn.Enabled)
+            if (LeftStopBtn.Enabled || CenterStopBtn.Enabled || RightStopBtn.Enabled)
             {
                 return true;
             }
@@ -190,11 +178,12 @@ namespace GameMachine
         private void MaxBet_Click(object sender, EventArgs e)
         {
             //debag();
-            leelTags();
-            if (maxBetFlag == false && establishedRole != Roles.REPLAY){
+            //leelTags();
+            if (maxBetFlag == false && establishedRole != Roles.REPLAY)
+            {
                 OnPushedMaxBet();
             }
-            if(establishedRole == Roles.REPLAY)
+            if (establishedRole == Roles.REPLAY)
             {
                 slotView.MaxBetChangeDown();
             }
@@ -210,8 +199,7 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
-            
-            ShowTextBox();
+
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
@@ -219,14 +207,10 @@ namespace GameMachine
                 maxBetFlag = true;
                 slotView.BetOn(false);
                 Game.CalcCoinCollection(); //コイン回収
-                //Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
-                //Game.HitRolesLottery(); //役の抽選
-                //Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
-                //Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 creditView.ShowCreditDisp();
             }
 
-            
+
         }
 
         public void SetDownMaxBetFlag()
@@ -240,14 +224,15 @@ namespace GameMachine
         private void OnPushedStopBtn(Reels selectReel)
         {
             stopBtnEnabled = false;
+            sbyte reelPosition = 0;
             switch (selectReel)
             {
                 case Reels.LEFT:
-                    if(LeftStopBtn.Enabled)
+                    if (LeftStopBtn.Enabled)
                     {
                         LeftStopBtn.Enabled = false;
                         stopBtnEnabled = false;
-                        //LeftCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.LEFT).ToString();
+                        reelPosition = slotView.GetLotteryPosition(leftReelContainers);
                     }
                     break;
                 case Reels.CENTER:
@@ -255,7 +240,7 @@ namespace GameMachine
                     {
                         CenterStopBtn.Enabled = false;
                         stopBtnEnabled = false;
-                        //CenterCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.CENTER).ToString();
+                        reelPosition = slotView.GetLotteryPosition(centerReelContainers);
                     }
                     break;
                 case Reels.RIGHT:
@@ -263,20 +248,18 @@ namespace GameMachine
                     {
                         RightStopBtn.Enabled = false;
                         stopBtnEnabled = false;
-                        //RightCurrentPositionLabel.Text = slotView.GetCurrentPosition(Reels.RIGHT).ToString();
+                        reelPosition = slotView.GetLotteryPosition(rightReelContainers);
                     }
                     break;
 
             }
 
-            
+
 
             btnCount++;
-            sbyte reelPosition = slotView.GetBottomReelPosition(selectReel);
-           //MessageBox.Show("reelposition"+ slotView.GetBottomReelPosition(selectReel).ToString());
             Game.SetNowReelPosition(selectReel, reelPosition); //現在のリールの位置を設定
             sbyte stopReelPosition = Game.CalcNextReelPosition(selectReel); //現在のリールの位置を元に計算　こいつの返り値を代入してViewに反映すること);
-            slotView.SetStopReelPosition(selectReel,stopReelPosition);
+            slotView.SetStopReelPosition(selectReel, stopReelPosition);
             Game.SetReelMoving(selectReel, false); //選択したリールを停止
             //三つ目のリールが停止した時
             if (btnCount == 3)
@@ -294,7 +277,7 @@ namespace GameMachine
 
                 Counter.CountUpCounterData(establishedRole);
                 counterView.SwitchCounterUpdate(); //集計の表示を更新
-                if(establishedRole == Roles.REPLAY)
+                if (establishedRole == Roles.REPLAY)
                 {
                     OnPushedMaxBet();
                     slotView.MaxBetChangeDown();
@@ -307,7 +290,6 @@ namespace GameMachine
             {
                 case Reels.LEFT:
                     LeftStopPositionLabel.Text = stopReelPosition.ToString();
-                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     LeftStopBtn.Enabled = false;
                     break;
@@ -315,7 +297,6 @@ namespace GameMachine
 
                 case Reels.CENTER:
                     CenterStopPositionLabel.Text = stopReelPosition.ToString();
-                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     CenterStopBtn.Enabled = false;
                     break;
@@ -323,7 +304,6 @@ namespace GameMachine
 
                 case Reels.RIGHT:
                     RightStopPositionLabel.Text = stopReelPosition.ToString();
-                    //slotView.SetStopReelPosition(selectReel, stopReelPosition);
                     slotView.BtnChange(selectReel);
                     RightStopBtn.Enabled = false;
                     break;
@@ -371,89 +351,5 @@ namespace GameMachine
         }
 
 
-        //test
-        private void ShowTextBox()
-        {
-           //MessageBox.Show("達成した役" + Game.GetEstablishedRole().ToString()
-                    //+ "\n  LEFFT:" + SymbolChangeToName(Constants.ReelOrder.LEFT_REEL_ORDER[Game.GetNextReelPosition(Reels.LEFT)]) + "," + Game.GetNextReelPosition(Reels.LEFT)
-                    //+ "\n  CENTER:" + SymbolChangeToName(Constants.ReelOrder.CENTER_REEL_ORDER[Game.GetNextReelPosition(Reels.CENTER)]) + "," + Game.GetNextReelPosition(Reels.CENTER)
-                    //+ "\n  RIGHT:" + SymbolChangeToName(Constants.ReelOrder.RIGHT_REEL_ORDER[Game.GetNextReelPosition(Reels.RIGHT)]) + "," + Game.GetNextReelPosition(Reels.RIGHT));
-        }
-
-        //test
-        private String SymbolChangeToName(Symbols symbol)
-        {
-            String value = "";
-            switch (symbol)
-            {
-                case Symbols.NONE:
-                    value = "NONE";
-                    break;
-                case Symbols.BELL:
-                    value = "BELL";
-                    break;
-                case Symbols.REPLAY:
-                    value = "REPLAY";
-                    break;
-                case Symbols.WATERMELON:
-                    value = "WATERMELON";
-                    break;
-                case Symbols.CHERRY:
-                    value = "CHERRY";
-                    break;
-                case Symbols.BAR:
-                    value = "BAR";
-                    break;
-                case Symbols.SEVEN:
-                    value = "SEVEN";
-                    break;
-                case Symbols.REACH:
-                    value = "REACH";
-                    break;
-            }
-            return value;
-        }
-
-        private void leelTags()
-        {
-            String valu = "";
-            foreach(PictureBox container in leftReelContainers)
-            {
-                 valu += container.Name + ":" + container.Top.ToString() + " , ";
-            }
-            foreach (PictureBox container in centerReelContainers)
-            {
-                valu += container.Name + ":" + container.Tag.ToString() + " , ";
-            }
-            foreach (PictureBox container in rightReelContainers)
-            {
-                valu += container.Name + ":" + container.Tag.ToString() + " , ";
-            }
-            MessageBox.Show(valu);
-        }
-
-
-        public void debag()
-        {
-            MessageBox.Show(
-                slotView.GetReelCorrect(Reels.LEFT).ToString() + slotView.GetReelCorrect(Reels.CENTER).ToString() + slotView.GetReelCorrect(Reels.RIGHT).ToString() +
-            slotView.GetIsCorrect(leftReelContainers[0]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[0];
-            slotView.GetIsCorrect(leftReelContainers[1]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[1];
-            slotView.GetIsCorrect(leftReelContainers[2]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[2];
-            slotView.GetIsCorrect(leftReelContainers[3]).ToString() + //; // =slotView.GetIsCorrect( leftReelContainers[3];
-
-
-            slotView.GetIsCorrect(centerReelContainers[0]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[0];
-            slotView.GetIsCorrect(centerReelContainers[1]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[1];
-            slotView.GetIsCorrect(centerReelContainers[2]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[2];
-            slotView.GetIsCorrect(centerReelContainers[3]).ToString() + // ; // =slotView.GetIsCorrect( centerReelContainers[3];
-
-            slotView.GetIsCorrect(rightReelContainers[0]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[0];
-            slotView.GetIsCorrect(rightReelContainers[1]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[1];
-            slotView.GetIsCorrect(rightReelContainers[2]).ToString() + // ; // =slotView.GetIsCorrect( rightReelContainers[2];
-            slotView.GetIsCorrect(rightReelContainers[3]).ToString()); // ; // =slotView.GetIsCorrect( rightReelContainers[3];
-
-
-        }
     }
 }
