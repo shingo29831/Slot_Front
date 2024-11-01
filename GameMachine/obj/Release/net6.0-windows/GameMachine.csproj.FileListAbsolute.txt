@@ -51,3 +51,7 @@ C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\ref
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.pdb
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\ref\GameMachine.dll
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.GameEndController.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.InCreditController.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SettingController.resources
+C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SlotSettingController.resources

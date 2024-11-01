@@ -108,17 +108,17 @@ namespace GameMachine.View
         }
 
         //消灯処理
-        public void LampOff() { FlowerLeft.Image = Properties.Resources.FlowerOFF; FlowerRight.Image = Properties.Resources.FlowerOFF; }
+        public void LampOff() { FlowerLeft.Image = new Bitmap(Properties.Resources.FlowerOFF); FlowerRight.Image = new Bitmap(Properties.Resources.FlowerOFF); }
         //両方点灯
-        public void BothFlowerLamp() { FlowerLeft.Image = Properties.Resources.FlowerON; FlowerRight.Image = Properties.Resources.FlowerON; }
+        public void BothFlowerLamp() { FlowerLeft.Image = new Bitmap(Properties.Resources.FlowerON);  FlowerRight.Image = new Bitmap(Properties.Resources.FlowerON); }
         //右だけ点灯
-        public void RightFlowerLamp() { FlowerLeft.Image = Properties.Resources.FlowerOFF; FlowerRight.Image = Properties.Resources.FlowerON; }
+        public void RightFlowerLamp() { FlowerLeft.Image = new Bitmap(Properties.Resources.FlowerOFF); FlowerRight.Image = new Bitmap(Properties.Resources.FlowerON); }
         //左だけ点灯
-        public void LeftFlowerLamp() { FlowerLeft.Image = Properties.Resources.FlowerON; FlowerRight.Image = Properties.Resources.FlowerOFF; }
+        public void LeftFlowerLamp() { FlowerLeft.Image = new Bitmap(Properties.Resources.FlowerON); FlowerRight.Image = new Bitmap(Properties.Resources.FlowerOFF); }
 
-        public void RightFlowerLampOff() { FlowerRight.Image = Properties.Resources.FlowerOFF; }
+        public void RightFlowerLampOff() { FlowerRight.Image = new Bitmap(Properties.Resources.FlowerOFF);}
 
-        public void LeftFlowerLampOff() { FlowerLeft.Image = Properties.Resources.FlowerOFF; }
+        public void LeftFlowerLampOff() { FlowerLeft.Image = new Bitmap(Properties.Resources.FlowerOFF); }
 
     }
 }
