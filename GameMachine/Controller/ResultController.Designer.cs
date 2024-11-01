@@ -46,6 +46,7 @@
             ResultPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             ResultPictureBox.TabIndex = 0;
             ResultPictureBox.TabStop = false;
+            ResultPictureBox.Click += ResultPictureBox_Click;
             // 
             // label1
             // 
@@ -92,9 +93,10 @@
         }
 
         #endregion
+
+        private PictureBox ResultPictureBox;
         private Label label1;
         private Label label2;
         private System.Windows.Forms.Timer EndResultDisplayTimer;
-        public PictureBox ResultPictureBox;
     }
 }

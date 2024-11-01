@@ -17,7 +17,9 @@ namespace GameMachine
 
         private static WaitLogoutController waitLogoutController = new WaitLogoutController(); //ログアウト待機画面のコントローラー
 
-        private static ResultController resultScreen = new ResultController();
+        private static ResultController resultScreen = new ResultController();//リザルト画面のコントローラー
+
+        private static GameEndController gameEndScreen = new GameEndController();//ゲーム終了画面
 
         private static SettingController settingController = new SettingController();   //設定画面のコントローラー
 
@@ -34,8 +36,7 @@ namespace GameMachine
         //スロット画面（クレジット画面とカウンターViewも付加）
         private static CreditController creditDisplay = new CreditController();          // クレジット表示コントローラー
         public static CreditView creditView = new CreditView(creditDisplay);
-        public static ResultView resultView = new ResultView(resultScreen);
-        private static SlotController userGameScreen = new SlotController(creditView, counterView,resultView);       // スロットゲーム画面のコントローラー
+        private static SlotController userGameScreen = new SlotController(creditView, counterView);       // スロットゲーム画面のコントローラー
         public static SlotView slotView = new SlotView(userGameScreen);
 
         public StartUp()
@@ -95,9 +96,10 @@ namespace GameMachine
             SetControlProperties(userGameScreen, new Size(1275, 875), new Point(325, 200)); // スロットゲーム
             SetControlProperties(accountLinkingScreen, new Size(1275, 700), new Point(325, 200)); // アカウントリンク
             SetControlProperties(creditDisplay, new Size(1275, 149), new Point(325, 930)); // クレジット表示
-            SetControlProperties(resultScreen, new Size(1275, 730), new Point(325, 200)); // クレジット表示
+            SetControlProperties(resultScreen, new Size(1275, 730), new Point(325, 200)); // リザルト表示
             SetControlProperties(waitLinkScreen, new Size(1275, 875), new Point(325, 200));//待機画面
             SetControlProperties(waitLogoutController, new Size(1275, 875), new Point(325, 200));//ログアウト待ち画面
+            SetControlProperties(gameEndScreen, new Size(1275, 730), new Point(325, 200));//ゲーム終了画面
             SetControlProperties(settingController, new Size(1275, 875), new Point(325, 200));//設定画面
             SetControlProperties(inCreditController, new Size(1275, 875), new Point(325, 200));//入金画面
             SetControlProperties(slotSettingController, new Size(1275, 875), new Point(325, 200));//台設定画面
@@ -158,6 +160,7 @@ namespace GameMachine
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
         }
 
+
         public void ShowResultScreen()
         {
             ShowUserControl(resultScreen);
@@ -171,6 +174,15 @@ namespace GameMachine
                 resultScreen.Visible = false;
             }
         }
+
+        public void ShowGameEndScreen()
+        {
+            ShowUserControl(gameEndScreen);
+            counterDisplay.Visible = true;      // カウンター表示を有効化
+            creditDisplay.Visible = true;    // クレジット表示を有効化
+            creditDisplay.BringToFront();    // クレジット表示を前面に移動
+        }
+
         public void ShowWaitLinkScreen()
         {
             ShowUserControl(waitLinkScreen);    //待機画面表示
@@ -221,15 +233,8 @@ namespace GameMachine
 
         private void StartUp_KeyUp(object sender, KeyEventArgs e)
         {
-            // Esc キーが押されたら終了確認のダイアログを表示
-            if (e.KeyCode == Keys.Escape)
-            {
-                DialogResult result = MessageBox.Show("アプリケーションを終了しますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close(); // アプリケーションを終了
-                }
-            }
+
+    
 
             if (e.KeyCode == Keys.OemSemicolon)
             {

@@ -17,7 +17,6 @@ namespace GameMachine
 
         private CreditView creditView;
         private CounterView counterView;
-        public ResultView resultView;
 
         private ResultController resultController;
 
@@ -31,6 +30,7 @@ namespace GameMachine
         private static bool startFlag = false;
         private static bool maxBetFlag = false;
         private static bool stopBtnEnabled = false;
+        private static bool isDialogShown = false;
         private static bool firstIn = true;
         private static bool nextIf = false;
         private static Roles establishedRole = Roles.NONE;
@@ -50,7 +50,7 @@ namespace GameMachine
 
         public System.Timers.Timer reelTimer = new System.Timers.Timer { Interval = 16, AutoReset = true };
 
-        public SlotController(CreditView creditView, CounterView counterView, ResultView resultView)
+        public SlotController(CreditView creditView, CounterView counterView)
         {
             InitializeComponent();
             InitializeSlotView();
@@ -58,7 +58,6 @@ namespace GameMachine
 
             this.creditView = creditView;
             this.counterView = counterView;
-            this.resultView = resultView;
 
 
             this.KeyDown += SlotController_KeyDown;
@@ -104,8 +103,10 @@ namespace GameMachine
                 case Keys.Space: // スペースバー
                     HandleSpaceBarPress();
                     break;
+
             }
         }
+
         private void SlotController_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -115,6 +116,23 @@ namespace GameMachine
                     break;
                 case Keys.X: // レバー
                     slotView.LeverUp();
+                    break;
+                    break;
+                case Keys.Escape: // エスケープキー
+                    if (e.KeyCode == Keys.Escape && !isDialogShown)
+                    {
+                        isDialogShown = true;
+                        Thread.Sleep(200);
+                        if (MessageBox.Show("ゲーム終了しますか", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            var mainForm = this.Parent as StartUp;
+                            if (mainForm != null)
+                            {
+                                mainForm.ShowGameEndScreen();
+                            }
+                        }
+                        isDialogShown = false;
+                    }
                     break;
             }
         }
