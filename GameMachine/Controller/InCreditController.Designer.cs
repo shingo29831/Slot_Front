@@ -60,10 +60,12 @@
             textBox1.Font = new Font("Yu Gothic UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             textBox1.Location = new Point(665, 300);
             textBox1.Name = "textBox1";
+            textBox1.ShortcutsEnabled = false;
             textBox1.Size = new Size(175, 43);
             textBox1.TabIndex = 2;
             textBox1.TextAlign = HorizontalAlignment.Right;
             textBox1.KeyPress += ValueCheck_KeyPress;
+            textBox1.KeyUp += InCreditKeyUp;
             // 
             // OK_Button
             // 

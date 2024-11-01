@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\increditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\increditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\increditcontroller.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\increditcontroller.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\model\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\increditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\increditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,12 +31,16 @@
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\waitlinkcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\view\\creditview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\view\\creditview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\accountlinkingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\controller\\accountlinkingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|solutionrelative:gamemachine\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE9C111B-8EF6-497D-A9ED-7861B4A48BC9}|GameMachine\\GameMachine.csproj|c:\\users\\shingo\\source\\repos\\slot_front\\gamemachine\\controller\\slotsettingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,8 +57,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 623,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 475,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,59 +66,136 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InCreditController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\InCreditController.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "RelativeToolTip": "GameMachine\\Controller\\InCreditController.cs [\u30C7\u30B6\u30A4\u30F3]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T20:32:28.153Z",
+              "EditorCaption": " [\u30C7\u30B6\u30A4\u30F3]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "InCreditController.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.Designer.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\InCreditController.Designer.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.Designer.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\InCreditController.Designer.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAMwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T20:31:55.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InCreditController.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\InCreditController.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\InCreditController.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\InCreditController.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAABwAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T19:18:01.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Model\\Game.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Model\\Game.cs",
+              "RelativeToolTip": "GameMachine\\Model\\Game.cs",
+              "ViewState": "AgIAALYAAAAAAAAAAAAAAFIAAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T17:50:31.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SlotController.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotController.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotController.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\SlotController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAQwDEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:53:40.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CreditView.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\View\\CreditView.cs",
+              "RelativeDocumentMoniker": "GameMachine\\View\\CreditView.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\View\\CreditView.cs",
+              "RelativeToolTip": "GameMachine\\View\\CreditView.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAqwCcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:51:35.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "WaitLinkController.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\WaitLinkController.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\WaitLinkController.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\WaitLinkController.cs",
               "RelativeToolTip": "GameMachine\\Controller\\WaitLinkController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAkwDEAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-01T16:33:29.571Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "Network.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Network.cs",
               "RelativeDocumentMoniker": "GameMachine\\Network.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Network.cs",
               "RelativeToolTip": "GameMachine\\Network.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAcwCwAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAkwN4AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-01T16:26:07.589Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AccountLinkingController.cs",
-              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\AccountLinkingController.cs",
-              "RelativeDocumentMoniker": "GameMachine\\Controller\\AccountLinkingController.cs",
-              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\AccountLinkingController.cs",
-              "RelativeToolTip": "GameMachine\\Controller\\AccountLinkingController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-01T16:22:10.815Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "StartUp.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
               "RelativeDocumentMoniker": "GameMachine\\StartUp.cs",
               "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\StartUp.cs",
               "RelativeToolTip": "GameMachine\\StartUp.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAAAAwM8AAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAANYAAAAAAAAAAADwv/AAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-01T16:19:13.735Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
+              "Title": "AccountLinkingController.cs",
+              "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\AccountLinkingController.cs",
+              "RelativeDocumentMoniker": "GameMachine\\Controller\\AccountLinkingController.cs",
+              "ToolTip": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\AccountLinkingController.cs",
+              "RelativeToolTip": "GameMachine\\Controller\\AccountLinkingController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:22:10.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "SlotSettingController.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotSettingController.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotSettingController.cs",
@@ -106,7 +207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "SlotSettingController.Designer.cs",
               "DocumentMoniker": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\Controller\\SlotSettingController.Designer.cs",
               "RelativeDocumentMoniker": "GameMachine\\Controller\\SlotSettingController.Designer.cs",
@@ -119,7 +220,7 @@
           ]
         },
         {
-          "DockedWidth": 19,
+          "DockedWidth": 167,
           "SelectedChildIndex": -1,
           "Children": [
             {
@@ -149,10 +250,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             }
           ]
         }

@@ -268,7 +268,6 @@ namespace GameMachine
         {
             mainForm = this.Parent as StartUp;
 
-            creditView.ShowCreditDisp();
 
             LeftStopBtn.Enabled = false;
             CenterStopBtn.Enabled = false;
@@ -299,37 +298,7 @@ namespace GameMachine
         }
 
 
-        private void startLever_Click(object sender, EventArgs e)
-        {
-            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
-            {
-                Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
-                Game.HitRolesLottery(); //役の抽選
-                Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
-
-                //test
-                //Game.hitBonusFlag = true;
-                //Game.SelectBonusLottery();
-
-
-                if (Game.hitBonusFlag)
-                {
-                    slotViewLamp.StartLampFlashFast();
-                }
-                
-
-
-
-                Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
-                EnableStopButtons();
-                StartReels();
-            }
-
-            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false && Game.hitBonusFlag)
-            {
-
-            }
-        }
+        
 
         private void EnableStopButtons()
         {
@@ -368,15 +337,48 @@ namespace GameMachine
             }
         }
 
+        private void startLever_Click(object sender, EventArgs e)
+        {
+            
+            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
+            {
+                Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
+                Game.HitRolesLottery(); //役の抽選
+                Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
+
+                //test
+                //Game.hitBonusFlag = true;
+                //Game.SelectBonusLottery();
+
+
+                if (Game.hitBonusFlag)
+                {
+                    slotViewLamp.StartLampFlashFast();
+                }
+
+
+
+
+                Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
+                EnableStopButtons();
+                StartReels();
+            }
+
+            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false && Game.hitBonusFlag)
+            {
+
+            }
+        }
+
         private void startLever_MouseUp(object sender, MouseEventArgs e) => slotView.LeverUp();
         private void startLever_MouseDown(object sender, MouseEventArgs e) => slotView.LeverDown();
 
         private void MaxBet_Click(object sender, EventArgs e)
         {
-            if (maxBetFlag == false && establishedRole != Roles.REPLAY && (Game.GetEstablishedRole() == Roles.BIG || Game.GetEstablishedRole() == Roles.REGULAR))
-            {
-                //Game.SetNowBonus(establishedRole);
-            }
+            //if (maxBetFlag == false && establishedRole != Roles.REPLAY && (Game.GetEstablishedRole() == Roles.BIG || Game.GetEstablishedRole() == Roles.REGULAR))
+            //{
+            //    //Game.SetNowBonus(establishedRole);
+            //}
             if (maxBetFlag == false && establishedRole != Roles.REPLAY)
             {
                 OnPushedMaxBet();
@@ -403,7 +405,6 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
-            
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
@@ -412,7 +413,8 @@ namespace GameMachine
                 slotView.BetOn(false);
                 Game.CalcCoinCollection(); //コイン回収
                 nextIf = true;
-                
+                creditView.ShowCreditDisp();
+                creditView.SetPayOut(0);
             }
             if (nextIf && firstIn && Game.GetInBonus())
             {
@@ -425,10 +427,7 @@ namespace GameMachine
                 Game.SetPreBonusCoin(0);
                 firstIn = true;
             }
-            if (nextIf)
-            {
-                creditView.ShowCreditDisp();
-            }
+
             nextIf = false;
 
 
@@ -446,6 +445,7 @@ namespace GameMachine
         private void OnPushedStopBtn(Reels selectReel)
         {
             stopBtnEnabled = false;
+            
             sbyte reelPosition = 0;
             switch (selectReel)
             {
@@ -484,6 +484,7 @@ namespace GameMachine
             slotView.SetStopReelPosition(selectReel, stopReelPosition);
             Game.SetReelMoving(selectReel, false); //選択したリールを停止
             //三つ目のリールが停止した時
+            
             if (btnCount == 3)
             {
                 slotView.MaxBetChangeUp();
@@ -491,6 +492,7 @@ namespace GameMachine
                 establishedRole = Game.GetEstablishedRole();
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
                 creditView.ShowCreditDisp();
+                
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
 
                 
@@ -505,20 +507,34 @@ namespace GameMachine
 
                 resultController.resultView.ResultPictureSwitching(Game.GetSuggestionImage(Setting.GetExpected()));
                 resultController.ResultsDisplay();
+
+                startFlag = false;
             }
             if (btnCount == 3 && establishedRole == Roles.REPLAY)
             {
                 OnPushedMaxBet();
                 slotView.MaxBetChangeDown();
             }
-            if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.BIG && Game.GetLastBonusCount() >= 150)
+
+            if (btnCount == 3 && !Game.GetInBonus())
             {
-                slotViewLamp.LampOff();
+                slotViewLamp.StopLampFlash();
             }
-            if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.REGULAR && Game.GetLastBonusCount() >= 75)
+            if (btnCount == 3 && Game.hitBonusFlag)
             {
-                slotViewLamp.LampOff();
+                slotViewLamp.StartLampFlashFast();
             }
+
+
+
+            //if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.BIG && Game.GetLastBonusCount() >= 150)
+            //{
+            //    slotViewLamp.LampOff();
+            //}
+            //if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.REGULAR && Game.GetLastBonusCount() >= 75)
+            //{
+            //    slotViewLamp.LampOff();
+            //}
 
 
 

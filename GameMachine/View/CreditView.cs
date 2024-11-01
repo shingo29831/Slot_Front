@@ -38,9 +38,9 @@ namespace GameMachine.View
 
         public void ShowBonusCount()
         {
-            if (Game.GetInBonus())
+            if (Game.GetInBonus() && Game.GetHasCoin() != Game.GetIncreasedCoin())
             {
-                creditDisplay.countTxb.Text = (Game.GetHasCoin() - Game.GetPreBonusCoin()) .ToString();
+                creditDisplay.countTxb.Text = Game.GetIncreasedCoin().ToString();
             }
             else
             {
@@ -68,9 +68,10 @@ namespace GameMachine.View
         }
 
 
-        private void SetPayOut()
-        {
 
+        public void SetPayOut(int payOut)
+        {
+            creditDisplay.payoutTxb.Text = payOut.ToString();
         }
 
         private void SetBonusCount()

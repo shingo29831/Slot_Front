@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameMachine.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,13 +14,20 @@ namespace GameMachine.Controller
     public partial class WaitLogoutController : UserControl
     {
         bool logoutFlg;
+        StartUp mainForm;
         public WaitLogoutController()
         {
             InitializeComponent();
         }
+        public void ActivateController()
+        {
+            this.Focus();
+            mainForm = this.Parent as StartUp;
+        }
+
         async public void WaitLogout()
         {
-            var mainForm = this.Parent as StartUp;
+            
             ////////////////////////////////変更箇所//////////////////////////////
             try
             {
@@ -43,6 +51,12 @@ namespace GameMachine.Controller
                 }              
             }
             /////////////////////////////////変更箇所//////////////////////////////
+        }
+
+        public void EndLocalGame()
+        {
+            MessageBox.Show("ログアウト完了しました", "success", MessageBoxButtons.OK);
+            mainForm.ShowUserSelectionScreen();
         }
     }
 }

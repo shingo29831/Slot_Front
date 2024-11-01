@@ -52,6 +52,7 @@ namespace GameMachine.Controller
                 //更新できた場合
                 Game.IncreaseHasCoin(credit);
                 mainForm.ShowCreditDisp();
+                mainForm.SetInOnline(true);
                 //ゲーム開始画面に行く
                 if (mainForm != null)
                 {

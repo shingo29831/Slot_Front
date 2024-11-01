@@ -80,7 +80,7 @@ namespace GameMachine.Model
         public static void SetNowBonus(Roles role) { Game.nowBonus = role; }
         public static Roles GetNowBonus() { return Game.nowBonus; }
 
-        public static void IncreaseHasCoin(int increase) { Game.hasCoin += increase; }
+        public static bool IncreaseHasCoin(int increase) { Game.hasCoin += increase; return true; }
         public static int GetHasCoin() { return Game.hasCoin; }
 
         public static bool SetHasCoin(int hasCoin) { Game.hasCoin = hasCoin; return true; }
@@ -90,7 +90,14 @@ namespace GameMachine.Model
 
         public static int GetIncreasedCoin() { return increasedCoin; }
 
-        public static int GetLastBonusCount() { return Game.lastBonusCount; }
+        public static int GetLastBonusCount() { return Game.lastBonusCount ; }
+
+        public static void ResetBonusCount()
+        {
+            increasedCoin = 0;
+        }
+
+
 
         //現在ポジションをセットする
         public static void SetNowReelPosition(in Reels selectReel, sbyte position)
@@ -173,6 +180,7 @@ namespace GameMachine.Model
                 inBonus = false;
                 nowBonus = Roles.NONE;
                 lastBonusCount = 0;
+                hitBonusFlag = false;
             }
 
             //次のボーナスフラグがたっている時に次のボーナスに再突入させる
@@ -183,6 +191,12 @@ namespace GameMachine.Model
                 nowBonus = Roles.BIG;
             }
             else if(nextBonusFlag == false && inBonus == false)
+            {
+                increasedCoin = 0;
+            }
+
+            //ボーナス突入していなかったらボーナスコインのカウントを止める
+            if (inBonus == false)
             {
                 increasedCoin = 0;
             }
@@ -578,6 +592,7 @@ namespace GameMachine.Model
             if (inBonus)
             {
                 hasCoin -= 2;
+                increasedCoin = hasCoin - preBonusCoin;
             }
             else if (establishedRole == Roles.REPLAY)
             {
@@ -594,10 +609,10 @@ namespace GameMachine.Model
         //払い出しコイン枚数を持ちコインに加える
         public static void CalcCoinReturned()
         {
-            if (inBonus && establishedRole != Roles.NONE)
+            if (inBonus && (establishedRole != Roles.BIG || establishedRole != Roles.REGULAR))
             {
                 hasCoin += 15;
-                increasedCoin += 13;
+                increasedCoin = hasCoin - preBonusCoin;
                 lastBonusCount += 15;
             }
             else if (!inBonus && establishedRole != Roles.NONE)

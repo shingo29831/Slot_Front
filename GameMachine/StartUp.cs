@@ -12,6 +12,9 @@ namespace GameMachine
 {
     public partial class StartUp : Form
     {
+        private bool inOnline = false;
+
+
         private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
 
         private static AccountLinkingController accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面のコントローラー
@@ -212,7 +215,16 @@ namespace GameMachine
             ShowUserControl(waitLogoutController);  //ログアウト待機画面表示
             counterDisplay.Visible = true;          //カウンターが画面を表示(横の背景を表示するため
             waitLogoutController.BringToFront();    //待機画面を前面に移動
-            waitLogoutController.WaitLogout();      //待機処理開始
+            waitLogoutController.ActivateController();
+            if (inOnline)
+            {
+                waitLogoutController.WaitLogout();      //待機処理開始
+            }
+            else
+            {
+                waitLogoutController.EndLocalGame();
+            }
+            
         }
 
         public void ShowSettingScreen()
@@ -227,6 +239,7 @@ namespace GameMachine
             ShowUserControl(inCreditController);    //ローカル入金画面表示
             counterDisplay.Visible = true;          //カウンター画面を表示
             inCreditController.BringToFront();      //ローカル入金画面を前面に移動
+            inCreditController.TextBoxFocus();
         }
 
         public void ShowSlotSettingScreen()
@@ -280,6 +293,12 @@ namespace GameMachine
         public void SetExitFlg(bool flg)
         {
             exitFlg = flg;
+        }
+
+
+        public void SetInOnline(bool online)
+        {
+            this.inOnline = online;
         }
     }
 }

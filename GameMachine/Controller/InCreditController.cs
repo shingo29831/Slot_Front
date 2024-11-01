@@ -8,19 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GameMachine.Model;
+using GameMachine.View;
 
 namespace GameMachine.Controller
 {
     public partial class InCreditController : UserControl
     {
+        StartUp mainForm;
+        private bool keyPushEnabled = true;
+        private String preText = "";
         public InCreditController()
         {
             InitializeComponent();
+            
+            mainForm = this.Parent as StartUp;
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-            var mainForm = this.Parent as StartUp;
+            mainForm = this.Parent as StartUp;
             if (mainForm != null)
             {
                 mainForm.ShowSettingScreen();
@@ -36,7 +42,7 @@ namespace GameMachine.Controller
             {
                 int credit = int.Parse(textBox1.Text);
 
-                checkFlg = Game.SetHasCoin(credit /2);
+                checkFlg = Game.IncreaseHasCoin(credit / 2);
                 if (checkFlg)
                 {
                     MessageBox.Show("入金に成功しました。", "success", MessageBoxButtons.OK);
@@ -48,7 +54,7 @@ namespace GameMachine.Controller
                     }
                     else
                     {
-                        MessageBox.Show("入金に失敗しました。","error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("入金に失敗しました。", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -61,11 +67,35 @@ namespace GameMachine.Controller
 
         private void ValueCheck_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar < '0' || '9' < e.KeyChar)
+            //keyPushEnabled = true;
+            //if ((e.KeyChar < '0' || '9' < e.KeyChar) && keyPushEnabled)
+            //{
+            //    //押されたキーが 0～9でない場合は、イベントをキャンセルする
+            //    e.Handled = true;
+            //    keyPushEnabled = false;
+            //}
+            if((e.KeyChar >= 'a' && e.KeyChar <= 'z') || (e.KeyChar >= 'A' && e.KeyChar <= 'Z'))
             {
-                //押されたキーが 0～9でない場合は、イベントをキャンセルする
                 e.Handled = true;
             }
         }
+
+        private void InCreditKeyUp(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                OK_Button_Click(sender, e);
+            }
+
+
+        }
+
+        public void TextBoxFocus()
+        {
+            this.textBox1.Focus();
+        }
+
+        
     }
 }
