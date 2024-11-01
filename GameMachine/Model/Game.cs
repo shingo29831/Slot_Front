@@ -415,7 +415,7 @@ namespace GameMachine.Model
                     establishedRole = Roles.BIG;
                     hitBonusFlag = false;
                 }
-                else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.LEFT, line, nextLeftReel) == Symbols.SEVEN)
+                else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.LEFT, line, nextLeftReel) == Symbols.SEVEN && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
                 {
                     establishedRole = Roles.REGULAR;
                     hitBonusFlag = false;
