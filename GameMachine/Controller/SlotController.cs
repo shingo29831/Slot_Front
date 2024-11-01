@@ -86,32 +86,72 @@ namespace GameMachine
         }
 
         // キーボード入力処理
+        static Object lockx = new Object();
         private void SlotController_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+
+
+            Reels rel = 0;
+            int spaceflag = 0;
+            int slotstart = 0;
+            lock (e)
             {
-                case Keys.Z: // MAXBETボタン
-                    MaxBet_Click(sender, e);
-                    slotView.MaxBetChangeDown();
-                    break;
-                case Keys.X: // レバー
-                    startLever_Click(sender, e);
-                    slotView.LeverDown();
-                    break;
-                case Keys.V: // LEFTBUTTON
-                    stopBtns_Click(LeftStopBtn, e);
-                    break;
-                case Keys.B: // CENTERBUTTON
-                    stopBtns_Click(CenterStopBtn, e);
-                    break;
-                case Keys.N: // RIGHTBUTTON
-                    stopBtns_Click(RightStopBtn, e);
-                    break;
-                case Keys.Space: // スペースバー
-                    HandleSpaceBarPress();
-                    break;
+
+                switch (e.KeyCode)
+                {
+                    case Keys.Z: // MAXBETボタン
+                        slotstart = 1;
+                        break;
+                    case Keys.X: // レバー
+                        slotstart = 2;
+                        break;
+                    case Keys.V: // LEFTBUTTON
+                        if (/*sender == LeftStopBtn &&*/ startFlag == true && LeftStopBtn.Enabled && stopBtnEnabled)
+                        {
+                            rel = (Reels.LEFT);
+                        }
+                        break;
+                    case Keys.B: // CENTERBUTTON
+                        if (/*sender == CenterStopBtn && */ startFlag == true && CenterStopBtn.Enabled && stopBtnEnabled)
+                        {
+                            rel = (Reels.CENTER);
+
+                        }
+                        break;
+                    case Keys.N: // RIGHTBUTTON
+                        if (/*sender == RightStopBtn && */ startFlag == true && RightStopBtn.Enabled && stopBtnEnabled)
+                        {
+                            rel = (Reels.RIGHT);
+
+                        }
+                        break;
+                    case Keys.Space: // スペースバー
+                        spaceflag = 1;
+                        break;
+                }
+            }
+            if (slotstart == 1)
+            {
+
+                MaxBet_Click(sender, e);
+                slotView.MaxBetChangeDown();
+            }
+            else if (slotstart == 2)
+            {
+                startLever_Click(sender, e);
+                slotView.LeverDown();
+            }
+            if (rel != 0)
+            {
+
+                OnPushedStopBtn(rel);
 
             }
+            if (spaceflag != 0)
+            {
+                HandleSpaceBarPress();
+            }
+
         }
 
         private void SlotController_KeyUp(object sender, KeyEventArgs e)
@@ -120,9 +160,11 @@ namespace GameMachine
             {
                 case Keys.Z: // MAXBETボタン
                     slotView.MaxBetChangeUp();
+                    MaxBet_Click(sender, e);
                     break;
                 case Keys.X: // レバー
                     slotView.LeverUp();
+                    startLever_Click(sender, e);
                     break;
                     break;
                 case Keys.Escape: // エスケープキー
@@ -140,6 +182,19 @@ namespace GameMachine
                         }
                         isDialogShown = false;
                     }
+                    break;
+                case Keys.V: // LEFTBUTTON
+                    stopBtns_Click(LeftStopBtn, e);
+                    break;
+                case Keys.B: // CENTERBUTTON
+                    stopBtns_Click(CenterStopBtn, e);
+                    break;
+                case Keys.N: // RIGHTBUTTON
+                    stopBtns_Click(RightStopBtn, e);
+                    break;
+                case Keys.Space: // スペースバー
+                    HandleSpaceBarPress();
+                    break;
                     break;
             }
         }
