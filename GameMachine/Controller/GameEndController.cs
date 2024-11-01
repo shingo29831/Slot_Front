@@ -12,7 +12,7 @@ using static GameMachine.Model.Game;
 
 namespace GameMachine.Controller
 {
-    
+
     public partial class GameEndController : UserControl
     {
         private static StartUp StartUp;
@@ -25,11 +25,10 @@ namespace GameMachine.Controller
 
         private void GameEndController_Load(object sender, EventArgs e)
         {
-            //残高
-            Credit.Text = Game.GetHasCoin().ToString();
+
         }
 
-        
+
         private void EndButton_Click(object sender, EventArgs e)
         {
             if (true)//オンライン
@@ -44,7 +43,7 @@ namespace GameMachine.Controller
                     mainForm.ShowUserSelectionScreen();
                 }
             }
-            
+
         }
 
         //オンライン状態絵をセットする

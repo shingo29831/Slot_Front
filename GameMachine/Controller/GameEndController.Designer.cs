@@ -83,6 +83,6 @@
 
         private Button EndButton;
         private Label label1;
-        private Label Credit;
+        public Label Credit;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GameMachine.Model;
 
 namespace GameMachine.Controller
 {
@@ -35,8 +36,8 @@ namespace GameMachine.Controller
             {
                 int credit = int.Parse(textBox1.Text);
 
-                //checkFlg = SetHasCoin(credit);
-                if (!checkFlg)
+                checkFlg = Game.SetHasCoin(credit /2);
+                if (checkFlg)
                 {
                     MessageBox.Show("入金に成功しました。", "success", MessageBoxButtons.OK);
                     textBox1.Clear();

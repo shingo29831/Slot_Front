@@ -132,6 +132,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(150, 25);
             textBox1.TabIndex = 1;
+            textBox1.KeyPress += SettingCheck;
             // 
             // label4
             // 
@@ -143,7 +144,7 @@
             label4.TabIndex = 0;
             label4.Text = "コード：";
             // 
-            // UserSelectionScren
+            // SelectionController
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
@@ -151,7 +152,7 @@
             Controls.Add(label3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "UserSelectionScren";
+            Name = "SelectionController";
             Size = new Size(1275, 700);
             Load += UserSelectionScren_Load;
             panel1.ResumeLayout(false);

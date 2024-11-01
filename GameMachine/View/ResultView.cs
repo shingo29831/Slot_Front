@@ -7,7 +7,7 @@ using static Constants;
 
 namespace GameMachine.View
 {
-    class ResultView
+    public class ResultView
     {
         private PictureBox ResultPicture;
         private readonly Dictionary<byte, Bitmap> ResultPictureData;

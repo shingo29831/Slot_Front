@@ -41,7 +41,7 @@ namespace GameMachine.Controller
                 {
                     CreditCheck();
                     await Task.Delay(1500);
-                    credit = 100;
+                    credit = 0;
                 }
                 //更新できた場合
                 Game.IncreaseHasCoin(credit);

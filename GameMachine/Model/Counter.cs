@@ -9,7 +9,7 @@ namespace GameMachine.Model
 	{
 		private static int bigCount = 0;
 		private static int regCount = 0;
-		private static int betweenBonusCount = 100;
+		private static int betweenBonusCount = 0;
 		private static bool isGetOutBonus = false;
 		private static bool isGetInBonus = false;
 

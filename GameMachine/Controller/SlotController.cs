@@ -18,6 +18,8 @@ namespace GameMachine
         private CreditView creditView;
         private CounterView counterView;
 
+
+        //private ResultView resultView;
         private ResultController resultController;
 
         public static sbyte stopLeftCount, stopCenterCount, stopRightCount;
@@ -58,7 +60,11 @@ namespace GameMachine
 
             this.creditView = creditView;
             this.counterView = counterView;
+            this.slotViewLamp = new SlotViewLamp(FlowerLeft, FlowerRight);
+            this.resultController = new ResultController();
 
+
+            
 
             this.KeyDown += SlotController_KeyDown;
             this.PreviewKeyDown += SlotController_PreviewKeyDown;  // フォーカスを設定するためのイベント
@@ -76,6 +82,7 @@ namespace GameMachine
         public void ActivateController()
         {
             this.Focus();
+            creditView.ShowCreditDisp();
         }
 
         // キーボード入力処理
@@ -217,6 +224,8 @@ namespace GameMachine
         //停止処理
         private void stopBtns_Click(object sender, EventArgs e)
         {
+            
+
             if (sender == LeftStopBtn && startFlag == true && LeftStopBtn.Enabled && stopBtnEnabled)
             {
                 OnPushedStopBtn(Reels.LEFT);
@@ -247,9 +256,23 @@ namespace GameMachine
                 //Game.hitBonusFlag = true;
                 //Game.SelectBonusLottery();
 
+
+                if (Game.hitBonusFlag)
+                {
+                    slotViewLamp.StartLampFlashFast();
+                }
+                
+
+
+
                 Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 EnableStopButtons();
                 StartReels();
+            }
+
+            if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false && Game.hitBonusFlag)
+            {
+
             }
         }
 
@@ -295,6 +318,10 @@ namespace GameMachine
 
         private void MaxBet_Click(object sender, EventArgs e)
         {
+            if (maxBetFlag == false && establishedRole != Roles.REPLAY && (Game.GetEstablishedRole() == Roles.BIG || Game.GetEstablishedRole() == Roles.REGULAR))
+            {
+                //Game.SetNowBonus(establishedRole);
+            }
             if (maxBetFlag == false && establishedRole != Roles.REPLAY)
             {
                 OnPushedMaxBet();
@@ -303,6 +330,7 @@ namespace GameMachine
             {
                 slotView.MaxBetChangeDown();
             }
+            
         }
 
         private void MaxBet_MouseUp(object sender, MouseEventArgs e)
@@ -407,11 +435,12 @@ namespace GameMachine
                 Game.HitEstablishedRoles(); //達成された役を探索
                 establishedRole = Game.GetEstablishedRole();
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
+                creditView.ShowCreditDisp();
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
 
                 
 
-                creditView.ShowCreditDisp();
+                
 
 
                 slotView.BetOff();
@@ -419,14 +448,23 @@ namespace GameMachine
                 Counter.CountUpCounterData(establishedRole);
                 counterView.SwitchCounterUpdate(); //集計の表示を更新
 
-
+                resultController.resultView.ResultPictureSwitching(Game.GetSuggestionImage(Setting.GetExpected()));
+                resultController.ResultsDisplay();
             }
             if (btnCount == 3 && establishedRole == Roles.REPLAY)
             {
                 OnPushedMaxBet();
                 slotView.MaxBetChangeDown();
             }
-            
+            if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.BIG && Game.GetLastBonusCount() >= 150)
+            {
+                slotViewLamp.LampOff();
+            }
+            if (btnCount == 3 && Game.hitBonusFlag == false && Game.GetNowBonus() == Roles.REGULAR && Game.GetLastBonusCount() >= 75)
+            {
+                slotViewLamp.LampOff();
+            }
+
 
 
 

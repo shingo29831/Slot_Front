@@ -15,7 +15,7 @@ namespace GameMachine
         {
             creditTxb.Enabled = false;
             countTxb.Enabled = false;
-            payoutTxb.Enabled = false; 
+            payoutTxb.Enabled = false;
         }
     }
 }

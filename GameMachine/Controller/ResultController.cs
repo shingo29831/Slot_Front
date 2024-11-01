@@ -15,7 +15,7 @@ namespace GameMachine.Controller
     public partial class ResultController : UserControl
     {
 
-        private ResultView resultView;
+        public ResultView resultView;
         private byte SetValue = 5;
 
 
@@ -34,7 +34,7 @@ namespace GameMachine.Controller
             label2.BackColor = Color.Transparent;
 
             EndResultDisplayTimer.Enabled = true;
-            resultView.ResultPictureSwitching(SetValue);
+            resultView.ResultPictureSwitching(Game.GetSuggestionImage(Setting.GetExpected()));
         }
         //ボーナスが終了して呼び出される
         public void ResultsDisplay()

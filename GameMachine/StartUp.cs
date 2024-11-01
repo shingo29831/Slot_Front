@@ -1,5 +1,6 @@
 using GameMachine.Controller;
 using GameMachine.InitialSettingView;
+using GameMachine.Model;
 using GameMachine.View;
 using System;
 using System.Windows.Forms;
@@ -151,6 +152,8 @@ namespace GameMachine
             slotView.BtnChange(Reels.LEFT);
             slotView.BtnChange(Reels.CENTER);
             slotView.BtnChange(Reels.RIGHT);
+
+          
         }
 
         public void ShowAccountLinkingScreen()
@@ -181,6 +184,7 @@ namespace GameMachine
             counterDisplay.Visible = true;      // カウンター表示を有効化
             creditDisplay.Visible = true;    // クレジット表示を有効化
             creditDisplay.BringToFront();    // クレジット表示を前面に移動
+            gameEndScreen.Credit.Text = Game.GetHasCoin().ToString();
         }
 
         public void ShowWaitLinkScreen()

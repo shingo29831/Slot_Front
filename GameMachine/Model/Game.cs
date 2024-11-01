@@ -15,7 +15,7 @@ namespace GameMachine.Model
 
     public class Game
     {
-        static int hasCoin = 100; //テスト前0
+        static int hasCoin = 0; //テスト前0
         static int increasedCoin = 0;
         static int lastBonusCount = 0;
         static int preBonusCoin = 0;
@@ -77,6 +77,7 @@ namespace GameMachine.Model
 
         public static bool GetInBonus() { return Game.inBonus; }
 
+        public static void SetNowBonus(Roles role) { Game.nowBonus = role; }
         public static Roles GetNowBonus() { return Game.nowBonus; }
 
         public static void IncreaseHasCoin(int increase) { Game.hasCoin += increase; }
@@ -88,6 +89,8 @@ namespace GameMachine.Model
         public static int GetPreBonusCoin() { return Game.preBonusCoin; }
 
         public static int GetIncreasedCoin() { return increasedCoin; }
+
+        public static int GetLastBonusCount() { return Game.lastBonusCount; }
 
         //現在ポジションをセットする
         public static void SetNowReelPosition(in Reels selectReel, sbyte position)
@@ -192,6 +195,7 @@ namespace GameMachine.Model
             CalcNextReelPosition(selectReel); //次の位置を算出
             if (StopReelCount == 3)
             {
+
                 HitEstablishedRoles();
                 BonusLottery(); //ボーナス抽選を行う
                 CalcCoinReturned();
@@ -395,6 +399,7 @@ namespace GameMachine.Model
                 if (barNum == 3)
                 {
                     establishedRole = Roles.BIG;
+                    hitBonusFlag = false;
                 }
                 else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
                 {
