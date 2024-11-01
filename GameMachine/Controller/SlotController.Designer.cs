@@ -72,6 +72,7 @@
             panel11 = new Panel();
             panel12 = new Panel();
             panel16 = new Panel();
+            panel17 = new Panel();
             ((System.ComponentModel.ISupportInitialize)CpB1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CpB3).BeginInit();
@@ -257,7 +258,7 @@
             // 
             // panel4
             // 
-            panel4.BackColor = Color.DimGray;
+            panel4.BackColor = Color.Gold;
             panel4.Location = new Point(575, 525);
             panel4.Name = "panel4";
             panel4.Size = new Size(175, 50);
@@ -265,7 +266,7 @@
             // 
             // panel6
             // 
-            panel6.BackColor = Color.DimGray;
+            panel6.BackColor = Color.Gold;
             panel6.Location = new Point(804, 0);
             panel6.Name = "panel6";
             panel6.Size = new Size(175, 28);
@@ -273,15 +274,15 @@
             // 
             // panel7
             // 
-            panel7.BackColor = Color.DimGray;
+            panel7.BackColor = Color.Gold;
             panel7.Location = new Point(575, 0);
             panel7.Name = "panel7";
-            panel7.Size = new Size(175, 25);
+            panel7.Size = new Size(175, 28);
             panel7.TabIndex = 35;
             // 
             // panel8
             // 
-            panel8.BackColor = Color.DimGray;
+            panel8.BackColor = Color.Gold;
             panel8.Location = new Point(344, 0);
             panel8.Name = "panel8";
             panel8.Size = new Size(175, 28);
@@ -343,7 +344,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.DimGray;
+            panel3.BackColor = Color.Gold;
             panel3.Location = new Point(344, 525);
             panel3.Name = "panel3";
             panel3.Size = new Size(175, 50);
@@ -360,7 +361,7 @@
             // 
             // panel5
             // 
-            panel5.BackColor = Color.DimGray;
+            panel5.BackColor = Color.Gold;
             panel5.Location = new Point(804, 525);
             panel5.Name = "panel5";
             panel5.Size = new Size(175, 50);
@@ -423,7 +424,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.DimGray;
+            panel1.BackColor = Color.Gold;
             panel1.Controls.Add(panel9);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(panel15);
@@ -504,16 +505,24 @@
             // panel16
             // 
             panel16.BackColor = Color.White;
-            panel16.Location = new Point(329, 550);
+            panel16.Location = new Point(329, 544);
             panel16.Name = "panel16";
-            panel16.Size = new Size(662, 25);
+            panel16.Size = new Size(662, 31);
             panel16.TabIndex = 60;
+            // 
+            // panel17
+            // 
+            panel17.Location = new Point(329, 0);
+            panel17.Name = "panel17";
+            panel17.Size = new Size(663, 10);
+            panel17.TabIndex = 61;
             // 
             // SlotController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(panel17);
             Controls.Add(panel16);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -629,5 +638,6 @@
         private Panel panel10;
         private Panel panel14;
         private Panel panel16;
+        private Panel panel17;
     }
 }
