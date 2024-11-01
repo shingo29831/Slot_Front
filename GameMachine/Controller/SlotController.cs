@@ -100,7 +100,7 @@ namespace GameMachine
                 case Keys.Space: // スペースバー
                     HandleSpaceBarPress();
                     break;
-                
+
             }
         }
 
