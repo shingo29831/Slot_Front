@@ -4,11 +4,14 @@ using GameMachine.View;
 using System;
 using System.Windows.Forms;
 using static Constants;
+using Networks;
 
 namespace GameMachine
 {
     public partial class StartUp : Form
     {
+        
+
         private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
 
         private static AccountLinkingController accountLinkingScreen = new AccountLinkingController(); // アカウントリンク画面のコントローラー
@@ -36,6 +39,15 @@ namespace GameMachine
         private static SlotController userGameScreen = new SlotController(creditView, counterView);       // スロットゲーム画面のコントローラー
         public static SlotView slotView = new SlotView(userGameScreen);
 
+        static Account_SYS? account_ = null;
+
+        static Network_sys? ns = null;
+
+        private bool exitFlg=false;
+
+        public static Account_SYS Account { get => account_; set => account_ = value; }
+
+        public static Network_sys Network { get => ns; set => ns = value; } 
         public StartUp()
         {
             InitializeComponent();
@@ -58,7 +70,9 @@ namespace GameMachine
 
         private void StartUp_Load(object sender, EventArgs e)
         {
-
+            ////////////////////////変更箇所/////////////////////////
+            SetSlotExpected();
+            ////////////////////////変更箇所/////////////////////////
 
             //ユーザーコントロール インスタンス
             //counterDisplay = new CounterController();        // カウンター表示画面
@@ -81,7 +95,7 @@ namespace GameMachine
             // 初期画面表示メソッド  //
             ///////////////////////////
             ShowUserSelectionScreen();
-
+            
             counterView.SwitchCounterUpdate();
         }
 
@@ -234,6 +248,26 @@ namespace GameMachine
                     ShowWaitLogoutScreen();
                 }
             }
+        }
+
+        async private void SetSlotExpected()
+        {
+            int slotExpected;
+            while (!exitFlg)
+            {
+                if (Network != null)
+                {
+                    slotExpected = await Networks.Table.get_probability(Network);
+                    Model.Setting.SetExpected(Convert.ToByte(slotExpected));
+                }
+                await Task.Delay(30000);
+            }
+            this.Close();
+        }
+
+        public void SetExitFlg(bool flg)
+        {
+            exitFlg= flg;
         }
     }
 }

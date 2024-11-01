@@ -203,3 +203,6 @@ C:\Users\sumik\Desktop\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachi
 C:\Users\sumik\Desktop\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
 C:\Users\sumik\Desktop\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.InCreditController.resources
 C:\Users\sumik\Desktop\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.SlotSettingController.resources
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.InCreditController.resources
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.SettingController.resources
+C:\Users\user\OneDrive\デスクトップ\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.SlotSettingController.resources
