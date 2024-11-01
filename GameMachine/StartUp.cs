@@ -19,6 +19,12 @@ namespace GameMachine
 
         private static ResultController resultScreen = new ResultController();
 
+        private static SettingController settingController = new SettingController();   //設定画面のコントローラー
+
+        private static InCreditController inCreditController = new InCreditController(); // ローカル入金画面のコントローラー
+
+        private static SlotSettingController slotSettingController = new SlotSettingController();//台設定変更画面のコントローラー
+
 
         //集計（カウンター）画面
         private static CounterController counterDisplay = new CounterController();        // カウンター表示コントローラー
@@ -92,6 +98,9 @@ namespace GameMachine
             SetControlProperties(resultScreen, new Size(1275, 730), new Point(325, 200)); // クレジット表示
             SetControlProperties(waitLinkScreen, new Size(1275, 875), new Point(325, 200));//待機画面
             SetControlProperties(waitLogoutController, new Size(1275, 875), new Point(325, 200));//ログアウト待ち画面
+            SetControlProperties(settingController, new Size(1275, 875), new Point(325, 200));//設定画面
+            SetControlProperties(inCreditController, new Size(1275, 875), new Point(325, 200));//入金画面
+            SetControlProperties(slotSettingController, new Size(1275, 875), new Point(325, 200));//台設定画面
         }
 
         private void SetControlProperties(Control control, Size size, Point location)
@@ -176,6 +185,28 @@ namespace GameMachine
             waitLogoutController.BringToFront();    //待機画面を前面に移動
             waitLogoutController.WaitLogout();      //待機処理開始
         }
+
+        public void ShowSettingScreen()
+        {
+            ShowUserControl(settingController); //設定画面表示
+            counterDisplay.Visible = true;      //カウンター画面を表示
+            settingController.BringToFront();   //設定画面を前面に移動
+        }
+
+        public void ShowInCreditScreen()
+        {
+            ShowUserControl(inCreditController);    //ローカル入金画面表示
+            counterDisplay.Visible = true;          //カウンター画面を表示
+            inCreditController.BringToFront();      //ローカル入金画面を前面に移動
+        }
+
+        public void ShowSlotSettingScreen()
+        {
+            ShowUserControl(slotSettingController); //台設定画面表示
+            counterDisplay.Visible = true;          //カウンター画面表示
+            slotSettingController.BringToFront();   //台設定画面を前面に移動
+        }
+
 
         public void ShowCreditDisp()
         {
