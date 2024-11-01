@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameMachine")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10d69510c415be04a3a2f9f26890a17ffd4c032c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8de50e8b964c1515cb320edcaee5903a3c175bac")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameMachine")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameMachine")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

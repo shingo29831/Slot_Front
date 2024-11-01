@@ -415,7 +415,7 @@ namespace GameMachine.Model
                     establishedRole = Roles.BIG;
                     hitBonusFlag = false;
                 }
-                else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.CENTER, line, nextCenterReel) == Symbols.SEVEN)
+                else if (sevenNum == 2 && hasBar && GetSymbolForLine(Reels.LEFT, line, nextLeftReel) == Symbols.SEVEN)
                 {
                     establishedRole = Roles.REGULAR;
                     hitBonusFlag = false;
@@ -1009,15 +1009,15 @@ namespace GameMachine.Model
                 case 0:
                     return GetSymbolsAccordingRole();
                 case 1:
-                    if (selectReel == Reels.CENTER && nowRole == Roles.REGULAR && GetPositionsToReach(selectReel).HasFlag(position)) //中リールでレギュラー役が来た時、リーチにさせれるpositionだった時
+                    if ((Reels.LEFT | Reels.CENTER).HasFlag(selectReel) && nowRole == Roles.REGULAR && GetPositionsToReach(selectReel).HasFlag(position)) //中リールでレギュラー役が来た時、リーチにさせれるpositionだった時
                     {
                         return Symbols.SEVEN;
                     }
-                    if ((Reels.LEFT | Reels.RIGHT).HasFlag(selectReel) && nowRole == Roles.REGULAR && //左または右リールでレギュラー役の時
-                        GetIsStopBarForLines((Reels.LEFT | Reels.RIGHT) & ~selectReel, position) && GetPositionsToReach(selectReel).HasFlag(position)) //かつ止まっているリールにバーがあった時でリーチにさせれるpositionだった時
-                    {
-                        return Symbols.SEVEN;
-                    }
+                    //if ((Reels.LEFT | Reels.CENTER).HasFlag(selectReel) && nowRole == Roles.REGULAR && //左または右リールでレギュラー役の時
+                    //    GetIsStopBarForLines((Reels.LEFT | Reels.RIGHT) & ~selectReel, position) && GetPositionsToReach(selectReel).HasFlag(position)) //かつ止まっているリールにバーがあった時でリーチにさせれるpositionだった時
+                    //{
+                    //    return Symbols.SEVEN;
+                    //}
                     if (GetPositionsToReach(selectReel).HasFlag(position)) //リーチにさせれるpositionだった時
                     {
                         return GetSymbolsAccordingRole();
