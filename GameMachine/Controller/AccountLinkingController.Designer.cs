@@ -28,22 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            EmailTxb = new TextBox();
+            UserNameTxb = new TextBox();
             PasswordTxb = new TextBox();
             label1 = new Label();
             label2 = new Label();
             RegistrationBtn = new Button();
+            Cancel_Button = new Button();
             SuspendLayout();
             // 
-            // EmailTxb
+            // UserNameTxb
             // 
-            EmailTxb.Font = new Font("Yu Gothic UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
-            EmailTxb.ImeMode = ImeMode.Off;
-            EmailTxb.Location = new Point(375, 225);
-            EmailTxb.Multiline = true;
-            EmailTxb.Name = "EmailTxb";
-            EmailTxb.Size = new Size(550, 50);
-            EmailTxb.TabIndex = 0;
+            UserNameTxb.Font = new Font("Yu Gothic UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
+            UserNameTxb.ImeMode = ImeMode.Off;
+            UserNameTxb.Location = new Point(375, 225);
+            UserNameTxb.Multiline = true;
+            UserNameTxb.Name = "UserNameTxb";
+            UserNameTxb.Size = new Size(550, 50);
+            UserNameTxb.TabIndex = 0;
             // 
             // PasswordTxb
             // 
@@ -58,11 +59,11 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Yu Gothic UI Semibold", 20.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-            label1.Location = new Point(325, 175);
+            label1.Location = new Point(325, 173);
             label1.Name = "label1";
-            label1.Size = new Size(94, 37);
+            label1.Size = new Size(145, 37);
             label1.TabIndex = 2;
-            label1.Text = "E-mail";
+            label1.Text = "UserName";
             // 
             // label2
             // 
@@ -78,24 +79,38 @@
             // 
             RegistrationBtn.BackColor = Color.FromArgb(0, 192, 0);
             RegistrationBtn.Font = new Font("Yu Gothic UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
-            RegistrationBtn.Location = new Point(575, 525);
+            RegistrationBtn.Location = new Point(375, 533);
             RegistrationBtn.Name = "RegistrationBtn";
-            RegistrationBtn.Size = new Size(150, 75);
+            RegistrationBtn.Size = new Size(220, 75);
             RegistrationBtn.TabIndex = 4;
-            RegistrationBtn.Text = "登録";
+            RegistrationBtn.Text = "Login";
             RegistrationBtn.UseVisualStyleBackColor = false;
             RegistrationBtn.Click += RegistrationBtn_Click;
+            // 
+            // Cancel_Button
+            // 
+            Cancel_Button.BackColor = Color.FromArgb(128, 128, 255);
+            Cancel_Button.Font = new Font("Yu Gothic UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            Cancel_Button.ForeColor = Color.White;
+            Cancel_Button.Location = new Point(705, 533);
+            Cancel_Button.Name = "Cancel_Button";
+            Cancel_Button.Size = new Size(220, 75);
+            Cancel_Button.TabIndex = 5;
+            Cancel_Button.Text = "Cancel";
+            Cancel_Button.UseVisualStyleBackColor = false;
+            Cancel_Button.Click += CancelButton_Click;
             // 
             // AccountLinkingController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(Cancel_Button);
             Controls.Add(RegistrationBtn);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(PasswordTxb);
-            Controls.Add(EmailTxb);
+            Controls.Add(UserNameTxb);
             Name = "AccountLinkingController";
             Size = new Size(1275, 700);
             Load += AccountLinkingScreen_Load;
@@ -105,10 +120,11 @@
 
         #endregion
 
-        private TextBox EmailTxb;
+        private TextBox UserNameTxb;
         private TextBox PasswordTxb;
         private Label label1;
         private Label label2;
         private Button RegistrationBtn;
+        private Button Cancel_Button;
     }
 }

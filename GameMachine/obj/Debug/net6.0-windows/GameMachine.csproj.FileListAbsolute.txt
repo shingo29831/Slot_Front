@@ -179,3 +179,7 @@ C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameM
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLinkController.resources
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.WaitLogoutController.resources
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.GameEndController.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.GameEndController.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.InCreditController.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.SettingController.resources
+C:\Users\Shingo\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.Controller.SlotSettingController.resources

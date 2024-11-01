@@ -55,3 +55,7 @@ C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\Gam
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.InCreditController.resources
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SettingController.resources
 C:\Users\user\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SlotSettingController.resources
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.GameEndController.resources
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.InCreditController.resources
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SettingController.resources
+C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SlotSettingController.resources

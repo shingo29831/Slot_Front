@@ -32,6 +32,9 @@
             comboBox1 = new ComboBox();
             Ok_Button = new Button();
             Cancel_Button = new Button();
+            table_id = new Label();
+            textBox1 = new TextBox();
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
             // SlotSet_Label
@@ -76,20 +79,56 @@
             Cancel_Button.UseVisualStyleBackColor = true;
             Cancel_Button.Click += CancelButton_Click;
             // 
-            // SlotSetting
+            // table_id
+            // 
+            table_id.AutoSize = true;
+            table_id.Font = new Font("Yu Gothic UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            table_id.Location = new Point(503, 248);
+            table_id.Name = "table_id";
+            table_id.Size = new Size(147, 37);
+            table_id.TabIndex = 4;
+            table_id.Text = "テーブル番号";
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Yu Gothic UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.Location = new Point(656, 248);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 43);
+            textBox1.TabIndex = 5;
+            textBox1.KeyPress += PressKey_ValueCheck;
+            textBox1.KeyUp += KeyUpCheck_Enter;
+            // 
+            // checkBox1
+            // 
+            checkBox1.CheckAlign = ContentAlignment.MiddleRight;
+            checkBox1.Font = new Font("Yu Gothic UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBox1.Location = new Point(550, 371);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(206, 36);
+            checkBox1.TabIndex = 6;
+            checkBox1.Text = "サーバーの台設定に変更";
+            checkBox1.TextAlign = ContentAlignment.MiddleCenter;
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // SlotSettingController
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(checkBox1);
+            Controls.Add(textBox1);
+            Controls.Add(table_id);
             Controls.Add(Cancel_Button);
             Controls.Add(Ok_Button);
             Controls.Add(comboBox1);
             Controls.Add(SlotSet_Label);
             Margin = new Padding(0);
-            Name = "SlotSetting";
+            Name = "SlotSettingController";
             Size = new Size(1275, 700);
             Load += SlotSetting_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -98,5 +137,8 @@
         private ComboBox comboBox1;
         private Button Ok_Button;
         private Button Cancel_Button;
+        private Label table_id;
+        private TextBox textBox1;
+        private CheckBox checkBox1;
     }
 }

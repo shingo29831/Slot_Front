@@ -19,15 +19,14 @@ namespace GameMachine.Controller
         }
         async public void WaitLogout()
         {
-            logoutFlg = false;
             var mainForm = this.Parent as StartUp;
+            ////////////////////////////////変更箇所//////////////////////////////
             try
             {
-                while (!logoutFlg)
+                await StartUp.Account.logout_request();
+                while (!await StartUp.Account.logout_isdone())
                 {
-                    LogoutCheck();
-                    await Task.Delay(1500);
-                    logoutFlg = true;
+                    await Task.Delay(2000);
                 }
                 MessageBox.Show("ログアウト完了しました", "success", MessageBoxButtons.OK);
                 if (mainForm != null)
@@ -43,19 +42,7 @@ namespace GameMachine.Controller
                     mainForm.ShowUserSelectionScreen();
                 }              
             }
-        }
-
-        async private void LogoutCheck()　
-        {
-            try
-            {
-                //蟹江君のバックへの通信処理 成功時true 失敗時false をlogoutflgに入れる
-                await Task.Delay(1000);
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
+            /////////////////////////////////変更箇所//////////////////////////////
         }
     }
 }

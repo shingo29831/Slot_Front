@@ -1,4 +1,5 @@
-﻿using GameMachine.Model;
+﻿using GameMachine.InitialSettingView;
+using GameMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,9 @@ namespace GameMachine.Controller
 {
     public partial class WaitLinkController : UserControl
     {
+        ////////追加///////
+        bool inCredit = false;
+        ///////////////////
         int credit;
         public WaitLinkController()
         {
@@ -37,12 +41,14 @@ namespace GameMachine.Controller
             try
             {
                 //クレジットの値が更新されるまで無限回繰り返す
-                while (credit == -1) 
+                while (inCredit) 
                 {
                     CreditCheck();
-                    await Task.Delay(1500);
-                    credit = 0;
+                    await Task.Delay(2500);
                 }
+                /////////////////////追加//////////////////////
+                credit = await StartUp.Account.get_user_money();
+                ///////////////////////////////////////////////
                 //更新できた場合
                 Game.IncreaseHasCoin(credit);
                 mainForm.ShowCreditDisp();
@@ -67,7 +73,7 @@ namespace GameMachine.Controller
         //クレジットの値を取得
         async private void CreditCheck()
         {
-            //credit=蟹江君の通信メソッド
+            inCredit = await StartUp.Account.request_payment_exists();
             await Task.Delay(1000);
         }
     }
