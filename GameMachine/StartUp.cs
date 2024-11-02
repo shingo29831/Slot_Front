@@ -258,7 +258,7 @@ namespace GameMachine
                 if (Network != null)
                 {
                     slotExpected = await Networks.Table.get_probability(Network);
-                    Model.Setting.SetExpected(Convert.ToByte(slotExpected));
+                    //Model.Setting.SetExpected(Convert.ToByte(slotExpected));
                 }
                 await Task.Delay(30000);
             }

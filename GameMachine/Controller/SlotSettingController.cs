@@ -31,7 +31,7 @@ namespace GameMachine.Controller
             if(checkBox1.Checked == true)
             {
                 int slotExpected = await Networks.Table.get_probability(StartUp.Network);
-                Model.Setting.SetExpected(Convert.ToByte(slotExpected));
+                //Model.Setting.SetExpected(Convert.ToByte(slotExpected));
             }
             //Setting.SetExpected(Convert.ToByte(comboBox1.Text));
             var mainForm = this.Parent as StartUp;
@@ -69,7 +69,7 @@ namespace GameMachine.Controller
                 MessageBox.Show("テーブル番号を登録しました", "success", MessageBoxButtons.OK);
                 tableId = int.Parse(textBox1.Text);
                 String table = new StringBuilder("table_").Append(tableId).ToString();
-                StartUp.Network = new Network.Network_sys(table, table);
+                StartUp.Network = new Networks.Network_sys(table, table);
                 textBox1.Clear();
             }
         }
