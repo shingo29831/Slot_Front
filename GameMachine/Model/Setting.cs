@@ -9,8 +9,6 @@ namespace GameMachine.Model
 {
 
 
-
-
     public class Setting
     {
 
@@ -28,7 +26,7 @@ namespace GameMachine.Model
         private static byte regProbability = (byte)(100 - bigProbability);
         private static readonly Roles[] roles = { Roles.BELL, Roles.REPLAY, Roles.WATERMELON, Roles.WEAK_CHERRY, Roles.STRONG_CHERRY, Roles.VERY_STRONG_CHERRY };
         private static readonly int totalWeight = 1000;
-        private static int[] rolesWeight = { 70, 75, 20, 50, 4, 1, 0, 0 }; //x/1000の確率
+        private static int[] rolesWeight = { 70, 75, 25, 50, 4, 1, 0, 0 }; //x/1000の確率
                                                                            //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
         private static int[] rolesWeightInBonus = { 0, 0, 50, 75, 8, 2, 0, 0 };
         private static byte[] rolesBonusProbability = { 0, 0, 10, 10, 25, 100 }; //x/100の確率(x%)

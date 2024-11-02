@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9VzPV21zSrZ+LLbreI0Y+WZf6dICHIHFDkvHqd63js8KkmVURSPCqSAT+w5FaOb3saZy9ozM5fsmSds+Iycnuw==",
+  "dgSpecHash": "VYXCm4bYf6E5YFVbF/dkC4aUBrxN47L4z/atvy2IVy+IeRvD259ZtXOjg+BceVz4n/r87h54hwMsirovEwYUJQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Source\\Repos\\Slot_FrontH\\GameMachine\\GameMachine.csproj",
+  "projectFilePath": "C:\\Users\\user\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
