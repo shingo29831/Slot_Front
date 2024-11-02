@@ -64,9 +64,9 @@ namespace GameMachine.Controller
 
         private void KeyUpCheck_Enter(object sender, KeyEventArgs e)
         {
-            textBox1.Text = textBox1.Text.Replace(Environment.NewLine, "");
             if (e.KeyCode == Keys.Enter)
             {
+                textBox1.Text = textBox1.Text.Replace(Environment.NewLine, "");
                 MessageBox.Show("テーブル番号を登録しました", "success", MessageBoxButtons.OK);
                 tableId = int.Parse(textBox1.Text);
                 String table = new StringBuilder("table_").Append(tableId).ToString();

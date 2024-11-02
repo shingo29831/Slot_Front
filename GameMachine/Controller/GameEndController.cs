@@ -33,6 +33,7 @@ namespace GameMachine.Controller
         {
             if (true)//オンライン
             {
+                StartUp.Account.update_money(Game.GetHasCoin());
                 StartUp.ShowWaitLogoutScreen();
             }
             else//オフライン

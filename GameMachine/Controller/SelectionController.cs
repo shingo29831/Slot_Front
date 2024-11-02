@@ -51,11 +51,25 @@ namespace GameMachine
                 s = s.Replace(Environment.NewLine, "");
                 if (s.Equals("Setting"))
                 {
-
-                    mainForm.ShowSettingScreen();
+                    if(mainForm != null)
+                    {
+                        mainForm.ShowSettingScreen();
+                    }
+                    
+                }
+                else if (s.Equals("Exit"))
+                {
+                    if(DialogResult.Yes == MessageBox.Show("アプリケーションを終了しますか？","ゲーム",MessageBoxButtons.YesNo,MessageBoxIcon.Question))
+                    {
+                        if(mainForm != null)
+                        {
+                            mainForm.SetExitFlg(true);
+                        }
+                    }
                 }
                 textBox1.Clear();
             }
+            
         }
     }
 }

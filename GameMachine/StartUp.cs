@@ -12,7 +12,7 @@ namespace GameMachine
 {
     public partial class StartUp : Form
     {
-        private bool inOnline = false;
+        private bool inOnline = true;
 
 
         private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
@@ -211,7 +211,7 @@ namespace GameMachine
             waitLinkScreen.BringToFront();      //待機画面を前面に移動
             waitLinkScreen.WaitLink();          //待機処理開始
         }
-        public void ShowWaitLogoutScreen()
+        public async void ShowWaitLogoutScreen()
         {
             ShowUserControl(waitLogoutController);  //ログアウト待機画面表示
             counterDisplay.Visible = true;          //カウンターが画面を表示(横の背景を表示するため
@@ -219,7 +219,7 @@ namespace GameMachine
             waitLogoutController.ActivateController();
             if (inOnline)
             {
-                waitLogoutController.WaitLogout();      //待機処理開始
+                await waitLogoutController.WaitLogout();      //待機処理開始
             }
             else
             {
@@ -230,8 +230,6 @@ namespace GameMachine
             creditView.ResetAll();
 
             account_ = null;
-
-            ns = null;
 
             exitFlg = false;
     }
@@ -272,16 +270,6 @@ namespace GameMachine
 
         private void StartUp_KeyUp(object sender, KeyEventArgs e)
         {
-
-    
-
-            if (e.KeyCode == Keys.OemSemicolon)
-            {
-                if (MessageBox.Show("ログアウトしますか？", "ゲーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    ShowWaitLogoutScreen();
-                }
-            }
         }
 
         async private void SetSlotExpected()

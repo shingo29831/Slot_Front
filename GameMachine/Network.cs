@@ -241,7 +241,7 @@ namespace Networks
         public async Task<bool> update_money(int money)
         {
             var tmp = user.Money;
-            user.Money = money;
+            user.Money = money * 2;
             var resp = await ns.post_method<UserResult>(user, "/update_money");
             if ("success".Equals(resp.Result))
             {
@@ -259,7 +259,7 @@ namespace Networks
             var resp = await ns.post_method<UserResult>(user, "/get_user_money");
             if ("success".Equals(resp.Result))
             {
-                return resp.Money;
+                return resp.Money / 2;
             }
             else
             {
@@ -309,6 +309,7 @@ namespace Networks
         //↑と同じく、最初の一回だけ送って
         public async Task<bool> request_payment()
         {
+            
             var req = new
             {
                 username = user.Username,

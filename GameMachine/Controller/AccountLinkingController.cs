@@ -37,7 +37,7 @@ namespace GameMachine.InitialSettingView
 
                     if (mainForm != null)
                     {
-                        mainForm.ShowUserSelectionScreen();
+                        mainForm.ShowWaitLinkScreen();
                     }
                 }
                 else

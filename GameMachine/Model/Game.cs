@@ -1855,9 +1855,6 @@ namespace GameMachine.Model
             lastBonusCount = 0;
             preBonusCoin = 0;
 
-            nextBonusFlag = false;
-            inBonus = false;
-            hitBonusFlag = false; //test前false
 
             StopReelCount = 0; //テスト前0
 

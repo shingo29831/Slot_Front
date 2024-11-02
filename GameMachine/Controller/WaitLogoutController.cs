@@ -25,7 +25,7 @@ namespace GameMachine.Controller
             mainForm = this.Parent as StartUp;
         }
 
-        async public void WaitLogout()
+        async public Task WaitLogout()
         {
             
             ////////////////////////////////変更箇所//////////////////////////////
@@ -41,6 +41,7 @@ namespace GameMachine.Controller
                 {
                     mainForm.ShowUserSelectionScreen();
                 }
+                StartUp.Account = null;
             }
             catch(Exception e)
             {

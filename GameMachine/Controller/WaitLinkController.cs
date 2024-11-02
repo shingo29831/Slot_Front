@@ -1,5 +1,6 @@
 ﻿using GameMachine.InitialSettingView;
 using GameMachine.Model;
+using Networks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,13 +36,18 @@ namespace GameMachine.Controller
         //バックとフロントのクレジットの値を同期させる
         async public void WaitLink()
         {
+            inCredit = false;
             var mainForm = this.Parent as StartUp;
             credit = -1;
-
+            if (StartUp.Account == null)
+            {
+                StartUp.Account = await Account_SYS.getAccount_SYS(StartUp.Network);
+            }
             try
             {
+                await StartUp.Account.request_payment();
                 //クレジットの値が更新されるまで無限回繰り返す
-                while (inCredit) 
+                while (!inCredit) 
                 {
                     CreditCheck();
                     await Task.Delay(2500);
