@@ -168,3 +168,10 @@ C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\refi
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.pdb
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.genruntimeconfig.cache
 C:\Users\umeda\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\ref\GameMachine.dll
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\obj\Debug\net6.0-windows\GameMachine.csproj.AssemblyReference.cache
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\bell.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\bet1.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\bet2.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\cheri.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\replay.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Debug\net6.0-windows\SoundResources\suika.wav

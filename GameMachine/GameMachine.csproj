@@ -10,6 +10,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SoundResources\bell.wav" />
+    <None Remove="SoundResources\bet1.wav" />
+    <None Remove="SoundResources\bet2.wav" />
+    <None Remove="SoundResources\big.wav" />
+    <None Remove="SoundResources\cheri.wav" />
+    <None Remove="SoundResources\replay.wav" />
+    <None Remove="SoundResources\suika.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SoundResources\bell.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\bet1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\bet2.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\big.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\cheri.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\replay.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\suika.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

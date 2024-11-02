@@ -271,6 +271,37 @@ namespace GameMachine
                 slotView.MaxBetChangeUp();
                 Game.HitEstablishedRoles(); //達成された役を探索
                 establishedRole = Game.GetEstablishedRole();
+                establishedRole = Roles.BIG;
+                //サウンド
+                switch (establishedRole)
+                {
+                    case Roles.BELL
+                        : {
+                            Sound.Ring("bell.wav");
+                        }
+                        break;
+                    case Roles.WATERMELON
+                        : {
+                            Sound.Ring("suika.wav");
+                        }
+                        break;
+                    case Roles.WEAK_CHERRY
+                        :{
+                            Sound.Ring("cheri.wav");
+                        }
+                        break;
+                    case Roles.REPLAY
+                        :{
+                            Sound.Ring("replay.wav");
+                        }
+                        break;
+                    case Roles.BIG
+                        : {
+                            Sound.Ring("big.wav");
+                        }
+                        break;
+                }
+
                 Game.CalcCoinReturned(); //達成された役を元にコインを還元
                 Game.SwitchingBonus(); //ボーナスの状態を(達成したボーナスに突入・停止・次のボーナスに)移行
 
