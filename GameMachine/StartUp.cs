@@ -33,8 +33,6 @@ namespace GameMachine
 
         private static SlotSettingController slotSettingController = new SlotSettingController();//台設定変更画面のコントローラー
 
-        private static Game game = new Game();
-
         //集計（カウンター）画面
         private static CounterController counterDisplay = new CounterController();        // カウンター表示コントローラー
         private static CounterView counterView = new CounterView(counterDisplay);
@@ -219,20 +217,28 @@ namespace GameMachine
             waitLogoutController.ActivateController();
             if (inOnline)
             {
-                await waitLogoutController.WaitLogout();      //待機処理開始
+                await waitLogoutController.WaitLogout();
+                Game.ResetAll();
+                userGameScreen.ResetAll();
+                creditView.ResetAll();
+
+                account_ = null;
+
+                exitFlg = false;
+                //待機処理開始
             }
             else
             {
-                await waitLogoutController.EndLocalGame();
                 Game.ResetAll();
+                userGameScreen.ResetAll();
+                creditView.ResetAll();
+
+                account_ = null;
+
+                exitFlg = false;
+                await waitLogoutController.EndLocalGame();
             }
-            Game.ResetAll();
-            userGameScreen.ResetAll();
-            creditView.ResetAll();
-
-            account_ = null;
-
-            exitFlg = false;
+           
     }
 
         public void ShowSettingScreen()

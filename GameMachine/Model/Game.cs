@@ -16,7 +16,6 @@ namespace GameMachine.Model
     public class Game
     {
         private static int hasCoin = 0; //テスト前0
-        public static int setcoin {  get => hasCoin; set => hasCoin = value; }
         static int increasedCoin = 0;
         static int lastBonusCount = 0;
         static int preBonusCoin = 0;
@@ -1851,7 +1850,7 @@ namespace GameMachine.Model
 
         public static void ResetAll()
         {
-            Game.setcoin = 0; //テスト前0
+            hasCoin = 0; //テスト前0
             increasedCoin = 0;
             lastBonusCount = 0;
             preBonusCoin = 0;
@@ -1875,7 +1874,6 @@ namespace GameMachine.Model
 
 
             nowRole = Roles.NONE; //テスト前:NONE
-            nowBonus = Roles.NONE; //テスト前:NONE
 
             establishedRole = Roles.NONE;
         }
