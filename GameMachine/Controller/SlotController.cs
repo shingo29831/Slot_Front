@@ -140,9 +140,9 @@ namespace GameMachine
             }
             if (slotstart == 1)
             {
-
+                
                 MaxBet_Click(sender, e);
-                slotView.MaxBetChangeDown();
+                slotView.MaxBetChangeUp();
             }
             else if (slotstart == 2)
             {
@@ -396,8 +396,11 @@ namespace GameMachine
             //}
             if (maxBetFlag == false && establishedRole != Roles.REPLAY)
             {
-                
+                slotView.MaxBetChangeDown();
+                Sound.Ring("bet2.wav");
                 OnPushedMaxBet();
+
+
             }
             if (establishedRole == Roles.REPLAY)
             {
@@ -423,7 +426,7 @@ namespace GameMachine
         {
             
             Sound.AllStop();
-            Sound.Ring("bet2.wav");
+            
 
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
