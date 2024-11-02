@@ -60,8 +60,8 @@ namespace GameMachine
         
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            stopAndResult = true;
+
+            lblArray.Text = GetBonusPosition(Reels.LEFT).ToString() +  " , " + GetBonusPosition(Reels.CENTER).ToString()  +" , "+ GetBonusPosition(Reels.RIGHT).ToString();
 
         }
 

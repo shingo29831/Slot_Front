@@ -12,8 +12,8 @@ namespace GameMachine
 {
     public partial class StartUp : Form
     {
-        private bool inOnline = true;
-
+        private static bool inOnline = true;
+        public static bool GetOnline { get => inOnline; }
 
         private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
 
@@ -32,8 +32,6 @@ namespace GameMachine
         private static InCreditController inCreditController = new InCreditController(); // ローカル入金画面のコントローラー
 
         private static SlotSettingController slotSettingController = new SlotSettingController();//台設定変更画面のコントローラー
-
-        private static Game game = new Game();
 
         //集計（カウンター）画面
         private static CounterController counterDisplay = new CounterController();        // カウンター表示コントローラー
@@ -219,19 +217,28 @@ namespace GameMachine
             waitLogoutController.ActivateController();
             if (inOnline)
             {
-                await waitLogoutController.WaitLogout();      //待機処理開始
+                await waitLogoutController.WaitLogout();
+                Game.ResetAll();
+                userGameScreen.ResetAll();
+                creditView.ResetAll();
+
+                account_ = null;
+
+                exitFlg = false;
+                //待機処理開始
             }
             else
             {
-                waitLogoutController.EndLocalGame();
+                Game.ResetAll();
+                userGameScreen.ResetAll();
+                creditView.ResetAll();
+
+                account_ = null;
+
+                exitFlg = false;
+                await waitLogoutController.EndLocalGame();
             }
-            game.ResetAll();
-            userGameScreen.ResetAll();
-            creditView.ResetAll();
-
-            account_ = null;
-
-            exitFlg = false;
+           
     }
 
         public void ShowSettingScreen()
@@ -293,9 +300,9 @@ namespace GameMachine
         }
 
 
-        public void SetInOnline(bool online)
+        public static void SetInOnline(bool online)
         {
-            this.inOnline = online;
+            inOnline = online;
         }
     }
 }

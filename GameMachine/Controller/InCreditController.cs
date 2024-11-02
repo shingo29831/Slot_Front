@@ -42,10 +42,11 @@ namespace GameMachine.Controller
             {
                 int credit = int.Parse(textBox1.Text);
 
-                checkFlg = Game.IncreaseHasCoin(credit / 2);
+                checkFlg = Game.SetHasCoin(credit / 2);
                 if (checkFlg)
                 {
                     MessageBox.Show("入金に成功しました。", "success", MessageBoxButtons.OK);
+                    StartUp.SetInOnline(false);
                     textBox1.Clear();
                     var mainForm = this.Parent as StartUp;
                     if (mainForm != null)

@@ -15,10 +15,12 @@ namespace GameMachine.Model
 
     public class Game
     {
-        static int hasCoin = 0; //テスト前0
+        private static int hasCoin = 0; //テスト前0
         static int increasedCoin = 0;
         static int lastBonusCount = 0;
         static int preBonusCoin = 0;
+
+        static int inBonusGameCount = 0;
 
         static bool nextBonusFlag = false;
         static bool inBonus = false;
@@ -213,6 +215,8 @@ namespace GameMachine.Model
                 HitEstablishedRoles();
                 BonusLottery(); //ボーナス抽選を行う
                 CalcCoinReturned();
+
+                
             }
             return CalcNextReelPosition(selectReel);
         }
@@ -450,6 +454,8 @@ namespace GameMachine.Model
             {
                 sbyte searchReelPosition = CalcReelPosition(nowReelPosition, gapNowReelPosition); //現在位置から4～0の位置
                 bool isExclusion = GetIsExclusion(selectReel, searchReelPosition);
+                
+                
                 if (isExclusion == false && GetIsAchieveRole(selectReel, searchReelPosition)) //役が揃うシンボルが来るか
                 {
                     reelPosition = searchReelPosition;
@@ -467,6 +473,14 @@ namespace GameMachine.Model
                     reelPosition = searchReelPosition;
                 }
 
+                
+
+            }
+
+            if (inBonusGameCount >= 3 && hitBonusFlag)
+            {
+                inBonusGameCount = 0;
+                reelPosition = GetBonusPosition(selectReel);
             }
 
             SetNextReelPosition(selectReel, reelPosition);
@@ -538,6 +552,10 @@ namespace GameMachine.Model
             if (isMoving == false)
             {
                 StopReelCount++;
+            }
+            if(StopReelCount == 3 && hitBonusFlag)
+            {
+                inBonusGameCount++;
             }
 
 
@@ -685,6 +703,43 @@ namespace GameMachine.Model
             sbyte reelPosition = GetReelPositionForPosition(selectReel, position);
             return reelOrder[reelPosition];
         }
+
+
+        //指定したリールの現在のボーナスの位置を取得する
+        public static sbyte GetBonusPosition(Reels selectReel)
+        {
+            Symbols[] reelOrder = GetReelOrder(selectReel);
+            sbyte serchReelPosition = GetNowReelPosition(selectReel);
+            Symbols rightSymbol = Symbols.NONE;
+
+            if (nowBonus == Roles.BIG)
+            {
+                rightSymbol = Symbols.SEVEN;
+            }
+            else if(nowBonus == Roles.REGULAR)
+            {
+                rightSymbol = Symbols.BAR;
+            }
+
+
+            for(byte i = 0 ;i <reelOrder.Length ; i++)
+            {
+                serchReelPosition = (sbyte)((serchReelPosition + 1) % reelOrder.Length); 
+                if(reelOrder[serchReelPosition] == Symbols.SEVEN && (selectReel == Reels.LEFT || selectReel == Reels.CENTER))
+                {
+                    return (sbyte)((serchReelPosition + reelOrder.Length - 1) % reelOrder.Length);
+                }
+                else if (reelOrder[serchReelPosition] == rightSymbol && selectReel == Reels.RIGHT)
+                {
+                    return (sbyte)((serchReelPosition + reelOrder.Length - 1) % reelOrder.Length);
+                }
+            }
+
+            return 0;
+        }
+
+
+
 
         //指定したリールの位置で取得する
         private static Symbols GetSymbolForPosition(in Reels selectReel, in Positions position, sbyte reelPosition)
@@ -1004,6 +1059,11 @@ namespace GameMachine.Model
             Symbols exclusionSymbols = Symbols.NONE;
 
             Reels stopReels = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & GetMovingReels();
+            if (StopReelCount == 2 && hitBonusFlag)
+            {
+                inBonusGameCount++;
+            }
+
             switch (StopReelCount)
             {
                 case 0:
@@ -1031,6 +1091,9 @@ namespace GameMachine.Model
 
                     break;
             }
+
+            
+            
 
 
 
@@ -1848,7 +1911,7 @@ namespace GameMachine.Model
         }
 
 
-        public void ResetAll()
+        public static void ResetAll()
         {
             hasCoin = 0; //テスト前0
             increasedCoin = 0;
@@ -1857,6 +1920,7 @@ namespace GameMachine.Model
 
 
             StopReelCount = 0; //テスト前0
+            inBonusGameCount = 0;
 
 
             nowLeftReel = 0;
@@ -1874,7 +1938,6 @@ namespace GameMachine.Model
 
 
             nowRole = Roles.NONE; //テスト前:NONE
-            nowBonus = Roles.NONE; //テスト前:NONE
 
             establishedRole = Roles.NONE;
         }

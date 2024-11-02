@@ -31,7 +31,7 @@ namespace GameMachine.Controller
 
         private void EndButton_Click(object sender, EventArgs e)
         {
-            if (true)//オンライン
+            if (StartUp.GetOnline)//オンライン
             {
                 StartUp.Account.update_money(Game.GetHasCoin());
                 StartUp.ShowWaitLogoutScreen();

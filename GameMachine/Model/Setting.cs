@@ -32,7 +32,7 @@ namespace GameMachine.Model
         private static byte[] rolesBonusProbability = { 0, 0, 10, 10, 25, 100 }; //x/100の確率(x%)
                                                                                  //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
 
-        private static readonly byte[] rolesReturn = { 9, 0, 9, 2, 2, 2, 0, 0 }; //通常時(ボーナスではない)の払い出し枚数
+        private static readonly byte[] rolesReturn = { 9, 0, 9, 2, 2, 2, 15, 15 }; //通常時(ボーナスではない)の払い出し枚数
                                                                                  //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
         private static readonly byte inBonusReturn = 15; //通常時(ボーナスではない)の払い出し枚数
                                                          //ベル,リプレイ,スイカ,弱チェリー,強チェリー,中段チェリーの順で入れること
