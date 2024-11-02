@@ -7,6 +7,7 @@ using GameMachine.View;
 using GameMachine.Model;
 using GameMachine.Controller;
 using System.Data;
+using System.Media;
 
 namespace GameMachine
 {
@@ -48,9 +49,13 @@ namespace GameMachine
         private bool resultEnabled = false;
 
         private Control mainForm;
+
+        private Sound sound = new Sound();
         
 
         public System.Timers.Timer reelTimer = new System.Timers.Timer { Interval = 16, AutoReset = true };
+
+        
 
         public SlotController(CreditView creditView, CounterView counterView)
         {
@@ -69,7 +74,10 @@ namespace GameMachine
             this.KeyDown += SlotController_KeyDown;
             this.PreviewKeyDown += SlotController_PreviewKeyDown;  // フォーカスを設定するためのイベント
 
+
             
+
+
         }
 
         // コントロールにフォーカスを設定するためのイベント
@@ -338,11 +346,15 @@ namespace GameMachine
             }
         }
 
-        private void startLever_Click(object sender, EventArgs e)
+        private async void startLever_Click(object sender, EventArgs e)
         {
             
             if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
             {
+
+                Sound.lever.Play(); // 再生
+
+
                 Game.SetEstablishedRole(Roles.NONE); //現在の役をなしに設定
                 Game.HitRolesLottery(); //役の抽選
                 Game.BonusLottery(); //ボーナスの抽選(レア役がでた時のみ)
@@ -363,6 +375,8 @@ namespace GameMachine
                 Game.ResetReelsMoving(); //全てのリールを動いているフラグにする
                 EnableStopButtons();
                 StartReels();
+
+                
             }
 
             if ((maxBetFlag || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false && Game.hitBonusFlag)
@@ -382,6 +396,7 @@ namespace GameMachine
             //}
             if (maxBetFlag == false && establishedRole != Roles.REPLAY)
             {
+                
                 OnPushedMaxBet();
             }
             if (establishedRole == Roles.REPLAY)
@@ -406,6 +421,10 @@ namespace GameMachine
         //マックスベットが押された時の処理
         private void OnPushedMaxBet()
         {
+            
+            Sound.AllStop();
+            Sound.Ring("bet2.wav");
+
             int hasCoin = Game.GetHasCoin();
             bool inBonus = Game.GetInBonus();
             if (((hasCoin >= 3 && inBonus == false) || (hasCoin >= 2 && inBonus == true) || establishedRole == Roles.REPLAY) && AnyStopBtnEnabled() == false)
@@ -445,8 +464,8 @@ namespace GameMachine
         //ストップボタンが押された時の処理
         private void OnPushedStopBtn(Reels selectReel)
         {
+            Sound.StopButton.Play();
             stopBtnEnabled = false;
-            
             sbyte reelPosition = 0;
             switch (selectReel)
             {
@@ -498,31 +517,57 @@ namespace GameMachine
                     case Roles.BELL
                         :
                         {
-                            Sound.Ring("bell.wav");
+                            //Sound.Ring("bell.wav");
+                            Sound.bell.Play();
                         }
                         break;
                     case Roles.WATERMELON
                         :
                         {
-                            Sound.Ring("suika.wav");
+                            //Sound.Ring("suika.wav");
+                            Sound.suika.Play();
                         }
                         break;
                     case Roles.WEAK_CHERRY
                         :
                         {
-                            Sound.Ring("cheri.wav");
+                            //Sound.Ring("cheri.wav");
+                            Sound.cherry.Play();
+                        }
+                        break;
+                    case Roles.STRONG_CHERRY
+                        :
+                        {
+                            //Sound.Ring("cheri.wav");
+                            Sound.cherry.Play();
+                        }
+                        break;
+                    case Roles.VERY_STRONG_CHERRY
+                    :
+                        {
+                            //Sound.Ring("cheri.wav");
+                            Sound.cherry.Play();
                         }
                         break;
                     case Roles.REPLAY
                         :
                         {
-                            Sound.Ring("replay.wav");
+                            //Sound.Ring("replay.wav");
+                            Sound.replay.Play();
+                        }
+                        break;
+                    case Roles.REGULAR
+                        :
+                        {
+                            //Sound.Ring("big.wav");
+                            Sound.big.Play();
                         }
                         break;
                     case Roles.BIG
                         :
                         {
-                            Sound.Ring("big.wav");
+                            //Sound.Ring("big.wav");
+                            Sound.big.Play();
                         }
                         break;
                 }

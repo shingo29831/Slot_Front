@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Shingo\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+      "projectUniqueName": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "projectName": "GameMachine",
-      "projectPath": "C:\\Users\\Shingo\\Source\\Repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
+      "projectPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\GameMachine.csproj",
       "packagesPath": "C:\\Users\\Shingo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Shingo\\Source\\Repos\\Slot_Front\\GameMachine\\obj\\",
+      "outputPath": "C:\\Users\\Shingo\\source\\repos\\Slot_Front\\GameMachine\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

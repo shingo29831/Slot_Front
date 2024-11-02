@@ -18,6 +18,8 @@
     <None Remove="SoundResources\realon.wav" />
     <None Remove="SoundResources\replay.wav" />
     <None Remove="SoundResources\suika.wav" />
+    <None Remove="SoundResources\StopButton.wav" />
+    <None Remove="SoundResources\Lever.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +45,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="SoundResources\suika.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\StopButton.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundResources\Lever.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
