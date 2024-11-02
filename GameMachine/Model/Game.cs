@@ -473,12 +473,14 @@ namespace GameMachine.Model
                     reelPosition = searchReelPosition;
                 }
 
-                if (inBonusGameCount >= 3 && hitBonusFlag)
-                {
-                    inBonusGameCount = 0;
-                    reelPosition = GetBonusPosition(selectReel);
-                }
+                
 
+            }
+
+            if (inBonusGameCount >= 3 && hitBonusFlag)
+            {
+                inBonusGameCount = 0;
+                reelPosition = GetBonusPosition(selectReel);
             }
 
             SetNextReelPosition(selectReel, reelPosition);
@@ -704,7 +706,7 @@ namespace GameMachine.Model
 
 
         //指定したリールの現在のボーナスの位置を取得する
-        private static sbyte GetBonusPosition(Reels selectReel)
+        public static sbyte GetBonusPosition(Reels selectReel)
         {
             Symbols[] reelOrder = GetReelOrder(selectReel);
             sbyte serchReelPosition = GetNowReelPosition(selectReel);
@@ -723,11 +725,11 @@ namespace GameMachine.Model
             for(byte i = 0 ;i <reelOrder.Length ; i++)
             {
                 serchReelPosition = (sbyte)((serchReelPosition + 1) % reelOrder.Length); 
-                if(reelOrder[serchReelPosition] == Symbols.SEVEN && (Reels.LEFT | Reels.CENTER).HasFlag(selectReel))
+                if(reelOrder[serchReelPosition] == Symbols.SEVEN && (selectReel == Reels.LEFT || selectReel == Reels.CENTER))
                 {
                     return (sbyte)((serchReelPosition + reelOrder.Length - 1) % reelOrder.Length);
                 }
-                else if (reelOrder[serchReelPosition] == rightSymbol)
+                else if (reelOrder[serchReelPosition] == rightSymbol && selectReel == Reels.RIGHT)
                 {
                     return (sbyte)((serchReelPosition + reelOrder.Length - 1) % reelOrder.Length);
                 }
@@ -1090,6 +1092,7 @@ namespace GameMachine.Model
                     break;
             }
 
+            
             
 
 
