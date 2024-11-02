@@ -84,9 +84,14 @@ namespace GameMachine.View
             credit = Game.GetHasCoin();
         }
 
+        public void ResetAll()
+        {
+            payout = 0;
+            bonusCount = 0;
+            credit = 0;
+        }
 
 
-        
 
     }
 

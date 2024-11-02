@@ -33,6 +33,7 @@ namespace GameMachine
 
         private static SlotSettingController slotSettingController = new SlotSettingController();//台設定変更画面のコントローラー
 
+        private static Game game = new Game();
 
         //集計（カウンター）画面
         private static CounterController counterDisplay = new CounterController();        // カウンター表示コントローラー
@@ -224,8 +225,16 @@ namespace GameMachine
             {
                 waitLogoutController.EndLocalGame();
             }
-            
-        }
+            game.ResetAll();
+            userGameScreen.ResetAll();
+            creditView.ResetAll();
+
+            account_ = null;
+
+            ns = null;
+
+            exitFlg = false;
+    }
 
         public void ShowSettingScreen()
         {

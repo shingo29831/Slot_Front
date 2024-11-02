@@ -1848,7 +1848,39 @@ namespace GameMachine.Model
         }
 
 
+        public void ResetAll()
+        {
+            hasCoin = 0; //テスト前0
+            increasedCoin = 0;
+            lastBonusCount = 0;
+            preBonusCoin = 0;
 
+            nextBonusFlag = false;
+            inBonus = false;
+            hitBonusFlag = false; //test前false
+
+            StopReelCount = 0; //テスト前0
+
+
+            nowLeftReel = 0;
+            nowCenterReel = 0;
+            nowRightReel = 0;
+
+
+            nextLeftReel = 0;
+            nextCenterReel = 0;
+            nextRightReel = 0;
+
+            leftReelMoving = true;
+            centerReelMoving = true; //テスト前:true
+            rightReelMoving = true; //テスト前:true
+
+
+            nowRole = Roles.NONE; //テスト前:NONE
+            nowBonus = Roles.NONE; //テスト前:NONE
+
+            establishedRole = Roles.NONE;
+        }
 
 
 

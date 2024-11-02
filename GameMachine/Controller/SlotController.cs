@@ -569,6 +569,27 @@ namespace GameMachine
             stopBtnEnabled = true;
         }
 
+        public void ResetAll()
+        {
+            patternCount = 1;
 
+            // 停止ボタンカウントとフラグ
+            btnCount = 3;
+            startFlag = false;
+            maxBetFlag = false;
+            stopBtnEnabled = false;
+            isDialogShown = false;
+            firstIn = true;
+            nextIf = false;
+            Roles establishedRole = Roles.NONE;
+
+
+            // スペースボタンの押下カウント
+            spaceBarPressCount = 0;
+
+            resultEnabled = false;
+
+
+        }
     }
 }

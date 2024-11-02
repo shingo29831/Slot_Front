@@ -25,7 +25,7 @@ namespace GameMachine.Model
 
 				case Roles.REGULAR:
 					CountUpRegCnt();
-					isGetOutBonus = true;
+					isGetInBonus = true;
 					break;
 
 				default:
