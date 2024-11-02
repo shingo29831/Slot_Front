@@ -54,7 +54,7 @@ namespace GameMachine.Controller
             /////////////////////////////////変更箇所//////////////////////////////
         }
 
-        public void EndLocalGame()
+        public async Task EndLocalGame()
         {
             MessageBox.Show("ログアウト完了しました", "success", MessageBoxButtons.OK);
             mainForm.ShowUserSelectionScreen();

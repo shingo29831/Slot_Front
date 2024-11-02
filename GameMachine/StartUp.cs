@@ -12,8 +12,8 @@ namespace GameMachine
 {
     public partial class StartUp : Form
     {
-        private bool inOnline = true;
-
+        private static bool inOnline = true;
+        public static bool GetOnline { get => inOnline; }
 
         private static SelectionController userSelectionScreen = new SelectionController(); // ユーザー選択画面のコントローラー
 
@@ -223,9 +223,10 @@ namespace GameMachine
             }
             else
             {
-                waitLogoutController.EndLocalGame();
+                await waitLogoutController.EndLocalGame();
+                Game.ResetAll();
             }
-            game.ResetAll();
+            Game.ResetAll();
             userGameScreen.ResetAll();
             creditView.ResetAll();
 
@@ -293,9 +294,9 @@ namespace GameMachine
         }
 
 
-        public void SetInOnline(bool online)
+        public static void SetInOnline(bool online)
         {
-            this.inOnline = online;
+            inOnline = online;
         }
     }
 }

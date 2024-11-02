@@ -46,6 +46,7 @@ namespace GameMachine.Controller
                 if (checkFlg)
                 {
                     MessageBox.Show("入金に成功しました。", "success", MessageBoxButtons.OK);
+                    StartUp.SetInOnline(false);
                     textBox1.Clear();
                     var mainForm = this.Parent as StartUp;
                     if (mainForm != null)

@@ -36,6 +36,7 @@ namespace GameMachine.Controller
         //バックとフロントのクレジットの値を同期させる
         async public void WaitLink()
         {
+            StartUp.SetInOnline(true);
             inCredit = false;
             var mainForm = this.Parent as StartUp;
             credit = -1;
@@ -58,7 +59,7 @@ namespace GameMachine.Controller
                 //更新できた場合
                 Game.IncreaseHasCoin(credit);
                 mainForm.ShowCreditDisp();
-                mainForm.SetInOnline(true);
+                StartUp.SetInOnline(true);
                 //ゲーム開始画面に行く
                 if (mainForm != null)
                 {
