@@ -59,3 +59,13 @@ C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\G
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.InCreditController.resources
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SettingController.resources
 C:\Users\Shingo\source\repos\Slot_Front\GameMachine\obj\Release\net6.0-windows\GameMachine.Controller.SlotSettingController.resources
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\bell.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\bet1.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\bet2.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\big.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\cheri.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\realon.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\replay.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\suika.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\StopButton.wav
+C:\Users\user\Source\Repos\Slot_Front\GameMachine\bin\Release\net6.0-windows\SoundResources\Lever.wav

@@ -207,6 +207,7 @@ namespace GameMachine.Model
 
         public static sbyte OnPushedStopBtn(in Reels selectReel, sbyte nowReelPosition)
         {
+            
             SetNowReelPosition(selectReel, nowReelPosition);
             CalcNextReelPosition(selectReel); //次の位置を算出
             if (StopReelCount == 3)
@@ -450,6 +451,7 @@ namespace GameMachine.Model
             bool isFindedReelPosition = false;
             bool isFindedProxyReelPosition = false;
             //nowReelPositionの5つ先まで止まるため5を代入
+            
             for (sbyte gapNowReelPosition = 4; gapNowReelPosition >= 0; gapNowReelPosition--)
             {
                 sbyte searchReelPosition = CalcReelPosition(nowReelPosition, gapNowReelPosition); //現在位置から4～0の位置
@@ -476,8 +478,8 @@ namespace GameMachine.Model
                 
 
             }
-
-            if (inBonusGameCount >= 3 && hitBonusFlag)
+            
+            if (inBonusGameCount == 3 && hitBonusFlag)
             {
                 inBonusGameCount = 0;
                 reelPosition = GetBonusPosition(selectReel);
@@ -553,11 +555,10 @@ namespace GameMachine.Model
             {
                 StopReelCount++;
             }
-            if(StopReelCount == 3 && hitBonusFlag)
+            if (StopReelCount == 3 && hitBonusFlag && inBonusGameCount != 3)
             {
                 inBonusGameCount++;
             }
-
 
         }
 
@@ -1059,10 +1060,6 @@ namespace GameMachine.Model
             Symbols exclusionSymbols = Symbols.NONE;
 
             Reels stopReels = (Reels.LEFT | Reels.CENTER | Reels.RIGHT) & GetMovingReels();
-            if (StopReelCount == 2 && hitBonusFlag)
-            {
-                inBonusGameCount++;
-            }
 
             switch (StopReelCount)
             {
