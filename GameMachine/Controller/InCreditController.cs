@@ -68,13 +68,7 @@ namespace GameMachine.Controller
 
         private void ValueCheck_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //keyPushEnabled = true;
-            //if ((e.KeyChar < '0' || '9' < e.KeyChar) && keyPushEnabled)
-            //{
-            //    //押されたキーが 0～9でない場合は、イベントをキャンセルする
-            //    e.Handled = true;
-            //    keyPushEnabled = false;
-            //}
+
             if((e.KeyChar >= 'a' && e.KeyChar <= 'z') || (e.KeyChar >= 'A' && e.KeyChar <= 'Z'))
             {
                 e.Handled = true;
